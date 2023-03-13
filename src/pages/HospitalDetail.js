@@ -1,7 +1,8 @@
 import React from "react";
+import HospitalDetailForm from "../components/category/HospitalDetailForm";
 
 function HospitalDetail() {
-  return <div>HospitalDetail</div>;
+  return <HospitalDetailForm />;
 }
 
 export default HospitalDetail;
