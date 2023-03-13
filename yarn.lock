@@ -6144,6 +6144,11 @@ jsonpointer@^5.0.0:
     array-includes "^3.1.5"
     object.assign "^4.1.3"
 
+kakao-sdk@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/kakao-sdk/-/kakao-sdk-3.1.0.tgz#0fd5cf2be39fb0de57254225d187de88266f3e65"
+  integrity sha512-hXKbmZX+QyuGzN+wsoslQqQYRHxehxz3CvcXwCBCePwMQkDNezHgFrn3AQOSYjyOBvhwciqqE88rAk664Ql2rw==
+
 kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
