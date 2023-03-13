@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
@@ -6,6 +6,9 @@ import PopupDom from "./Popup";
 import DaumPostcode from "react-daum-postcode";
 import { useMutation, useQueryClient } from "react-query";
 import { addPost } from "../../api/owner";
+import KakaoMap from "react-kakao-maps/lib/MapLib/KakaoMap";
+import Marker from "react-kakao-maps/lib/MapLib/Marker";
+// import geocoder from "geocoder";
 
 function Post() {
   const navigate = useNavigate();
@@ -15,6 +18,46 @@ function Post() {
       queryClient.invalidateQueries("getPost");
     },
   });
+
+  //좌표
+  const { kakao } = window;
+  // console.log(kakao.maps.services);
+  // const apiKey = "c467b978bcec068d4109736b2039502c";
+  // const kakaoAddress = "서울특별시 강남구 역삼동 123-45";
+
+  // kakao.maps.services.Geocoder.addressSearch(
+  //   kakaoAddress,
+  //   (result, status) => {
+  //     if (status === kakao.maps.services.Status.OK) {
+  //       // 좌표를 출력합니다.
+  //       console.log(result[0].y, result[0].x);
+  //     } else {
+  //       console.error(
+  //         "Geocode was not successful for the following reason:",
+  //         status
+  //       );
+  //     }
+  //   },
+  //   { headers: { Authorization: `KakaoAK ${apiKey}` } }
+  // );
+
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
+  const mapdata = lat + "," + lng;
+  const handleSearch = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    const geocoder = new kakao.maps.services.Geocoder();
+    geocoder.addressSearch(address, function (result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        setLat(result[0].y);
+        setLng(result[0].x);
+      } else {
+        alert("주소 검색에 실패했습니다.");
+      }
+    });
+  };
+  console.log(mapdata);
 
   //주소 팝업창
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -99,6 +142,7 @@ function Post() {
     formData.append("title", title);
     formData.append("contents", contents);
     formData.append("address", address);
+    formData.append("mapdata", mapdata);
     formData.append("ceo", ceo);
     formData.append("telNum", telNum);
     formData.append("startTime", startTime);
@@ -140,6 +184,13 @@ function Post() {
     <>
       <StBox>
         <StPost>업체등록</StPost>
+        {/* <KakaoMap
+          apikey="c467b978bcec068d4109736b2039502c"
+          center={{ lat: 37.5665, lng: 126.978 }}
+          levet={4}
+        >
+          <Marker position={{ lat: 37.5665, lng: 126.978 }} />
+        </KakaoMap> */}
         <StFormBox>
           <StForm onSubmit={onSubmitHandler} encType="multipart/form-data">
             <StLine>
@@ -213,6 +264,7 @@ function Post() {
                           onComplete={handlePostCode}
                         />
                         <StInput value={address} disabled />
+                        <button onClick={handleSearch}>확인</button>
                       </div>
                     </PopupDom>
                   )}
