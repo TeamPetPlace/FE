@@ -7,8 +7,8 @@ import { NomalLogin } from "../../api/user";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [pwType, setPwType] = useState({
     type: "password",
     visible: false,
@@ -16,14 +16,21 @@ const LoginForm = () => {
 
   const loginMutation = useMutation(NomalLogin, {
     onSuccess: (response) => {
+      // setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
+      alert("로그인 성공");
+      console.log(response);
       window.location.href = "/main";
     },
-    onError: (response) => {},
+    onError: (error) => {
+      console.log(error);
+      alert("로그인 실패");
+    },
   });
 
   const onLoginSubmit = (event) => {
-    event.prevenDefault();
+    event.preventDefault();
+    event.stopPropagation();
     const res = {
       email,
       password,
@@ -42,14 +49,15 @@ const LoginForm = () => {
         <div>
           <input
             type="text"
-            value={email}
+            value={email || ""}
             name="email"
             placeholder="email"
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
-            type={pwType.type}
-            value={password}
+            // type={pwType.type}
+            type="text"
+            value={password || ""}
             name="password"
             placeholder="password"
             onChange={(e) => setPassword(e.target.value)}

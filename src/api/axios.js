@@ -42,14 +42,11 @@ instance.interceptors.response.use(
       if (refresh_token) {
         try {
           console.log("재발급중...");
-          const response = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/token`,
-            {
-              headers: {
-                Refresh_Token: `${refresh_token}`,
-              },
-            }
-          );
+          const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/token`, {
+            headers: {
+              Refresh_Token: `${refresh_token}`,
+            },
+          });
           const access_token = response.headers.authorization;
           setCookie("access_token", access_token);
           OriginRequestError.header.Authorization = `${access_token}`;

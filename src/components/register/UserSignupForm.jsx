@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { CheckEmail, UserSignup } from "../../api/user";
 
 const UserSignupForm = () => {
+  const navigate = useNavigate();
   const [useremail, setUserEmail] = useState();
   const [usernickname, setUserNickName] = useState();
   const [userpassword, setUserpassword] = useState();
@@ -18,16 +19,9 @@ const UserSignupForm = () => {
     type: "password",
     visible: false,
   });
-  const navigate = useNavigate();
-
-  //이메일 유효성
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  //비밀번호 유효성
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
-  //닉네임 유효성
   const nickRegex = /^[a-zA-Z0-9가-힣_-]{2,20}$/;
-  //사업자번호
-  const numberRegex = /^\d{3}-\d{2}-\d{5}$/;
 
   const checkEmailMutation = useMutation(CheckEmail, {
     onSuccess: (response) => {
@@ -42,13 +36,14 @@ const UserSignupForm = () => {
     },
   });
 
+  // 이메일 확인
   const checkEmail = (e) => {
     e.stopPropagation();
     if (!e.target.value.trim()) return;
     checkEmailMutation.mutate(e.target.value);
   };
 
-  const handleEmailChange = (e) => {
+  const onEmailChange = (e) => {
     const value = e.target.value;
     setUserEmail(value);
     emailRegex.test(value) ? setIsValidEmail(true) : setIsValidEmail(false);
@@ -61,6 +56,7 @@ const UserSignupForm = () => {
     value === uservalpassword ? setPasswordCheck(true) : setPasswordCheck(false);
     passwordRegex.test(value) ? setIsValidPassword(true) : setIsValidPassword(false);
   };
+
   // 가입
   const signUpMutation = useMutation(UserSignup, {
     onSuccess: (response) => {
@@ -101,15 +97,15 @@ const UserSignupForm = () => {
             <input
               type="text"
               name="Email"
-              value={useremail}
+              value={useremail || ""}
               placeholder="이메일"
-              onChange={handleEmailChange}
+              onChange={onEmailChange}
             />
 
             <button
               // id="check"
               type="button"
-              disabled={!isValidEmail}
+              disabled={!isValidEmail || ""}
               value={useremail}
               onClick={checkEmail}
             >
@@ -120,14 +116,15 @@ const UserSignupForm = () => {
 
         <input
           type="text"
-          value={usernickname}
+          value={usernickname || ""}
           name="Username"
           placeholder="이름"
           onChange={(e) => setUserNickName(e.target.value)}
         />
         <input
-          type={pwType.type}
-          value={userpassword}
+          type={userpassword}
+          // type={pwType.type}
+          value={userpassword || ""}
           name="PassWord"
           placeholder="비밀번호"
           onChange={handlePasswordChange}
@@ -139,9 +136,10 @@ const UserSignupForm = () => {
         )}
         <div>
           <input
-            type="password"
+            // type="password"
+            type="text"
             placeholder="비밀번호 확인"
-            value={uservalpassword}
+            value={uservalpassword || ""}
             onChange={handleConfirmPasswordChange}
           />
         </div>
@@ -151,9 +149,7 @@ const UserSignupForm = () => {
           <p style={{ color: "#ff6666" }}>비밀번호 불일치!</p>
         )}
         <div>
-          <button disabled={!(isNickName && passwordcheck && isValidPassword && isValidEmail)}>
-            회원가입
-          </button>
+          <button disabled={!(passwordcheck && isValidPassword && isValidEmail)}>회원가입</button>
         </div>
       </form>
       <div>

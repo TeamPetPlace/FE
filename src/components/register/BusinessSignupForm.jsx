@@ -10,26 +10,28 @@ const BusinessSignupForm = () => {
   const [userpassword, setUserpassword] = useState();
   const [biznumber, setBizNumber] = useState();
   const [uservalpassword, setValPassword] = useState();
+  const [valbiznum, setValBizNum] = useState();
   const [passwordcheck, setPasswordCheck] = useState(false);
+  const [biznumcheck, setBizNumCheck] = useState(false);
+
   const [isEmail, setIsEmail] = useState(false);
   const [isNickName, setIsNickName] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidBiznum, setIsValidBizNum] = useState(false);
+
   const [pwType, setPwType] = useState({
     type: "password",
     visible: false,
   });
   const navigate = useNavigate();
 
-  //이메일 유효성
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  //비밀번호 유효성
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
-  //닉네임 유효성
   const nickRegex = /^[a-zA-Z0-9가-힣_-]{2,20}$/;
-  //사업자번호
-  const numberRegex = /^\d{3}-\d{2}-\d{5}$/;
+  const biznumberRegex = /^\d{3}-\d{2}-\d{5}$/;
 
+  // 이메일 확인
   const checkEmailMutation = useMutation(CheckEmail, {
     onSuccess: (response) => {
       response ? setIsEmail(true) : setIsEmail(false);
@@ -49,19 +51,35 @@ const BusinessSignupForm = () => {
     checkEmailMutation.mutate(e.target.value);
   };
 
-  const handleEmailChange = (e) => {
+  const onEmailChangeHandler = (e) => {
     const value = e.target.value;
     setUserEmail(value);
     emailRegex.test(value) ? setIsValidEmail(true) : setIsValidEmail(false);
   };
 
+  //사업자번호 확인
+  const checkBizNumber = (e) => {
+    e.stopPropagation();
+    const value = e.target.value;
+    setBizNumber(value);
+    value === valbiznum ? setBizNumCheck(true) : setBizNumCheck(false);
+    biznumberRegex.test(value) ? setIsValidBizNum(true) : setIsValidBizNum(false);
+  };
+
+  const onBizNumChangeHandler = (e) => {
+    const value = e.target.value;
+    setBizNumber(value);
+    biznumberRegex.test(value) ? setIsValidBizNum(true) : setIsValidBizNum(false);
+  };
+
   //비밀번호 확인
-  const handlePasswordChange = (e) => {
+  const onPasswordChange = (e) => {
     const value = e.target.value;
     setUserpassword(value);
     value === uservalpassword ? setPasswordCheck(true) : setPasswordCheck(false);
     passwordRegex.test(value) ? setIsValidPassword(true) : setIsValidPassword(false);
   };
+
   // 가입
   const signUpMutation = useMutation(BussinessSignup, {
     onSuccess: (response) => {
@@ -99,63 +117,68 @@ const BusinessSignupForm = () => {
         <div>
           <div>사업자회원가입</div>
           <div>
-            <input
+            <Stinput
               type="text"
               name="Email"
               value={useremail}
               placeholder="이메일"
-              onChange={handleEmailChange}
+              onChange={onEmailChangeHandler}
             />
             <button type="button" disabled={!isValidEmail} value={useremail} onClick={checkEmail}>
               중복확인
             </button>
           </div>
         </div>
-        <input
+        <Stinput
           type="text"
           value={usernickname}
           name="Username"
           placeholder="닉네임"
           onChange={(e) => setUserNickName(e.target.value)}
-        />
-
-        <input
+        />{" "}
+        <br />
+        <p> 닉네임은 2자이상 20자 이내로 작성해주시기 바랍니다.</p>
+        <Stinput
           type="text"
           name="Biznumber"
           value={biznumber}
-          placeholder="사업자번호"
-          onChange={handleEmailChange}
+          placeholder="000-00-0000의 형식으로 작성해주세요"
+          onChange={onBizNumChangeHandler}
         />
-        <button type="button" disabled={!isValidEmail} value={biznumber} onClick={checkEmail}>
+        <button type="button" disabled={!isValidBiznum} value={biznumber} onClick={checkBizNumber}>
           사업자번호확인
-        </button>
-        <input
-          type={pwType.type}
+        </button>{" "}
+        <br />
+        <Stinput
+          type={userpassword}
+          // type={pwType.type}
           value={userpassword}
           name="PassWord"
           placeholder="비밀번호"
-          onChange={handlePasswordChange}
+          onChange={onPasswordChange}
         />
         {isValidPassword ? (
-          <p style={{ color: "White" }}>사용가능한 비밀번호 입니다.</p>
+          <p style={{ color: "Black" }}>사용가능한 비밀번호 입니다.</p>
         ) : (
           <p style={{ color: "#ff6666" }}>영어,숫자,특수문자를 포함한 8자이상이여야 합니다.</p>
         )}
         <div>
-          <input
-            type="password"
+          <Stinput
+            // type="password"
+            type="text"
             placeholder="비밀번호 확인"
             value={uservalpassword}
             onChange={handleConfirmPasswordChange}
           />
         </div>
         {passwordcheck ? (
-          <p style={{ color: "#008000" }}>비밀번호 일치!</p>
+          <p style={{ color: "Black" }}>비밀번호 일치!</p>
         ) : (
           <p style={{ color: "#ff6666" }}>비밀번호 불일치!</p>
         )}
         <div>
-          <button disabled={!(isNickName && passwordcheck && isValidPassword && isValidEmail)}>
+          <button disabled={!(passwordcheck && isValidPassword && isValidEmail)}>
+            {/* <button disabled={!(isNickName && passwordcheck && isValidPassword && isValidEmail)}> */}
             회원가입
           </button>
         </div>
@@ -180,7 +203,11 @@ const StSignupDiv = styled.div`
   display: flex;
   padding: 50px;
   background-color: skyblue;
-  width: 30%;
+  width: 50%;
   height: 40%;
   flex-direction: column;
+`;
+
+const Stinput = styled.input`
+  width: 70%;
 `;
