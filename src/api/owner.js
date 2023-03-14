@@ -1,7 +1,8 @@
 import axios from "axios";
+import { instance } from "./axios";
 
 const addPost = async (formData) => {
-  await axios
+  await instance
     .post("/post", formData, {
       headers: {
         "Content-Type": "multipart/form-data",

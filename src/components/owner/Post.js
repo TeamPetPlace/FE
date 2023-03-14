@@ -57,7 +57,6 @@ function Post() {
       }
     });
   };
-  console.log(mapdata);
 
   //주소 팝업창
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -136,8 +135,8 @@ function Post() {
       return alert("빈칸을 모두 채워주세요");
     const formData = new FormData();
     // files.forEach(file => formData.append('images', file));
-    // Object.values(image).forEach((image) => formData.append("image", image));
-    image.forEach((image, index) => formData.append(`image${index}`, image));
+    Object.values(image).forEach((image) => formData.append("image", image));
+    // image.forEach((image, index) => formData.append(`image${index}`, image));
     formData.append("category", category);
     formData.append("title", title);
     formData.append("contents", contents);
