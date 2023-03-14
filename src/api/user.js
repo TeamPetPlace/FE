@@ -35,9 +35,10 @@ export const NomalLogin = async (payload) => {
       email: payload.email,
       password: payload.password,
     });
-    // console.log(response);
+    console.log(response);
     return response;
   } catch (error) {
+    console.log(error);
     return error.data;
   }
 };
@@ -54,12 +55,13 @@ export const KaKaoLogin = async (payload) => {
 
 export const CheckEmail = async (payload) => {
   try {
-    const response = await baseURL.get(`/signup`, {
+    const response = await baseURL.get("/signup", {
       params: { email: payload },
     });
-    // console.log(response);
+    console.log(response);
     return response.data.success;
   } catch (error) {
+    console.log(error);
     return error.data;
   }
 };
