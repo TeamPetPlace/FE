@@ -1,15 +1,15 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { getMyDibs } from "../../api/mypage";
+import { getMyPost } from "../../api/mypage";
 
-function DibsList() {
-  const { data } = useQuery("getmydibs", () => getMyDibs());
+function PostList() {
+  const { data } = useQuery("getmypost", () => getMyPost());
   return (
     <div>
       {data?.data.response.map((item) => {
         <div key={item.id}>
           <div>{item.id}id</div>
-          <div>{item.title}업종</div>
+          <div>{item.category}업종</div>
           <div>{item.contents}소개</div>
         </div>;
       })}
@@ -17,4 +17,4 @@ function DibsList() {
   );
 }
 
-export default DibsList;
+export default PostList;
