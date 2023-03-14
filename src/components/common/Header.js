@@ -2,11 +2,27 @@ import React, { useState } from "react";
 import Layout from "./Layout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { NomalLogin } from "../../api/user";
+import { removeCookie } from "../../api/cookie";
 
 function Header() {
   const navigate = useNavigate();
   //드롭다운
   const [drop, setDrop] = useState(false);
+
+  const logoutmuation = useMutation(NomalLogin, {
+    onSuccess: (response) => {
+      removeCookie("access_token");
+      alert("로그아웃 되었습니다");
+      window.location.href = "/";
+    },
+  });
+
+  const onLogoutHandler = (e) => {
+    e.preventDefault();
+    logoutmuation.mutate();
+  };
 
   return (
     <Layout>
@@ -21,17 +37,12 @@ function Header() {
           <StUser>
             <div>프로필</div>
             <div>닉네임</div>
-            <StUserBar
-              onMouseEnter={() => setDrop(!drop)}
-              onMouseLeave={() => setDrop(!drop)}
-            >
+            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
               ▼
               {drop && (
                 <StUserCategory>
-                  <StUserCh onClick={() => navigate("/mypage")}>
-                    마이페이지
-                  </StUserCh>
-                  <StUserCh>로그아웃</StUserCh>
+                  <StUserCh onClick={() => navigate("/mypage")}>마이페이지</StUserCh>
+                  <StUserCh onClick={onLogoutHandler}>로그아웃</StUserCh>
                 </StUserCategory>
               )}
             </StUserBar>
