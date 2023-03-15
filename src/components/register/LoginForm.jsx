@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { setCookie } from "../../api/cookie";
@@ -14,19 +14,36 @@ const LoginForm = () => {
     visible: false,
   });
 
+  // const { REACT_APP_KAKAO_REST_API_KEY, REACT_APP_KAKAO_REDIRECT_URI } = process.env;
+  // const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
+  const REST_API_KEY = "94c5891ab6cec1f5eddede64f8358dd9";
+  const REDIRECT_URI = "http://localhost:3000/api/member/kakao/callback";
+  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+  const onKaKaologin = () => {
+    window.location.href = link;
+  };
+
+  // const code = new URL(document.location.toString()).searchParams.get("code");
+  const code = window.location.search;
+  console.log(code);
+
   const loginMutation = useMutation(NomalLogin, {
     onSuccess: (response) => {
       setCookie("loginType", response.data.response.loginType);
       setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
+      // setCookie("refresh_token", response.headers.refresh_token);
+
       alert("로그인 성공");
       console.log(response);
-      window.location.href = "/main";
+      navigate("/main");
     },
     onError: (error) => {
       alert("로그인 실패");
     },
   });
+  // console.log(type);
 
   const onLoginSubmit = (event) => {
     event.preventDefault();
@@ -66,7 +83,7 @@ const LoginForm = () => {
         </div>
       </form>
       <div>
-        <StkakaoBtn>카카오 로그인</StkakaoBtn>
+        <StkakaoBtn onClick={onKaKaologin}>카카오 로그인</StkakaoBtn>
       </div>
       <button
         onClick={() => {
