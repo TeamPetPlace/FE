@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { BussinessSignup, CheckEmail } from "../../api/user";
+import { BusinessSignup, CheckEmail } from "../../api/user";
 
 const BusinessSignupForm = () => {
   const [useremail, setUserEmail] = useState();
@@ -81,7 +81,7 @@ const BusinessSignupForm = () => {
   };
 
   // 가입
-  const signUpMutation = useMutation(BussinessSignup, {
+  const signUpMutation = useMutation(BusinessSignup, {
     onSuccess: (response) => {
       // console.log(response.data);
       alert("회원가입 성공!");
@@ -101,6 +101,7 @@ const BusinessSignupForm = () => {
       email: useremail,
       password: userpassword,
       nickname: usernickname,
+      business: biznumber,
     };
     signUpMutation.mutate(res);
   };
@@ -142,7 +143,7 @@ const BusinessSignupForm = () => {
           type="text"
           name="Biznumber"
           value={biznumber}
-          placeholder="000-00-0000의 형식으로 작성해주세요"
+          placeholder="000-00-00000의 형식으로 작성해주세요"
           onChange={onBizNumChangeHandler}
         />
         <button type="button" disabled={!isValidBiznum} value={biznumber} onClick={checkBizNumber}>

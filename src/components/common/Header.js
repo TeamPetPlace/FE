@@ -14,6 +14,7 @@ function Header() {
   const logoutmuation = useMutation(NomalLogin, {
     onSuccess: (response) => {
       removeCookie("access_token");
+      removeCookie("refresh_token");
       alert("로그아웃 되었습니다");
       window.location.href = "/";
     },

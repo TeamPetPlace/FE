@@ -14,7 +14,7 @@ export const UserSignup = async (payload) => {
   }
 };
 
-export const BussinessSignup = async (payload) => {
+export const BusinessSignup = async (payload) => {
   try {
     const data = await baseURL.post("/business_signup", {
       email: payload.email,
@@ -35,6 +35,7 @@ export const NomalLogin = async (payload) => {
       email: payload.email,
       password: payload.password,
     });
+
     console.log(response);
     return response;
   } catch (error) {
