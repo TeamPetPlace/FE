@@ -1,19 +1,32 @@
-import React, { useState, useQuery } from "react";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
 import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import { getCards } from "../../api/category";
+import { getCards, getTitles } from "../../api/category";
 
 export default function HospitalList() {
-  const [cards, setCards] = useState();
+  const [cards, setCards] = useState([]);
+  const [title, setTitle] = useState("");
 
-  // 겟해온 아이들중에 리스폰스에 있는 아이들 중 로딩이랑 에러랑 데이터만 뽑아오겠다
-  const { data } = useQuery("cards", getCards, {
+  const { cardsData } = useQuery("cards", getCards, {
     onSuccess: (item) => {
       setCards(item); // setCards에 data를 넣어준다
     },
   });
-  console.log(cards);
+  console.log(cardsData);
+
+  const { titleData } = useQuery("title", getTitles, {
+    onSuccess: (item) => {
+      setTitle(item);
+    },
+  });
+  console.log(titleData);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    const searched = title.filter((item) => item.title.includes(cards));
+  };
 
   return (
     <>
@@ -22,12 +35,17 @@ export default function HospitalList() {
           병원
           <MdLocalHospital />
         </h2>
-        <StSearch>
-          <input type="text" placeholder="검색할 명칭을 입력해주세요" />
-          <button type="button">
+        <div>
+          <input
+            type="text"
+            placeholder="검색할 명칭을 입력해주세요"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <button onClick={handleClick} type="button">
             <GoSearch />
           </button>
-        </StSearch>
+        </div>
         <select>
           <option value="lang"> 근거리순 </option>
           <option> 평점순</option>
@@ -35,14 +53,16 @@ export default function HospitalList() {
         </select>
       </StPlace>
       <StCards>
-        {cards.map((item) => (
-          <StCard type="text">
-            <div>{item.star}</div>
-            <div>{item.title}</div>
-            <div>{item.address}</div>
-            <div>{item.mapdata}</div>
-          </StCard>
-        ))}
+        {cards.map((item) => {
+          return (
+            <StCard type="text">
+              <div>{item.star}</div>
+              <div>{item.title}</div>
+              <div>{item.address}</div>
+              <div>{item.mapdata}</div>
+            </StCard>
+          );
+        })}
       </StCards>
     </>
   );
@@ -54,10 +74,6 @@ const StPlace = styled.div`
   align-items: center;
   gap: 10px;
   background-color: aliceblue;
-`;
-
-const StSearch = styled.div`
-  display: flex;
 `;
 
 const StCards = styled.div`

@@ -6,11 +6,20 @@ export const getDetailPost = async (id) => {
   return response;
 };
 
-// 전체 조회: 무한스크롤 때문에?
+// 플레이스별 페이지
 export const getCards = async ({ keyword, page, size }) => {
-  const response = await instance.get(
+  const { cardsData: data } = await instance.get(
     `/posts?keyword=${keyword}&page=${page}&size=${size}`
   );
+  console.log(data);
+  return data;
+};
+
+//플레이스별 페이지 검색창
+export const getTitles = async ({ keyword, keyword2 }) => {
+  const { titleData: data } = await instance.get(
+    `/posts?keyword=${keyword}&keyword2=${keyword2}`
+  );
   //console.log(response)
-  return response;
+  return data;
 };
