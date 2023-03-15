@@ -1,25 +1,33 @@
 import React, { useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
 import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
+import { getCards, getTitles } from "../../api/category";
 
 export default function HospitalList() {
-  const [cards, setCards] = useState([
-    {
-      id: "1",
-      star: "★★★★☆",
-      title: "펫 플레이스 병원",
-      address: "서울 동파구",
-      mapdata: "791m 남음",
+  const [cards, setCards] = useState([]);
+  const [searchData, setSearchData] = useState([]);
+
+  const { data } = useQuery("getCards", getCards, {
+    onSuccess: (item) => {
+      setCards(item.data); // setCards에 data를 넣어준다
     },
-    {
-      id: "2",
-      star: "★★★★☆",
-      title: "펫 플레이스 병원",
-      address: "서울 동파구",
-      mapdata: "791m 남음",
+  });
+  console.log(cards);
+
+  const response = useQuery("getTitles", getTitles, {
+    onSuccess: (item) => {
+      setSearchData(item);
     },
-  ]);
+  });
+  console.log(searchData[0]);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    const searched = searchData.filter((item) => item.title.includes(cards));
+  };
+
   return (
     <>
       <StPlace>
@@ -27,35 +35,49 @@ export default function HospitalList() {
           병원
           <MdLocalHospital />
         </h2>
-        <input />
-        <button>
-          <GoSearch />
-        </button>
-        <ul>
-          <li>근거리순</li>
-          <li>평점순</li>
-          <li>후기순</li>
-        </ul>
+        <div>
+          {/* <input
+            type="text"
+            placeholder="검색할 명칭을 입력해주세요"
+            value={searchData}
+          />
+          <button onClick={handleClick}>
+            <GoSearch />
+          </button> */}
+        </div>
+        <select>
+          <option value="lang"> 근거리순 </option>
+          <option> 평점순</option>
+          <option> 후기순</option>
+        </select>
       </StPlace>
       <StCards>
-        {cards.map((item) => (
-          <StCard>
-            <div>{item.star}</div>
-            <div>{item.title}</div>
-            <div>{item.address}</div>
-            <div>{item.mapdata}</div>
-          </StCard>
-        ))}
+        {cards.length > 0 &&
+          cards.map((item) => {
+            return (
+              <StCard key={item.id}>
+                <div>{item.ceo}</div>
+                <div>{item.title}</div>
+                <div>{item.address}</div>
+              </StCard>
+            );
+          })}
       </StCards>
     </>
   );
 }
 
 const StPlace = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
   background-color: aliceblue;
 `;
 
 const StCards = styled.div`
+  width: 400px;
+  height: 400px;
   display: flex;
   justify-content: center;
   gap: 10px;
