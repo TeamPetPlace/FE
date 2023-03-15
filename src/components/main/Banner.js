@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import img1 from "../../style/img/1.jpg";
 import img2 from "../../style/img/2.jpg";
 import img3 from "../../style/img/3.JPG";
 
 function Banner() {
+  const navigate = useNavigate();
+  const [cookies] = useCookies(["access_token", "loginType"]);
+
+  //배너 슬라이드
   const [slide, setSlide] = useState([img1, img2, img3]);
   const [current, setCurrent] = useState(0);
 
@@ -33,6 +39,11 @@ function Banner() {
           <StBtn onClick={nextSlide}>{">"}</StBtn>
         </StBtns>
       </StWrap>
+      {cookies.loginType === "BUSINESS" && (
+        <div>
+          <button onClick={() => navigate("/ownerpost")}>업체등록</button>
+        </div>
+      )}
     </STContainer>
   );
 }
@@ -75,4 +86,10 @@ const StBtn = styled.button`
   cursor: pointer;
   background-color: white;
   font-size: 2rem;
+`;
+
+const StButton = styled.div`
+  width: 400px;
+  height: 200px;
+  border: 1px solid black;
 `;

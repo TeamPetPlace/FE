@@ -6,9 +6,6 @@ import PopupDom from "./Popup";
 import DaumPostcode from "react-daum-postcode";
 import { useMutation, useQueryClient } from "react-query";
 import { addPost } from "../../api/owner";
-import KakaoMap from "react-kakao-maps/lib/MapLib/KakaoMap";
-import Marker from "react-kakao-maps/lib/MapLib/Marker";
-// import geocoder from "geocoder";
 
 function Post() {
   const navigate = useNavigate();
@@ -21,39 +18,22 @@ function Post() {
 
   //좌표
   const { kakao } = window;
-  // console.log(kakao.maps.services);
-  // const apiKey = "c467b978bcec068d4109736b2039502c";
-  // const kakaoAddress = "서울특별시 강남구 역삼동 123-45";
-
-  // kakao.maps.services.Geocoder.addressSearch(
-  //   kakaoAddress,
-  //   (result, status) => {
-  //     if (status === kakao.maps.services.Status.OK) {
-  //       // 좌표를 출력합니다.
-  //       console.log(result[0].y, result[0].x);
-  //     } else {
-  //       console.error(
-  //         "Geocode was not successful for the following reason:",
-  //         status
-  //       );
-  //     }
-  //   },
-  //   { headers: { Authorization: `KakaoAK ${apiKey}` } }
-  // );
-
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   const mapdata = lat + "," + lng;
+
   const handleSearch = (event) => {
     event.stopPropagation();
     event.preventDefault();
+    setButtonClicked(true);
     const geocoder = new kakao.maps.services.Geocoder();
     geocoder.addressSearch(address, function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
         setLat(result[0].y);
         setLng(result[0].x);
+        alert("주소가 확인 되었습니다.");
       } else {
-        alert("주소 검색에 실패했습니다.");
+        alert("주소 검색에 실패했습니다. 도로명을 선택해주세요.");
       }
     });
   };
@@ -113,6 +93,10 @@ function Post() {
   const [image, setImage] = useState([]);
   const [imgBase64, setImgBase64] = useState([]);
 
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const maxImage = 4;
+
   const onTestHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -133,15 +117,18 @@ function Post() {
       !image
     )
       return alert("빈칸을 모두 채워주세요");
+    if (buttonClicked === false) {
+      return alert("주소 확인 버튼을 클릭해주세요");
+    }
     const formData = new FormData();
-    // files.forEach(file => formData.append('images', file));
-    Object.values(image).forEach((image) => formData.append("image", image));
-    // image.forEach((image, index) => formData.append(`image${index}`, image));
+    image.forEach((image, index) => formData.append("image", image));
     formData.append("category", category);
     formData.append("title", title);
     formData.append("contents", contents);
     formData.append("address", address);
-    formData.append("mapdata", mapdata);
+    // formData.append("mapdata", mapdata);
+    formData.append("lat", lat);
+    formData.append("lng", lng);
     formData.append("ceo", ceo);
     formData.append("telNum", telNum);
     formData.append("startTime", startTime);
@@ -150,11 +137,17 @@ function Post() {
     addPostMutation.mutate(formData);
     alert("작성 완료");
     navigate("/main");
+    console.log(formData.get("image"));
   };
 
   //이미지 프리뷰
   const onImgHandler = (event) => {
     const files = Array.from(event.target.files);
+
+    if (files.length > maxImage) {
+      alert(`최대 ${maxImage}개의 이미지만 선택 가능합니다.`);
+      return;
+    }
     setImage((prevImage) => [...prevImage, ...files]);
 
     for (let i = 0; i < event.target.files.length; i++) {
@@ -183,13 +176,6 @@ function Post() {
     <>
       <StBox>
         <StPost>업체등록</StPost>
-        {/* <KakaoMap
-          apikey="c467b978bcec068d4109736b2039502c"
-          center={{ lat: 37.5665, lng: 126.978 }}
-          levet={4}
-        >
-          <Marker position={{ lat: 37.5665, lng: 126.978 }} />
-        </KakaoMap> */}
         <StFormBox>
           <StForm onSubmit={onSubmitHandler} encType="multipart/form-data">
             <StLine>
@@ -251,9 +237,16 @@ function Post() {
             <StLine style={{ marginBottom: "40px" }}>
               <StTitle>주소</StTitle>
               <div>
-                <StBtn type="button" onClick={openPostCode} size="large">
-                  우편번호 검색
-                </StBtn>
+                <div style={{ display: "flex" }}>
+                  <StBtn type="button" onClick={openPostCode} size="large">
+                    우편번호 검색
+                  </StBtn>
+                  <StErrorMsg>
+                    {buttonClicked === false ? (
+                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
+                    ) : null}
+                  </StErrorMsg>
+                </div>
                 <div id="popupDom">
                   {isPopupOpen && (
                     <PopupDom>
@@ -263,11 +256,24 @@ function Post() {
                           onComplete={handlePostCode}
                         />
                         <StInput value={address} disabled />
-                        <button onClick={handleSearch}>확인</button>
+                        <StBtn size="small" onClick={handleSearch}>
+                          확인
+                        </StBtn>
                       </div>
                     </PopupDom>
                   )}
-                  {!isPopupOpen && <StInput disabled />}
+                  {!isPopupOpen && (
+                    <>
+                      <StInput disabled />
+                      <StBtn
+                        size="small"
+                        onClick={handleSearch}
+                        style={{ marginLeft: "10px" }}
+                      >
+                        확인
+                      </StBtn>
+                    </>
+                  )}
                 </div>
               </div>
             </StLine>
@@ -291,44 +297,56 @@ function Post() {
                 size="medium"
               />
             </StLine>
-            <StLine>
-              <StTitle>영업시간</StTitle>
-              <StInput
-                type="text"
-                placeholder="시작시간"
-                value={startTime}
-                onChange={startTimeHandler}
-                size="small"
-              />{" "}
-              :
-              <StInput
-                type="text"
-                placeholder="종료시간"
-                value={endTime}
-                onChange={endTimeHandler}
-                size="small"
-              />
-              <input
-                type="checkbox"
-                value={isChecked}
-                onChange={onCheckHandler}
-              />
-              <label>휴무일</label>
-              <div>
-                {isChecked && (
-                  <StHoliday value={select} onChange={selectHandler}>
-                    요일 ▼<StWeek>월요일</StWeek>
-                    <StWeek>화요일</StWeek>
-                    <StWeek>수요일</StWeek>
-                    <StWeek>목요일</StWeek>
-                    <StWeek>금요일</StWeek>
-                    <StWeek>토요일</StWeek>
-                    <StWeek>일요일</StWeek>
-                    <StWeek>주말(토/일)</StWeek>
-                  </StHoliday>
-                )}
-              </div>
-            </StLine>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <StLine>
+                <StTitle>영업시간</StTitle>
+                <StInput
+                  type="text"
+                  placeholder="시작시간"
+                  value={startTime}
+                  onChange={startTimeHandler}
+                  size="small"
+                />{" "}
+                :
+                <StInput
+                  type="text"
+                  placeholder="종료시간"
+                  value={endTime}
+                  onChange={endTimeHandler}
+                  size="small"
+                />
+                <input
+                  type="checkbox"
+                  value={isChecked}
+                  onChange={onCheckHandler}
+                />
+                <label>휴무일</label>
+                <div>
+                  {isChecked && (
+                    <StHoliday value={select} onChange={selectHandler}>
+                      요일 ▼<StWeek>월요일</StWeek>
+                      <StWeek>화요일</StWeek>
+                      <StWeek>수요일</StWeek>
+                      <StWeek>목요일</StWeek>
+                      <StWeek>금요일</StWeek>
+                      <StWeek>토요일</StWeek>
+                      <StWeek>일요일</StWeek>
+                      <StWeek>주말(토/일)</StWeek>
+                    </StHoliday>
+                  )}
+                </div>
+              </StLine>
+              <StErrorMsg style={{ height: "20px" }}>
+                <div
+                  style={{
+                    paddingLeft: "75px",
+                    paddingTop: "5px",
+                  }}
+                >
+                  00:00 형식으로 기입해주세요
+                </div>
+              </StErrorMsg>
+            </div>
             <div>
               <StLine>
                 <StTitle>업체사진</StTitle>
@@ -343,7 +361,7 @@ function Post() {
                 type="file"
                 accept="image/*"
                 id="file"
-                multiple="multiple"
+                multiple
                 onChange={onImgHandler}
                 style={{ display: "none" }}
                 ref={fileInput}
@@ -401,6 +419,13 @@ const StLine = styled.div`
   height: 40px;
   line-height: 40px;
   gap: 10px;
+`;
+
+const StErrorMsg = styled.div`
+  height: 40px;
+  line-height: 20px;
+  font-size: 12px;
+  color: red;
 `;
 
 const StFormBox = styled.div`

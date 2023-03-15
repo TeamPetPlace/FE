@@ -1,24 +1,28 @@
 import React, { useRef, useState } from "react";
+import { useCookies } from "react-cookie";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getMypage } from "../../api/main";
-import { updateUser } from "../../api/mypage";
+import { getMypage, updateUser } from "../../api/mypage";
 
 function User() {
   const { id } = useParams();
   const [mypage, setMypage] = useState();
+
+  const [cookies] = useCookies(["access_token", "loginType"]);
+
   const queryClient = useQueryClient();
-  //   const { data } = useQuery("getmypage", getMypage, {
-  //     onSuccess: (response) => {
-  //       setMypage(response.data.response);
-  //     },
-  //   });
+  const { data } = useQuery("getmypage", getMypage, {
+    onSuccess: (response) => {
+      setMypage(response.response);
+      console.log(response.response);
+    },
+  });
 
   const onEditMode = () => {
     setEdit(!edit);
-    // setUpdateNick(mypage.nickname);
-    // setImage(mypage.image);
+    setUpdateNick(mypage.nickname);
+    setImage(mypage.image);
     // imgView([mypage.image]);
   };
   //수정 모드
@@ -56,6 +60,7 @@ function User() {
       queryClient.invalidateQueries("getmypage");
     },
   });
+
   const onUpdateHandler = (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -88,7 +93,7 @@ function User() {
             <button onClick={onImgButton}>이미지 업로드</button>
             <div>
               {imgView.length > 0 &&
-                imgView.map((item, index) => {
+                imgView?.map((item, index) => {
                   return <img src={item} alt="img" key={index} />;
                 })}
             </div>
@@ -104,12 +109,15 @@ function User() {
                   setUpdateNick(event.target.value);
                 }}
               />
-              <div>(회원)</div>
+              {cookies.loginType === "BUSINESS" && <div>(사업자)</div>}
+              {cookies.loginType === "USER" && <div>(회원)</div>}
             </StNick>
-            <StEmail>
-              <div>이메일</div>
-              <div>abc@naver.com</div>
-            </StEmail>
+            {mypage && (
+              <StEmail>
+                <div>이메일</div>
+                <div>{mypage.email}</div>
+              </StEmail>
+            )}
             <button>수정하기</button>
             <button onClick={onEditMode}>취소하기</button>
           </StUserBox>
@@ -117,23 +125,24 @@ function User() {
       ) : (
         // 수정 전 모드
         <>
-          {/* {mypage && ( */}
-          <>
-            <img alt="img" />
-            <StUserBox>
-              <StNick>
-                <div>닉네임</div>
-                <div>김철수</div>
-                <div>회원</div>
-              </StNick>
-              <StEmail>
-                <div>이메일</div>
-                <div>abc@naver.com</div>
-              </StEmail>
-              <button onClick={onEditMode}>수정하기</button>
-            </StUserBox>
-          </>
-          {/* )} */}
+          {mypage && (
+            <>
+              <img alt="img" />
+              <StUserBox>
+                <StNick>
+                  <div>닉네임:</div>
+                  <div>{mypage.nickname}</div>
+                  {cookies.loginType === "BUSINESS" && <div>(사업자)</div>}
+                  {cookies.loginType === "USER" && <div>(회원)</div>}
+                </StNick>
+                <StEmail>
+                  <div>이메일:</div>
+                  <div>{mypage.email}</div>
+                </StEmail>
+                <button onClick={onEditMode}>수정하기</button>
+              </StUserBox>
+            </>
+          )}
         </>
       )}
     </div>

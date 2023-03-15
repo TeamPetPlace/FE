@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getMyPost } from "../../api/mypage";
 
 function PostList() {
-  const { data } = useQuery("getmypost", () => getMyPost());
+  const [myList, setMyList] = useState([]);
+  const { data } = useQuery("getmypost", getMyPost, {
+    onSuccess: (response) => {
+      setMyList(response);
+      console.log(response);
+    },
+  });
+
   return (
     <div>
-      {data?.data.response.map((item) => {
-        <div key={item.id}>
-          <div>{item.id}id</div>
-          <div>{item.category}업종</div>
-          <div>{item.contents}소개</div>
-        </div>;
-      })}
+      <div>
+        {myList.map((item) => {
+          return (
+            <div key={item.id}>
+              <div>{item.category}id</div>
+              <div>{item.ceo}업종</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
