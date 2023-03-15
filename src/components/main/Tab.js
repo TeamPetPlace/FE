@@ -122,24 +122,24 @@ function Tab() {
       </div>
       <StTabBox>
         {category === "hospital"
-          ? dataList.map((item, i) => (
+          ? dataList?.map((item, i) => (
               <StCard key={i} color="hospital">
                 {item.text} - {item.category}
               </StCard>
             ))
           : category === "shop"
-          ? dataList.map((item, i) => (
+          ? dataList?.map((item, i) => (
               <StCard key={i} color="shop">
                 {item.text} - {item.category}
               </StCard>
             ))
           : category === "cafe"
-          ? dataList.map((item, i) => (
+          ? dataList?.map((item, i) => (
               <StCard key={i} color="cafe">
                 {item.text} - {item.category}
               </StCard>
             ))
-          : dataList.map((item, i) => (
+          : dataList?.map((item, i) => (
               <StCard key={i}>
                 {item.text} - {item.category}
               </StCard>

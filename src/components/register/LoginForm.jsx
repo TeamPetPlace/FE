@@ -16,14 +16,14 @@ const LoginForm = () => {
 
   const loginMutation = useMutation(NomalLogin, {
     onSuccess: (response) => {
-      // setCookie("email", email);
+      setCookie("loginType", response.data.response.loginType);
+      setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
       alert("로그인 성공");
       console.log(response);
       window.location.href = "/main";
     },
     onError: (error) => {
-      console.log(error);
       alert("로그인 실패");
     },
   });

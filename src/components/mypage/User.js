@@ -2,24 +2,24 @@ import React, { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getMypage } from "../../api/main";
+import { getMypage } from "../../api/mypage";
 import { updateUser } from "../../api/mypage";
 
 function User() {
   const { id } = useParams();
   const [mypage, setMypage] = useState();
   const queryClient = useQueryClient();
-  //   const { data } = useQuery("getmypage", getMypage, {
-  //     onSuccess: (response) => {
-  //       setMypage(response.data.response);
-  //     },
-  //   });
+  const { data } = useQuery("getmypage", getMypage, {
+    onSuccess: (response) => {
+      setMypage(response.data.response);
+    },
+  });
 
   const onEditMode = () => {
     setEdit(!edit);
-    // setUpdateNick(mypage.nickname);
-    // setImage(mypage.image);
-    // imgView([mypage.image]);
+    setUpdateNick(mypage.nickname);
+    setImage(mypage.image);
+    imgView([mypage.image]);
   };
   //수정 모드
   const [edit, setEdit] = useState(false);
@@ -117,23 +117,23 @@ function User() {
       ) : (
         // 수정 전 모드
         <>
-          {/* {mypage && ( */}
-          <>
-            <img alt="img" />
-            <StUserBox>
-              <StNick>
-                <div>닉네임</div>
-                <div>김철수</div>
-                <div>회원</div>
-              </StNick>
-              <StEmail>
-                <div>이메일</div>
-                <div>abc@naver.com</div>
-              </StEmail>
-              <button onClick={onEditMode}>수정하기</button>
-            </StUserBox>
-          </>
-          {/* )} */}
+          {mypage && (
+            <>
+              <img alt="img" />
+              <StUserBox>
+                <StNick>
+                  <div>닉네임</div>
+                  <div>김철수</div>
+                  <div>회원</div>
+                </StNick>
+                <StEmail>
+                  <div>이메일</div>
+                  <div>abc@naver.com</div>
+                </StEmail>
+                <button onClick={onEditMode}>수정하기</button>
+              </StUserBox>
+            </>
+          )}
         </>
       )}
     </div>

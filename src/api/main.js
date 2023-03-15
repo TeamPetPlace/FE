@@ -5,4 +5,10 @@ const getPost = async () => {
   return response.data;
 };
 
+// const getCards = async () => {
+//   const response = await instance.get(`/posts?keyword=병원`);
+//   console.log(response);
+//   return response;
+// };
+
 export { getPost };
