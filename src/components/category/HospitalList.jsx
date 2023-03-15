@@ -7,25 +7,25 @@ import { getCards, getTitles } from "../../api/category";
 
 export default function HospitalList() {
   const [cards, setCards] = useState([]);
-  const [title, setTitle] = useState("");
+  const [searchData, setSearchData] = useState([]);
 
-  const { cardsData } = useQuery("cards", getCards, {
+  const { data } = useQuery("getCards", getCards, {
     onSuccess: (item) => {
-      setCards(item); // setCards에 data를 넣어준다
+      setCards(item.data); // setCards에 data를 넣어준다
     },
   });
-  console.log(cardsData);
+  console.log(cards);
 
-  const { titleData } = useQuery("title", getTitles, {
+  const response = useQuery("getTitles", getTitles, {
     onSuccess: (item) => {
-      setTitle(item);
+      setSearchData(item);
     },
   });
-  console.log(titleData);
+  console.log(searchData[0]);
 
   const handleClick = (e) => {
     e.preventDefault();
-    const searched = title.filter((item) => item.title.includes(cards));
+    const searched = searchData.filter((item) => item.title.includes(cards));
   };
 
   return (
@@ -36,15 +36,14 @@ export default function HospitalList() {
           <MdLocalHospital />
         </h2>
         <div>
-          <input
+          {/* <input
             type="text"
             placeholder="검색할 명칭을 입력해주세요"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={searchData}
           />
-          <button onClick={handleClick} type="button">
+          <button onClick={handleClick}>
             <GoSearch />
-          </button>
+          </button> */}
         </div>
         <select>
           <option value="lang"> 근거리순 </option>
@@ -53,16 +52,16 @@ export default function HospitalList() {
         </select>
       </StPlace>
       <StCards>
-        {cards.map((item) => {
-          return (
-            <StCard type="text">
-              <div>{item.star}</div>
-              <div>{item.title}</div>
-              <div>{item.address}</div>
-              <div>{item.mapdata}</div>
-            </StCard>
-          );
-        })}
+        {cards.length > 0 &&
+          cards.map((item) => {
+            return (
+              <StCard key={item.id}>
+                <div>{item.ceo}</div>
+                <div>{item.title}</div>
+                <div>{item.address}</div>
+              </StCard>
+            );
+          })}
       </StCards>
     </>
   );
@@ -77,6 +76,8 @@ const StPlace = styled.div`
 `;
 
 const StCards = styled.div`
+  width: 400px;
+  height: 400px;
   display: flex;
   justify-content: center;
   gap: 10px;
