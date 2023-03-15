@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getMyReview } from "../../api/mypage";
 
 function ReviewList() {
-  const { data } = useQuery("getmyreview", () => getMyReview());
+  const [reviewList, setReviewList] = useState([]);
+
+  const { data } = useQuery("getmydibs", getMyReview, {
+    onSuccess: (response) => {
+      setReviewList(response);
+      console.log(response);
+    },
+  });
+
   return (
     <div>
-      {data?.data.response.map((item) => {
-        <div key={item.id}>
-          <div>{item.id}id</div>
-          <div>{item.review}리뷰</div>
-          <div>{item.nickname}닉네임</div>
-        </div>;
-      })}
+      <div>
+        {reviewList.map((item) => {
+          return (
+            <div key={item.id}>
+              <div>{item.email}이메일</div>
+              <div>{item.nickname}닉네임</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -9,7 +9,7 @@ const getMypage = async () => {
 const updateUser = async (payload) => {
   await instance
     .put(
-      `/mypage/${payload.id}`,
+      `/mypage/3`,
       {
         nickname: payload.nickname,
         image: payload.image,
@@ -31,7 +31,7 @@ const updateUser = async (payload) => {
 };
 
 const getMyPost = async () => {
-  const response = await instance.get("/business");
+  const response = await instance.get("/mypage/business");
   return response.data;
 };
 

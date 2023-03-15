@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getMyDibs } from "../../api/mypage";
 
 function DibsList() {
-  const { data } = useQuery("getmydibs", () => getMyDibs());
+  const [dibList, setDibList] = useState([]);
+
+  const { data } = useQuery("getmydibs", getMyDibs, {
+    onSuccess: (response) => {
+      setDibList(response);
+      console.log(response);
+    },
+  });
+
   return (
     <div>
-      {data?.data.response.map((item) => {
-        <div key={item.id}>
-          <div>{item.id}id</div>
-          <div>{item.title}업종</div>
-          <div>{item.contents}소개</div>
-        </div>;
-      })}
+      <div>
+        {dibList.map((item) => {
+          return (
+            <div key={item.id}>
+              <div>{item.email}이메일</div>
+              <div>{item.nickname}닉네임</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
