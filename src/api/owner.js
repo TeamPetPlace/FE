@@ -19,4 +19,17 @@ const addPost = async (formData) => {
     });
 };
 
-export { addPost };
+const deletePost = async (id) => {
+  await instance
+    .delete(`/posts/${id}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      if (axios.isAxiosError(err)) {
+        return alert(`Error : ${err.message}`);
+      }
+    });
+};
+
+export { addPost, deletePost };

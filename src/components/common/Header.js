@@ -2,12 +2,24 @@ import React, { useState } from "react";
 import Layout from "./Layout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { NomalLogin } from "../../api/user";
 import { removeCookie } from "../../api/cookie";
+import { getMypage } from "../../api/mypage";
 
 function Header() {
   const navigate = useNavigate();
+  const [profile, setProfile] = useState(
+    "    https://us.123rf.com/450wm/sanek13744/sanek137441706/sanek13744170600240/80321806-%EB%B0%9C-%EC%9D%B8%EC%87%84-%EB%B2%A1%ED%84%B0-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EA%B0%95%EC%95%84%EC%A7%80-%EB%98%90%EB%8A%94-%EA%B3%A0%EC%96%91%EC%9D%B4-pawprint-%EA%B7%B8%EB%A6%BC-%EA%B8%B4-%EA%B7%B8%EB%A6%BC%EC%9E%90%EA%B0%80%EC%9E%88%EB%8A%94-%EB%8F%99%EB%AC%BC.jpg?ver=6"
+  );
+  const queryClient = useQueryClient();
+  const { data } = useQuery("getmypage", getMypage, {
+    onSuccess: (response) => {
+      setProfile(response.response.image);
+    },
+  });
+  console.log(profile);
+
   //드롭다운
   const [drop, setDrop] = useState(false);
 
@@ -36,13 +48,18 @@ function Header() {
             <StTab onClick={() => navigate("/cafe")}>카페</StTab>
           </StMenu>
           <StUser>
-            <div>프로필</div>
+            <StProfile src={profile} alt="img" />
             <div>닉네임</div>
-            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
+            <StUserBar
+              onMouseEnter={() => setDrop(!drop)}
+              onMouseLeave={() => setDrop(!drop)}
+            >
               ▼
               {drop && (
                 <StUserCategory>
-                  <StUserCh onClick={() => navigate("/mypage")}>마이페이지</StUserCh>
+                  <StUserCh onClick={() => navigate("/mypage")}>
+                    마이페이지
+                  </StUserCh>
                   <StUserCh onClick={onLogoutHandler}>로그아웃</StUserCh>
                 </StUserCategory>
               )}
@@ -93,6 +110,13 @@ const StTab = styled.div`
 const StUser = styled.div`
   display: flex;
   gap: 10px;
+`;
+
+const StProfile = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 25px;
+  border: 1px solid black;
 `;
 
 const StUserCategory = styled.div`

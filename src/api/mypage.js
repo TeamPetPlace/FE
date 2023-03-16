@@ -9,7 +9,7 @@ const getMypage = async () => {
 const updateUser = async (payload) => {
   await instance
     .put(
-      `/mypage/3`,
+      `/mypage`,
       {
         nickname: payload.nickname,
         image: payload.image,
