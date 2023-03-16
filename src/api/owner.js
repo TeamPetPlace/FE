@@ -67,22 +67,4 @@ const updatePost = async (payload) => {
     });
 };
 
-// const updatePost = async (id, formData) => {
-//   await instance
-//     .post(`/posts/${id}`, formData, {
-//       headers: {
-//         "Content-Type":
-//           "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
-//       },
-//     })
-//     .then((response) => {
-//       return response;
-//     })
-//     .catch((err) => {
-//       if (axios.isAxiosError(err)) {
-//         return alert(`Error : ${err.message}`);
-//       }
-//     });
-// };
-
 export { addPost, deletePost, updatePost };
