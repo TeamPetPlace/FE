@@ -49,6 +49,7 @@ const updateReview = async ({ id, payload }) => {
     .put(`/post/reviews/${id}`, {
       review: payload.review,
       image: payload.image,
+      star: payload.star,
     })
     .then((response) => {
       return response;
