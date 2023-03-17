@@ -5,7 +5,7 @@ import useInput from "../../hooks/useInput";
 import PopupDom from "./Popup";
 import DaumPostcode from "react-daum-postcode";
 import { useMutation, useQueryClient } from "react-query";
-import { addPost } from "../../api/owner";
+import { addPost, checkTitle } from "../../api/owner";
 
 function Post() {
   const navigate = useNavigate();
@@ -94,12 +94,31 @@ function Post() {
   const [imgBase64, setImgBase64] = useState([]);
 
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [titleButtonClicked, setTitleButtonClicked] = useState(false);
 
   const maxImage = 4;
 
-  const onTestHandler = (event) => {
+  //업체 중복확인
+  const [isTitle, setIsTitle] = useState(false);
+  const checkTitleMutation = useMutation(checkTitle, {
+    onSuccess: (response) => {
+      response ? setIsTitle(true) : setIsTitle(false);
+      if (response) {
+        setIsTitle(true);
+        alert("등록 가능한 업체명입니다.");
+      } else {
+        setIsTitle(false);
+        alert("이미 존재하는 업체명입니다.");
+      }
+    },
+  });
+
+  const checkTitleHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    if (!event.target.value.trim()) return;
+    setTitleButtonClicked(true);
+    checkTitleMutation.mutate(event.target.value);
   };
 
   const onSubmitHandler = (event) => {
@@ -118,7 +137,10 @@ function Post() {
     )
       return alert("빈칸을 모두 채워주세요");
     if (buttonClicked === false) {
-      return alert("주소 확인 버튼을 클릭해주세요");
+      return alert("주소 확인을 해주세요");
+    }
+    if (titleButtonClicked === false) {
+      return alert("업체명 중복확인을 해주세요");
     }
     const formData = new FormData();
     image.forEach((image, index) => formData.append("image", image));
@@ -126,7 +148,6 @@ function Post() {
     formData.append("title", title);
     formData.append("contents", contents);
     formData.append("address", address);
-    // formData.append("mapdata", mapdata);
     formData.append("lat", lat);
     formData.append("lng", lng);
     formData.append("ceo", ceo);
@@ -221,10 +242,22 @@ function Post() {
                 value={title}
                 onChange={titleHandler}
               />
-              <StBtn onClick={onTestHandler} size="medium">
+              <StBtn onClick={checkTitleHandler} value={title} size="medium">
                 중복확인
               </StBtn>
             </StLine>
+            <StErrorMsg
+              style={{
+                height: "20px",
+                paddingLeft: "60px",
+                marginTop: "-25px",
+              }}
+            >
+              {titleButtonClicked === false ? (
+                <p>업체명 중복확인을 해주세요</p>
+              ) : null}
+            </StErrorMsg>
+
             <div>
               <StTitle>소개</StTitle>
               <StText
@@ -430,7 +463,7 @@ const StErrorMsg = styled.div`
 
 const StFormBox = styled.div`
   width: 900px;
-  height: 800px;
+  height: 850px;
   background-color: white;
   border-radius: 5px;
   margin: 0px auto;

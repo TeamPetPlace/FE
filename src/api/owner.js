@@ -67,4 +67,17 @@ const updatePost = async (payload) => {
     });
 };
 
-export { addPost, deletePost, updatePost };
+const checkTitle = async (payload) => {
+  try {
+    const response = await instance.get("/postCheck", {
+      params: { title: payload },
+    });
+    console.log(response);
+    return response.data.success;
+  } catch (error) {
+    console.log(error);
+    return error.data;
+  }
+};
+
+export { addPost, deletePost, updatePost, checkTitle };
