@@ -19,7 +19,7 @@ function PostList() {
             <div key={item.id}>
               <div>{item.category}id</div>
               <div>{item.ceo}업종</div>
-              <div>{item.image}</div>
+              <img src={item.image} alt="img" />
             </div>
           );
         })}

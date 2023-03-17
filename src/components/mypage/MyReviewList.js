@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getMyReview } from "../../api/mypage";
 
-function ReviewList() {
+function MyReviewList() {
   const [reviewList, setReviewList] = useState([]);
 
   const { data } = useQuery("getmydibs", getMyReview, {
@@ -20,6 +20,7 @@ function ReviewList() {
             <div key={item.id}>
               <div>{item.email}이메일</div>
               <div>{item.nickname}닉네임</div>
+              <div>{item.review}</div>
             </div>
           );
         })}
@@ -28,4 +29,4 @@ function ReviewList() {
   );
 }
 
-export default ReviewList;
+export default MyReviewList;

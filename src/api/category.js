@@ -10,7 +10,7 @@ export const getDetailPost = async (id) => {
 // 플레이스별 페이지
 export const getCards = async ({ page, size }) => {
   const response = await instance.get(
-    `/posts?keyword=병원&page=${page}&size=${size}`
+    `/posts?category=병원&sort=DISTANCE&lat=177.256&lng=110.2233`
   );
   console.log(response);
   return response;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import User from "./User";
-import ReviewList from "./ReviewList";
 import DibsList from "./DibsList";
+import MyReviewList from "./MyReviewList";
 
 function UserMypage() {
   const [checked, setChecked] = useState([true, false, false]);
@@ -44,7 +44,7 @@ function UserMypage() {
         {tab === "user" ? (
           <User />
         ) : tab === "reviewList" ? (
-          <ReviewList />
+          <MyReviewList />
         ) : tab === "dibsList" ? (
           <DibsList />
         ) : (
