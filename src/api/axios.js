@@ -1,10 +1,21 @@
 import axios from "axios";
 import { getCookie, removeCookie, setCookie } from "./cookie";
 
+const access_token = getCookie("ACCESS_TOKEN");
+
 export const baseURL = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_URL}`,
   headers: {
     "Access-Control-Allow-Origin": "*",
+  },
+});
+
+export const kakaoURL = axios.create({
+  baseURL: `${process.env.REACT_APP_SERVER_URL}`,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    authorization: `${access_token}`,
+    "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
   },
 });
 

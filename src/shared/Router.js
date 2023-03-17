@@ -11,6 +11,7 @@ import ShopDetail from "../pages/ShopDetail";
 import CafeDetail from "../pages/CafeDetail";
 import OwnerPost from "../pages/OwnerPost";
 import OwnerPage from "../pages/OwnerPage";
+import Redirect from "../pages/Redirect";
 
 const Router = () => {
   return (
@@ -28,6 +29,7 @@ const Router = () => {
         <Route path="/cafe/:id" element={<CafeDetail />} />
         <Route path="/ownerpost" element={<OwnerPost />} />
         <Route path="/ownerpage" element={<OwnerPage />} />
+        <Route path="/Redirect" element={<Redirect />} />
       </Routes>
     </BrowserRouter>
   );

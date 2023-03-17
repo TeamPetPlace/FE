@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { createPortal } from "react-dom";
 import styled, { css } from "styled-components";
-import Map from "../common/Map";
+import Map from "../../element/Map";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getDetail } from "../../api/detail";
 import { useCookies } from "react-cookie";
@@ -130,8 +130,7 @@ const HospitalDetailForm = () => {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -321,10 +320,7 @@ const HospitalDetailForm = () => {
                       {isPopupOpen && (
                         <PopupDom>
                           <div>
-                            <DaumPostcode
-                              style={postCodeStyle}
-                              onComplete={handlePostCode}
-                            />
+                            <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
                             <StInput value={address} disabled />
                             <StBtn size="small" onClick={handleSearch}>
                               확인
@@ -335,11 +331,7 @@ const HospitalDetailForm = () => {
                       {!isPopupOpen && (
                         <>
                           <StInput disabled />
-                          <StBtn
-                            size="small"
-                            onClick={handleSearch}
-                            style={{ marginLeft: "10px" }}
-                          >
+                          <StBtn size="small" onClick={handleSearch} style={{ marginLeft: "10px" }}>
                             확인
                           </StBtn>
                         </>
@@ -393,11 +385,7 @@ const HospitalDetailForm = () => {
                       }}
                       size="small"
                     />
-                    <input
-                      type="checkbox"
-                      value={isChecked}
-                      onChange={onCheckHandler}
-                    />
+                    <input type="checkbox" value={isChecked} onChange={onCheckHandler} />
                     <label>휴무일</label>
                     <div>
                       {isChecked && (
@@ -465,10 +453,7 @@ const HospitalDetailForm = () => {
                 </div>
                 <StBtns>
                   <StBtn size="medium">수정</StBtn>
-                  <StBtn
-                    onClick={() => navigate(`/hostpital/${id}`)}
-                    size="medium"
-                  >
+                  <StBtn onClick={() => navigate(`/hostpital/${id}`)} size="medium">
                     취소
                   </StBtn>
                 </StBtns>
