@@ -72,7 +72,7 @@ const StBtns = styled.div`
   position: absolute;
   top: 50%;
   transform: translateY(-5%);
-  z-index: 999;
+  z-index: 9;
   left: 40%;
   justify-content: space-between;
 `;
