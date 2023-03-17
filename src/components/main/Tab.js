@@ -45,18 +45,37 @@ function Tab() {
   const [userLocation, setUserLocation] = useState(null);
   const [locationData, setDataLocation] = useState([]);
 
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
+
   //현재 사용자의 위치 정보
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation({ latitude, longitude });
-        console.log(`현재위치:  (${latitude}, ${longitude})`);
-      });
-    } else {
-      console.log("geolocation ");
-    }
-  }, []);
+  const onLocationHandler = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        setLat(lat);
+        setLng(lng);
+        console.log(`latitude: ${lat}, longitude: ${lng}`);
+      },
+      (error) => {
+        console.log("geolocation ");
+      }
+    );
+  };
+
+  // //현재 사용자의 위치 정보
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const { latitude, longitude } = position.coords;
+  //       setUserLocation({ latitude, longitude });
+  //       console.log(`현재위치:  (${latitude}, ${longitude})`);
+  //     });
+  //   } else {
+  //     console.log("geolocation ");
+  //   }
+  // }, []);
 
   //userlocation이 변경될 때 마다 데이터를 가져와서 정렬
   //데이터들로 새로운 객체를 만들고 거리를 계산
@@ -98,6 +117,7 @@ function Tab() {
 
   return (
     <div>
+      <button onClick={onLocationHandler}>현재 위치 전송</button>
       <div>
         {mainTabList?.map((item, i) => (
           <button

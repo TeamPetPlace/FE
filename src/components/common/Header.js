@@ -18,7 +18,6 @@ function Header() {
       setProfile(response.response.image);
     },
   });
-  console.log(profile);
 
   //드롭다운
   const [drop, setDrop] = useState(false);
@@ -80,6 +79,7 @@ const StHeader = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  z-index: 999;
 `;
 
 const StWrap = styled.div`

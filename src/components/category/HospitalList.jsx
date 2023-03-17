@@ -4,10 +4,12 @@ import styled from "styled-components";
 import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import { getCards, getTitles } from "../../api/category";
+import { useNavigate } from "react-router-dom";
 
 export default function HospitalList() {
   const [cards, setCards] = useState([]);
   const [searchData, setSearchData] = useState([]);
+  const navigate = useNavigate();
 
   const { data } = useQuery("getCards", getCards, {
     onSuccess: (item) => {
@@ -55,7 +57,13 @@ export default function HospitalList() {
         {cards.length > 0 &&
           cards.map((item) => {
             return (
-              <StCard key={item.id}>
+              <StCard
+                key={item.id}
+                onClick={() => {
+                  navigate(`/${item.id}`);
+                }}
+              >
+                <div>{item.id}</div>
                 <div>{item.ceo}</div>
                 <div>{item.title}</div>
                 <div>{item.address}</div>
@@ -82,6 +90,7 @@ const StCards = styled.div`
   justify-content: center;
   gap: 10px;
   background-color: #f7f7de;
+  cursor: pointer;
 `;
 
 const StCard = styled.div`
