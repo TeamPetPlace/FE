@@ -158,7 +158,6 @@ function Post() {
     addPostMutation.mutate(formData);
     alert("작성 완료");
     navigate("/main");
-    console.log(formData.get("image"));
   };
 
   //이미지 프리뷰

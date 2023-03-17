@@ -9,6 +9,8 @@ import { useCookies } from "react-cookie";
 import { deletePost, updatePost } from "../../api/owner";
 import PopupDom from "../owner/Popup";
 import DaumPostcode from "react-daum-postcode";
+import Review from "../../element/Review";
+import ReviewList from "../../element/ReviewList";
 
 const HospitalDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
@@ -16,7 +18,7 @@ const HospitalDetailForm = () => {
 
   //상세페이지 조회
   const { id } = useParams();
-  const [detail, setDetail] = useState();
+  const [detail, setDetail] = useState("");
   const [slideImg, setSlideImg] = useState([]);
   const { data } = useQuery("getdetail", () => getDetail(`${id}`), {
     onSuccess: (response) => {
@@ -499,7 +501,20 @@ const HospitalDetailForm = () => {
               <label>휴무일 : {detail.closedDay}</label> <br />
               <div> {detail.contents} </div>
               <label> {detail.address}</label>
+              <Review
+                id={id}
+                queryClient={queryClient}
+                detail={detail}
+                setDetail={setDetail}
+              />
+              <ReviewList
+                id={id}
+                queryClient={queryClient}
+                detail={detail}
+                setDetail={setDetail}
+              />
               <div>
+                지도
                 <Map />
               </div>
             </StWrap>
