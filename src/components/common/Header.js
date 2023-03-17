@@ -26,6 +26,8 @@ function Header() {
     onSuccess: (response) => {
       removeCookie("access_token");
       removeCookie("refresh_token");
+      removeCookie("loginType");
+      removeCookie("email");
       alert("로그아웃 되었습니다");
       window.location.href = "/";
     },
@@ -49,16 +51,11 @@ function Header() {
           <StUser>
             <StProfile src={profile} alt="img" />
             <div>닉네임</div>
-            <StUserBar
-              onMouseEnter={() => setDrop(!drop)}
-              onMouseLeave={() => setDrop(!drop)}
-            >
+            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
               ▼
               {drop && (
                 <StUserCategory>
-                  <StUserCh onClick={() => navigate("/mypage")}>
-                    마이페이지
-                  </StUserCh>
+                  <StUserCh onClick={() => navigate("/mypage")}>마이페이지</StUserCh>
                   <StUserCh onClick={onLogoutHandler}>로그아웃</StUserCh>
                 </StUserCategory>
               )}

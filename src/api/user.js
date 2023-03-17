@@ -1,5 +1,6 @@
 import axios from "axios";
 import { instance, baseURL } from "./axios";
+import { getCookie } from "./cookie";
 
 export const UserSignup = async (payload) => {
   try {
@@ -46,21 +47,11 @@ export const NomalLogin = async (payload) => {
 };
 
 export const KaKaoLogin = () => {
-  // const REST_API_KEY = "94c5891ab6cec1f5eddede64f8358dd9";
-  // const REDIRECT_URI = "https://petplace.site/kakao/callback";
-  // const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  const code = new URL(window.location.href).searchParams.get("code");
   const { REACT_APP_KAKAO_REST_API_KEY, REACT_APP_KAKAO_REDIRECT_URI } = process.env;
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
   window.location.href = link;
-  // axios
-  //   .get(
-  //     `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
-  //     // "/kakao/callback"
-  //     // `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`
-  //   )
-  //   .then((res) => console.log(res))
-  //   .catch((err) => console.log(err));
+
+  // instance.get(`/kakao/callback/`)
 };
 
 export const CheckEmail = async (payload) => {

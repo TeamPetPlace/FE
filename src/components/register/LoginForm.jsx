@@ -1,9 +1,7 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { instance } from "../../api/axios";
 import { setCookie } from "../../api/cookie";
 import { KaKaoLogin, NomalLogin } from "../../api/user";
 
