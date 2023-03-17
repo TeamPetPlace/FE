@@ -16,7 +16,7 @@ const Redirect = () => {
           setCookie("access_token", access_token);
           setCookie("loginType", response.data.response.loginType);
           console.log(response.headers["authorization"]);
-          // window.location.href = "/main";
+          window.location.href = "/main";
           return response;
         }
       })
