@@ -24,13 +24,12 @@ const LoginForm = () => {
       setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
       setCookie("refresh_token", response.headers.refresh_token);
-
       alert("로그인 성공");
       console.log(response);
       navigate("/main");
     },
     onError: (error) => {
-      alert("로그인 실패");
+      // alert("로그인 실패");
     },
   });
   // console.log(type);
@@ -101,5 +100,6 @@ const StLoginDiv = styled.div`
 const StkakaoBtn = styled.button`
   background-color: yellow;
   width: 90%;
-  height: 50px;
+  height: 30px;
+  margin: 10px 0px;
 `;

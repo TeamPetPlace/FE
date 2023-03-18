@@ -54,20 +54,20 @@ instance.interceptors.response.use(
         try {
           console.log("재발급중...");
           const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/token`, {
-            // headers: {
-            //   Refresh_Token: `${refresh_token}`,
-            // },
+            headers: {
+              Refresh_Token: `${refresh_token}`,
+            },
           });
-          // const access_token = response.headers.authorization;
-          // setCookie("access_token", access_token);
-          // OriginRequestError.header.Authorization = `${access_token}`;
-          // console.log("재발급 완료, 재실행");
-          // return baseURL(OriginRequestError);
-          const refresh_token = response.headers.authorization;
-          setCookie("refresh_token", refresh_token);
-          OriginRequestError.header.Authorization = `${refresh_token}`;
+          const access_token = response.headers.authorization;
+          setCookie("access_token", access_token);
+          OriginRequestError.header.Authorization = `${access_token}`;
           console.log("재발급 완료, 재실행");
           return baseURL(OriginRequestError);
+          // const refresh_token = response.headers.authorization;
+          // setCookie("refresh_token", refresh_token);
+          // OriginRequestError.header.Authorization = `${refresh_token}`;
+          // console.log("재발급 완료, 재실행");
+          // return baseURL(OriginRequestError);
         } catch (error) {
           //두가지 토큰 모두 만료시
           removeCookie("access_token");
