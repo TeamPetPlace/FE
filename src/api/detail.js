@@ -44,14 +44,11 @@ const deleteReview = async (id) => {
     });
 };
 
-const updateReview = async ({ id, payload }) => {
+const updateReview = async (payload) => {
   await instance
-    .put(`/post/reviews/${id}`, {
-      review: payload.review,
-      image: payload.image,
-      star: payload.star,
-    })
+    .put(`/post/reviews/${payload.reviewId}`, payload)
     .then((response) => {
+      console.log(payload.reviewId);
       return response;
     })
     .catch((err) => {

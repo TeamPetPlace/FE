@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 function Map() {
   const { kakao } = window;
-  console.log(kakao);
+  // console.log(kakao);
   // const container = document.createElement("div");
 
   useEffect(() => {

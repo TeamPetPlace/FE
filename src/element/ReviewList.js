@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useMutation } from "react-query";
 import styled from "styled-components";
+import { instance } from "../api/axios";
 import { deleteReview, updateReview } from "../api/detail";
 
 function ReviewList({ id, queryClient, detail, setDetail }) {
@@ -33,10 +34,39 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
   const [clicked, setClicked] = useState(null);
 
   const onEditMode = (reviewId) => {
+    console.log(reviewId);
     setEdit({ reviewId: reviewId, isEdit: !edit.isEdit });
   };
 
-  const updateReviewMutation = useMutation(updateReview, {
+  // const [updateReviewMutation] = useMutation(
+  //   (payload) => instance.put(`/post/reviews/${payload.reviewId}`, payload),
+  //   {
+  //     onSuccess: () => {queryClient.invalidateQueries("getdetail")
+  //   },
+  //   mutationFn : async(payload) => {
+  //     const response = instance.put(`/post/reviews/${payload.reviewId}`, payload)
+  //     return response.data
+  //   }
+
+  // );
+
+  // const [updateReviewMutation] = useMutation(
+  //   (payload) => instance.patch(`/post/reviews/${payload.reviewId}`, payload),
+  //   {
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries("getdetail");
+  //     },
+  //     mutationFn: async (payload) => {
+  //       const response = instance.put(
+  //         `/post/reviews/${payload.reviewId}`,
+  //         payload
+  //       );
+  //       return response.data;
+  //     },
+  //   }
+  // );
+
+  const updateReviewMutation = useMutation((payload) => updateReview(payload), {
     onSuccess: () => queryClient.invalidateQueries("getdetail"),
   });
 
@@ -46,7 +76,8 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
     formData.append("review", updateReview);
     formData.append("image", image);
     const payload = {
-      id: reviewId,
+      id: id,
+      reviewId,
       review: updateReview,
       image: image,
       star: clicked,
@@ -54,7 +85,6 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
     updateReviewMutation.mutate(payload);
     alert("수정 완료");
     onEditMode(reviewId);
-    setDetail([...detail]);
   };
 
   //이미지 미리보기
@@ -83,6 +113,8 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
     }
   };
 
+  console.log(detail);
+
   return (
     <div>
       {detail?.review?.map((item) => (
@@ -102,7 +134,7 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
                 <button onClick={onImgButton}>이미지 업로드</button>
                 <div>
                   {imgView.map((item, index) => {
-                    return <img src={item} alt="img" key={index} />;
+                    return <StImg src={item} alt="img" key={index} />;
                   })}
                 </div>
                 <input
