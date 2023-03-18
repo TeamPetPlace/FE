@@ -21,9 +21,10 @@ export default function Hospital() {
 
 const StBanner = styled.div`
   width: 100%;
-  height: 510px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: #d9d9d9;
+  padding: 20px;
+  background: lightgray;
 `;

@@ -56,13 +56,26 @@ export const KaKaoLogin = () => {
 
 export const CheckEmail = async (payload) => {
   try {
-    const response = await baseURL.get("/signup", {
+    const response = await baseURL.get("/signup/usercheck", {
       params: { email: payload },
     });
     console.log(response);
     return response.data.success;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return error.data;
+  }
+};
+
+export const CheckBizNum = async (payload) => {
+  try {
+    const response = await baseURL.get("/signup/businesscheck", {
+      params: { business: payload },
+    });
+    // console.log(response);
+    return response.data.success;
+  } catch (error) {
+    // console.log(error);
     return error.data;
   }
 };

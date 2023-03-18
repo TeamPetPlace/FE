@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { BusinessSignup, CheckEmail } from "../../api/user";
+import { BusinessSignup, CheckBizNum, CheckEmail } from "../../api/user";
 
 const BusinessSignupForm = () => {
   const [useremail, setUserEmail] = useState();
@@ -13,13 +13,12 @@ const BusinessSignupForm = () => {
   const [valbiznum, setValBizNum] = useState();
   const [passwordcheck, setPasswordCheck] = useState(false);
   const [biznumcheck, setBizNumCheck] = useState(false);
-
   const [isEmail, setIsEmail] = useState(false);
   const [isNickName, setIsNickName] = useState(false);
+  const [isBizNum, setIsBizNum] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidBiznum, setIsValidBizNum] = useState(false);
-
   const [pwType, setPwType] = useState({
     type: "password",
     visible: false,
@@ -58,12 +57,23 @@ const BusinessSignupForm = () => {
   };
 
   //사업자번호 확인
+  const checkBizNumlMutation = useMutation(CheckBizNum, {
+    onSuccess: (response) => {
+      response ? setIsBizNum(true) : setIsBizNum(false);
+      if (response) {
+        setIsBizNum(true);
+        alert("ok, i got it");
+      } else {
+        setIsBizNum(false);
+        alert("이미 등록된 사업자번호입니다.");
+      }
+    },
+  });
+
   const checkBizNumber = (e) => {
     e.stopPropagation();
-    const value = e.target.value;
-    setBizNumber(value);
-    value === valbiznum ? setBizNumCheck(true) : setBizNumCheck(false);
-    biznumberRegex.test(value) ? setIsValidBizNum(true) : setIsValidBizNum(false);
+    if (!e.target.value.trim()) return;
+    checkBizNumlMutation.mutate(e.target.value);
   };
 
   const onBizNumChangeHandler = (e) => {
@@ -178,8 +188,8 @@ const BusinessSignupForm = () => {
           <p style={{ color: "#ff6666" }}>비밀번호 불일치!</p>
         )}
         <div>
-          <button disabled={!(passwordcheck && isValidPassword && isValidEmail)}>
-            {/* <button disabled={!(isNickName && passwordcheck && isValidPassword && isValidEmail)}> */}
+          {/* <button disabled={!(passwordcheck && isValidPassword && isValidEmail)}> */}
+          <button disabled={!(isValidBiznum && passwordcheck && isValidPassword && isValidEmail)}>
             회원가입
           </button>
         </div>

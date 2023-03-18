@@ -3,27 +3,20 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import { ALLHospitalPost, getTitles } from "../../api/category";
+import { ALLHospitalPost, ALLShopPost, getTitles } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 
-export default function HospitalList() {
+const CafeList = () => {
   const [cards, setCards] = useState([]);
   const [searchData, setSearchData] = useState([]);
   const navigate = useNavigate();
 
-  const { data } = useQuery("ALLHospitalPost", ALLHospitalPost, {
+  const { data } = useQuery("ALLShopPost", ALLShopPost, {
     onSuccess: (item) => {
       setCards(item.data.content); // setCards에 data를 넣어준다
     },
   });
   console.log(cards);
-
-  // const response = useQuery("getTitles", getTitles, {
-  //   onSuccess: (item) => {
-  //     setSearchData(item);
-  //   },
-  // });
-  // console.log(searchData[0]);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -32,10 +25,7 @@ export default function HospitalList() {
   return (
     <>
       <StPlace>
-        <h2>
-          병원
-          <MdLocalHospital />
-        </h2>
+        <h2>카페</h2>
         <div>
           <input
             style={{ width: "300px" }}
@@ -59,7 +49,7 @@ export default function HospitalList() {
             <StCard
               key={item.id}
               onClick={() => {
-                navigate(`/hostpital/${item.id}`);
+                navigate(`/cafe/${item.id}`);
               }}
             >
               <div>{item.id}</div>
@@ -72,7 +62,9 @@ export default function HospitalList() {
       </StCards>
     </>
   );
-}
+};
+
+export default CafeList;
 
 const StPlace = styled.div`
   padding: 20px;
