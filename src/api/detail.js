@@ -2,7 +2,7 @@ import axios from "axios";
 import { instance } from "./axios";
 
 const getDetail = async (id) => {
-  const response = await instance.get(`/posts/${id}`);
+  const response = await instance.get(`${id}`);
   return response.data;
 };
 
