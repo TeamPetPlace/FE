@@ -35,7 +35,7 @@ const deletePost = async (id) => {
 const updatePost = async (payload) => {
   await instance
     .patch(
-      `/posts/${payload.id}`,
+      `${payload.id}`,
       {
         image: payload.image,
         category: payload.category,
@@ -44,11 +44,15 @@ const updatePost = async (payload) => {
         address: payload.address,
         lat: payload.lat,
         lng: payload.lng,
+        cost: payload.cost,
         ceo: payload.ceo,
         telNum: payload.telNum,
         startTime: payload.startTime,
         endTime: payload.endTime,
         closedDay: payload.closedDay,
+        aboolean1: payload.aboolean1,
+        aboolean2: payload.aboolean2,
+        feature1: payload.feature1,
       },
       {
         headers: {
