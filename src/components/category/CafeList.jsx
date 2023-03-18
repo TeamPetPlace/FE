@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import { ALLHospitalPost, ALLShopPost, getTitles } from "../../api/category";
+import { ALLCafePost, ALLHospitalPost, ALLShopPost, getTitles } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 
 const CafeList = () => {
@@ -11,7 +11,7 @@ const CafeList = () => {
   const [searchData, setSearchData] = useState([]);
   const navigate = useNavigate();
 
-  const { data } = useQuery("ALLShopPost", ALLShopPost, {
+  const { data } = useQuery("ALLCafePost", ALLCafePost, {
     onSuccess: (item) => {
       setCards(item.data.content); // setCards에 data를 넣어준다
     },
@@ -77,7 +77,7 @@ const StPlace = styled.div`
 
 const StCards = styled.div`
   width: 100%;
-  height: 500px;
+  height: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;
