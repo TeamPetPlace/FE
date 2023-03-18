@@ -3,7 +3,7 @@ import { instance } from "./axios";
 
 const addPost = async (formData) => {
   await instance
-    .post("/post", formData, {
+    .post("/write", formData, {
       headers: {
         "Content-Type":
           "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
@@ -69,7 +69,7 @@ const updatePost = async (payload) => {
 
 const checkTitle = async (payload) => {
   try {
-    const response = await instance.get("/postCheck", {
+    const response = await instance.get("/check_duplicate", {
       params: { title: payload },
     });
     console.log(response);

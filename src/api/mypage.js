@@ -8,7 +8,7 @@ const getMypage = async () => {
 
 const updateUser = async (payload) => {
   await instance
-    .put(
+    .patch(
       `/mypage`,
       {
         nickname: payload.nickname,

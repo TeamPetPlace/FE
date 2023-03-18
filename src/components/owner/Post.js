@@ -20,7 +20,6 @@ function Post() {
   const { kakao } = window;
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
-  const mapdata = lat + "," + lng;
 
   const handleSearch = (event) => {
     event.stopPropagation();
@@ -82,16 +81,20 @@ function Post() {
   };
 
   //업체 등록
-  const [category, categoryHandler] = useInput("");
   const [title, titleHandler] = useInput("");
+  const [category, categoryHandler] = useInput("");
   const [contents, contentsHandler] = useInput("");
+  const [image, setImage] = useState([]);
+  const [imgBase64, setImgBase64] = useState([]);
+  const [cost, setCostHandler] = useInput("");
   const [ceo, ceoHandler] = useInput("");
   const [telNum, telNumHandler] = useInput("");
   const [startTime, startTimeHandler] = useInput("");
   const [endTime, endTimeHandler] = useInput("");
   const [select, selectHandler] = useInput("");
-  const [image, setImage] = useState([]);
-  const [imgBase64, setImgBase64] = useState([]);
+  const [aboolean1, aboolean1Handler] = useInput("");
+  const [aboolean2, aboolean2Handler] = useInput("");
+  const [feature1, feature1Handler] = useInput("");
 
   const [buttonClicked, setButtonClicked] = useState(false);
   const [titleButtonClicked, setTitleButtonClicked] = useState(false);
@@ -144,17 +147,21 @@ function Post() {
     }
     const formData = new FormData();
     image.forEach((image, index) => formData.append("image", image));
-    formData.append("category", category);
     formData.append("title", title);
+    formData.append("category", category);
     formData.append("contents", contents);
-    formData.append("address", address);
     formData.append("lat", lat);
     formData.append("lng", lng);
+    formData.append("address", address);
+    formData.append("cost", cost);
     formData.append("ceo", ceo);
     formData.append("telNum", telNum);
     formData.append("startTime", startTime);
     formData.append("endTime", endTime);
     formData.append("closedDay", select);
+    formData.append("aboolean1", aboolean1);
+    formData.append("aboolean2", aboolean2);
+    formData.append("feature1", feature1);
     addPostMutation.mutate(formData);
     alert("작성 완료");
     navigate("/main");
@@ -310,7 +317,10 @@ function Post() {
               </div>
             </StLine>
             <StLine>
-              <StTitle>대표명</StTitle>
+              {category === "병원" && <StTitle>대표 수의사</StTitle>}
+              {(category === "미용" || category === "카페") && (
+                <StTitle>대표자</StTitle>
+              )}
               <StInput
                 type="text"
                 placeholder="대표명"
@@ -379,6 +389,156 @@ function Post() {
                 </div>
               </StErrorMsg>
             </div>
+            {category === "병원" && (
+              <div>
+                <div>
+                  <StTitle>기본 진료비</StTitle>
+                  <input
+                    type="text"
+                    placeholder="3-10만원"
+                    value={cost}
+                    onChange={setCostHandler}
+                  />
+                </div>
+                <div>
+                  야간진료:
+                  <label>
+                    가능
+                    <input
+                      type="radio"
+                      value="true"
+                      name="aboolean1"
+                      checked={aboolean1 === "true"}
+                      onChange={aboolean1Handler}
+                    />
+                  </label>
+                  <label>
+                    불가능
+                    <input
+                      type="radio"
+                      value="false"
+                      name="aboolean1"
+                      checked={aboolean1 === "false"}
+                      onChange={aboolean1Handler}
+                    />
+                  </label>
+                </div>
+                <div>
+                  <StTitle>진료항목</StTitle>
+                  <input
+                    type="text"
+                    placeholder="중성화, 슬개골 수술…"
+                    value={feature1}
+                    onChange={feature1Handler}
+                  />
+                </div>
+              </div>
+            )}
+            {category === "미용" && (
+              <div>
+                <div>
+                  <StTitle>기본 미용비</StTitle>
+                  <input
+                    type="text"
+                    placeholder="3-10만원"
+                    value={cost}
+                    onChange={setCostHandler}
+                  />
+                </div>
+                <div>
+                  주차여부:
+                  <label>
+                    가능
+                    <input
+                      type="radio"
+                      value="true"
+                      name="aboolean1"
+                      checked={aboolean1 === "true"}
+                      onChange={aboolean1Handler}
+                    />
+                  </label>
+                  <label>
+                    불가능
+                    <input
+                      type="radio"
+                      value="false"
+                      name="aboolean1"
+                      checked={aboolean1 === "false"}
+                      onChange={aboolean1Handler}
+                    />
+                  </label>
+                </div>
+                <div>
+                  예약여부:
+                  <label>
+                    필요
+                    <input
+                      type="radio"
+                      value="true"
+                      name="aboolean2"
+                      checked={aboolean2 === "true"}
+                      onChange={aboolean2Handler}
+                    />
+                  </label>
+                  <label>
+                    불필요
+                    <input
+                      type="radio"
+                      value="false"
+                      name="aboolean2"
+                      checked={aboolean2 === "false"}
+                      onChange={aboolean2Handler}
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
+            {category === "카페" && (
+              <div>
+                <div>
+                  <StTitle>입장료</StTitle>
+                  <input
+                    type="text"
+                    placeholder="3-10만원"
+                    value={cost}
+                    onChange={setCostHandler}
+                  />
+                </div>
+                <div>
+                  주차여부:
+                  <label>
+                    가능
+                    <input
+                      type="radio"
+                      value="true"
+                      name="aboolean1"
+                      checked={aboolean1 === "true"}
+                      onChange={aboolean1Handler}
+                    />
+                  </label>
+                  <label>
+                    불가능
+                    <input
+                      type="radio"
+                      value="false"
+                      name="aboolean1"
+                      checked={aboolean1 === "false"}
+                      onChange={aboolean1Handler}
+                    />
+                  </label>
+                </div>
+                <div>
+                  <StTitle>부대시설</StTitle>
+                  <input
+                    type="text"
+                    placeholder="수영장, 운동장…"
+                    value={feature1}
+                    onChange={feature1Handler}
+                  />
+                </div>
+              </div>
+            )}
+
             <div>
               <StLine>
                 <StTitle>업체사진</StTitle>
