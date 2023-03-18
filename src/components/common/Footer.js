@@ -15,7 +15,6 @@ function Footer() {
             Frontend
             <StLi>남궁윤서</StLi>
             <StLi>신은진</StLi>
-            <StLi>지설희</StLi>
           </StUl>
           <StUl>
             Backend

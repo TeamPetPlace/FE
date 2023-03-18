@@ -513,6 +513,8 @@ const HospitalDetailForm = () => {
                 detail={detail}
                 setDetail={setDetail}
               />
+              <div>리뷰수:{detail.reviewCount}</div>
+              <div>평균평점:{detail.star}</div>
               <div>
                 지도
                 <Map
