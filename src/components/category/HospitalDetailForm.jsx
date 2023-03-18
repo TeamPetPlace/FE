@@ -517,7 +517,12 @@ const HospitalDetailForm = () => {
               <div>평균평점:{detail.star}</div>
               <div>
                 지도
-                <Map />
+                <Map
+                  id={id}
+                  queryClient={queryClient}
+                  detail={detail}
+                  setDetail={setDetail}
+                />
               </div>
             </StWrap>
           )}
