@@ -3,12 +3,12 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import { ALLHospitalPost, getTitles } from "../../api/category";
+import { ALLHospitalPost, getTitles, HospitalSearch } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 
 export default function HospitalList() {
   const [cards, setCards] = useState([]);
-  const [searchData, setSearchData] = useState([]);
+  const [searchTitle, setSearchTitle] = useState();
   const navigate = useNavigate();
 
   const { data } = useQuery("ALLHospitalPost", ALLHospitalPost, {
@@ -16,17 +16,18 @@ export default function HospitalList() {
       setCards(item.data.content); // setCards에 data를 넣어준다
     },
   });
-  console.log(cards);
+  // console.log(cards);
 
-  // const response = useQuery("getTitles", getTitles, {
-  //   onSuccess: (item) => {
-  //     setSearchData(item);
-  //   },
-  // });
-  // console.log(searchData[0]);
-
-  const handleClick = (e) => {
-    e.preventDefault();
+  const onSearchHandler = async (e) => {
+    // e.preventDefault();
+    // console.log(searchTitle);
+    const response = await HospitalSearch({
+      keyword: "병원",
+      keyword2: searchTitle,
+    });
+    console.log(response);
+    // setCards(data.response);
+    setSearchTitle("");
   };
 
   return (
@@ -41,14 +42,17 @@ export default function HospitalList() {
             style={{ width: "300px" }}
             type="text"
             placeholder="검색할 명칭을 입력해주세요"
-            // value={searchData}
+            value={searchTitle || ""}
+            onChange={(e) => {
+              setSearchTitle(e.target.value);
+            }}
           />
-          <button onClick={handleClick}>
+          <button onClick={onSearchHandler}>
             <GoSearch />
           </button>
         </div>
         <select>
-          <option value="lang"> 근거리순 </option>
+          <option> 근거리순 </option>
           <option> 평점순</option>
           <option> 후기순</option>
         </select>
@@ -85,7 +89,7 @@ const StPlace = styled.div`
 
 const StCards = styled.div`
   width: 100%;
-  height: 500px;
+  height: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;

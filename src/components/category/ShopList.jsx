@@ -83,7 +83,7 @@ const StPlace = styled.div`
 
 const StCards = styled.div`
   width: 100%;
-  height: 500px;
+  height: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;
