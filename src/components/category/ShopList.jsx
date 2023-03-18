@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import { ALLHospitalPost, getTitles } from "../../api/category";
+import { ALLShopPost, getTitles } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 
-export default function HospitalList() {
+const ShopList = () => {
   const [cards, setCards] = useState([]);
   const [searchData, setSearchData] = useState([]);
   const navigate = useNavigate();
 
-  const { data } = useQuery("ALLHospitalPost", ALLHospitalPost, {
+  const { data } = useQuery("ALLShopPost", ALLShopPost, {
     onSuccess: (item) => {
       setCards(item.data.content); // setCards에 data를 넣어준다
     },
@@ -32,10 +31,7 @@ export default function HospitalList() {
   return (
     <>
       <StPlace>
-        <h2>
-          병원
-          <MdLocalHospital />
-        </h2>
+        <h2>미용</h2>
         <div>
           <input
             style={{ width: "300px" }}
@@ -59,7 +55,7 @@ export default function HospitalList() {
             <StCard
               key={item.id}
               onClick={() => {
-                navigate(`/hostpital/${item.id}`);
+                navigate(`/shop/${item.id}`);
               }}
             >
               <div>{item.id}</div>
@@ -72,7 +68,9 @@ export default function HospitalList() {
       </StCards>
     </>
   );
-}
+};
+
+export default ShopList;
 
 const StPlace = styled.div`
   padding: 20px;
