@@ -145,6 +145,9 @@ function Post() {
     if (titleButtonClicked === false) {
       return alert("업체명 중복확인을 해주세요");
     }
+    if (isTitle === false) {
+      return alert("이미 존재하는 업체명입니다");
+    }
     const formData = new FormData();
     image.forEach((image, index) => formData.append("image", image));
     formData.append("title", title);
@@ -164,7 +167,13 @@ function Post() {
     formData.append("feature1", feature1);
     addPostMutation.mutate(formData);
     alert("작성 완료");
-    navigate("/main");
+    if (category === "병원") {
+      navigate("/hosipta");
+    } else if (category === "미용") {
+      navigate("/shop");
+    } else {
+      navigate("/cafe");
+    }
   };
 
   //이미지 프리뷰
@@ -348,7 +357,7 @@ function Post() {
                   value={startTime}
                   onChange={startTimeHandler}
                   size="small"
-                />{" "}
+                />
                 :
                 <StInput
                   type="text"

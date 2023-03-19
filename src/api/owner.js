@@ -21,7 +21,7 @@ const addPost = async (formData) => {
 
 const deletePost = async (id) => {
   await instance
-    .delete(`/posts/${id}`)
+    .delete(`${id}`)
     .then((response) => {
       return response;
     })
@@ -38,8 +38,8 @@ const updatePost = async (payload) => {
       `${payload.id}`,
       {
         image: payload.image,
-        category: payload.category,
         title: payload.title,
+        category: payload.category,
         contents: payload.contents,
         address: payload.address,
         lat: payload.lat,
