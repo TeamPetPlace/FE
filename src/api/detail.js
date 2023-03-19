@@ -9,7 +9,7 @@ const getDetail = async (id) => {
 const addReview = async (payload) => {
   await instance
     .post(
-      `/post/${payload.id}/reviews`,
+      `${payload.id}/review`,
       {
         review: payload.review,
         image: payload.image,
@@ -33,7 +33,7 @@ const addReview = async (payload) => {
 
 const deleteReview = async (id) => {
   await instance
-    .delete(`/post/reviews/${id}`)
+    .delete(`/review/${id}`)
     .then((response) => {
       return response;
     })
@@ -44,9 +44,13 @@ const deleteReview = async (id) => {
     });
 };
 
-const updateReview = async (payload) => {
+const updateReviews = async (payload) => {
   await instance
-    .put(`/post/reviews/${payload.reviewId}`, payload)
+    .put(`review/${payload.reviewId}`, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
     .then((response) => {
       console.log(payload.reviewId);
       return response;
@@ -58,4 +62,4 @@ const updateReview = async (payload) => {
     });
 };
 
-export { getDetail, addReview, deleteReview, updateReview };
+export { getDetail, addReview, deleteReview, updateReviews };

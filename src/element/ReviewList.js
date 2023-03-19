@@ -3,10 +3,31 @@ import { useCookies } from "react-cookie";
 import { useMutation } from "react-query";
 import styled from "styled-components";
 import { instance } from "../api/axios";
-import { deleteReview, updateReview } from "../api/detail";
+import { deleteReview, updateReviews } from "../api/detail";
 
 function ReviewList({ id, queryClient, detail, setDetail }) {
   const [cookies] = useCookies(["access_token", "email"]);
+  const [checked, setChecked] = useState([true, false, false]);
+  const [tab, setTab] = useState("all");
+
+  const reviewTabList = [
+    { id: 0, text: "전체후기", category: "all" },
+    { id: 1, text: "텍스트후기", category: "textReview" },
+    { id: 2, text: "사진후기", category: "photoReview" },
+  ];
+
+  const reviewClickHandler = (i) => {
+    const newArr = Array(reviewTabList.length).fill(false);
+    newArr[i] = true;
+    setChecked(newArr);
+    if (i === 0) {
+      setTab("all");
+    } else if (i === 1) {
+      setTab("textReview");
+    } else {
+      setTab("photoReview");
+    }
+  };
 
   //후기 삭제
   const deleteReviewMutation = useMutation(deleteReview, {
@@ -34,39 +55,11 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
   const [clicked, setClicked] = useState(null);
 
   const onEditMode = (reviewId) => {
-    console.log(reviewId);
     setEdit({ reviewId: reviewId, isEdit: !edit.isEdit });
+    console.log(reviewId);
   };
 
-  // const [updateReviewMutation] = useMutation(
-  //   (payload) => instance.put(`/post/reviews/${payload.reviewId}`, payload),
-  //   {
-  //     onSuccess: () => {queryClient.invalidateQueries("getdetail")
-  //   },
-  //   mutationFn : async(payload) => {
-  //     const response = instance.put(`/post/reviews/${payload.reviewId}`, payload)
-  //     return response.data
-  //   }
-
-  // );
-
-  // const [updateReviewMutation] = useMutation(
-  //   (payload) => instance.patch(`/post/reviews/${payload.reviewId}`, payload),
-  //   {
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries("getdetail");
-  //     },
-  //     mutationFn: async (payload) => {
-  //       const response = instance.put(
-  //         `/post/reviews/${payload.reviewId}`,
-  //         payload
-  //       );
-  //       return response.data;
-  //     },
-  //   }
-  // );
-
-  const updateReviewMutation = useMutation((payload) => updateReview(payload), {
+  const updateReviewMutation = useMutation(updateReviews, {
     onSuccess: () => queryClient.invalidateQueries("getdetail"),
   });
 
@@ -76,14 +69,15 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
     formData.append("review", updateReview);
     formData.append("image", image);
     const payload = {
-      id: id,
       reviewId,
       review: updateReview,
       image: image,
       star: clicked,
     };
+    console.log(reviewId);
     updateReviewMutation.mutate(payload);
     alert("수정 완료");
+    // setDetail([...detail, updateReview]);
     onEditMode(reviewId);
   };
 
@@ -113,16 +107,25 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
     }
   };
 
-  console.log(detail);
-
   return (
     <div>
+      <div>
+        {reviewTabList?.map((item, i) => (
+          <button
+            key={i}
+            checked={checked[i]}
+            onClick={() => reviewClickHandler(i)}
+          >
+            {item.text}
+          </button>
+        ))}
+      </div>
       {detail?.review?.map((item) => (
         <StReview key={item.id}>
           {edit.reviewId === item.id && edit.isEdit === true ? (
             <>
               <form
-                onSubmit={onUpdateReviewHandler}
+                onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
                 encType="multipart/form-data"
               >
                 <input
@@ -166,24 +169,88 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
             </>
           ) : (
             <>
-              <div>{item.email}</div>
-              <div>{item.nickname}</div>
-              <div>{item.review}</div>
-              <StImg src={item.image} alt="img" />
-              {(item.star === 1 && <div>★</div>) ||
-                (item.star === 2 && <div>★★</div>) ||
-                (item.star === 3 && <div>★★★</div>) ||
-                (item.star === 4 && <div>★★★★</div>) ||
-                (item.star === 5 && <div>★★★★★</div>)}
-              <div>{item.star}</div>
-              {cookies.email === item.email && (
-                <div>
-                  <button onClick={() => onEditMode(item.id)}>수정</button>
-                  <button onClick={() => onDeletetReviewHandler(item.id)}>
-                    삭제
-                  </button>
-                </div>
-              )}
+              {tab === "all" ? (
+                <>
+                  <div>{item.email}</div>
+                  <div>{item.nickname}</div>
+                  <div>{item.review}</div>
+                  <div>{item.createdAt.slice(0, 10)}</div>
+                  {item.image === null ? (
+                    <img style={{ display: "none" }} />
+                  ) : (
+                    <StImg src={item.image} alt="img" />
+                  )}
+
+                  {(item.star === 1 && <div>★</div>) ||
+                    (item.star === 2 && <div>★★</div>) ||
+                    (item.star === 3 && <div>★★★</div>) ||
+                    (item.star === 4 && <div>★★★★</div>) ||
+                    (item.star === 5 && <div>★★★★★</div>)}
+                  <div>{item.star}</div>
+                  {cookies.email === item.email && (
+                    <div>
+                      <button onClick={() => onEditMode(item.id)}>수정</button>
+                      <button onClick={() => onDeletetReviewHandler(item.id)}>
+                        삭제
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : tab === "textReview" && item.image === null ? (
+                <>
+                  <div>{item.email}</div>
+                  <div>{item.nickname}</div>
+                  <div>{item.review}</div>
+                  <div>{item.createdAt.slice(0, 10)}</div>
+                  {item.image === null ? (
+                    <img style={{ display: "none" }} />
+                  ) : (
+                    <StImg src={item.image} alt="img" />
+                  )}
+
+                  {(item.star === 1 && <div>★</div>) ||
+                    (item.star === 2 && <div>★★</div>) ||
+                    (item.star === 3 && <div>★★★</div>) ||
+                    (item.star === 4 && <div>★★★★</div>) ||
+                    (item.star === 5 && <div>★★★★★</div>)}
+                  <div>{item.star}</div>
+                  {cookies.email === item.email && (
+                    <div>
+                      <button onClick={() => onEditMode(item.id)}>수정</button>
+                      <button onClick={() => onDeletetReviewHandler(item.id)}>
+                        삭제
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : tab === "photoReview" && item.image !== null ? (
+                <>
+                  <div>{item.email}</div>
+                  <div>{item.nickname}</div>
+                  <div>{item.review}</div>
+                  <div>{item.createdAt.slice(0, 10)}</div>
+                  {item.image === null ? (
+                    <img style={{ display: "none" }} />
+                  ) : (
+                    <StImg src={item.image} alt="img" />
+                  )}
+
+                  {(item.star === 1 && <div>★</div>) ||
+                    (item.star === 2 && <div>★★</div>) ||
+                    (item.star === 3 && <div>★★★</div>) ||
+                    (item.star === 4 && <div>★★★★</div>) ||
+                    (item.star === 5 && <div>★★★★★</div>)}
+                  <div>{item.star}</div>
+                  {cookies.email === item.email && (
+                    <div>
+                      <button onClick={() => onEditMode(item.id)}>수정</button>
+                      <button onClick={() => onDeletetReviewHandler(item.id)}>
+                        삭제
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : null}
             </>
           )}
         </StReview>
