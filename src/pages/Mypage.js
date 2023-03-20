@@ -12,7 +12,9 @@ function Mypage() {
   return (
     <Layout>
       <Header />
-      {cookies.loginType === "USER" && <UserMypage />}
+      {cookies.loginType === "USER" && cookies.loginType === "KAKAO_USER" && (
+        <UserMypage />
+      )}
       {cookies.loginType === "BUSINESS" && <BossMypage />}
       {/* <Footer/> */}
     </Layout>
