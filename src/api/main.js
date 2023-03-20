@@ -1,10 +1,42 @@
 import { instance } from "./axios";
+import axios from "axios";
+import { async } from "q";
 
-const getPost = async () => {
-  const response = await instance.get(
-    "/topPosts?category=미용&lat=177.256&lng=110.2233"
-  );
+const getPost = async (payload) => {
+  const response = await instance.get("/topPosts", {
+    params: {
+      category: payload.category,
+      lat: payload.lat,
+      lng: payload.lng,
+    },
+  });
   return response.data;
 };
 
-export { getPost };
+const addDibs = async (payload) => {
+  await instance
+    .post(`/${payload.id}/like`)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      if (axios.isAxiosError(err)) {
+        return alert(`Error : ${err.message}`);
+      }
+    });
+};
+
+const cancelDibs = async (payload) => {
+  await instance
+    .delete(`/${payload.id}/cancel`)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      if (axios.isAxiosError(err)) {
+        return alert(`Error : ${err.message}`);
+      }
+    });
+};
+
+export { getPost, addDibs, cancelDibs };

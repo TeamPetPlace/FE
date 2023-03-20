@@ -29,7 +29,7 @@ function User() {
   const [edit, setEdit] = useState(false);
   const [updateNick, setUpdateNick] = useState("");
   const [imgView, setImgView] = useState([]);
-  const [image, setImage] = useState();
+  const [image, setImage] = useState([]);
   const fileInput = useRef(null);
 
   const onImgButton = (event) => {
@@ -68,8 +68,8 @@ function User() {
     formData.append("image", image);
     const payload = {
       id: id,
-      nickname: formData.get("nickname"),
-      image: formData.get("image"),
+      nickname: updateNick,
+      image: image,
     };
     updateMutation.mutate(payload);
     onEditMode();
@@ -131,7 +131,15 @@ function User() {
         <>
           {mypage && (
             <>
-              <StImg src={mypage.image} alt="img" />
+              {mypage.image === null ? (
+                <StImg
+                  src="http://www.urbanbrush.net/web/wp-content/uploads/edd/2017/09/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7-2017-09-19-%EC%98%A4%ED%9B%84-2.17.32.png"
+                  alt="origin"
+                />
+              ) : (
+                <StImg src={mypage.image} alt="img" />
+              )}
+
               <StUserBox>
                 <StNick>
                   <div>닉네임:</div>

@@ -121,7 +121,6 @@ const HospitalDetailForm = () => {
   const { kakao } = window;
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
-  // const mapdata = lat + "," + lng;
 
   const handleSearch = (event) => {
     event.stopPropagation();
@@ -663,7 +662,10 @@ const HospitalDetailForm = () => {
                 </div>
                 <StBtns>
                   <StBtn size="medium">수정</StBtn>
-                  <StBtn onClick={() => navigate(`/hostpital/${id}`)} size="medium">
+                  <StBtn
+                    onClick={() => navigate(`/hospital/${id}`)}
+                    size="medium"
+                  >
                     취소
                   </StBtn>
                 </StBtns>

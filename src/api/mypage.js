@@ -8,18 +8,11 @@ const getMypage = async () => {
 
 const updateUser = async (payload) => {
   await instance
-    .patch(
-      `/mypage`,
-      {
-        nickname: payload.nickname,
-        image: payload.image,
+    .patch(`/mypage`, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
       },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    )
+    })
     .then((response) => {
       return response;
     })

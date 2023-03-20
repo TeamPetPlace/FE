@@ -1,49 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
+import { useNavigate } from "react-router";
 import styled, { css } from "styled-components";
-import { getPost } from "../../api/main";
+import { addDibs, cancelDibs, getPost } from "../../api/main";
 
 function Tab() {
-  const { data } = useQuery("getPost", getPost, {
-    onSuccess: (response) => {
-      setDataList(response);
-      console.log(response);
-    },
-  });
-
-  //메인 탭
-  const mainTabList = [
-    { id: 0, text: "병원", category: "hospital" },
-    { id: 1, text: "미용", category: "shop" },
-    { id: 2, text: "카페", category: "cafe" },
-  ];
-
-  const [checked, setChecked] = useState([true, false, false]);
-  const [category, setCategory] = useState("hospital");
-
-  //메인 카드
-  const [dataList, setDataList] = useState([
-    { id: 0, text: "병원", category: "hospital" },
-    { id: 1, text: "미용", category: "shop" },
-    { id: 2, text: "카페", category: "cafe" },
-  ]);
-
-  const onClickHandler = (i) => {
-    const newArr = Array(mainTabList.length).fill(false);
-    newArr[i] = true;
-    setChecked(newArr);
-    if (i === 0) {
-      setCategory("hospital");
-    } else if (i === 1) {
-      setCategory("shop");
-    } else if (i === 2) {
-      setCategory("cafe");
-    }
-  };
-
-  //내 위치 플레이스
-  const [userLocation, setUserLocation] = useState(null);
-  const [locationData, setDataLocation] = useState([]);
+  const [category, setCategory] = useState("병원");
+  const navigate = useNavigate();
 
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
@@ -64,55 +32,84 @@ function Tab() {
     );
   };
 
-  // //현재 사용자의 위치 정보
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       const { latitude, longitude } = position.coords;
-  //       setUserLocation({ latitude, longitude });
-  //       console.log(`현재위치:  (${latitude}, ${longitude})`);
-  //     });
-  //   } else {
-  //     console.log("geolocation ");
-  //   }
-  // }, []);
-
-  //userlocation이 변경될 때 마다 데이터를 가져와서 정렬
-  //데이터들로 새로운 객체를 만들고 거리를 계산
-  useEffect(() => {
-    if (userLocation) {
-      const newData = locationData.map((item) => {
-        const { latitude, longitude } = item.location;
-        const distance = getDistance(
-          userLocation[0],
-          userLocation[1],
-          latitude,
-          longitude
-        );
-        return {
-          ...item,
-          distance,
-        };
-      });
-      newData.sort((a, b) => a.distance - b.distance);
-      setDataLocation(newData);
+  const { data } = useQuery(
+    [
+      "getPost",
+      {
+        category: category,
+        lat: lat,
+        lng: lng,
+      },
+    ],
+    () =>
+      getPost({
+        category: category,
+        lat: lat,
+        lng: lng,
+      }),
+    {
+      onSuccess: (response) => {
+        return response;
+      },
     }
-  }, [userLocation]);
+  );
 
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    const radlat1 = (Math.PI * lat1) / 180;
-    const radlat2 = (Math.PI * lat2) / 180;
-    const radlon1 = (Math.PI * lon1) / 180;
-    const radlon2 = (Math.PI * lon2) / 180;
-    const theta = lon1 - lon2;
-    const radtheta = (Math.PI * theta) / 180;
-    let dist =
-      Math.sin(radlat1) * Math.sin(radlat2) +
-      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    dist = Math.acos(dist);
-    dist = (dist * 180) / Math.PI;
-    dist = dist * 60 * 1.1515 * 1.609344; // km 단위로 변환
-    return dist;
+  useEffect(() => {
+    onLocationHandler();
+  }, []);
+
+  //메인 탭
+  const mainTabList = [
+    { id: 0, text: "병원", category: "병원" },
+    { id: 1, text: "미용", category: "미용" },
+    { id: 2, text: "카페", category: "카페" },
+  ];
+
+  const [checked, setChecked] = useState([true, false, false]);
+
+  const onClickHandler = (i) => {
+    const newArr = Array(mainTabList.length).fill(false);
+    newArr[i] = true;
+    setChecked(newArr);
+    if (i === 0) {
+      setCategory("병원");
+    } else if (i === 1) {
+      setCategory("미용");
+    } else if (i === 2) {
+      setCategory("카페");
+    }
+  };
+
+  //찜하기
+  const [dibs, setDibs] = useState(false);
+  const queryClient = useQueryClient();
+
+  const addDibsMutation = useMutation(addDibs, {
+    onSuccess: () => {
+      alert("찜하기");
+      setDibs(true);
+      queryClient.invalidateQueries("getPost");
+    },
+  });
+
+  const cancelDibsMutation = useMutation(cancelDibs, {
+    onSuccess: () => {
+      alert("찜하기 취소");
+      setDibs(false);
+      queryClient.invalidateQueries("getPost");
+    },
+  });
+
+  const onDibsHandler = (id) => {
+    if (dibs === false) {
+      addDibsMutation.mutate({ id });
+      setDibs(true);
+    } else if (dibs === true) {
+      cancelDibsMutation.mutate({ id });
+      setDibs(false);
+    }
+
+    console.log(dibs);
   };
 
   return (
@@ -124,47 +121,95 @@ function Tab() {
             key={i}
             checked={checked[i]}
             onClick={() => onClickHandler(i)}
+            value={category}
           >
             {item.text}
           </button>
         ))}
       </div>
-      {/* <div>
-        {locationData.map((item) => (
-          <div key={item.id}>
-            <p>{item.address}</p>
-            <p>
-              소수점 아래 두 자리까지 반올림한 값 + km :
-              {`${item.distance.toFixed(2)} km`}
-            </p>
-          </div>
-        ))}
-      </div> */}
       <StTabBox>
-        {category === "hospital"
-          ? dataList?.map((item, i) => (
-              <StCard key={i} color="hospital">
-                {item.category}
-              </StCard>
+        {category === "병원" && (
+          <div onClick={() => navigate("/hospital")}>내 위치 펫플레이스</div>
+        )}
+        {category === "미용" && (
+          <div onClick={() => navigate("/shop")}>내 위치 펫플레이스</div>
+        )}
+        {category === "카페" && (
+          <div onClick={() => navigate("/cafe")}>내 위치 펫플레이스</div>
+        )}
+
+        {category === "병원"
+          ? data &&
+            data.length > 0 &&
+            data.map((item, i) => (
+              <>
+                <StCard
+                  key={i}
+                  onClick={() => navigate(`/hospital/${item.id}`)}
+                >
+                  <div>{item.category}</div>
+                  <div>{item.title}</div>
+                  <div>{item.address}</div>
+                  <div>
+                    {parseInt(item.distance) > 999 && (
+                      <div>
+                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
+                        km남음
+                      </div>
+                    )}
+                    {parseInt(item.distance) < 999 && (
+                      <div>{parseInt(item.distance)}m남음</div>
+                    )}
+                  </div>
+                  <img src={item.reSizeImage} alt="mainImg" />
+                </StCard>
+
+                <button onClick={() => onDibsHandler(item.id)}>
+                  {item.like === false ? "찜하기" : "찜하기 취소"}
+                </button>
+              </>
             ))
-          : category === "shop"
-          ? dataList?.map((item, i) => (
-              <StCard key={i} color="shop">
+          : category === "미용"
+          ? data &&
+            data.length > 0 &&
+            data.map((item, i) => (
+              <StCard key={i} onClick={() => navigate(`/shop/${item.id}`)}>
                 <div>{item.category}</div>
                 <div>{item.title}</div>
                 <div>{item.address}</div>
+                {parseInt(item.distance) > 999 && (
+                  <div>
+                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                  </div>
+                )}
+                {parseInt(item.distance) < 999 && (
+                  <div>{parseInt(item.distance)}m남음</div>
+                )}
                 <img src={item.reSizeImage} alt="mainImg" />
               </StCard>
             ))
-          : category === "cafe"
-          ? dataList?.map((item, i) => (
-              <StCard key={i} color="cafe">
-                {item.category}
+          : category === "카페"
+          ? data &&
+            data.length > 0 &&
+            data.map((item, i) => (
+              <StCard key={i} onClick={() => navigate(`/cafe/${item.id}`)}>
+                <div>{item.category}</div>
+                <div>{item.title}</div>
+                <div>{item.address}</div>
+                {parseInt(item.distance) > 999 && (
+                  <div>
+                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                  </div>
+                )}
+                {parseInt(item.distance) < 999 && (
+                  <div>{parseInt(item.distance)}m남음</div>
+                )}
+                <img src={item.reSizeImage} alt="mainImg" />
               </StCard>
             ))
-          : dataList?.map((item, i) => (
-              <StCard key={i}>{item.category}</StCard>
-            ))}
+          : data &&
+            data.length > 0 &&
+            data.map((item, i) => <StCard key={i}>{item.category}</StCard>)}
       </StTabBox>
     </div>
   );
@@ -180,24 +225,5 @@ const StCard = styled.div`
   width: 200px;
   height: 200px;
   border: 1px solid black;
-  ${({ color }) => {
-    switch (color) {
-      case "hospital":
-        return css`
-          background-color: aqua;
-        `;
-      case "shop":
-        return css`
-          background-color: tomato;
-        `;
-      case "cafe":
-        return css`
-          background-color: beige;
-        `;
-      default:
-        return css`
-          background-color: transparent;
-        `;
-    }
-  }}
+  cursor: pointer;
 `;
