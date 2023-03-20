@@ -14,7 +14,7 @@ function Review({ id, queryClient }) {
   //후기 작성
   const [review, setReview] = useState("");
   const [imgView, setImgView] = useState([]);
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(null);
 
   const addReviewMutation = useMutation(addReview, {
     onSuccess: () => queryClient.invalidateQueries("getdetail"),
@@ -22,7 +22,7 @@ function Review({ id, queryClient }) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    if (review.trim() === "" || !image) return alert("내용을 입력해주세요");
+    if (review.trim() === "") return alert("내용을 입력해주세요");
     const formData = new FormData();
     formData.append("review", review);
     formData.append("image", image);
@@ -34,6 +34,9 @@ function Review({ id, queryClient }) {
     };
     addReviewMutation.mutate(payload);
     alert("후기 작성 완료");
+    setReview("");
+    setImgView("");
+    setImage("");
   };
 
   //이미지 미리보기
@@ -74,9 +77,10 @@ function Review({ id, queryClient }) {
           />
           <button onClick={onImgButton}>이미지 업로드</button>
           <div>
-            {imgView.map((item, index) => {
-              return <StImg src={item} alt="img" key={index} />;
-            })}
+            {imgView.length > 0 &&
+              imgView.map((item, index) => {
+                return <StImg src={item} alt="img" key={index} />;
+              })}
           </div>
           <input
             type="file"

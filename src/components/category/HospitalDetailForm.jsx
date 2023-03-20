@@ -6,7 +6,7 @@ import Map from "../../element/Map";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getDetail } from "../../api/detail";
 import { useCookies } from "react-cookie";
-import { deletePost, updatePost } from "../../api/owner";
+import { checkTitle, deletePost, updatePost } from "../../api/owner";
 import PopupDom from "../owner/Popup";
 import DaumPostcode from "react-daum-postcode";
 import Review from "../../element/Review";
@@ -41,7 +41,7 @@ const HospitalDetailForm = () => {
   const queryClient = useQueryClient();
   const deletPostMutation = useMutation(deletePost, {
     onSuccess: () => {
-      queryClient.invalidateQueries("getCards");
+      queryClient.invalidateQueries("ALLHospitalPost");
     },
   });
 
@@ -57,38 +57,63 @@ const HospitalDetailForm = () => {
 
   //게시글 수정
   const [edit, setEdit] = useState(false);
-  const [upCategory, setUpCategory] = useState("");
   const [upTitle, setUpTitle] = useState("");
+  const [upCategory, setUpCategory] = useState("");
   const [upContents, setUpContents] = useState("");
+  const [upImage, setUpImage] = useState([]);
+  const [upImgBase64, setUpImgBase64] = useState([]);
+  const [upCost, setUpCost] = useState("");
   const [upCeo, setUpCeo] = useState("");
   const [upTelNum, setUpTelNum] = useState("");
   const [upStartTime, setUpStartTime] = useState("");
   const [upEndTime, setUpEndTime] = useState("");
   const [upSelect, setUpSelect] = useState("");
-  const [upImage, setUpImage] = useState([]);
-  const [upImgBase64, setUpImgBase64] = useState([]);
+  const [upAboolean1, setUpAboolean1] = useState("");
+  const [upAboolean2, setUpAboolean2] = useState("");
+  const [upFeature1, setUpFeature1] = useState("");
 
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [titleButtonClicked, setTitleButtonClicked] = useState(false);
 
   const maxImage = 4;
 
-  const onTestHandler = (event) => {
+  //업체 중복확인
+  const [isTitle, setIsTitle] = useState(false);
+  const checkTitleMutation = useMutation(checkTitle, {
+    onSuccess: (response) => {
+      response ? setIsTitle(true) : setIsTitle(false);
+      if (response) {
+        setIsTitle(true);
+        alert("등록 가능한 업체명입니다.");
+      } else {
+        setIsTitle(false);
+        alert("이미 존재하는 업체명입니다.");
+      }
+    },
+  });
+
+  const checkTitleHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    if (!event.target.value.trim()) return;
+    setTitleButtonClicked(true);
+    checkTitleMutation.mutate(event.target.value);
   };
 
   //수정 모드
   const onEditMode = () => {
     if (detail) {
       setEdit(!edit);
-      setUpCategory(detail.category);
       setUpTitle(detail.title);
+      setUpCategory(detail.category);
       setUpContents(detail.contents);
+      setUpCost(detail.cost);
       setUpCeo(detail.ceo);
       setUpTelNum(detail.telNum);
       setUpStartTime(detail.startTime);
       setUpEndTime(detail.endTime);
       setUpSelect(detail.closedDay);
+      setUpFeature1(detail.feature1);
     }
   };
 
@@ -198,33 +223,62 @@ const HospitalDetailForm = () => {
 
   const onUpdateHandler = (event) => {
     event.preventDefault();
+    if (
+      upCategory.trim() === "" ||
+      upTitle.trim() === "" ||
+      upContents.trim() === "" ||
+      address.trim() === "" ||
+      upCeo.trim() === "" ||
+      upTelNum.trim() === "" ||
+      upStartTime.trim() === "" ||
+      upEndTime.trim() === "" ||
+      !upImage
+    )
+      return alert("빈칸을 모두 채워주세요");
+    if (buttonClicked === false) {
+      return alert("주소 확인을 해주세요");
+    }
+    if (titleButtonClicked === false) {
+      return alert("업체명 중복확인을 해주세요");
+    }
+    if (isTitle === false) {
+      return alert("이미 존재하는 업체명입니다");
+    }
     const formData = new FormData();
     upImage.forEach((upImage, index) => formData.append("image", upImage));
-    formData.append("category", upCategory);
     formData.append("title", upTitle);
+    formData.append("category", upCategory);
     formData.append("contents", upContents);
     formData.append("address", address);
     formData.append("lat", lat);
     formData.append("lng", lng);
+    formData.append("cost", upCost);
     formData.append("ceo", upCeo);
     formData.append("telNum", upTelNum);
     formData.append("startTime", upStartTime);
     formData.append("endTime", upEndTime);
     formData.append("closedDay", upSelect);
+    formData.append("aboolean1", upAboolean1);
+    formData.append("aboolean2", upAboolean2);
+    formData.append("feature1", upFeature1);
     const payload = {
       id: id,
       image: upImage,
-      category: upCategory,
       title: upTitle,
+      category: upCategory,
       contents: upContents,
       address: address,
       lat: lat,
       lng: lng,
+      cost: upCost,
       ceo: upCeo,
       telNum: upTelNum,
       startTime: upStartTime,
       endTime: upEndTime,
       closedDay: upSelect,
+      aboolean1: upAboolean1,
+      aboolean2: upAboolean2,
+      feature1: upFeature1,
     };
     updatePostMutation.mutate(payload);
     onEditMode();
@@ -291,10 +345,25 @@ const HospitalDetailForm = () => {
                       setUpTitle(event.target.value);
                     }}
                   />
-                  <StBtn onClick={onTestHandler} size="medium">
+                  <StBtn
+                    onClick={checkTitleHandler}
+                    value={upTitle}
+                    size="medium"
+                  >
                     중복확인
                   </StBtn>
                 </StLine>
+                <StErrorMsg
+                  style={{
+                    height: "20px",
+                    paddingLeft: "60px",
+                    marginTop: "-25px",
+                  }}
+                >
+                  {titleButtonClicked === false ? (
+                    <p>업체명 중복확인을 해주세요</p>
+                  ) : null}
+                </StErrorMsg>
                 <div>
                   <StTitle>소개</StTitle>
                   <StText
@@ -350,7 +419,10 @@ const HospitalDetailForm = () => {
                   </div>
                 </StLine>
                 <StLine>
-                  <StTitle>대표명</StTitle>
+                  {upCategory === "병원" && <StTitle>대표 수의사</StTitle>}
+                  {(upCategory === "미용" || upCategory === "카페") && (
+                    <StTitle>대표자</StTitle>
+                  )}
                   <StInput
                     type="text"
                     placeholder="대표명"
@@ -432,6 +504,166 @@ const HospitalDetailForm = () => {
                     </div>
                   </StErrorMsg>
                 </div>
+                {upCategory === "병원" && (
+                  <div>
+                    <div>
+                      <StTitle>기본 진료비</StTitle>
+                      <input
+                        type="text"
+                        value={upCost}
+                        onChange={(event) => setUpCost(event.target.value)}
+                      />
+                    </div>
+                    <div>
+                      야간진료:
+                      <label>
+                        가능
+                        <input
+                          type="radio"
+                          value="true"
+                          name="aboolean1"
+                          checked={upAboolean1 === "true"}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
+                        />
+                      </label>
+                      <label>
+                        불가능
+                        <input
+                          type="radio"
+                          value="false"
+                          name="upAboolean1"
+                          checked={upAboolean1 === "false"}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      <StTitle>진료항목</StTitle>
+                      <input
+                        type="text"
+                        value={upFeature1}
+                        onChange={(event) => setUpFeature1(event.target.value)}
+                      />
+                    </div>
+                  </div>
+                )}
+                {upCategory === "미용" && (
+                  <div>
+                    <div>
+                      <StTitle>기본 미용비</StTitle>
+                      <input
+                        type="text"
+                        value={upCost}
+                        onChange={(event) => setUpCost(event.target.value)}
+                      />
+                    </div>
+                    <div>
+                      주차여부:
+                      <label>
+                        가능
+                        <input
+                          type="radio"
+                          value="true"
+                          name="upAboolean1"
+                          checked={upAboolean1 === "true"}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
+                        />
+                      </label>
+                      <label>
+                        불가능
+                        <input
+                          type="radio"
+                          value="false"
+                          name="upAboolean1"
+                          checked={upAboolean1 === "false"}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      예약여부:
+                      <label>
+                        필요
+                        <input
+                          type="radio"
+                          value="true"
+                          name="upAboolean2"
+                          checked={upAboolean2 === "true"}
+                          onChange={(event) =>
+                            setUpAboolean2(event.target.value)
+                          }
+                        />
+                      </label>
+                      <label>
+                        불필요
+                        <input
+                          type="radio"
+                          value="false"
+                          name="upAboolean2"
+                          checked={upAboolean2 === "false"}
+                          onChange={(event) =>
+                            setUpAboolean2(event.target.value)
+                          }
+                        />
+                      </label>
+                    </div>
+                  </div>
+                )}
+                {upCategory === "카페" && (
+                  <div>
+                    <div>
+                      <StTitle>입장료</StTitle>
+                      <input
+                        type="text"
+                        value={upCost}
+                        onChange={(event) => setUpCost(event.target.value)}
+                      />
+                    </div>
+                    <div>
+                      주차여부:
+                      <label>
+                        가능
+                        <input
+                          type="radio"
+                          value="true"
+                          name="upAboolean1"
+                          checked={upAboolean1 === "true"}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
+                        />
+                      </label>
+                      <label>
+                        불가능
+                        <input
+                          type="radio"
+                          value="false"
+                          name="upAboolean1"
+                          checked={upAboolean1 === "false"}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      <StTitle>부대시설</StTitle>
+                      <input
+                        type="text"
+                        value={upFeature1}
+                        onChange={(event) => setUpFeature1(event.target.value)}
+                      />
+                    </div>
+                  </div>
+                )}
                 <div>
                   <StLine>
                     <StTitle>업체사진</StTitle>
@@ -513,7 +745,7 @@ const HospitalDetailForm = () => {
                 detail={detail}
                 setDetail={setDetail}
               />
-              <div>리뷰수:{detail.reviewCount}</div>
+              <div>전체 리뷰수:{detail.reviewCount}</div>
               <div>평균평점:{detail.star}</div>
               <div>
                 지도

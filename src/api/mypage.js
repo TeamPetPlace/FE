@@ -36,7 +36,8 @@ const getMyPost = async () => {
 };
 
 const getMyReview = async () => {
-  const response = await instance.get("/myreview");
+  const response = await instance.get("/review");
+  console.log(response);
   return response.data;
 };
 

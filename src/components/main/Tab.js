@@ -6,7 +6,7 @@ import { getPost } from "../../api/main";
 function Tab() {
   const { data } = useQuery("getPost", getPost, {
     onSuccess: (response) => {
-      setDataList(response.data.response);
+      setDataList(response);
       console.log(response);
     },
   });
@@ -129,40 +129,41 @@ function Tab() {
           </button>
         ))}
       </div>
-      <div>
+      {/* <div>
         {locationData.map((item) => (
           <div key={item.id}>
             <p>{item.address}</p>
             <p>
-              소수점 아래 두 자리가지 반올림한 값 + km :
+              소수점 아래 두 자리까지 반올림한 값 + km :
               {`${item.distance.toFixed(2)} km`}
             </p>
           </div>
         ))}
-      </div>
+      </div> */}
       <StTabBox>
         {category === "hospital"
           ? dataList?.map((item, i) => (
               <StCard key={i} color="hospital">
-                {item.text} - {item.category}
+                {item.category}
               </StCard>
             ))
           : category === "shop"
           ? dataList?.map((item, i) => (
               <StCard key={i} color="shop">
-                {item.text} - {item.category}
+                <div>{item.category}</div>
+                <div>{item.title}</div>
+                <div>{item.address}</div>
+                <img src={item.reSizeImage} alt="mainImg" />
               </StCard>
             ))
           : category === "cafe"
           ? dataList?.map((item, i) => (
               <StCard key={i} color="cafe">
-                {item.text} - {item.category}
+                {item.category}
               </StCard>
             ))
           : dataList?.map((item, i) => (
-              <StCard key={i}>
-                {item.text} - {item.category}
-              </StCard>
+              <StCard key={i}>{item.category}</StCard>
             ))}
       </StTabBox>
     </div>
