@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
-import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import { SearchPost, AllPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +10,9 @@ const CafeList = () => {
   const [searchkeyword, setSearchKeyword] = useState();
   const [searchData, setSearchData] = useState([]);
   const [isSearchMode, setIsSearchMode] = useState(false);
+  const [sort, setSort] = useState();
   const navigate = useNavigate();
+  const queryclient = useQueryClient();
 
   const { data } = useQuery(
     [
@@ -37,6 +38,7 @@ const CafeList = () => {
     {
       onSuccess: (item) => {
         setCards(item.data.content);
+        queryclient.invalidateQueries("getPost");
       },
     }
   );
@@ -58,6 +60,12 @@ const CafeList = () => {
     setSearchData(data.response);
   };
 
+  const onSelectHandler = (e) => {
+    e.preventDefault();
+    setSort(e.target.value);
+    document.getElementById("sorting");
+  };
+
   return (
     <>
       <StPlace>
@@ -76,10 +84,10 @@ const CafeList = () => {
             <GoSearch />
           </button>
         </div>
-        <select>
-          <option> 근거리순 </option>
-          <option> 평점순</option>
-          <option> 후기순</option>
+        <select id="sorting" onChange={onSelectHandler}>
+          <option value="DISTANCE"> 근거리순 </option>
+          <option value="STAR"> 평점순</option>
+          <option value="REVIEW"> 후기순</option>
         </select>
       </StPlace>
       {!isSearchMode ? (
@@ -92,7 +100,7 @@ const CafeList = () => {
                   navigate(`/cafe/${item.id}`);
                 }}
               >
-                <div>별점 : {item.star}</div>
+                <div>별점 : {"⭐".repeat(item.star)}</div>
                 <div>카페 이름 : {item.title}</div>
                 <div>주소 : {item.address}</div>
                 {parseInt(item.distance) > 999 && (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { GoSearch } from "react-icons/go";
 import { AllPost, SearchPost } from "../../api/category";
@@ -11,6 +11,7 @@ const ShopList = () => {
   const [searchData, setSearchData] = useState([]);
   const [isSearchMode, setIsSearchMode] = useState(false);
   const navigate = useNavigate();
+  const queryclient = useQueryClient();
 
   const { data } = useQuery(
     [
@@ -36,6 +37,7 @@ const ShopList = () => {
     {
       onSuccess: (item) => {
         setCards(item.data.content);
+        queryclient.invalidateQueries("getPost");
       },
     }
   );
@@ -90,7 +92,7 @@ const ShopList = () => {
                   navigate(`/shop/${item.id}`);
                 }}
               >
-                <div>별점 : {item.star}</div>
+                <div>별점 : {"⭐".repeat(item.star)}</div>
                 <div>미용실 이름 : {item.title}</div>
                 <div>주소 : {item.address}</div>
                 {parseInt(item.distance) > 999 && (
@@ -112,7 +114,7 @@ const ShopList = () => {
                   navigate(`/shop/${item.id}`);
                 }}
               >
-                <div>별점 : {item.star}</div>
+                <div>별점 : {"⭐".repeat(item.star)}</div>
                 <div>미용실 이름 : {item.title}</div>
                 <div>주소 : {item.address}</div>
                 {parseInt(item.distance) > 999 && (

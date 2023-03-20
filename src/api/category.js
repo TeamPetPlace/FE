@@ -4,7 +4,6 @@ export const getCards = async ({ page, size }) => {
   const response = await instance.get(
     `/category?category=미용&sort=DISTANCE&lat=177.256&lng=110.2233&page=0&size=2`
   );
-  console.log(response);
   return response;
 };
 
@@ -19,7 +18,6 @@ export const AllPost = async (payload) => {
       size: payload.size,
     },
   });
-  console.log(response);
   return response;
 };
 
@@ -35,6 +33,17 @@ export const SearchPost = async (payload) => {
       size: payload.size,
     },
   });
-  // console.log(response);
   return response;
+};
+
+export const LikesPost = async (payload) => {
+  try {
+    await instance.post(`/${payload.id}/like`);
+  } catch (error) {}
+};
+
+export const DeleteLikePost = async (payload) => {
+  try {
+    await instance.delete(`/${payload.id}/cancel`);
+  } catch (error) {}
 };

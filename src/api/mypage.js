@@ -42,7 +42,7 @@ const getMyReview = async () => {
 };
 
 const getMyDibs = async () => {
-  const response = await instance.get("/mypage/dibs");
+  const response = await instance.get("/mypage/favorite");
   return response.data;
 };
 
