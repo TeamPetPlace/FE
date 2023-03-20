@@ -15,16 +15,15 @@ function MyReviewList() {
   return (
     <div>
       <div>
-        {reviewList.lenght > 0 &&
-          reviewList?.map((item) => {
-            return (
-              <div key={item.id}>
-                <div>{item.email}이메일</div>
-                <div>{item.nickname}닉네임</div>
-                <div>{item.review}</div>
-              </div>
-            );
-          })}
+        {reviewList?.map((item) => {
+          return (
+            <div key={item.id}>
+              <div>{item.email}이메일</div>
+              <div>{item.nickname}닉네임</div>
+              <div>{item.review}</div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

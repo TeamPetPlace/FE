@@ -2,30 +2,58 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { GoSearch } from "react-icons/go";
-import { ALLShopPost, getTitles } from "../../api/category";
+import { AllPost, SearchPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 
 const ShopList = () => {
   const [cards, setCards] = useState([]);
+  const [searchkeyword, setSearchKeyword] = useState();
   const [searchData, setSearchData] = useState([]);
+  const [isSearchMode, setIsSearchMode] = useState(false);
   const navigate = useNavigate();
 
-  const { data } = useQuery("ALLShopPost", ALLShopPost, {
-    onSuccess: (item) => {
-      setCards(item.data.content); // setCards에 data를 넣어준다
-    },
-  });
-  console.log(cards);
+  const { data } = useQuery(
+    [
+      "AllPost",
+      {
+        category: "미용",
+        sort: "DISTANCE",
+        lat: 37.53502829566887,
+        lng: 126.96471596469242,
+        page: 0,
+        size: 10,
+      },
+    ],
+    () =>
+      AllPost({
+        category: "미용",
+        sort: "DISTANCE",
+        lat: 37.53502829566887,
+        lng: 126.96471596469242,
+        page: 0,
+        size: 10,
+      }),
+    {
+      onSuccess: (item) => {
+        setCards(item.data.content);
+      },
+    }
+  );
 
-  // const response = useQuery("getTitles", getTitles, {
-  //   onSuccess: (item) => {
-  //     setSearchData(item);
-  //   },
-  // });
-  // console.log(searchData[0]);
-
-  const handleClick = (e) => {
+  const onSearchHandler = async (e) => {
+    setIsSearchMode(true);
     e.preventDefault();
+    const { data } = await SearchPost({
+      category: "미용",
+      sort: "DISTANCE",
+      keyword: searchkeyword,
+      lat: 37.53502829566887,
+      lng: 126.96471596469242,
+      page: 0,
+      size: 10,
+    });
+    console.log(data.response);
+    setSearchData(data.response);
   };
 
   return (
@@ -37,9 +65,12 @@ const ShopList = () => {
             style={{ width: "300px" }}
             type="text"
             placeholder="검색할 명칭을 입력해주세요"
-            // value={searchData}
+            value={searchkeyword || ""}
+            onChange={(e) => {
+              setSearchKeyword(e.target.value);
+            }}
           />
-          <button onClick={handleClick}>
+          <button onClick={onSearchHandler}>
             <GoSearch />
           </button>
         </div>
@@ -49,23 +80,51 @@ const ShopList = () => {
           <option> 후기순</option>
         </select>
       </StPlace>
-      <StCards>
-        {cards?.map((item) => {
-          return (
-            <StCard
-              key={item.id}
-              onClick={() => {
-                navigate(`/shop/${item.id}`);
-              }}
-            >
-              <div>{item.id}</div>
-              <div>{item.ceo}</div>
-              <div>{item.title}</div>
-              <div>{item.address}</div>
-            </StCard>
-          );
-        })}
-      </StCards>
+      {!isSearchMode ? (
+        <StCards>
+          {cards?.map((item) => {
+            return (
+              <StCard
+                key={item.id}
+                onClick={() => {
+                  navigate(`/shop/${item.id}`);
+                }}
+              >
+                <div>별점 : {item.star}</div>
+                <div>미용실 이름 : {item.title}</div>
+                <div>주소 : {item.address}</div>
+                {parseInt(item.distance) > 999 && (
+                  <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                )}
+                {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                <img src={item.reSizeImage} />
+              </StCard>
+            );
+          })}
+        </StCards>
+      ) : (
+        <StCards>
+          {searchData?.map((item) => {
+            return (
+              <StCard
+                key={item.id}
+                onClick={() => {
+                  navigate(`/shop/${item.id}`);
+                }}
+              >
+                <div>별점 : {item.star}</div>
+                <div>미용실 이름 : {item.title}</div>
+                <div>주소 : {item.address}</div>
+                {parseInt(item.distance) > 999 && (
+                  <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                )}
+                {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                <img src={item.reSizeImage} />
+              </StCard>
+            );
+          })}
+        </StCards>
+      )}
     </>
   );
 };
@@ -94,4 +153,5 @@ const StCard = styled.div`
   width: 300px;
   height: 300px;
   background-color: #e3def7;
+  position: relative;
 `;
