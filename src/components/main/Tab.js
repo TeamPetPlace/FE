@@ -94,41 +94,6 @@ function Tab() {
 
   //userlocation이 변경될 때 마다 데이터를 가져와서 정렬
   //데이터들로 새로운 객체를 만들고 거리를 계산
-  useEffect(() => {
-    if (userLocation) {
-      const newData = locationData.map((item) => {
-        const { latitude, longitude } = item.location;
-        const distance = getDistance(
-          userLocation[0],
-          userLocation[1],
-          latitude,
-          longitude
-        );
-        return {
-          ...item,
-          distance,
-        };
-      });
-      newData.sort((a, b) => a.distance - b.distance);
-      setDataLocation(newData);
-    }
-  }, [userLocation]);
-
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    const radlat1 = (Math.PI * lat1) / 180;
-    const radlat2 = (Math.PI * lat2) / 180;
-    const radlon1 = (Math.PI * lon1) / 180;
-    const radlon2 = (Math.PI * lon2) / 180;
-    const theta = lon1 - lon2;
-    const radtheta = (Math.PI * theta) / 180;
-    let dist =
-      Math.sin(radlat1) * Math.sin(radlat2) +
-      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    dist = Math.acos(dist);
-    dist = (dist * 180) / Math.PI;
-    dist = dist * 60 * 1.1515 * 1.609344; // km 단위로 변환
-    return dist;
-  };
 
   return (
     <div>
@@ -145,18 +110,17 @@ function Tab() {
           </button>
         ))}
       </div>
-      {/* <div>
-        {locationData.map((item) => (
-          <div key={item.id}>
-            <p>{item.address}</p>
-            <p>
-              소수점 아래 두 자리까지 반올림한 값 + km :
-              {`${item.distance.toFixed(2)} km`}
-            </p>
-          </div>
-        ))}
-      </div> */}
       <StTabBox>
+        {category === "병원" && (
+          <div onClick={() => navigate("/hospital")}>내 위치 펫플레이스</div>
+        )}
+        {category === "미용" && (
+          <div onClick={() => navigate("/shop")}>내 위치 펫플레이스</div>
+        )}
+        {category === "카페" && (
+          <div onClick={() => navigate("/cafe")}>내 위치 펫플레이스</div>
+        )}
+
         {category === "병원"
           ? data &&
             data.length > 0 &&
@@ -169,6 +133,16 @@ function Tab() {
                 <div>{item.category}</div>
                 <div>{item.title}</div>
                 <div>{item.address}</div>
+                <div>
+                  {parseInt(item.distance) > 999 && (
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
+                  )}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
+                </div>
                 <img src={item.reSizeImage} alt="mainImg" />
               </StCard>
             ))
@@ -184,6 +158,14 @@ function Tab() {
                 <div>{item.category}</div>
                 <div>{item.title}</div>
                 <div>{item.address}</div>
+                {parseInt(item.distance) > 999 && (
+                  <div>
+                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                  </div>
+                )}
+                {parseInt(item.distance) < 999 && (
+                  <div>{parseInt(item.distance)}m남음</div>
+                )}
                 <img src={item.reSizeImage} alt="mainImg" />
               </StCard>
             ))
@@ -199,6 +181,14 @@ function Tab() {
                 <div>{item.category}</div>
                 <div>{item.title}</div>
                 <div>{item.address}</div>
+                {parseInt(item.distance) > 999 && (
+                  <div>
+                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                  </div>
+                )}
+                {parseInt(item.distance) < 999 && (
+                  <div>{parseInt(item.distance)}m남음</div>
+                )}
                 <img src={item.reSizeImage} alt="mainImg" />
               </StCard>
             ))
