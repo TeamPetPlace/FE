@@ -700,7 +700,7 @@ const HospitalDetailForm = () => {
                 <StBtns>
                   <StBtn size="medium">수정</StBtn>
                   <StBtn
-                    onClick={() => navigate(`/hostpital/${id}`)}
+                    onClick={() => navigate(`/hospital/${id}`)}
                     size="medium"
                   >
                     취소

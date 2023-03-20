@@ -1,45 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router";
 import styled, { css } from "styled-components";
 import { getPost } from "../../api/main";
 
 function Tab() {
-  const { data } = useQuery("getPost", getPost, {
-    onSuccess: (response) => {
-      setDataList(response);
-      console.log(response);
-    },
-  });
-
-  //메인 탭
-  const mainTabList = [
-    { id: 0, text: "병원", category: "hospital" },
-    { id: 1, text: "미용", category: "shop" },
-    { id: 2, text: "카페", category: "cafe" },
-  ];
-
-  const [checked, setChecked] = useState([true, false, false]);
-  const [category, setCategory] = useState("hospital");
-
-  //메인 카드
-  const [dataList, setDataList] = useState([
-    { id: 0, text: "병원", category: "hospital" },
-    { id: 1, text: "미용", category: "shop" },
-    { id: 2, text: "카페", category: "cafe" },
-  ]);
-
-  const onClickHandler = (i) => {
-    const newArr = Array(mainTabList.length).fill(false);
-    newArr[i] = true;
-    setChecked(newArr);
-    if (i === 0) {
-      setCategory("hospital");
-    } else if (i === 1) {
-      setCategory("shop");
-    } else if (i === 2) {
-      setCategory("cafe");
-    }
-  };
+  const [category, setCategory] = useState("병원");
+  const navigate = useNavigate();
 
   //내 위치 플레이스
   const [userLocation, setUserLocation] = useState(null);
@@ -62,6 +29,54 @@ function Tab() {
         console.log("geolocation ");
       }
     );
+  };
+
+  const { data } = useQuery(
+    [
+      "getPost",
+      {
+        category: category,
+        lat: lat,
+        lng: lng,
+      },
+    ],
+    () =>
+      getPost({
+        category: category,
+        lat: lat,
+        lng: lng,
+      }),
+    {
+      onSuccess: (response) => {
+        return response;
+      },
+    }
+  );
+
+  useEffect(() => {
+    onLocationHandler();
+  }, []);
+
+  //메인 탭
+  const mainTabList = [
+    { id: 0, text: "병원", category: "병원" },
+    { id: 1, text: "미용", category: "미용" },
+    { id: 2, text: "카페", category: "카페" },
+  ];
+
+  const [checked, setChecked] = useState([true, false, false]);
+
+  const onClickHandler = (i) => {
+    const newArr = Array(mainTabList.length).fill(false);
+    newArr[i] = true;
+    setChecked(newArr);
+    if (i === 0) {
+      setCategory("병원");
+    } else if (i === 1) {
+      setCategory("미용");
+    } else if (i === 2) {
+      setCategory("카페");
+    }
   };
 
   // //현재 사용자의 위치 정보
@@ -124,6 +139,7 @@ function Tab() {
             key={i}
             checked={checked[i]}
             onClick={() => onClickHandler(i)}
+            value={category}
           >
             {item.text}
           </button>
@@ -141,30 +157,54 @@ function Tab() {
         ))}
       </div> */}
       <StTabBox>
-        {category === "hospital"
-          ? dataList?.map((item, i) => (
-              <StCard key={i} color="hospital">
-                {item.category}
-              </StCard>
-            ))
-          : category === "shop"
-          ? dataList?.map((item, i) => (
-              <StCard key={i} color="shop">
+        {category === "병원"
+          ? data &&
+            data.length > 0 &&
+            data.map((item, i) => (
+              <StCard
+                key={i}
+                color="병원"
+                onClick={() => navigate(`/hospital/${item.id}`)}
+              >
                 <div>{item.category}</div>
                 <div>{item.title}</div>
                 <div>{item.address}</div>
                 <img src={item.reSizeImage} alt="mainImg" />
               </StCard>
             ))
-          : category === "cafe"
-          ? dataList?.map((item, i) => (
-              <StCard key={i} color="cafe">
-                {item.category}
+          : category === "미용"
+          ? data &&
+            data.length > 0 &&
+            data.map((item, i) => (
+              <StCard
+                key={i}
+                color="미용"
+                onClick={() => navigate(`/shop/${item.id}`)}
+              >
+                <div>{item.category}</div>
+                <div>{item.title}</div>
+                <div>{item.address}</div>
+                <img src={item.reSizeImage} alt="mainImg" />
               </StCard>
             ))
-          : dataList?.map((item, i) => (
-              <StCard key={i}>{item.category}</StCard>
-            ))}
+          : category === "카페"
+          ? data &&
+            data.length > 0 &&
+            data.map((item, i) => (
+              <StCard
+                key={i}
+                color="카페"
+                onClick={() => navigate(`/cafe/${item.id}`)}
+              >
+                <div>{item.category}</div>
+                <div>{item.title}</div>
+                <div>{item.address}</div>
+                <img src={item.reSizeImage} alt="mainImg" />
+              </StCard>
+            ))
+          : data &&
+            data.length > 0 &&
+            data.map((item, i) => <StCard key={i}>{item.category}</StCard>)}
       </StTabBox>
     </div>
   );
@@ -180,6 +220,7 @@ const StCard = styled.div`
   width: 200px;
   height: 200px;
   border: 1px solid black;
+  cursor: pointer;
   ${({ color }) => {
     switch (color) {
       case "hospital":

@@ -63,7 +63,7 @@ export default function HospitalList() {
             <StCard
               key={item.id}
               onClick={() => {
-                navigate(`/hostpital/${item.id}`);
+                navigate(`/hospital/${item.id}`);
               }}
             >
               <div>{item.id}</div>
