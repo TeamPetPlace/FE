@@ -168,7 +168,7 @@ function Post() {
     addPostMutation.mutate(formData);
     alert("작성 완료");
     if (category === "병원") {
-      navigate("/hosipta");
+      navigate("/hospital");
     } else if (category === "미용") {
       navigate("/shop");
     } else {

@@ -49,13 +49,26 @@ function Header() {
             <StTab onClick={() => navigate("/cafe")}>카페</StTab>
           </StMenu>
           <StUser>
-            <StProfile src={profile} alt="img" />
+            {profile === null ? (
+              <StProfile
+                src="http://www.urbanbrush.net/web/wp-content/uploads/edd/2017/09/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7-2017-09-19-%EC%98%A4%ED%9B%84-2.17.32.png"
+                alt="origin"
+              />
+            ) : (
+              <StProfile src={profile} alt="img" />
+            )}
+
             <div>닉네임</div>
-            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
+            <StUserBar
+              onMouseEnter={() => setDrop(!drop)}
+              onMouseLeave={() => setDrop(!drop)}
+            >
               ▼
               {drop && (
                 <StUserCategory>
-                  <StUserCh onClick={() => navigate("/mypage")}>마이페이지</StUserCh>
+                  <StUserCh onClick={() => navigate("/mypage")}>
+                    마이페이지
+                  </StUserCh>
                   <StUserCh onClick={onLogoutHandler}>로그아웃</StUserCh>
                 </StUserCategory>
               )}
