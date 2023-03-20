@@ -8,10 +8,6 @@ function Tab() {
   const [category, setCategory] = useState("병원");
   const navigate = useNavigate();
 
-  //내 위치 플레이스
-  const [userLocation, setUserLocation] = useState(null);
-  const [locationData, setDataLocation] = useState([]);
-
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
 
