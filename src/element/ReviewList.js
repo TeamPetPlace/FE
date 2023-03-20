@@ -48,7 +48,7 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
   const [edit, setEdit] = useState({ reviewId: 0, isEdit: false });
   const [updateReview, setUpdateReview] = useState("");
   const [imgView, setImgView] = useState([]);
-  const [image, setImage] = useState();
+  const [image, setImage] = useState([]);
 
   //평점
   const [hovered, setHovered] = useState(null);
