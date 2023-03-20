@@ -1,11 +1,12 @@
 import React, { useRef, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { instance } from "../api/axios";
 import { deleteReview, updateReviews } from "../api/detail";
+import MyReviewList from "../components/mypage/MyReviewList";
 
-function ReviewList({ id, queryClient, detail, setDetail }) {
+function ReviewList({ id, detail, setDetail }) {
   const [cookies] = useCookies(["access_token", "email"]);
   const [checked, setChecked] = useState([true, false, false]);
   const [tab, setTab] = useState("all");
@@ -30,6 +31,7 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
   };
 
   //후기 삭제
+  const queryClient = useQueryClient();
   const deleteReviewMutation = useMutation(deleteReview, {
     onSuccess: () => queryClient.invalidateQueries("getdetail"),
   });
@@ -38,7 +40,6 @@ function ReviewList({ id, queryClient, detail, setDetail }) {
     const message = window.confirm("후기를 삭제하시겠습니까?");
     if (message) {
       deleteReviewMutation.mutate(reviewId);
-      setDetail([...detail]);
     } else {
       return;
     }
