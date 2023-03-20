@@ -11,8 +11,8 @@ const getPost = async (payload) => {
   const response = await instance.get("/topPosts", {
     params: {
       category: payload.category,
-      lat: 177.256,
-      lng: 110.2233,
+      lat: payload.lat,
+      lng: payload.lng,
     },
   });
   return response.data;

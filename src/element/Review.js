@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { addReview } from "../api/detail";
 import { useCookies } from "react-cookie";
 
-function Review({ id, queryClient }) {
+function Review({ id }) {
   const [cookies] = useCookies(["access_token", "loginType"]);
 
   //평점
@@ -16,6 +16,7 @@ function Review({ id, queryClient }) {
   const [imgView, setImgView] = useState([]);
   const [image, setImage] = useState(null);
 
+  const queryClient = useQueryClient();
   const addReviewMutation = useMutation(addReview, {
     onSuccess: () => queryClient.invalidateQueries("getdetail"),
   });
@@ -37,6 +38,7 @@ function Review({ id, queryClient }) {
     setReview("");
     setImgView("");
     setImage("");
+    setClicked(null);
   };
 
   //이미지 미리보기
