@@ -121,7 +121,6 @@ const HospitalDetailForm = () => {
   const { kakao } = window;
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
-  const mapdata = lat + "," + lng;
 
   const handleSearch = (event) => {
     event.stopPropagation();

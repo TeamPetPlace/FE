@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { useNavigate } from "react-router";
 import styled, { css } from "styled-components";
-import { getPost } from "../../api/main";
+import { addDibs, cancelDibs, getPost } from "../../api/main";
 
 function Tab() {
   const [category, setCategory] = useState("병원");
@@ -75,21 +80,37 @@ function Tab() {
     }
   };
 
-  // //현재 사용자의 위치 정보
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       const { latitude, longitude } = position.coords;
-  //       setUserLocation({ latitude, longitude });
-  //       console.log(`현재위치:  (${latitude}, ${longitude})`);
-  //     });
-  //   } else {
-  //     console.log("geolocation ");
-  //   }
-  // }, []);
+  //찜하기
+  const [dibs, setDibs] = useState(false);
+  const queryClient = useQueryClient();
 
-  //userlocation이 변경될 때 마다 데이터를 가져와서 정렬
-  //데이터들로 새로운 객체를 만들고 거리를 계산
+  const addDibsMutation = useMutation(addDibs, {
+    onSuccess: () => {
+      alert("찜하기");
+      setDibs(true);
+      queryClient.invalidateQueries("getPost");
+    },
+  });
+
+  const cancelDibsMutation = useMutation(cancelDibs, {
+    onSuccess: () => {
+      alert("찜하기 취소");
+      setDibs(false);
+      queryClient.invalidateQueries("getPost");
+    },
+  });
+
+  const onDibsHandler = (id) => {
+    if (dibs === false) {
+      addDibsMutation.mutate({ id });
+      setDibs(true);
+    } else if (dibs === true) {
+      cancelDibsMutation.mutate({ id });
+      setDibs(false);
+    }
+
+    console.log(dibs);
+  };
 
   return (
     <div>
@@ -121,36 +142,38 @@ function Tab() {
           ? data &&
             data.length > 0 &&
             data.map((item, i) => (
-              <StCard
-                key={i}
-                color="병원"
-                onClick={() => navigate(`/hospital/${item.id}`)}
-              >
-                <div>{item.category}</div>
-                <div>{item.title}</div>
-                <div>{item.address}</div>
-                <div>
-                  {parseInt(item.distance) > 999 && (
-                    <div>
-                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                    </div>
-                  )}
-                  {parseInt(item.distance) < 999 && (
-                    <div>{parseInt(item.distance)}m남음</div>
-                  )}
-                </div>
-                <img src={item.reSizeImage} alt="mainImg" />
-              </StCard>
+              <>
+                <StCard
+                  key={i}
+                  onClick={() => navigate(`/hospital/${item.id}`)}
+                >
+                  <div>{item.category}</div>
+                  <div>{item.title}</div>
+                  <div>{item.address}</div>
+                  <div>
+                    {parseInt(item.distance) > 999 && (
+                      <div>
+                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
+                        km남음
+                      </div>
+                    )}
+                    {parseInt(item.distance) < 999 && (
+                      <div>{parseInt(item.distance)}m남음</div>
+                    )}
+                  </div>
+                  <img src={item.reSizeImage} alt="mainImg" />
+                </StCard>
+
+                <button onClick={() => onDibsHandler(item.id)}>
+                  {item.like === false ? "찜하기" : "찜하기 취소"}
+                </button>
+              </>
             ))
           : category === "미용"
           ? data &&
             data.length > 0 &&
             data.map((item, i) => (
-              <StCard
-                key={i}
-                color="미용"
-                onClick={() => navigate(`/shop/${item.id}`)}
-              >
+              <StCard key={i} onClick={() => navigate(`/shop/${item.id}`)}>
                 <div>{item.category}</div>
                 <div>{item.title}</div>
                 <div>{item.address}</div>
@@ -169,11 +192,7 @@ function Tab() {
           ? data &&
             data.length > 0 &&
             data.map((item, i) => (
-              <StCard
-                key={i}
-                color="카페"
-                onClick={() => navigate(`/cafe/${item.id}`)}
-              >
+              <StCard key={i} onClick={() => navigate(`/cafe/${item.id}`)}>
                 <div>{item.category}</div>
                 <div>{item.title}</div>
                 <div>{item.address}</div>
@@ -207,24 +226,4 @@ const StCard = styled.div`
   height: 200px;
   border: 1px solid black;
   cursor: pointer;
-  ${({ color }) => {
-    switch (color) {
-      case "hospital":
-        return css`
-          background-color: aqua;
-        `;
-      case "shop":
-        return css`
-          background-color: tomato;
-        `;
-      case "cafe":
-        return css`
-          background-color: beige;
-        `;
-      default:
-        return css`
-          background-color: transparent;
-        `;
-    }
-  }}
 `;
