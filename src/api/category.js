@@ -4,41 +4,46 @@ export const getCards = async ({ page, size }) => {
   const response = await instance.get(
     `/category?category=미용&sort=DISTANCE&lat=177.256&lng=110.2233&page=0&size=30`
   );
-  console.log(response);
   return response;
 };
 
-export const ALLHospitalPost = async (sort, lat, lng, page, size) => {
-  const response = await instance.get(
-    `/category?category=병원&sort=DISTANCE&lat= 37.53502829566887&lng=126.96471596469242&page=0&size=30`
-  );
-  console.log(response);
-  return response;
-};
-
-export const ALLShopPost = async (sort, lat, lng, page, size) => {
-  const response = await instance.get(
-    `/category?category=미용&sort=DISTANCE&lat= 37.53502829566887&lng=126.96471596469242&page=0&size=30`
-  );
-  console.log(response);
-  return response;
-};
-
-export const ALLCafePost = async (sort, lat, lng, page, size) => {
-  const response = await instance.get(
-    `/category?category=카페&sort=DISTANCE&lat= 37.53502829566887&lng=126.96471596469242&page=0&size=30`
-  );
-  console.log(response);
-  return response;
-};
-
-export const HospitalSearch = async (payload) => {
-  const response = await instance.get("/posts", {
+export const AllPost = async (payload) => {
+  const response = await instance.get("/category", {
     params: {
-      keyword: payload.keyword,
-      keyword2: payload.keyword2,
+      category: payload.category,
+      sort: payload.sort,
+      lat: payload.lat,
+      lng: payload.lng,
+      page: payload.page,
+      size: payload.size,
     },
   });
-  console.log(response);
   return response;
+};
+
+export const SearchPost = async (payload) => {
+  const response = await instance.get("/category/search", {
+    params: {
+      category: payload.category,
+      sort: payload.sort,
+      keyword: payload.keyword,
+      lat: payload.lat,
+      lng: payload.lng,
+      page: payload.page,
+      size: payload.size,
+    },
+  });
+  return response;
+};
+
+export const LikesPost = async (payload) => {
+  try {
+    await instance.post(`/${payload.id}/like`);
+  } catch (error) {}
+};
+
+export const DeleteLikePost = async (payload) => {
+  try {
+    await instance.delete(`/${payload.id}/cancel`);
+  } catch (error) {}
 };

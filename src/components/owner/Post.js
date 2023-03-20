@@ -55,8 +55,7 @@ function Post() {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -251,12 +250,7 @@ function Post() {
             </StLine>
             <StLine>
               <StTitle>업체명</StTitle>
-              <StInput
-                type="text"
-                placeholder="업체명"
-                value={title}
-                onChange={titleHandler}
-              />
+              <StInput type="text" placeholder="업체명" value={title} onChange={titleHandler} />
               <StBtn onClick={checkTitleHandler} value={title} size="medium">
                 중복확인
               </StBtn>
@@ -268,9 +262,7 @@ function Post() {
                 marginTop: "-25px",
               }}
             >
-              {titleButtonClicked === false ? (
-                <p>업체명 중복확인을 해주세요</p>
-              ) : null}
+              {titleButtonClicked === false ? <p>업체명 중복확인을 해주세요</p> : null}
             </StErrorMsg>
 
             <div>
@@ -290,19 +282,14 @@ function Post() {
                     우편번호 검색
                   </StBtn>
                   <StErrorMsg>
-                    {buttonClicked === false ? (
-                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
-                    ) : null}
+                    {buttonClicked === false ? <p>주소 입력 후 확인을 꼭 클릭해주세요</p> : null}
                   </StErrorMsg>
                 </div>
                 <div id="popupDom">
                   {isPopupOpen && (
                     <PopupDom>
                       <div>
-                        <DaumPostcode
-                          style={postCodeStyle}
-                          onComplete={handlePostCode}
-                        />
+                        <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
                         <StInput value={address} disabled />
                         <StBtn size="small" onClick={handleSearch}>
                           확인
@@ -313,11 +300,7 @@ function Post() {
                   {!isPopupOpen && (
                     <>
                       <StInput disabled />
-                      <StBtn
-                        size="small"
-                        onClick={handleSearch}
-                        style={{ marginLeft: "10px" }}
-                      >
+                      <StBtn size="small" onClick={handleSearch} style={{ marginLeft: "10px" }}>
                         확인
                       </StBtn>
                     </>
@@ -327,9 +310,7 @@ function Post() {
             </StLine>
             <StLine>
               {category === "병원" && <StTitle>대표 수의사</StTitle>}
-              {(category === "미용" || category === "카페") && (
-                <StTitle>대표자</StTitle>
-              )}
+              {(category === "미용" || category === "카페") && <StTitle>대표자</StTitle>}
               <StInput
                 type="text"
                 placeholder="대표명"
@@ -366,11 +347,7 @@ function Post() {
                   onChange={endTimeHandler}
                   size="small"
                 />
-                <input
-                  type="checkbox"
-                  value={isChecked}
-                  onChange={onCheckHandler}
-                />
+                <input type="checkbox" value={isChecked} onChange={onCheckHandler} />
                 <label>휴무일</label>
                 <div>
                   {isChecked && (

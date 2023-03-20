@@ -156,8 +156,7 @@ const HospitalDetailForm = () => {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -344,11 +343,7 @@ const HospitalDetailForm = () => {
                       setUpTitle(event.target.value);
                     }}
                   />
-                  <StBtn
-                    onClick={checkTitleHandler}
-                    value={upTitle}
-                    size="medium"
-                  >
+                  <StBtn onClick={checkTitleHandler} value={upTitle} size="medium">
                     중복확인
                   </StBtn>
                 </StLine>
@@ -359,9 +354,7 @@ const HospitalDetailForm = () => {
                     marginTop: "-25px",
                   }}
                 >
-                  {titleButtonClicked === false ? (
-                    <p>업체명 중복확인을 해주세요</p>
-                  ) : null}
+                  {titleButtonClicked === false ? <p>업체명 중복확인을 해주세요</p> : null}
                 </StErrorMsg>
                 <div>
                   <StTitle>소개</StTitle>
@@ -391,10 +384,7 @@ const HospitalDetailForm = () => {
                       {isPopupOpen && (
                         <PopupDom>
                           <div>
-                            <DaumPostcode
-                              style={postCodeStyle}
-                              onComplete={handlePostCode}
-                            />
+                            <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
                             <StInput value={address} disabled />
                             <StBtn size="small" onClick={handleSearch}>
                               확인
@@ -405,11 +395,7 @@ const HospitalDetailForm = () => {
                       {!isPopupOpen && (
                         <>
                           <StInput disabled />
-                          <StBtn
-                            size="small"
-                            onClick={handleSearch}
-                            style={{ marginLeft: "10px" }}
-                          >
+                          <StBtn size="small" onClick={handleSearch} style={{ marginLeft: "10px" }}>
                             확인
                           </StBtn>
                         </>
@@ -419,9 +405,7 @@ const HospitalDetailForm = () => {
                 </StLine>
                 <StLine>
                   {upCategory === "병원" && <StTitle>대표 수의사</StTitle>}
-                  {(upCategory === "미용" || upCategory === "카페") && (
-                    <StTitle>대표자</StTitle>
-                  )}
+                  {(upCategory === "미용" || upCategory === "카페") && <StTitle>대표자</StTitle>}
                   <StInput
                     type="text"
                     placeholder="대표명"
@@ -466,11 +450,7 @@ const HospitalDetailForm = () => {
                       }}
                       size="small"
                     />
-                    <input
-                      type="checkbox"
-                      value={isChecked}
-                      onChange={onCheckHandler}
-                    />
+                    <input type="checkbox" value={isChecked} onChange={onCheckHandler} />
                     <label>휴무일</label>
                     <div>
                       {isChecked && (
@@ -522,9 +502,7 @@ const HospitalDetailForm = () => {
                           value="true"
                           name="aboolean1"
                           checked={upAboolean1 === "true"}
-                          onChange={(event) =>
-                            setUpAboolean1(event.target.value)
-                          }
+                          onChange={(event) => setUpAboolean1(event.target.value)}
                         />
                       </label>
                       <label>
@@ -534,9 +512,7 @@ const HospitalDetailForm = () => {
                           value="false"
                           name="upAboolean1"
                           checked={upAboolean1 === "false"}
-                          onChange={(event) =>
-                            setUpAboolean1(event.target.value)
-                          }
+                          onChange={(event) => setUpAboolean1(event.target.value)}
                         />
                       </label>
                     </div>
@@ -569,9 +545,7 @@ const HospitalDetailForm = () => {
                           value="true"
                           name="upAboolean1"
                           checked={upAboolean1 === "true"}
-                          onChange={(event) =>
-                            setUpAboolean1(event.target.value)
-                          }
+                          onChange={(event) => setUpAboolean1(event.target.value)}
                         />
                       </label>
                       <label>
@@ -581,9 +555,7 @@ const HospitalDetailForm = () => {
                           value="false"
                           name="upAboolean1"
                           checked={upAboolean1 === "false"}
-                          onChange={(event) =>
-                            setUpAboolean1(event.target.value)
-                          }
+                          onChange={(event) => setUpAboolean1(event.target.value)}
                         />
                       </label>
                     </div>
@@ -596,9 +568,7 @@ const HospitalDetailForm = () => {
                           value="true"
                           name="upAboolean2"
                           checked={upAboolean2 === "true"}
-                          onChange={(event) =>
-                            setUpAboolean2(event.target.value)
-                          }
+                          onChange={(event) => setUpAboolean2(event.target.value)}
                         />
                       </label>
                       <label>
@@ -608,9 +578,7 @@ const HospitalDetailForm = () => {
                           value="false"
                           name="upAboolean2"
                           checked={upAboolean2 === "false"}
-                          onChange={(event) =>
-                            setUpAboolean2(event.target.value)
-                          }
+                          onChange={(event) => setUpAboolean2(event.target.value)}
                         />
                       </label>
                     </div>
@@ -635,9 +603,7 @@ const HospitalDetailForm = () => {
                           value="true"
                           name="upAboolean1"
                           checked={upAboolean1 === "true"}
-                          onChange={(event) =>
-                            setUpAboolean1(event.target.value)
-                          }
+                          onChange={(event) => setUpAboolean1(event.target.value)}
                         />
                       </label>
                       <label>
@@ -647,9 +613,7 @@ const HospitalDetailForm = () => {
                           value="false"
                           name="upAboolean1"
                           checked={upAboolean1 === "false"}
-                          onChange={(event) =>
-                            setUpAboolean1(event.target.value)
-                          }
+                          onChange={(event) => setUpAboolean1(event.target.value)}
                         />
                       </label>
                     </div>
@@ -732,28 +696,13 @@ const HospitalDetailForm = () => {
               <label>휴무일 : {detail.closedDay}</label> <br />
               <div> {detail.contents} </div>
               <label> {detail.address}</label>
-              <Review
-                id={id}
-                queryClient={queryClient}
-                detail={detail}
-                setDetail={setDetail}
-              />
-              <ReviewList
-                id={id}
-                queryClient={queryClient}
-                detail={detail}
-                setDetail={setDetail}
-              />
+              <Review id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+              <ReviewList id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
               <div>전체 리뷰수:{detail.reviewCount}</div>
               <div>평균평점:{detail.star}</div>
               <div>
                 지도
-                <Map
-                  id={id}
-                  queryClient={queryClient}
-                  detail={detail}
-                  setDetail={setDetail}
-                />
+                <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
               </div>
             </StWrap>
           )}
