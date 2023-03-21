@@ -24,18 +24,21 @@ const updateUser = async (payload) => {
 };
 
 const getMyPost = async () => {
-  const response = await instance.get("/mypage/business");
+  const response = await instance.get("/mypage/business?page=0&size=4");
   return response.data;
 };
 
-const getMyReview = async () => {
-  const response = await instance.get("/review");
-  console.log(response);
+const getMyReview = async (payload) => {
+  const response = await instance.get("/review", {
+    params: { page: payload.page, size: payload.size },
+  });
   return response.data;
 };
 
-const getMyDibs = async () => {
-  const response = await instance.get("/mypage/favorite");
+const getMyDibs = async (payload) => {
+  const response = await instance.get("/mypage/favorite", {
+    params: { page: payload.page, size: payload.size },
+  });
   return response.data;
 };
 

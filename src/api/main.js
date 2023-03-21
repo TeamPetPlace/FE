@@ -1,6 +1,5 @@
 import { instance } from "./axios";
 import axios from "axios";
-import { async } from "q";
 
 const getPost = async (payload) => {
   const response = await instance.get("/topPosts", {

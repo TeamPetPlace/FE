@@ -5,6 +5,7 @@ import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import { AllPost, AddLikesPost, SearchPost, DeleteLikePost } from "../../api/category";
 import { useNavigate, useParams } from "react-router-dom";
+import { getHistory } from "../../api/detail";
 
 export default function HospitalList() {
   const [cards, setCards] = useState([]);
@@ -16,6 +17,15 @@ export default function HospitalList() {
 
   const navigate = useNavigate();
   const queryclient = useQueryClient();
+
+  //봤던 게시글 조회
+  const [history, setHistory] = useState([]);
+
+  const response = useQuery("getHistory", getHistory, {
+    onSuccess: (response) => {
+      setHistory(response);
+    },
+  });
 
   const { data } = useQuery(
     [
@@ -116,6 +126,18 @@ export default function HospitalList() {
   return (
     <>
       <StPlace>
+        <StHistory>
+          <div>
+            {history.map((item) => {
+              return (
+                <div key={item.id}>
+                  <img src={item.reSizeImage} alt="historyImg" />
+                  <div>{item.title}</div>
+                </div>
+              );
+            })}
+          </div>
+        </StHistory>
         <h2>
           병원
           <MdLocalHospital />
@@ -155,9 +177,13 @@ export default function HospitalList() {
                   <div>병원 이름 : {item.title}</div>
                   <div>주소 : {item.address}</div>
                   {parseInt(item.distance) > 999 && (
-                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
                   )}
-                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
                   <img src={item.reSizeImage} />
                 </StCard>
                 {/* <button onClick={() => LikeBtn(item)}>
@@ -228,4 +254,12 @@ const StCard = styled.div`
 
 const StDiv = styled.div`
   z-index: 999;
+`;
+
+const StHistory = styled.div`
+  width: 200px;
+  height: 600px;
+  position: fixed;
+  background-color: aliceblue;
+  left: 80%;
 `;
