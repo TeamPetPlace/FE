@@ -22,21 +22,26 @@ export const AllPost = async (payload) => {
 };
 
 export const SearchPost = async (payload) => {
-  const response = await instance.get("/category/search", {
-    params: {
-      category: payload.category,
-      sort: payload.sort,
-      keyword: payload.keyword,
-      lat: payload.lat,
-      lng: payload.lng,
-      page: payload.page,
-      size: payload.size,
-    },
-  });
-  return response;
+  try {
+    const response = await instance.get("/category/search", {
+      params: {
+        category: payload.category,
+        keyword: payload.keyword,
+        sort: payload.sort,
+        lat: payload.lat,
+        lng: payload.lng,
+        page: payload.page,
+        size: payload.size,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };
 
-export const LikesPost = async (payload) => {
+export const AddLikesPost = async (payload) => {
   try {
     await instance.post(`/${payload.id}/like`);
   } catch (error) {}

@@ -27,6 +27,7 @@ const UserSignupForm = () => {
     onSuccess: (response) => {
       response ? setIsEmail(true) : setIsEmail(false);
       if (response) {
+        console.log(response);
         setIsEmail(true);
         alert("사용가능한 이메일입니다.");
       } else {
