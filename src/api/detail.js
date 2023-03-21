@@ -62,4 +62,9 @@ const updateReviews = async (payload) => {
     });
 };
 
-export { getDetail, addReview, deleteReview, updateReviews };
+const getHistory = async () => {
+  const response = await instance.get("/posts/history");
+  return response.data;
+};
+
+export { getDetail, addReview, deleteReview, updateReviews, getHistory };

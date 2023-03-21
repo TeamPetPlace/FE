@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { GoSearch } from "react-icons/go";
 import { SearchPost, AllPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
+import { getHistory } from "../../api/detail";
 
 const CafeList = () => {
   const [cards, setCards] = useState([]);
@@ -13,6 +14,15 @@ const CafeList = () => {
   const [sort, setSort] = useState();
   const navigate = useNavigate();
   const queryclient = useQueryClient();
+
+  //봤던 게시글 조회
+  const [history, setHistory] = useState([]);
+
+  const response = useQuery("getHistory", getHistory, {
+    onSuccess: (response) => {
+      setHistory(response);
+    },
+  });
 
   const { data } = useQuery(
     [
@@ -69,6 +79,18 @@ const CafeList = () => {
   return (
     <>
       <StPlace>
+        <StHistory>
+          <div>
+            {history.map((item) => {
+              return (
+                <div key={item.id}>
+                  <img src={item.reSizeImage} alt="historyImg" />
+                  <div>{item.title}</div>
+                </div>
+              );
+            })}
+          </div>
+        </StHistory>
         <h2>카페</h2>
         <div>
           <input
@@ -90,6 +112,7 @@ const CafeList = () => {
           <option value="REVIEW"> 후기순</option>
         </select>
       </StPlace>
+
       {!isSearchMode ? (
         <StCards>
           {cards?.map((item) => {
@@ -104,9 +127,13 @@ const CafeList = () => {
                 <div>카페 이름 : {item.title}</div>
                 <div>주소 : {item.address}</div>
                 {parseInt(item.distance) > 999 && (
-                  <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                  <div>
+                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                  </div>
                 )}
-                {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                {parseInt(item.distance) < 999 && (
+                  <div>{parseInt(item.distance)}m남음</div>
+                )}
                 <img src={item.reSizeImage} />
               </StCard>
             );
@@ -127,9 +154,13 @@ const CafeList = () => {
                   <div>카페 이름 : {item.title}</div>
                   <div>주소 : {item.address}</div>
                   {parseInt(item.distance) > 999 && (
-                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
                   )}
-                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
                   <img src={item.reSizeImage} />
                 </StCard>
               );
@@ -164,4 +195,12 @@ const StCard = styled.div`
   width: 300px;
   height: 300px;
   background-color: #e3def7;
+`;
+
+const StHistory = styled.div`
+  width: 200px;
+  height: 600px;
+  position: fixed;
+  background-color: aliceblue;
+  left: 80%;
 `;

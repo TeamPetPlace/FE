@@ -11,6 +11,7 @@ import PopupDom from "../owner/Popup";
 import DaumPostcode from "react-daum-postcode";
 import Review from "../../element/Review";
 import ReviewList from "../../element/ReviewList";
+import MagicSliderDots from "react-magic-slider-dots";
 
 const HospitalDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
@@ -29,6 +30,18 @@ const HospitalDetailForm = () => {
 
   //이미지 슬라이드
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const settings = {
+    dots: true,
+    arrows: true,
+    infinite: false,
+    spped: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    appendDots: (dots) => {
+      return <MagicSliderDots dots={dots} numDotsToshow={4} dotWidth={30} />;
+    },
+  };
 
   useEffect(() => {
     const intervalid = setInterval(() => {
