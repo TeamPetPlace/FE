@@ -8,7 +8,6 @@ function DibsList() {
   const { data } = useQuery("getmydibs", getMyDibs, {
     onSuccess: (response) => {
       setDibList(response);
-      console.log(response);
     },
   });
 
@@ -18,8 +17,9 @@ function DibsList() {
         {dibList.map((item) => {
           return (
             <div key={item.id}>
-              <div>{item.email}이메일</div>
-              <div>{item.nickname}닉네임</div>
+              <div>내 찜목록</div>
+              <div>업체명: {item.title}</div>
+              <img src={item.reSizeImage} alt="img" />
             </div>
           );
         })}

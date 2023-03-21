@@ -81,13 +81,11 @@ function Tab() {
   };
 
   //찜하기
-  const [dibs, setDibs] = useState(false);
   const queryClient = useQueryClient();
 
   const addDibsMutation = useMutation(addDibs, {
     onSuccess: () => {
       alert("찜하기");
-      setDibs(true);
       queryClient.invalidateQueries("getPost");
     },
   });
@@ -95,21 +93,20 @@ function Tab() {
   const cancelDibsMutation = useMutation(cancelDibs, {
     onSuccess: () => {
       alert("찜하기 취소");
-      setDibs(false);
       queryClient.invalidateQueries("getPost");
     },
   });
 
-  const onDibsHandler = (id) => {
-    if (dibs === false) {
-      addDibsMutation.mutate({ id });
-      setDibs(true);
-    } else if (dibs === true) {
-      cancelDibsMutation.mutate({ id });
-      setDibs(false);
+  const onDibsHandler = (item) => {
+    const payload = {
+      id: item.id,
+    };
+    if (item.like === false) {
+      addDibsMutation.mutate(payload);
+    } else if (item.like === true) {
+      cancelDibsMutation.mutate(payload);
     }
-
-    console.log(dibs);
+    console.log(payload);
   };
 
   return (
@@ -142,7 +139,7 @@ function Tab() {
           ? data &&
             data.length > 0 &&
             data.map((item, i) => (
-              <>
+              <div key={i}>
                 <StCard
                   key={i}
                   onClick={() => navigate(`/hospital/${item.id}`)}
@@ -164,48 +161,58 @@ function Tab() {
                   <img src={item.reSizeImage} alt="mainImg" />
                 </StCard>
 
-                <button onClick={() => onDibsHandler(item.id)}>
+                <button onClick={() => onDibsHandler(item)}>
                   {item.like === false ? "찜하기" : "찜하기 취소"}
                 </button>
-              </>
+              </div>
             ))
           : category === "미용"
           ? data &&
             data.length > 0 &&
             data.map((item, i) => (
-              <StCard key={i} onClick={() => navigate(`/shop/${item.id}`)}>
-                <div>{item.category}</div>
-                <div>{item.title}</div>
-                <div>{item.address}</div>
-                {parseInt(item.distance) > 999 && (
-                  <div>
-                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                  </div>
-                )}
-                {parseInt(item.distance) < 999 && (
-                  <div>{parseInt(item.distance)}m남음</div>
-                )}
-                <img src={item.reSizeImage} alt="mainImg" />
-              </StCard>
+              <div key={i}>
+                <StCard key={i} onClick={() => navigate(`/shop/${item.id}`)}>
+                  <div>{item.category}</div>
+                  <div>{item.title}</div>
+                  <div>{item.address}</div>
+                  {parseInt(item.distance) > 999 && (
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
+                  )}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
+                  <img src={item.reSizeImage} alt="mainImg" />
+                </StCard>
+                <button onClick={() => onDibsHandler(item)}>
+                  {item.like === false ? "찜하기" : "찜하기 취소"}
+                </button>
+              </div>
             ))
           : category === "카페"
           ? data &&
             data.length > 0 &&
             data.map((item, i) => (
-              <StCard key={i} onClick={() => navigate(`/cafe/${item.id}`)}>
-                <div>{item.category}</div>
-                <div>{item.title}</div>
-                <div>{item.address}</div>
-                {parseInt(item.distance) > 999 && (
-                  <div>
-                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                  </div>
-                )}
-                {parseInt(item.distance) < 999 && (
-                  <div>{parseInt(item.distance)}m남음</div>
-                )}
-                <img src={item.reSizeImage} alt="mainImg" />
-              </StCard>
+              <div key={i}>
+                <StCard key={i} onClick={() => navigate(`/cafe/${item.id}`)}>
+                  <div>{item.category}</div>
+                  <div>{item.title}</div>
+                  <div>{item.address}</div>
+                  {parseInt(item.distance) > 999 && (
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
+                  )}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
+                  <img src={item.reSizeImage} alt="mainImg" />
+                </StCard>
+                <button onClick={() => onDibsHandler(item)}>
+                  {item.like === false ? "찜하기" : "찜하기 취소"}
+                </button>
+              </div>
             ))
           : data &&
             data.length > 0 &&
