@@ -5,11 +5,37 @@ import { getMyDibs } from "../../api/mypage";
 function DibsList() {
   const [dibList, setDibList] = useState([]);
 
-  const { data } = useQuery("getmydibs", getMyDibs, {
-    onSuccess: (response) => {
-      setDibList(response);
-    },
-  });
+  //페이지네이션
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(5);
+
+  const { data } = useQuery(
+    [
+      "getmydibs",
+      {
+        page: page,
+        size: size,
+      },
+    ],
+    () =>
+      getMyDibs({
+        page: page,
+        size: size,
+      }),
+    {
+      onSuccess: (response) => {
+        setDibList(response.content);
+      },
+    }
+  );
+
+  const handlePrevPage = () => {
+    setPage((prevPage) => prevPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   //탭
   const [category, setCategory] = useState("병원");
@@ -50,7 +76,7 @@ function DibsList() {
         ))}
       </div>
       <div>
-        {dibList.map((item) => {
+        {dibList?.map((item) => {
           return (
             <div key={item.id}>
               {category === "병원" && item.category === "병원" ? (
@@ -75,6 +101,12 @@ function DibsList() {
             </div>
           );
         })}
+        <button disabled={page === 0} onClick={handlePrevPage}>
+          이전페이지
+        </button>
+        <button disabled={data?.length < size} onClick={handleNextPage}>
+          다음페이지
+        </button>
       </div>
     </div>
   );
