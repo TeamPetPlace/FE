@@ -131,7 +131,7 @@ const BusinessSignupForm = () => {
             <Stinput
               type="text"
               name="Email"
-              value={useremail}
+              value={useremail || ""}
               placeholder="이메일"
               onChange={onEmailChangeHandler}
             />
@@ -142,7 +142,7 @@ const BusinessSignupForm = () => {
         </div>
         <Stinput
           type="text"
-          value={usernickname}
+          value={usernickname || ""}
           name="Username"
           placeholder="닉네임"
           onChange={(e) => setUserNickName(e.target.value)}
@@ -152,7 +152,7 @@ const BusinessSignupForm = () => {
         <Stinput
           type="text"
           name="Biznumber"
-          value={biznumber}
+          value={biznumber || ""}
           placeholder="000-00-00000의 형식으로 작성해주세요"
           onChange={onBizNumChangeHandler}
         />
@@ -163,7 +163,7 @@ const BusinessSignupForm = () => {
         <Stinput
           type={userpassword}
           // type={pwType.type}
-          value={userpassword}
+          value={userpassword || ""}
           name="PassWord"
           placeholder="비밀번호"
           onChange={onPasswordChange}
@@ -178,7 +178,7 @@ const BusinessSignupForm = () => {
             // type="password"
             type="text"
             placeholder="비밀번호 확인"
-            value={uservalpassword}
+            value={uservalpassword || ""}
             onChange={handleConfirmPasswordChange}
           />
         </div>
