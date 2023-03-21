@@ -1,20 +1,47 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { deleteReview, getDetail, updateReviews } from "../../api/detail";
 import { getMyReview } from "../../api/mypage";
+import Pagenation from "../../element/Pagenation";
 
 function MyReviewList() {
   const [reviewList, setReviewList] = useState([]);
   const navigate = useNavigate();
 
-  const { data } = useQuery("getMyReview", getMyReview, {
-    onSuccess: (response) => {
-      setReviewList(response);
-      console.log(response);
-    },
-  });
+  //페이지네이션
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(5);
+
+  const { data } = useQuery(
+    [
+      "getMyReview",
+      {
+        page: page,
+        size: size,
+      },
+    ],
+    () =>
+      getMyReview({
+        page: page,
+        size: size,
+      }),
+    {
+      onSuccess: (response) => {
+        setReviewList(response.content);
+        console.log(response);
+      },
+    }
+  );
+
+  const handlePrevPage = () => {
+    setPage((prevPage) => prevPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   //후기 삭제
   const queryClient = useQueryClient();
@@ -101,7 +128,6 @@ function MyReviewList() {
         {reviewList?.map((item) => {
           return (
             <div key={item.id}>
-
               <div>
                 {edit.reviewId === item.id && edit.isEdit === true ? (
                   <>
@@ -194,6 +220,12 @@ function MyReviewList() {
             </div>
           );
         })}
+        <button disabled={page === 0} onClick={handlePrevPage}>
+          이전페이지
+        </button>
+        <button disabled={data?.length < size} onClick={handleNextPage}>
+          다음페이지
+        </button>
       </div>
     </div>
   );

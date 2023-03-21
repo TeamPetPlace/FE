@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { GoSearch } from "react-icons/go";
 import { AllPost, SearchPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
+import { getHistory } from "../../api/detail";
 
 const ShopList = () => {
   const [cards, setCards] = useState([]);
@@ -12,6 +13,15 @@ const ShopList = () => {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const navigate = useNavigate();
   const queryclient = useQueryClient();
+
+  //봤던 게시글 조회
+  const [history, setHistory] = useState([]);
+
+  const response = useQuery("getHistory", getHistory, {
+    onSuccess: (response) => {
+      setHistory(response);
+    },
+  });
 
   const { data } = useQuery(
     [
@@ -61,6 +71,18 @@ const ShopList = () => {
   return (
     <>
       <StPlace>
+        <StHistory>
+          <div>
+            {history.map((item) => {
+              return (
+                <div key={item.id}>
+                  <img src={item.reSizeImage} alt="historyImg" />
+                  <div>{item.title}</div>
+                </div>
+              );
+            })}
+          </div>
+        </StHistory>
         <h2>미용</h2>
         <div>
           <input
@@ -96,9 +118,13 @@ const ShopList = () => {
                 <div>미용실 이름 : {item.title}</div>
                 <div>주소 : {item.address}</div>
                 {parseInt(item.distance) > 999 && (
-                  <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                  <div>
+                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                  </div>
                 )}
-                {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                {parseInt(item.distance) < 999 && (
+                  <div>{parseInt(item.distance)}m남음</div>
+                )}
                 <img src={item.reSizeImage} />
               </StCard>
             );
@@ -118,9 +144,13 @@ const ShopList = () => {
                 <div>미용실 이름 : {item.title}</div>
                 <div>주소 : {item.address}</div>
                 {parseInt(item.distance) > 999 && (
-                  <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                  <div>
+                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                  </div>
                 )}
-                {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                {parseInt(item.distance) < 999 && (
+                  <div>{parseInt(item.distance)}m남음</div>
+                )}
                 <img src={item.reSizeImage} />
               </StCard>
             );
@@ -156,4 +186,12 @@ const StCard = styled.div`
   height: 300px;
   background-color: #e3def7;
   position: relative;
+`;
+
+const StHistory = styled.div`
+  width: 200px;
+  height: 600px;
+  position: fixed;
+  background-color: aliceblue;
+  left: 80%;
 `;

@@ -9,8 +9,8 @@ function PostList() {
 
   const { data } = useQuery("getmypost", getMyPost, {
     onSuccess: (response) => {
-      setMyList(response);
-      console.log(response);
+      setMyList(response.content);
+      console.log(response.content);
     },
   });
 
@@ -36,39 +36,46 @@ function PostList() {
   return (
     <div>
       <div>
-        {myList.map((item) => {
-          return (
-            <div key={item.id}>
-              {item.category === "병원" && (
-                <div>
-                  <button onClick={() => navigate(`/hospital/${item.id}`)}>
-                    게시글 보러가기
-                  </button>
-                  <button onClick={() => onDeleteHandler(item.id)}>삭제</button>
-                </div>
-              )}
-              {item.category === "미용" && (
-                <div>
-                  <button onClick={() => navigate(`/shop/${item.id}`)}>
-                    게시글 보러가기
-                  </button>
-                  <button onClick={() => onDeleteHandler(item.id)}>삭제</button>
-                </div>
-              )}
-              {item.category === "카페" && (
-                <div>
-                  <button onClick={() => navigate(`/cafe/${item.id}`)}>
-                    게시글 보러가기
-                  </button>
-                  <button onClick={() => onDeleteHandler(item.id)}>삭제</button>
-                </div>
-              )}
-              <div>{item.category}id</div>
-              <div>{item.ceo}업종</div>
-              <img src={item.reSizeImage} alt="img" />
-            </div>
-          );
-        })}
+        {myList.length > 0 &&
+          myList?.map((item) => {
+            return (
+              <div key={item.id}>
+                {item.category === "병원" && (
+                  <div>
+                    <button onClick={() => navigate(`/hospital/${item.id}`)}>
+                      게시글 보러가기
+                    </button>
+                    <button onClick={() => onDeleteHandler(item.id)}>
+                      삭제
+                    </button>
+                  </div>
+                )}
+                {item.category === "미용" && (
+                  <div>
+                    <button onClick={() => navigate(`/shop/${item.id}`)}>
+                      게시글 보러가기
+                    </button>
+                    <button onClick={() => onDeleteHandler(item.id)}>
+                      삭제
+                    </button>
+                  </div>
+                )}
+                {item.category === "카페" && (
+                  <div>
+                    <button onClick={() => navigate(`/cafe/${item.id}`)}>
+                      게시글 보러가기
+                    </button>
+                    <button onClick={() => onDeleteHandler(item.id)}>
+                      삭제
+                    </button>
+                  </div>
+                )}
+                <div>{item.category}id</div>
+                <div>{item.ceo}업종</div>
+                <img src={item.reSizeImage} alt="img" />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
