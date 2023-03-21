@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import { AllPost, LikesPost, SearchPost, DeleteLikePost } from "../../api/category";
+import { AllPost, AddLikesPost, SearchPost, DeleteLikePost } from "../../api/category";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function HospitalList() {
@@ -11,17 +11,18 @@ export default function HospitalList() {
   const [searchkeyword, setSearchKeyword] = useState();
   const [searchData, setSearchData] = useState([]);
   const [isSearchMode, setIsSearchMode] = useState();
-  const [dibs, setDibs] = useState(false);
+  const [page, setPage] = useState(0);
+  const [sort, setSort] = useState("DISTANCE");
+
   const navigate = useNavigate();
   const queryclient = useQueryClient();
-  const { id } = useParams();
 
   const { data } = useQuery(
     [
       "AllPost",
       {
         category: "병원",
-        sort: "DISTANCE",
+        sort: sort,
         lat: 37.51826171600231,
         lng: 127.02335537579637,
         page: 0,
@@ -31,7 +32,7 @@ export default function HospitalList() {
     () =>
       AllPost({
         category: "병원",
-        sort: "DISTANCE",
+        sort: sort,
         lat: 37.51826171600231,
         lng: 127.02335537579637,
         page: 0,
@@ -40,71 +41,76 @@ export default function HospitalList() {
     {
       onSuccess: (item) => {
         setCards(item.data.content);
+        setPage(item.data);
         queryclient.invalidateQueries("getPost");
       },
     }
   );
-  // console.log(cards);
+  console.log(data);
+  console.log(page.totalPage);
 
   const onSearchHandler = async (e) => {
     setIsSearchMode(true);
     e.preventDefault();
-    const { data } = await SearchPost({
-      category: "병원",
-      sort: "DISTANCE",
-      keyword: searchkeyword,
-      lat: 37.53502829566887,
-      lng: 126.96471596469242,
-      page: 0,
-      size: 10,
-    });
-    console.log(data.response);
-    setSearchData(data.response);
+    try {
+      const { data } = await SearchPost({
+        category: "병원",
+        keyword: searchkeyword,
+        sort: sort,
+        lat: 37.53502829566887,
+        lng: 126.96471596469242,
+        page: 0,
+        size: 10,
+      });
+      console.log(data.response);
+      setSearchData(data.response);
+    } catch (error) {
+      console.log(error);
+      alert("검색결과가 없습니다!");
+      window.location.replace("/hospital");
+    }
   };
 
-  const LikeMutation = useMutation(LikesPost, {
-    onSuccess: (response) => {
-      queryclient.invalidateQueries("getPost");
-      console.log("찜성공");
-      console.log(response);
-    },
-    onError: (error) => {
-      queryclient.invalidateQueries("getPost");
-      console.log("찜실패");
-    },
-  });
+  // const LikeMutation = useMutation(AddLikesPost, {
+  //   onSuccess: () => {
+  //     queryclient.invalidateQueries("AllPost");
+  //     console.log("찜성공");
+  //   },
+  //   onError: (error) => {
+  //     queryclient.invalidateQueries("AllPost");
+  //     console.log("찜실패");
+  //   },
+  // });
 
-  const DeleteMutation = useMutation(DeleteLikePost, {
-    onSuccess: () => {
-      queryclient.invalidateQueries("AllPost");
-      console.log("삭제성공");
-    },
-    onError: (error) => {
-      queryclient.invalidateQueries("AllPost");
-      console.log("삭제실패");
-    },
-  });
+  // const DeleteMutation = useMutation(DeleteLikePost, {
+  //   onSuccess: () => {
+  //     queryclient.invalidateQueries("AllPost");
+  //     console.log("삭제성공");
+  //   },
+  //   onError: (error) => {
+  //     queryclient.invalidateQueries("AllPost");
+  //     console.log("삭제실패");
+  //   },
+  // });
 
-  // const [likeadd, setLikeAdd] = useState(false);
-  // const LikeAddHandler = (id) => {
-  //   const LikeBtn = {
-  //     id: id,
+  // const LikeBtn = (item) => {
+  //   const payload = {
+  //     id: item.id,
   //   };
-  //   LikeMutation.mutate(LikeBtn);
-  //   setLikeAdd(!likeadd);
+  //   if (item.like === false) {
+  //     LikeMutation.mutate(payload);
+  //   } else if (item.like === true) {
+  //     DeleteMutation.mutate(payload);
+  //   }
+  //   // console.log(item.id);
   // };
-  // console.log(likeadd);
 
-  const LikeBtn = (id) => {
-    if (dibs === false) {
-      LikeMutation.mutate({ id });
-      setDibs(!dibs);
-    } else if (dibs === true) {
-      DeleteMutation.mutate({ id });
-      setDibs(!dibs);
-    }
+  const onSortingHandler = (e) => {
+    setSort(e.target.value);
+    document.getElementById("sort");
+    document.getElementById("search");
 
-    console.log(dibs);
+    console.log(sort);
   };
 
   return (
@@ -124,14 +130,14 @@ export default function HospitalList() {
               setSearchKeyword(e.target.value);
             }}
           />
-          <button onClick={onSearchHandler}>
+          <button id="search" onClick={onSearchHandler}>
             <GoSearch />
           </button>
         </div>
-        <select>
-          <option> 근거리순 </option>
-          <option> 평점순</option>
-          <option> 후기순</option>
+        <select id="sort" name="sorting" onChange={onSortingHandler}>
+          <option value="DISTANCE"> 근거리순 </option>
+          <option value="STAR"> 평점순</option>
+          <option value="REVIEW"> 후기순</option>
         </select>
       </StPlace>
       {!isSearchMode ? (
@@ -154,7 +160,10 @@ export default function HospitalList() {
                   {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                   <img src={item.reSizeImage} />
                 </StCard>
-                <button onClick={() => LikeBtn(item.id)}> {dibs ? "찜하기" : "찜취소"} </button>
+                {/* <button onClick={() => LikeBtn(item)}>
+                  {" "}
+                  {item.like === false ? "찜하기" : "찜취소"}{" "}
+                </button> */}
               </div>
             );
           })}
@@ -164,26 +173,31 @@ export default function HospitalList() {
           {searchData.length > 0 &&
             searchData?.map((item) => {
               return (
-                <StCard
-                  key={item.id}
-                  onClick={() => {
-                    navigate(`/hospital/${item.id}`);
-                  }}
-                >
-                  <div>별점 : {"⭐".repeat(item.star)}</div>
-                  <div>병원 이름 : {item.title}</div>
-                  <div>주소 : {item.address}</div>
-                  {parseInt(item.distance) > 999 && (
-                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
-                  )}
-                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
-                  <img src={item.reSizeImage} />
-                </StCard>
+                <div key={item.id}>
+                  <StCard
+                    key={item.id}
+                    onClick={() => {
+                      navigate(`/hospital/${item.id}`);
+                    }}
+                  >
+                    <div>별점 : {"⭐".repeat(item.star)}</div>
+                    <div>병원 이름 : {item.title}</div>
+                    <div>주소 : {item.address}</div>
+                    {parseInt(item.distance) > 999 && (
+                      <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                    )}
+                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                    <img src={item.reSizeImage} />
+                  </StCard>
+                  {/* <button onClick={() => LikeBtn(item)}>
+                  {" "}
+                  {item.like === false ? "찜하기" : "찜취소"}{" "}
+                </button> */}
+                </div>
               );
             })}
         </StCards>
       )}
-
     </>
   );
 }

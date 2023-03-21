@@ -12,13 +12,15 @@ const ShopList = () => {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const navigate = useNavigate();
   const queryclient = useQueryClient();
+  const [sort, setSort] = useState("DISTANCE");
 
   const { data } = useQuery(
     [
       "AllPost",
       {
         category: "미용",
-        sort: "DISTANCE",
+        // sort: "REVIEW",
+        sort: sort,
         lat: 37.53502829566887,
         lng: 126.96471596469242,
         page: 0,
@@ -28,7 +30,8 @@ const ShopList = () => {
     () =>
       AllPost({
         category: "미용",
-        sort: "DISTANCE",
+        // sort: "REVIEW",
+        sort: sort,
         lat: 37.53502829566887,
         lng: 126.96471596469242,
         page: 0,
@@ -37,7 +40,7 @@ const ShopList = () => {
     {
       onSuccess: (item) => {
         setCards(item.data.content);
-        queryclient.invalidateQueries("getPost");
+        queryclient.invalidateQueries("");
       },
     }
   );
@@ -45,17 +48,29 @@ const ShopList = () => {
   const onSearchHandler = async (e) => {
     setIsSearchMode(true);
     e.preventDefault();
-    const { data } = await SearchPost({
-      category: "미용",
-      sort: "DISTANCE",
-      keyword: searchkeyword,
-      lat: 37.53502829566887,
-      lng: 126.96471596469242,
-      page: 0,
-      size: 10,
-    });
-    console.log(data.response);
-    setSearchData(data.response);
+    try {
+      const { data } = await SearchPost({
+        category: "미용",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: 37.53502829566887,
+        lng: 126.96471596469242,
+        page: 0,
+        size: 10,
+      });
+      console.log(data.response);
+      setSearchData(data.response);
+    } catch (error) {
+      console.log(error);
+      alert("검색결과가 없습니다!");
+      window.location.replace("/shop");
+    }
+  };
+
+  const onSortingHandler = (e) => {
+    setSort(e.target.value);
+    // document.getElementById("sort");
+    console.log(sort);
   };
 
   return (
@@ -76,31 +91,37 @@ const ShopList = () => {
             <GoSearch />
           </button>
         </div>
-        <select>
-          <option value="lang"> 근거리순 </option>
-          <option> 평점순</option>
-          <option> 후기순</option>
+        <select id="sort" name="sorting" onChange={onSortingHandler}>
+          <option value="DISTANCE"> 근거리순 </option>
+          <option value="STAR"> 평점순</option>
+          <option value="REVIEW"> 후기순</option>
         </select>
       </StPlace>
       {!isSearchMode ? (
         <StCards>
           {cards?.map((item) => {
             return (
-              <StCard
-                key={item.id}
-                onClick={() => {
-                  navigate(`/shop/${item.id}`);
-                }}
-              >
-                <div>별점 : {"⭐".repeat(item.star)}</div>
-                <div>미용실 이름 : {item.title}</div>
-                <div>주소 : {item.address}</div>
-                {parseInt(item.distance) > 999 && (
-                  <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
-                )}
-                {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
-                <img src={item.reSizeImage} />
-              </StCard>
+              <div key={item.id}>
+                <StCard
+                  key={item.id}
+                  onClick={() => {
+                    navigate(`/hospital/${item.id}`);
+                  }}
+                >
+                  <div>별점 : {"⭐".repeat(item.star)}</div>
+                  <div>미용실 이름 : {item.title}</div>
+                  <div>주소 : {item.address}</div>
+                  {parseInt(item.distance) > 999 && (
+                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                  )}
+                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  <img src={item.reSizeImage} />
+                </StCard>
+                {/* <button onClick={() => LikeBtn(item)}>
+                {" "}
+                {item.like === false ? "찜하기" : "찜취소"}{" "}
+              </button> */}
+              </div>
             );
           })}
         </StCards>
@@ -108,21 +129,27 @@ const ShopList = () => {
         <StCards>
           {searchData?.map((item) => {
             return (
-              <StCard
-                key={item.id}
-                onClick={() => {
-                  navigate(`/shop/${item.id}`);
-                }}
-              >
-                <div>별점 : {"⭐".repeat(item.star)}</div>
-                <div>미용실 이름 : {item.title}</div>
-                <div>주소 : {item.address}</div>
-                {parseInt(item.distance) > 999 && (
-                  <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
-                )}
-                {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
-                <img src={item.reSizeImage} />
-              </StCard>
+              <div key={item.id}>
+                <StCard
+                  key={item.id}
+                  onClick={() => {
+                    navigate(`/hospital/${item.id}`);
+                  }}
+                >
+                  <div>별점 : {"⭐".repeat(item.star)}</div>
+                  <div>미용실 이름 : {item.title}</div>
+                  <div>주소 : {item.address}</div>
+                  {parseInt(item.distance) > 999 && (
+                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                  )}
+                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  <img src={item.reSizeImage} />
+                </StCard>
+                {/* <button onClick={() => LikeBtn(item)}>
+                {" "}
+                {item.like === false ? "찜하기" : "찜취소"}{" "}
+              </button> */}
+              </div>
             );
           })}
         </StCards>
