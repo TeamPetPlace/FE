@@ -1,18 +1,46 @@
 import React, { useRef, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { instance } from "../api/axios";
-import { deleteReview, updateReviews } from "../api/detail";
+import { deleteReview, getReview, updateReviews } from "../api/detail";
 import MyReviewList from "../components/mypage/MyReviewList";
 
-function ReviewList({ detail, data, page, size, setPage }) {
+function ReviewList({ id }) {
   const [cookies] = useCookies(["access_token", "email"]);
   const [checked, setChecked] = useState([true, false, false]);
   const [tab, setTab] = useState("all");
 
-  //페이지네이션
+  const [review, setReview] = useState([]);
 
+  //페이지네이션
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(5);
+
+  const response = useQuery(
+    [
+      "getReview",
+      {
+        id: id,
+        page: page,
+        size: size,
+      },
+    ],
+    () =>
+      getReview({
+        id: id,
+        page: page,
+        size: size,
+      }),
+    {
+      onSuccess: (response) => {
+        setReview(response.content);
+        console.log(response.content);
+      },
+    }
+  );
+
+  //페이지네이션
   const handlePrevPage = () => {
     setPage((prevPage) => prevPage - 1);
   };
@@ -43,7 +71,7 @@ function ReviewList({ detail, data, page, size, setPage }) {
   //후기 삭제
   const queryClient = useQueryClient();
   const deleteReviewMutation = useMutation(deleteReview, {
-    onSuccess: () => queryClient.invalidateQueries("getdetail"),
+    onSuccess: () => queryClient.invalidateQueries("getReview"),
   });
 
   const onDeletetReviewHandler = (reviewId) => {
@@ -71,7 +99,7 @@ function ReviewList({ detail, data, page, size, setPage }) {
   };
 
   const updateReviewMutation = useMutation(updateReviews, {
-    onSuccess: () => queryClient.invalidateQueries("getdetail"),
+    onSuccess: () => queryClient.invalidateQueries("getReview"),
   });
 
   const onUpdateReviewHandler = (event, reviewId) => {
@@ -131,7 +159,7 @@ function ReviewList({ detail, data, page, size, setPage }) {
           </button>
         ))}
       </div>
-      {detail?.review?.content?.map((item) => (
+      {review?.map((item) => (
         <StReview key={item.id}>
           {edit.reviewId === item.id && edit.isEdit === true ? (
             <>
@@ -269,7 +297,8 @@ function ReviewList({ detail, data, page, size, setPage }) {
       <button disabled={page === 0} onClick={handlePrevPage}>
         이전페이지
       </button>
-      <button disabled={data?.length < size} onClick={handleNextPage}>
+      <div>{page}</div>
+      <button disabled={response?.length < size} onClick={handleNextPage}>
         다음페이지
       </button>
     </div>

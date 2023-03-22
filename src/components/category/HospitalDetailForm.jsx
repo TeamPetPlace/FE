@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import styled, { css } from "styled-components";
 import Map from "../../element/Map";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getDetail } from "../../api/detail";
+import { getDetail, getReview } from "../../api/detail";
 import { useCookies } from "react-cookie";
 import { checkTitle, deletePost, updatePost } from "../../api/owner";
 import PopupDom from "../owner/Popup";
@@ -17,36 +17,16 @@ const HospitalDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
   const navigate = useNavigate();
 
-  //페이지네이션
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(5);
-
   //상세페이지 조회
   const { id } = useParams();
   const [detail, setDetail] = useState("");
   const [slideImg, setSlideImg] = useState([]);
-  const { data } = useQuery(
-    [
-      "getdetail",
-      {
-        id: id,
-        page: page,
-        size: size,
-      },
-    ],
-    () =>
-      getDetail({
-        id: id,
-        page: page,
-        size: size,
-      }),
-    {
-      onSuccess: (response) => {
-        setDetail(response);
-        setSlideImg(response.image);
-      },
-    }
-  );
+  const { data } = useQuery("getdetail", () => getDetail(`${id}`), {
+    onSuccess: (response) => {
+      setDetail(response);
+      setSlideImg(response.image);
+    },
+  });
 
   //이미지 슬라이드
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -760,7 +740,7 @@ const HospitalDetailForm = () => {
               <label>업종 : {detail.category} </label> <br />
               <label>
                 운영 시간 : {detail.startTime} : {detail.endTime}
-              </label>{" "}
+              </label>
               <br />
               <label>휴무일 : {detail.closedDay}</label> <br />
               <div> {detail.contents} </div>
@@ -772,12 +752,10 @@ const HospitalDetailForm = () => {
                 setDetail={setDetail}
               />
               <ReviewList
+                id={id}
                 queryClient={queryClient}
                 detail={detail}
                 data={data}
-                page={page}
-                size={size}
-                setPage={setPage}
               ></ReviewList>
               <div>전체 리뷰수:{detail.reviewCount}</div>
               <div>평균평점:{detail.star}</div>

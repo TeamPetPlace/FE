@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { deleteReview, getDetail, updateReviews } from "../../api/detail";
 import { getMyReview } from "../../api/mypage";
-import Pagenation from "../../element/Pagenation";
 
 function MyReviewList() {
   const [reviewList, setReviewList] = useState([]);

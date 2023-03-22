@@ -1,8 +1,13 @@
 import axios from "axios";
 import { instance } from "./axios";
 
-const getDetail = async (payload) => {
-  const response = await instance.get(`${payload.id}`, {
+const getDetail = async (id) => {
+  const response = await instance.get(`${id}`);
+  return response.data;
+};
+
+const getReview = async (payload) => {
+  const response = await instance.get(`${payload.id}/review`, {
     params: { page: payload.page, size: payload.size },
   });
   return response.data;
@@ -69,4 +74,11 @@ const getHistory = async () => {
   return response.data;
 };
 
-export { getDetail, addReview, deleteReview, updateReviews, getHistory };
+export {
+  getDetail,
+  getReview,
+  addReview,
+  deleteReview,
+  updateReviews,
+  getHistory,
+};
