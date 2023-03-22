@@ -1,8 +1,10 @@
 import axios from "axios";
 import { instance } from "./axios";
 
-const getDetail = async (id) => {
-  const response = await instance.get(`${id}`);
+const getDetail = async (payload) => {
+  const response = await instance.get(`${payload.id}`, {
+    params: { page: payload.page, size: payload.size },
+  });
   return response.data;
 };
 

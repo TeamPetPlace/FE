@@ -6,10 +6,20 @@ import { instance } from "../api/axios";
 import { deleteReview, updateReviews } from "../api/detail";
 import MyReviewList from "../components/mypage/MyReviewList";
 
-function ReviewList({ id, detail, setDetail }) {
+function ReviewList({ detail, data, page, size, setPage }) {
   const [cookies] = useCookies(["access_token", "email"]);
   const [checked, setChecked] = useState([true, false, false]);
   const [tab, setTab] = useState("all");
+
+  //페이지네이션
+
+  const handlePrevPage = () => {
+    setPage((prevPage) => prevPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   const reviewTabList = [
     { id: 0, text: "전체후기", category: "all" },
@@ -121,7 +131,7 @@ function ReviewList({ id, detail, setDetail }) {
           </button>
         ))}
       </div>
-      {detail?.review?.map((item) => (
+      {detail?.review?.content?.map((item) => (
         <StReview key={item.id}>
           {edit.reviewId === item.id && edit.isEdit === true ? (
             <>
@@ -256,6 +266,12 @@ function ReviewList({ id, detail, setDetail }) {
           )}
         </StReview>
       ))}
+      <button disabled={page === 0} onClick={handlePrevPage}>
+        이전페이지
+      </button>
+      <button disabled={data?.length < size} onClick={handleNextPage}>
+        다음페이지
+      </button>
     </div>
   );
 }

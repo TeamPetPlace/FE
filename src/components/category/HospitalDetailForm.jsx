@@ -17,16 +17,36 @@ const HospitalDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
   const navigate = useNavigate();
 
+  //페이지네이션
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(5);
+
   //상세페이지 조회
   const { id } = useParams();
   const [detail, setDetail] = useState("");
   const [slideImg, setSlideImg] = useState([]);
-  const { data } = useQuery("getdetail", () => getDetail(`${id}`), {
-    onSuccess: (response) => {
-      setDetail(response);
-      setSlideImg(response.image);
-    },
-  });
+  const { data } = useQuery(
+    [
+      "getdetail",
+      {
+        id: id,
+        page: page,
+        size: size,
+      },
+    ],
+    () =>
+      getDetail({
+        id: id,
+        page: page,
+        size: size,
+      }),
+    {
+      onSuccess: (response) => {
+        setDetail(response);
+        setSlideImg(response.image);
+      },
+    }
+  );
 
   //이미지 슬라이드
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -43,12 +63,12 @@ const HospitalDetailForm = () => {
     },
   };
 
-  useEffect(() => {
-    const intervalid = setInterval(() => {
-      setCurrentImageIndex((currentImageIndex + 1) % slideImg.length);
-    }, 3000);
-    return () => clearInterval(intervalid);
-  }, [currentImageIndex, slideImg.length]);
+  // useEffect(() => {
+  //   const intervalid = setInterval(() => {
+  //     setCurrentImageIndex((currentImageIndex + 1) % slideImg.length);
+  //   }, 3000);
+  //   return () => clearInterval(intervalid);
+  // }, [currentImageIndex, slideImg.length]);
 
   //게시글 삭제
   const queryClient = useQueryClient();
@@ -734,7 +754,7 @@ const HospitalDetailForm = () => {
                 </>
               )}
               <StSlider>
-                <Stimg src={slideImg[currentImageIndex]} alt="imgslide" />
+                <Stimg src={detail.reSizeImage} alt="imgslide" />
               </StSlider>
               <h2>{detail.title}</h2>
               <label>업종 : {detail.category} </label> <br />
@@ -752,11 +772,13 @@ const HospitalDetailForm = () => {
                 setDetail={setDetail}
               />
               <ReviewList
-                id={id}
                 queryClient={queryClient}
                 detail={detail}
-                setDetail={setDetail}
-              />
+                data={data}
+                page={page}
+                size={size}
+                setPage={setPage}
+              ></ReviewList>
               <div>전체 리뷰수:{detail.reviewCount}</div>
               <div>평균평점:{detail.star}</div>
               <div>
