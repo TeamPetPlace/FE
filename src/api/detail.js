@@ -29,11 +29,13 @@ const addReview = async (payload) => {
       }
     )
     .then((response) => {
+      console.log(response.status);
       return response;
     })
-    .catch((err) => {
-      if (axios.isAxiosError(err)) {
-        return alert(`Error : ${err.message}`);
+    .catch((error) => {
+      console.log(error.toJSON().status);
+      if (error.toJSON().status === 400) {
+        return alert(`후기는 1주일에 한 번만 작성할 수 있습니다`);
       }
     });
 };

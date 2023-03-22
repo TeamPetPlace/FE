@@ -35,7 +35,6 @@ function ReviewList({ id }) {
     {
       onSuccess: (response) => {
         setReview(response.content);
-        console.log(response.content);
       },
     }
   );

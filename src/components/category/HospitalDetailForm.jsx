@@ -62,7 +62,7 @@ const HospitalDetailForm = () => {
     const message = window.confirm("삭제하시겠습니까?");
     if (message) {
       deletPostMutation.mutate(id);
-      navigate("/hospital");
+      navigate("/main");
     } else {
       return;
     }
@@ -737,10 +737,11 @@ const HospitalDetailForm = () => {
                 <Stimg src={detail.reSizeImage} alt="imgslide" />
               </StSlider>
               <h2>{detail.title}</h2>
+              <h2>{detail.id}</h2>
               <label>업종 : {detail.category} </label> <br />
               <label>
                 운영 시간 : {detail.startTime} : {detail.endTime}
-              </label>
+              </label>{" "}
               <br />
               <label>휴무일 : {detail.closedDay}</label> <br />
               <div> {detail.contents} </div>

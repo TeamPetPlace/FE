@@ -34,14 +34,7 @@ function Review({ id }) {
       image: image,
       star: clicked,
     };
-    addReviewMutation.mutate(payload, {
-      onError: (error) => {
-        if (error.response.status === 400) {
-          alert("후기는 1주일에 한 번만 작성이 가능합니다");
-        }
-      },
-    });
-    alert("후기 작성 완료");
+    addReviewMutation.mutate(payload);
     setReview("");
     setImgView("");
     setImage("");
