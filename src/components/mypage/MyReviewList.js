@@ -132,18 +132,14 @@ function MyReviewList() {
                 {edit.reviewId === item.id && edit.isEdit === true ? (
                   <>
                     <form
-                      onSubmit={(event) =>
-                        onUpdateReviewHandler(event, item.id)
-                      }
+                      onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
                       encType="multipart/form-data"
                     >
                       <input
                         type="text"
                         placeholder="후기를 작성해주세요"
                         value={updateReview}
-                        onChange={(event) =>
-                          setUpdateReview(event.target.value)
-                        }
+                        onChange={(event) => setUpdateReview(event.target.value)}
                       />
                       <button onClick={onImgButton}>이미지 업로드</button>
                       <div>
@@ -181,9 +177,7 @@ function MyReviewList() {
                 ) : (
                   <StReviews key={item.id}>
                     {item.category === "병원" && (
-                      <button
-                        onClick={() => navigate(`/hospital/${item.postId}`)}
-                      >
+                      <button onClick={() => navigate(`/hospital/${item.postId}`)}>
                         리뷰 보러가기
                       </button>
                     )}
@@ -211,9 +205,7 @@ function MyReviewList() {
                       (item.star === 5 && <div>★★★★★</div>)}
                     <div>{item.star}</div>
                     <button onClick={() => onEditMode(item.id)}>수정</button>
-                    <button onClick={() => onDeletetReviewHandler(item.id)}>
-                      삭제
-                    </button>
+                    <button onClick={() => onDeletetReviewHandler(item.id)}>삭제</button>
                   </StReviews>
                 )}
               </div>
