@@ -5,6 +5,7 @@ import { GoSearch } from "react-icons/go";
 import { AllPost, SearchPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
+import { useCookies } from "react-cookie";
 // import InfiniteScroll from "react-infinite-scroll-component";
 
 const ShopList = () => {
@@ -15,7 +16,9 @@ const ShopList = () => {
   const navigate = useNavigate();
   const queryclient = useQueryClient();
   const [sort, setSort] = useState("DISTANCE");
+  const [cookies] = useCookies(["lat", "lng"]);
 
+  const size = 2;
   //봤던 게시글 조회
   const [history, setHistory] = useState([]);
 
@@ -33,10 +36,10 @@ const ShopList = () => {
         category: "미용",
         // sort: "REVIEW",
         sort: sort,
-        lat: 37.53502829566887,
-        lng: 126.96471596469242,
+        lat: cookies.lat,
+        lng: cookies.lng,
         page: pageParam,
-        size: 2,
+        size: size,
       }),
     {
       getNextPageParam: (lastPage, pages) => {
@@ -57,10 +60,7 @@ const ShopList = () => {
 
   useEffect(() => {
     function handleScroll() {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        hasNextPage
-      ) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage) {
         fetchNextPage();
       }
     }
@@ -71,37 +71,6 @@ const ShopList = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [fetchNextPage, hasNextPage]);
-
-  // const { data } = useQuery(
-  //   [
-  //     "searchPost",
-  //     {
-  //       category: "미용",
-  //       // sort: "REVIEW",
-  //       sort: sort,
-  //       lat: 37.53502829566887,
-  //       lng: 126.96471596469242,
-  //       page: 0,
-  //       size: 10,
-  //     },
-  //   ],
-  //   () =>
-  //     AllPost({
-  //       category: "미용",
-  //       // sort: "REVIEW",
-  //       sort: sort,
-  //       lat: 37.53502829566887,
-  //       lng: 126.96471596469242,
-  //       page: 0,
-  //       size: 10,
-  //     }),
-  //   {
-  //     onSuccess: (item) => {
-  //       setCards(item.data.content);
-  //       queryclient.invalidateQueries("");
-  //     },
-  //   }
-  // );
 
   const onSortingHandler = (e) => {
     setSort(e.target.value);
@@ -115,10 +84,10 @@ const ShopList = () => {
         category: "미용",
         sort: updatedSort || sort,
         keyword: searchkeyword,
-        lat: 37.53502829566887,
-        lng: 126.96471596469242,
+        lat: cookies.lat,
+        lng: cookies.lng,
         page: 0,
-        size: 2,
+        size: size,
       });
       console.log(data.response);
       setSearchData(data.response);
