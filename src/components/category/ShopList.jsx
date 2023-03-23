@@ -46,9 +46,13 @@ const ShopList = () => {
         return pages.length;
       },
       onSuccess: (newData) => {
-        setCards((prevCards) =>
-          prevCards.concat(newData.pages.flatMap((page) => page.data.content))
-        );
+        setCards((prevCards) => {
+          const newItems = newData.pages.flatMap((page) => page.data.content);
+          const uniqueItems = newItems.filter(
+            (item) => !prevCards.includes(item)
+          );
+          return [...prevCards, ...uniqueItems];
+        });
       },
     }
   );
@@ -58,12 +62,15 @@ const ShopList = () => {
       if (
         window.innerHeight + window.scrollY >= document.body.offsetHeight &&
         hasNextPage
-      )
+      ) {
         fetchNextPage();
+      }
     }
-    window.addEventListener("scroll", handleScroll, true);
+
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
-      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [fetchNextPage, hasNextPage]);
 
