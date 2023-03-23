@@ -134,9 +134,13 @@ const ShopList = () => {
                   <div>미용실 이름 : {item.title}</div>
                   <div>주소 : {item.address}</div>
                   {parseInt(item.distance) > 999 && (
-                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
                   )}
-                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
                   <img src={item.reSizeImage} />
                 </StCard>
                 {/* <button onClick={() => LikeBtn(item)}>

@@ -1,3 +1,4 @@
+import { async } from "q";
 import React, { useEffect, useState } from "react";
 import {
   QueryClient,
@@ -13,8 +14,8 @@ function Tab() {
   const [category, setCategory] = useState("병원");
   const navigate = useNavigate();
 
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
+  const [lat, setLat] = useState(37.555078);
+  const [lng, setLng] = useState(126.970702);
 
   //현재 사용자의 위치 정보
   const onLocationHandler = () => {
@@ -28,9 +29,77 @@ function Tab() {
       },
       (error) => {
         console.log("geolocation ");
+      },
+      {
+        enableHighAccuracy: true,
       }
     );
   };
+
+  //2번째
+  // const [permissionDenied, setPermissionDenied] = useState(false);
+  // useEffect(() => {
+  //   const requestLocationPermission = async () => {
+  //     try {
+  //       await navigator.permissions.query({ name: "geolocation" });
+  //     } catch (e) {
+  //       setPermissionDenied(true);
+  //     }
+  //   };
+  //   requestLocationPermission();
+  // }, []);
+
+  // const onLocationHandler = () => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     (position) => {
+  //       const lat = position.coords.latitude;
+  //       const lng = position.coords.longitude;
+  //       setLat(lat);
+  //       setLng(lng);
+  //       console.log(`latitue:${lat}, longitude:${lng}`);
+  //     },
+  //     (error) => {
+  //       if (error.code === error.PERMISSION_DENIED) {
+  //         setPermissionDenied(true);
+  //       }
+  //     },
+  //     { enableHighAccuracy: true }
+  //   );
+  // };
+
+  //3번째
+  // const [permission, setPermission] = useState(true);
+  // const onLocationHandler = () => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const lat = position.coords.latitude;
+  //         const lng = position.coords.longitude;
+  //         setLat(lat);
+  //         setLng(lng);
+  //       },
+  //       (error) => {
+  //         if (error.code === error.PERMISSION_DENIED) {
+  //           const watchId = navigator.geolocation.watchPosition(
+  //             () => {},
+  //             () => {},
+  //             { enableHighAccuracy: false, maximumAge: 0, timeout: Infinity }
+  //           );
+  //           navigator.permissions
+  //             .query({ name: "geolocation" })
+  //             .then((PermissionStatus) => {
+  //               PermissionStatus.onchange = () => {
+  //                 if (PermissionStatus.state === "granted") {
+  //                   setPermission(true);
+  //                   navigator.geolocation.clearWatch(watchId);
+  //                 }
+  //               };
+  //             });
+  //         }
+  //       }
+  //     );
+  //   }
+  // };
 
   const { data } = useQuery(
     [

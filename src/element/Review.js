@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
-import { addReview } from "../api/detail";
+import { addReview, getReview } from "../api/detail";
 import { useCookies } from "react-cookie";
 
 function Review({ id }) {
@@ -18,12 +18,13 @@ function Review({ id }) {
 
   const queryClient = useQueryClient();
   const addReviewMutation = useMutation(addReview, {
-    onSuccess: () => queryClient.invalidateQueries("getdetail"),
+    onSuccess: () => queryClient.invalidateQueries("getReview"),
   });
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
     if (review.trim() === "") return alert("내용을 입력해주세요");
+    if (!clicked) return alert("평점을 입력해주세요");
     const formData = new FormData();
     formData.append("review", review);
     formData.append("image", image);
@@ -34,7 +35,6 @@ function Review({ id }) {
       star: clicked,
     };
     addReviewMutation.mutate(payload);
-    alert("후기 작성 완료");
     setReview("");
     setImgView("");
     setImage("");

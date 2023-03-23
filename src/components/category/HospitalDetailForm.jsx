@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import styled, { css } from "styled-components";
 import Map from "../../element/Map";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getDetail } from "../../api/detail";
+import { getDetail, getReview } from "../../api/detail";
 import { useCookies } from "react-cookie";
 import { checkTitle, deletePost, updatePost } from "../../api/owner";
 import PopupDom from "../owner/Popup";
@@ -43,12 +43,12 @@ const HospitalDetailForm = () => {
     },
   };
 
-  useEffect(() => {
-    const intervalid = setInterval(() => {
-      setCurrentImageIndex((currentImageIndex + 1) % slideImg.length);
-    }, 3000);
-    return () => clearInterval(intervalid);
-  }, [currentImageIndex, slideImg.length]);
+  // useEffect(() => {
+  //   const intervalid = setInterval(() => {
+  //     setCurrentImageIndex((currentImageIndex + 1) % slideImg.length);
+  //   }, 3000);
+  //   return () => clearInterval(intervalid);
+  // }, [currentImageIndex, slideImg.length]);
 
   //게시글 삭제
   const queryClient = useQueryClient();
@@ -62,7 +62,7 @@ const HospitalDetailForm = () => {
     const message = window.confirm("삭제하시겠습니까?");
     if (message) {
       deletPostMutation.mutate(id);
-      navigate("/hospital");
+      navigate("/main");
     } else {
       return;
     }
@@ -695,9 +695,10 @@ const HospitalDetailForm = () => {
                 </>
               )}
               <StSlider>
-                <Stimg src={slideImg[currentImageIndex]} alt="imgslide" />
+                <Stimg src={detail.reSizeImage} alt="imgslide" />
               </StSlider>
               <h2>{detail.title}</h2>
+              <h2>{detail.id}</h2>
               <label>업종 : {detail.category} </label> <br />
               <label>
                 운영 시간 : {detail.startTime} : {detail.endTime}
@@ -706,8 +707,18 @@ const HospitalDetailForm = () => {
               <label>휴무일 : {detail.closedDay}</label> <br />
               <div> {detail.contents} </div>
               <label> {detail.address}</label>
-              <Review id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
-              <ReviewList id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+              <Review
+                id={id}
+                queryClient={queryClient}
+                detail={detail}
+                setDetail={setDetail}
+              />
+              <ReviewList
+                id={id}
+                queryClient={queryClient}
+                detail={detail}
+                data={data}
+              ></ReviewList>
               <div>전체 리뷰수:{detail.reviewCount}</div>
               <div>평균평점:{detail.star}</div>
               <div>
