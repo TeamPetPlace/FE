@@ -5,7 +5,6 @@ import { GoSearch } from "react-icons/go";
 import { AllPost, SearchPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 const ShopList = () => {
   const [cards, setCards] = useState([]);
@@ -120,7 +119,7 @@ const ShopList = () => {
         lat: 37.53502829566887,
         lng: 126.96471596469242,
         page: 0,
-        size: 1,
+        size: 2,
       });
       console.log(data.response);
       setSearchData(data.response);

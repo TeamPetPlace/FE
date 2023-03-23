@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { NomalLogin } from "../../api/user";
 import { removeCookie } from "../../api/cookie";
 import { getMypage } from "../../api/mypage";
+import { useCookies } from "react-cookie";
 
 function Header() {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ function Header() {
     },
   });
 
+  const [cookies] = useCookies(["access_token", "nickname"]);
+
   //드롭다운
   const [drop, setDrop] = useState(false);
 
@@ -28,6 +31,7 @@ function Header() {
       removeCookie("refresh_token");
       removeCookie("loginType");
       removeCookie("email");
+      removeCookie("nickname");
       alert("로그아웃 되었습니다");
       window.location.href = "/";
     },
@@ -58,7 +62,7 @@ function Header() {
               <StProfile src={profile} alt="img" />
             )}
 
-            <div>닉네임</div>
+            <div>{cookies.nickname}</div>
             <StUserBar
               onMouseEnter={() => setDrop(!drop)}
               onMouseLeave={() => setDrop(!drop)}

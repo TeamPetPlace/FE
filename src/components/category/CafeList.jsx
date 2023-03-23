@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import React, { useEffect, useState } from "react";
+import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { GoSearch } from "react-icons/go";
 import { SearchPost, AllPost } from "../../api/category";
@@ -25,34 +25,83 @@ const CafeList = () => {
     },
   });
 
-  const { data } = useQuery(
-    [
-      "searchPost",
-      {
-        category: "카페",
-        sort: sort,
-        lat: 37.53502829566887,
-        lng: 126.96471596469242,
-        page: 0,
-        size: 10,
-      },
-    ],
-    () =>
+  //무한스크롤
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    "searchPost",
+    ({ pageParam = 0 }) =>
       AllPost({
         category: "카페",
+        // sort: "REVIEW",
         sort: sort,
         lat: 37.53502829566887,
         lng: 126.96471596469242,
-        page: 0,
-        size: 10,
+        page: pageParam,
+        size: 2,
       }),
     {
-      onSuccess: (item) => {
-        setCards(item.data.content);
-        queryclient.invalidateQueries("");
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.data.last) {
+          return null;
+        }
+        return pages.length;
+      },
+      onSuccess: (newData) => {
+        setCards((prevCards) => {
+          const newItems = newData.pages.flatMap((page) => page.data.content);
+          const uniqueItems = newItems.filter(
+            (item) => !prevCards.includes(item)
+          );
+          return [...prevCards, ...uniqueItems];
+        });
       },
     }
   );
+
+  useEffect(() => {
+    function handleScroll() {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        hasNextPage
+      ) {
+        fetchNextPage();
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [fetchNextPage, hasNextPage]);
+
+  // const { data } = useQuery(
+  //   [
+  //     "searchPost",
+  //     {
+  //       category: "카페",
+  //       sort: sort,
+  //       lat: 37.53502829566887,
+  //       lng: 126.96471596469242,
+  //       page: 0,
+  //       size: 10,
+  //     },
+  //   ],
+  //   () =>
+  //     AllPost({
+  //       category: "카페",
+  //       sort: sort,
+  //       lat: 37.53502829566887,
+  //       lng: 126.96471596469242,
+  //       page: 0,
+  //       size: 10,
+  //     }),
+  //   {
+  //     onSuccess: (item) => {
+  //       setCards(item.data.content);
+  //       queryclient.invalidateQueries("");
+  //     },
+  //   }
+  // );
 
   const onSortingHandler = (e) => {
     setSort(e.target.value);
@@ -76,7 +125,7 @@ const CafeList = () => {
     } catch (error) {
       console.log(error);
       alert("검색결과가 없습니다!");
-      window.location.replace("/shop");
+      window.location.replace("/cafe");
     }
   };
 
