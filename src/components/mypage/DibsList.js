@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { useQuery } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
+import { cancelDibs } from "../../api/main";
 import { getMyDibs } from "../../api/mypage";
 
 function DibsList() {
@@ -35,6 +41,22 @@ function DibsList() {
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
+  };
+
+  const queryClient = useQueryClient();
+
+  const cancelDibsMutation = useMutation(cancelDibs, {
+    onSuccess: () => {
+      alert("찜하기 취소");
+      queryClient.invalidateQueries("getmydibs");
+    },
+  });
+
+  const onDibsHandler = (item) => {
+    const payload = {
+      id: item.id,
+    };
+    cancelDibsMutation.mutate(payload);
   };
 
   //탭
@@ -84,6 +106,9 @@ function DibsList() {
                   <div>카테고리:{item.category}</div>
                   <div>업체명: {item.title}</div>
                   <img src={item.reSizeImage} alt="image" />
+                  <button onClick={() => onDibsHandler(item)}>
+                    찜하기 취소
+                  </button>
                 </div>
               ) : category === "미용" && item.category === "미용" ? (
                 <div key={item.id}>
