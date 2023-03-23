@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { deleteReview, getDetail, updateReviews } from "../../api/detail";
 import { getMyReview } from "../../api/mypage";
-import Pagenation from "../../element/Pagenation";
 
 function MyReviewList() {
   const [reviewList, setReviewList] = useState([]);
@@ -30,7 +29,6 @@ function MyReviewList() {
     {
       onSuccess: (response) => {
         setReviewList(response.content);
-        console.log(response);
       },
     }
   );
@@ -125,101 +123,110 @@ function MyReviewList() {
   return (
     <div>
       <div>
-        {reviewList?.map((item) => {
-          return (
-            <div key={item.id}>
-              <div>
-                {edit.reviewId === item.id && edit.isEdit === true ? (
-                  <>
-                    <form
-                      onSubmit={(event) =>
-                        onUpdateReviewHandler(event, item.id)
-                      }
-                      encType="multipart/form-data"
-                    >
-                      <input
-                        type="text"
-                        placeholder="후기를 작성해주세요"
-                        value={updateReview}
-                        onChange={(event) =>
-                          setUpdateReview(event.target.value)
+        {reviewList.length > 0 &&
+          reviewList?.map((item) => {
+            return (
+              <div key={item.id}>
+                <div>
+                  {edit.reviewId === item.id && edit.isEdit === true ? (
+                    <>
+                      <form
+                        onSubmit={(event) =>
+                          onUpdateReviewHandler(event, item.id)
                         }
-                      />
-                      <button onClick={onImgButton}>이미지 업로드</button>
-                      <div>
-                        {imgView.map((item, index) => {
-                          return <StImg src={item} alt="img" key={index} />;
-                        })}
-                      </div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        id="fileUpload"
-                        style={{ display: "none" }}
-                        ref={fileInput}
-                        onChange={onImgHandler}
-                      />
-                      <StStar>
-                        <p>평점</p>
-                        <div style={{ display: "flex" }}>
-                          {[1, 2, 3, 4, 5].map((el) => (
-                            <p
-                              key={el}
-                              onMouseEnter={() => setHovered(el)}
-                              onMouseLeave={() => setHovered(null)}
-                              onClick={() => setClicked(el)}
-                              value={clicked}
-                            >{`${(clicked >= el) | (hovered >= el) && "★"}`}</p>
-                          ))}
-                        </div>
-                      </StStar>
-
-                      <button>수정</button>
-                      <button onClick={() => onEditMode(item.id)}>취소</button>
-                    </form>
-                  </>
-                ) : (
-                  <StReviews key={item.id}>
-                    {item.category === "병원" && (
-                      <button
-                        onClick={() => navigate(`/hospital/${item.postId}`)}
+                        encType="multipart/form-data"
                       >
-                        리뷰 보러가기
+                        <input
+                          type="text"
+                          placeholder="후기를 작성해주세요"
+                          value={updateReview}
+                          onChange={(event) =>
+                            setUpdateReview(event.target.value)
+                          }
+                        />
+                        <button onClick={onImgButton}>이미지 업로드</button>
+                        <div>
+                          {imgView.map((item, index) => {
+                            return <StImg src={item} alt="img" key={index} />;
+                          })}
+                        </div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          id="fileUpload"
+                          style={{ display: "none" }}
+                          ref={fileInput}
+                          onChange={onImgHandler}
+                        />
+                        <StStar>
+                          <p>평점</p>
+                          <div style={{ display: "flex" }}>
+                            {[1, 2, 3, 4, 5].map((el) => (
+                              <p
+                                key={el}
+                                onMouseEnter={() => setHovered(el)}
+                                onMouseLeave={() => setHovered(null)}
+                                onClick={() => setClicked(el)}
+                                value={clicked}
+                              >{`${
+                                (clicked >= el) | (hovered >= el) && "★"
+                              }`}</p>
+                            ))}
+                          </div>
+                        </StStar>
+
+                        <button>수정</button>
+                        <button onClick={() => onEditMode(item.id)}>
+                          취소
+                        </button>
+                      </form>
+                    </>
+                  ) : (
+                    <StReviews key={item.id}>
+                      {item.category === "병원" && (
+                        <button
+                          onClick={() => navigate(`/hospital/${item.postId}`)}
+                        >
+                          리뷰 보러가기
+                        </button>
+                      )}
+                      {item.category === "미용" && (
+                        <button
+                          onClick={() => navigate(`/shop/${item.postId}`)}
+                        >
+                          리뷰 보러가기
+                        </button>
+                      )}
+                      {item.category === "카페" && (
+                        <button
+                          onClick={() => navigate(`/cafe/${item.postId}`)}
+                        >
+                          리뷰 보러가기
+                        </button>
+                      )}
+                      <div>{item.id}이메일</div>
+                      <div>{item.email}이메일</div>
+                      <div>{item.nickname}닉네임</div>
+                      <div>{item.review}</div>
+                      <div>{item.category}</div>
+                      <div>{item.title}</div>
+                      <div>{item.postId}</div>
+                      {(item.star === 1 && <div>★</div>) ||
+                        (item.star === 2 && <div>★★</div>) ||
+                        (item.star === 3 && <div>★★★</div>) ||
+                        (item.star === 4 && <div>★★★★</div>) ||
+                        (item.star === 5 && <div>★★★★★</div>)}
+                      <div>{item.star}</div>
+                      <button onClick={() => onEditMode(item.id)}>수정</button>
+                      <button onClick={() => onDeletetReviewHandler(item.id)}>
+                        삭제
                       </button>
-                    )}
-                    {item.category === "미용" && (
-                      <button onClick={() => navigate(`/shop/${item.postId}`)}>
-                        리뷰 보러가기
-                      </button>
-                    )}
-                    {item.category === "카페" && (
-                      <button onClick={() => navigate(`/cafe/${item.postId}`)}>
-                        리뷰 보러가기
-                      </button>
-                    )}
-                    <div>{item.id}이메일</div>
-                    <div>{item.email}이메일</div>
-                    <div>{item.nickname}닉네임</div>
-                    <div>{item.review}</div>
-                    <div>{item.category}</div>
-                    <div>{item.title}</div>
-                    <div>{item.postId}</div>
-                    {(item.star === 1 && <div>★</div>) ||
-                      (item.star === 2 && <div>★★</div>) ||
-                      (item.star === 3 && <div>★★★</div>) ||
-                      (item.star === 4 && <div>★★★★</div>) ||
-                      (item.star === 5 && <div>★★★★★</div>)}
-                    <div>{item.star}</div>
-                    <button onClick={() => onEditMode(item.id)}>수정</button>
-                    <button onClick={() => onDeletetReviewHandler(item.id)}>
-                      삭제
-                    </button>
-                  </StReviews>
-                )}
+                    </StReviews>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
         <button disabled={page === 0} onClick={handlePrevPage}>
           이전페이지
         </button>
