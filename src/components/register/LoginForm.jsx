@@ -22,6 +22,7 @@ const LoginForm = () => {
   const loginMutation = useMutation(NomalLogin, {
     onSuccess: (response) => {
       setCookie("loginType", response.data.response.loginType);
+      setCookie("nickname", response.data.response.nickname);
       setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
       setCookie("refresh_token", response.headers.refresh_token);
