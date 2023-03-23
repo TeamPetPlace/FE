@@ -5,6 +5,7 @@ import { GoSearch } from "react-icons/go";
 import { AllPost, SearchPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
+// import InfiniteScroll from "react-infinite-scroll-component";
 
 const ShopList = () => {
   const [cards, setCards] = useState([]);
@@ -47,9 +48,7 @@ const ShopList = () => {
       onSuccess: (newData) => {
         setCards((prevCards) => {
           const newItems = newData.pages.flatMap((page) => page.data.content);
-          const uniqueItems = newItems.filter(
-            (item) => !prevCards.includes(item)
-          );
+          const uniqueItems = newItems.filter((item) => !prevCards.includes(item));
           return [...prevCards, ...uniqueItems];
         });
       },
@@ -191,13 +190,9 @@ const ShopList = () => {
                   <div>미용실 이름 : {item.title}</div>
                   <div>주소 : {item.address}</div>
                   {parseInt(item.distance) > 999 && (
-                    <div>
-                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                    </div>
+                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
                   )}
-                  {parseInt(item.distance) < 999 && (
-                    <div>{parseInt(item.distance)}m남음</div>
-                  )}
+                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                   <img src={item.reSizeImage} />
                 </StCard>
                 {/* <button onClick={() => LikeBtn(item)}>
@@ -222,13 +217,9 @@ const ShopList = () => {
                 <div>미용실 이름 : {item.title}</div>
                 <div>주소 : {item.address}</div>
                 {parseInt(item.distance) > 999 && (
-                  <div>
-                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                  </div>
+                  <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
                 )}
-                {parseInt(item.distance) < 999 && (
-                  <div>{parseInt(item.distance)}m남음</div>
-                )}
+                {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                 <img src={item.reSizeImage} />
               </StCard>
             );
@@ -247,6 +238,7 @@ const StPlace = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 10px;
+
   background-color: skyblue;
 `;
 
@@ -257,6 +249,8 @@ const StCards = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  flex-direction: column;
+
   background-color: #f7f7de;
 `;
 
