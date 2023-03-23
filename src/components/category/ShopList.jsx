@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import React, { useEffect, useState } from "react";
+import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { GoSearch } from "react-icons/go";
 import { AllPost, SearchPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
+// import InfiniteScroll from "react-infinite-scroll-component";
 
 const ShopList = () => {
   const [cards, setCards] = useState([]);
@@ -24,37 +25,80 @@ const ShopList = () => {
     },
   });
 
-  const { data } = useQuery(
-    [
-      "AllPost",
-      {
-        category: "미용",
-        // sort: "REVIEW",
-        sort: sort,
-        lat: 37.53502829566887,
-        lng: 126.96471596469242,
-        page: 0,
-        size: 10,
-      },
-    ],
-    () =>
+  // const { data } = useQuery(
+  //   [
+  //     "AllPost",
+  //     {
+  //       category: "미용",
+  //       // sort: "REVIEW",
+  //       sort: sort,
+  //       lat: 37.53502829566887,
+  //       lng: 126.96471596469242,
+  //       page: 0,
+  //       size: 10,
+  //     },
+  //   ],
+  //   () =>
+  //     AllPost({
+  //       category: "미용",
+  //       // sort: "REVIEW",
+  //       sort: sort,
+  //       lat: 37.53502829566887,
+  //       lng: 126.96471596469242,
+  //       page: 0,
+  //       size: 10,
+  //     }),
+  //   {
+  //     onSuccess: (item) => {
+  //       setCards(item.data.content);
+  //       queryclient.invalidateQueries("");
+  //     },
+  //   }
+  // );
+
+  //무한스크롤
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    "searchPost",
+    ({ pageParam = 0 }) =>
       AllPost({
         category: "미용",
         // sort: "REVIEW",
         sort: sort,
         lat: 37.53502829566887,
         lng: 126.96471596469242,
-        page: 0,
-        size: 10,
+        page: pageParam,
+        size: 2,
       }),
     {
-      onSuccess: (item) => {
-        setCards(item.data.content);
-        queryclient.invalidateQueries("");
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.data.last) {
+          return null;
+        }
+        // return pages.length;
+        return pages.length;
+      },
+      onSuccess: (newData) => {
+        setCards((prevCards) => {
+          const newItems = newData.pages.flatMap((page) => page.data.content);
+          const uniqueItems = newItems.filter((item) => !prevCards.includes(item));
+          return [...prevCards, ...uniqueItems];
+        });
       },
     }
   );
 
+  useEffect(() => {
+    function handleScroll() {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage)
+        fetchNextPage();
+    }
+    window.addEventListener("scroll", handleScroll, true);
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [fetchNextPage, hasNextPage]);
+
+  //검색
   const onSearchHandler = async (e) => {
     setIsSearchMode(true);
     e.preventDefault();
@@ -134,13 +178,9 @@ const ShopList = () => {
                   <div>미용실 이름 : {item.title}</div>
                   <div>주소 : {item.address}</div>
                   {parseInt(item.distance) > 999 && (
-                    <div>
-                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                    </div>
+                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
                   )}
-                  {parseInt(item.distance) < 999 && (
-                    <div>{parseInt(item.distance)}m남음</div>
-                  )}
+                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                   <img src={item.reSizeImage} />
                 </StCard>
                 {/* <button onClick={() => LikeBtn(item)}>
@@ -165,13 +205,9 @@ const ShopList = () => {
                 <div>미용실 이름 : {item.title}</div>
                 <div>주소 : {item.address}</div>
                 {parseInt(item.distance) > 999 && (
-                  <div>
-                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                  </div>
+                  <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
                 )}
-                {parseInt(item.distance) < 999 && (
-                  <div>{parseInt(item.distance)}m남음</div>
-                )}
+                {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                 <img src={item.reSizeImage} />
               </StCard>
             );
@@ -190,6 +226,7 @@ const StPlace = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 10px;
+
   background-color: skyblue;
 `;
 
@@ -199,6 +236,8 @@ const StCards = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
+  flex-direction: column;
+
   background-color: #f7f7de;
 `;
 

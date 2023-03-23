@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getCookie, removeCookie, setCookie } from "./cookie";
+import { debounce } from "lodash";
 
 const access_token = getCookie("ACCESS_TOKEN");
 
@@ -53,14 +54,11 @@ instance.interceptors.response.use(
       if (refresh_token) {
         try {
           console.log("재발급중...");
-          const response = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/token`,
-            {
-              headers: {
-                Refresh_Token: `${refresh_token}`,
-              },
-            }
-          );
+          const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/token`, {
+            headers: {
+              Refresh_Token: `${refresh_token}`,
+            },
+          });
           const access_token = response.headers.authorization;
           setCookie("access_token", access_token);
           OriginRequestError.header.Authorization = `${access_token}`;
@@ -76,7 +74,7 @@ instance.interceptors.response.use(
           console.log(error);
           removeCookie("access_token");
           removeCookie("refresh_token");
-          console.log("세션이 만료되었습니다. 다시 로그인해주세요!");
+          alert("세션이 만료되었습니다. 다시 로그인해주세요!");
           // window.location.replace("/");
           return Promise.reject(error);
         }
