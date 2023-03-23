@@ -69,27 +69,6 @@ const HospitalList = () => {
     };
   }, [fetchNextPage, hasNextPage]);
 
-  const onSearchHandler = async (e) => {
-    setIsSearchMode(true);
-    try {
-      const { data } = await SearchPost({
-        category: "병원",
-        keyword: searchkeyword,
-        sort: sort,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        page: 0,
-        size: size,
-      });
-      console.log(data.response);
-      setSearchData(data.response);
-    } catch (error) {
-      console.log(error);
-      alert("검색결과가 없습니다!");
-      window.location.replace("/hospital");
-    }
-  };
-
   // const LikeMutation = useMutation(AddLikesPost, {
   //   onSuccess: () => {
   //     queryclient.invalidateQueries("AllPost");
@@ -126,12 +105,36 @@ const HospitalList = () => {
 
   const onSortingHandler = (e) => {
     setSort(e.target.value);
-    document.getElementById("sort");
-    document.getElementById("search");
-
-    console.log(sort);
+    onSearchHandler(e.target.value);
   };
 
+  const onSearchHandler = async (updatedSort) => {
+    setIsSearchMode(true);
+    try {
+      const { data } = await SearchPost({
+        category: "미용",
+        sort: updatedSort || sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: 0,
+        size: 2,
+      });
+      console.log(data.response);
+      setSearchData(data.response);
+    } catch (error) {
+      console.log(error);
+      alert("검색결과가 없습니다!");
+      window.location.replace("/shop");
+    }
+  };
+
+  //엔터 누르면 검색
+  const onKeyPressHandler = (event) => {
+    if (event.key === "Enter") {
+      onSearchHandler();
+    }
+  };
   return (
     <>
       <StPlace>
@@ -160,6 +163,7 @@ const HospitalList = () => {
             onChange={(e) => {
               setSearchKeyword(e.target.value);
             }}
+            onKeyPress={onKeyPressHandler}
           />
           <button id="search" onClick={onSearchHandler}>
             <GoSearch />
