@@ -73,10 +73,11 @@ instance.interceptors.response.use(
           // return baseURL(OriginRequestError);
         } catch (error) {
           //두가지 토큰 모두 만료시
+          console.log(error);
           removeCookie("access_token");
           removeCookie("refresh_token");
-          alert("세션이 만료되었습니다. 다시 로그인해주세요!");
-          window.location.href("/");
+          console.log("세션이 만료되었습니다. 다시 로그인해주세요!");
+          // window.location.replace("/");
           return Promise.reject(error);
         }
       }

@@ -37,12 +37,12 @@ export const NomalLogin = async (payload) => {
       email: payload.email,
       password: payload.password,
     });
+    console.log(response.data);
 
-    console.log(response);
     return response;
   } catch (error) {
-    console.log(error);
-    return error.data;
+    // console.log(error.toJSON());
+    return error;
   }
 };
 
@@ -50,8 +50,6 @@ export const KaKaoLogin = () => {
   const { REACT_APP_KAKAO_REST_API_KEY, REACT_APP_KAKAO_REDIRECT_URI } = process.env;
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
   window.location.href = link;
-
-  // instance.get(`/kakao/callback/`)
 };
 
 export const CheckEmail = async (payload) => {
@@ -59,7 +57,7 @@ export const CheckEmail = async (payload) => {
     const response = await baseURL.get("/signup/usercheck", {
       params: { email: payload },
     });
-    console.log(response);
+    console.log(response.data.success);
     return response.data.success;
   } catch (error) {
     // console.log(error);

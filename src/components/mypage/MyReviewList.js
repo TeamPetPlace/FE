@@ -174,7 +174,6 @@ function MyReviewList() {
                             ))}
                           </div>
                         </StStar>
-
                         <button>수정</button>
                         <button onClick={() => onEditMode(item.id)}>
                           취소

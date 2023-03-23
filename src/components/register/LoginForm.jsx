@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { setCookie } from "../../api/cookie";
@@ -29,10 +30,10 @@ const LoginForm = () => {
       navigate("/main");
     },
     onError: (error) => {
+      console.log(error);
       // alert("로그인 실패");
     },
   });
-  // console.log(type);
 
   const onLoginSubmit = (event) => {
     event.preventDefault();

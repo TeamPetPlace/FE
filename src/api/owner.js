@@ -5,8 +5,7 @@ const addPost = async (formData) => {
   await instance
     .post("/write", formData, {
       headers: {
-        "Content-Type":
-          "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
+        "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
       },
     })
     .then((response) => {
@@ -56,8 +55,7 @@ const updatePost = async (payload) => {
       },
       {
         headers: {
-          "Content-Type":
-            "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
+          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
         },
       }
     )
