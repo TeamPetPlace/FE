@@ -10,6 +10,10 @@ function Map({ id, queryClient, detail, setDetail }) {
       level: 2,
     };
     const map = new kakao.maps.Map(container, options);
+    const mapTypeControl = new kakao.maps.MapTypeControl();
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+    const zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
     const places = new kakao.maps.services.Places();
     const markerPosition = new kakao.maps.LatLng(detail.lat, detail.lng);

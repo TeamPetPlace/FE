@@ -26,7 +26,7 @@ const ShopList = () => {
 
   const { data } = useQuery(
     [
-      "AllPost",
+      "searchPost",
       {
         category: "미용",
         // sort: "REVIEW",
@@ -55,13 +55,17 @@ const ShopList = () => {
     }
   );
 
-  const onSearchHandler = async (e) => {
+  const onSortingHandler = (e) => {
+    setSort(e.target.value);
+    onSearchHandler(e.target.value);
+  };
+
+  const onSearchHandler = async (updatedSort) => {
     setIsSearchMode(true);
-    e.preventDefault();
     try {
       const { data } = await SearchPost({
         category: "미용",
-        sort: sort,
+        sort: updatedSort || sort,
         keyword: searchkeyword,
         lat: 37.53502829566887,
         lng: 126.96471596469242,
@@ -77,10 +81,11 @@ const ShopList = () => {
     }
   };
 
-  const onSortingHandler = (e) => {
-    setSort(e.target.value);
-    // document.getElementById("sort");
-    console.log(sort);
+  //엔터 누르면 검색
+  const onKeyPressHandler = (event) => {
+    if (event.key === "Enter") {
+      onSearchHandler();
+    }
   };
 
   return (
@@ -108,16 +113,19 @@ const ShopList = () => {
             onChange={(e) => {
               setSearchKeyword(e.target.value);
             }}
+            onKeyPress={onKeyPressHandler}
           />
           <button onClick={onSearchHandler}>
             <GoSearch />
           </button>
         </div>
-        <select id="sort" name="sorting" onChange={onSortingHandler}>
-          <option value="DISTANCE"> 근거리순 </option>
-          <option value="STAR"> 평점순</option>
-          <option value="REVIEW"> 후기순</option>
-        </select>
+        <StFilterBox>
+          <select id="sort" name="sort" onChange={onSortingHandler}>
+            <option value="DISTANCE"> 근거리순 </option>
+            <option value="STAR"> 평점순</option>
+            <option value="REVIEW"> 후기순</option>
+          </select>
+        </StFilterBox>
       </StPlace>
       {!isSearchMode ? (
         <StCards>
@@ -216,3 +224,5 @@ const StHistory = styled.div`
   background-color: aliceblue;
   left: 80%;
 `;
+
+const StFilterBox = styled.div``;

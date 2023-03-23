@@ -27,7 +27,7 @@ const CafeList = () => {
 
   const { data } = useQuery(
     [
-      "AllPost",
+      "searchPost",
       {
         category: "카페",
         sort: sort,
@@ -49,10 +49,42 @@ const CafeList = () => {
     {
       onSuccess: (item) => {
         setCards(item.data.content);
-        queryclient.invalidateQueries("getPost");
+        queryclient.invalidateQueries("");
       },
     }
   );
+
+  const onSortingHandler = (e) => {
+    setSort(e.target.value);
+    onSearchHandler(e.target.value);
+  };
+
+  const onSearchHandler = async (updatedSort) => {
+    setIsSearchMode(true);
+    try {
+      const { data } = await SearchPost({
+        category: "카페",
+        sort: updatedSort || sort,
+        keyword: searchkeyword,
+        lat: 37.53502829566887,
+        lng: 126.96471596469242,
+        page: 0,
+        size: 10,
+      });
+      console.log(data.response);
+      setSearchData(data.response);
+    } catch (error) {
+      console.log(error);
+      alert("검색결과가 없습니다!");
+      window.location.replace("/shop");
+    }
+  };
+
+  const onKeyPressHandler = (event) => {
+    if (event.key === "Enter") {
+      onSearchHandler();
+    }
+  };
 
   // const LikeMutation = useMutation(AddLikesPost, {
   //   onSuccess: () => {
@@ -88,34 +120,6 @@ const CafeList = () => {
   //   // console.log(item.id);
   // };
 
-  const onSearchHandler = async (e) => {
-    setIsSearchMode(true);
-    e.preventDefault();
-    try {
-      const { data } = await SearchPost({
-        category: "카페",
-        sort: sort,
-        keyword: searchkeyword,
-        lat: 37.53502829566887,
-        lng: 126.96471596469242,
-        page: 0,
-        size: 10,
-      });
-      console.log(data.response);
-      setSearchData(data.response);
-    } catch (error) {
-      console.log(error);
-      alert("검색결과가 없습니다!");
-      window.location.replace("/shop");
-    }
-  };
-
-  const onSortingHandler = (e) => {
-    setSort(e.target.value);
-    // document.getElementById("sort");
-    console.log(sort);
-  };
-
   return (
     <>
       <StPlace>
@@ -141,16 +145,19 @@ const CafeList = () => {
             onChange={(e) => {
               setSearchKeyword(e.target.value);
             }}
+            onKeyPress={onKeyPressHandler}
           />
           <button onClick={onSearchHandler}>
             <GoSearch />
           </button>
         </div>
-        <select id="sort" name="sorting" onChange={onSortingHandler}>
-          <option value="DISTANCE"> 근거리순 </option>
-          <option value="STAR"> 평점순</option>
-          <option value="REVIEW"> 후기순</option>
-        </select>
+        <StFilterBox>
+          <select id="sort" name="sort" onChange={onSortingHandler}>
+            <option value="DISTANCE"> 근거리순 </option>
+            <option value="STAR"> 평점순</option>
+            <option value="REVIEW"> 후기순</option>
+          </select>
+        </StFilterBox>
       </StPlace>
 
       {!isSearchMode ? (
@@ -201,9 +208,14 @@ const CafeList = () => {
                     <div>카페 이름 : {item.title}</div>
                     <div>주소 : {item.address}</div>
                     {parseInt(item.distance) > 999 && (
-                      <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                      <div>
+                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
+                        km남음
+                      </div>
                     )}
-                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                    {parseInt(item.distance) < 999 && (
+                      <div>{parseInt(item.distance)}m남음</div>
+                    )}
                     <img src={item.reSizeImage} />
                   </StCard>
                   {/* <button onClick={() => LikeBtn(item)}>
@@ -252,3 +264,5 @@ const StHistory = styled.div`
   background-color: aliceblue;
   left: 80%;
 `;
+
+const StFilterBox = styled.div``;
