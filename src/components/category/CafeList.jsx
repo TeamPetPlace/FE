@@ -80,6 +80,7 @@ const CafeList = () => {
     }
   };
 
+  //엔터 누르면 검색
   const onKeyPressHandler = (event) => {
     if (event.key === "Enter") {
       onSearchHandler();
