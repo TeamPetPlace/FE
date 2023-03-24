@@ -21,7 +21,6 @@ function Footer() {
             <StLi>이건호</StLi>
             <StLi>김우영</StLi>
             <StLi>표창영</StLi>
-            <StLi>정첨백</StLi>
           </StUl>
           <StUl>
             Designer
