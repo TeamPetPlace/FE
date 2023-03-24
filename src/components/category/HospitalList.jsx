@@ -10,15 +10,15 @@ import { useCookies } from "react-cookie";
 
 const HospitalList = () => {
   const [cards, setCards] = useState([]);
-  const [searchkeyword, setSearchKeyword] = useState();
+  const [searchkeyword, setSearchKeyword] = useState("");
   const [searchData, setSearchData] = useState([]);
-  const [isSearchMode, setIsSearchMode] = useState();
+  const [isSearchMode, setIsSearchMode] = useState(false);
   const [sort, setSort] = useState("DISTANCE");
   const [cookies] = useCookies(["lat", "lng"]);
-
-  const size = 2;
+  const size = 1;
+  const page = 0;
   const navigate = useNavigate();
-
+  const queryclient = useQueryClient();
   //봤던 게시글 조회
   const [history, setHistory] = useState([]);
 
@@ -27,19 +27,61 @@ const HospitalList = () => {
       setHistory(response);
     },
   });
-  //무한스크롤
+
+  const { data: alldata } = useQuery(
+    [
+      "AllPost",
+      {
+        category: "병원",
+        sort: sort,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: "0",
+        size: size,
+      },
+    ],
+    () =>
+      AllPost({
+        category: "",
+        sort,
+        // keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page,
+        size,
+      }),
+    {
+      onSuccess: (item) => {
+        setCards(item.data.content);
+        queryclient.invalidateQueries("");
+      },
+    }
+  );
+
+  // //무한스크롤
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    "searchPost",
+    [
+      "searchPost",
+      {
+        category: "병원",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        size: size,
+      },
+    ],
     ({ pageParam = 0 }) =>
       AllPost({
         category: "병원",
-        // sort: "REVIEW",
         sort: sort,
+        // keyword: searchkeyword,
         lat: cookies.lat,
         lng: cookies.lng,
         page: pageParam,
         size: size,
       }),
+
     {
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.data.last) {
@@ -69,6 +111,118 @@ const HospitalList = () => {
     };
   }, [fetchNextPage, hasNextPage]);
 
+  // // const LikeMutation = useMutation(AddLikesPost, {
+  // //   onSuccess: () => {
+  // //     queryclient.invalidateQueries("AllPost");
+  // //     console.log("찜성공");
+  // //   },
+  // //   onError: (error) => {
+  // //     queryclient.invalidateQueries("AllPost");
+  // //     console.log("찜실패");
+  // //   },
+  // // });
+
+  // // const DeleteMutation = useMutation(DeleteLikePost, {
+  // //   onSuccess: () => {
+  // //     queryclient.invalidateQueries("AllPost");
+  // //     console.log("삭제성공");
+  // //   },
+  // //   onError: (error) => {
+  // //     queryclient.invalidateQueries("AllPost");
+  // //     console.log("삭제실패");
+  // //   },
+  // // });
+
+  // // const LikeBtn = (item) => {
+  // //   const payload = {
+  // //     id: item.id,
+  // //   };
+  // //   if (item.like === false) {
+  // //     LikeMutation.mutate(payload);
+  // //   } else if (item.like === true) {
+  // //     DeleteMutation.mutate(payload);
+  // //   }
+  // //   // console.log(item.id);
+  // // };
+
+  // const onSortingHandler = (e) => {
+  //   setSort(e.target.value);
+  //   onSearchHandler(e.target.value);
+  // };
+
+  // const onSearchHandler = async (updatedSort) => {
+  //   setIsSearchMode(true);
+  //   try {
+  //     const { data } = await SearchPost({
+  //       category: "병원",
+  //       sort: updatedSort || sort,
+  //       keyword: searchkeyword,
+  //       lat: cookies.lat,
+  //       lng: cookies.lng,
+  //       page: 0,
+  //       size: size,
+  //     });
+  //     console.log(data.response);
+  //     setSearchData(data.response);
+  //   } catch (error) {
+  //     console.log(error);
+  //     console.log("검색결과가 없습니다!");
+  //     // window.location.replace("/hospital");
+  //   }
+  // };
+
+  // //엔터 누르면 검색
+  // const onKeyPressHandler = (event) => {
+  //   if (event.key === "Enter") {
+  //     onSearchHandler();
+  //   }
+  // };
+
+  const onSearchHandler = async () => {
+    setIsSearchMode(true);
+    // e.preventDefault();
+    try {
+      const { data } = await SearchPost({
+        category: "병원",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: 0,
+        size: size,
+      });
+
+      // console.log(data.response);
+      setSearchData(data.response);
+    } catch (error) {
+      // console.log(error);
+      alert("검색결과가 없습니다!");
+      window.location.replace("/hospital");
+    }
+  };
+
+  const onSortingHandler = async (e) => {
+    const updatedSort = e.target.value;
+    setSort(updatedSort);
+    try {
+      const { data } = await SearchPost({
+        category: "병원",
+        sort: updatedSort || sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: 0,
+        size: size,
+      });
+      // console.log(data.response);
+      setSearchData(data.response);
+    } catch (error) {
+      // console.log(error);
+      alert("검색결과가 없습니다!");
+      window.location.replace("/hospital");
+    }
+  };
+
   // const LikeMutation = useMutation(AddLikesPost, {
   //   onSuccess: () => {
   //     queryclient.invalidateQueries("AllPost");
@@ -79,7 +233,6 @@ const HospitalList = () => {
   //     console.log("찜실패");
   //   },
   // });
-
   // const DeleteMutation = useMutation(DeleteLikePost, {
   //   onSuccess: () => {
   //     queryclient.invalidateQueries("AllPost");
@@ -90,7 +243,6 @@ const HospitalList = () => {
   //     console.log("삭제실패");
   //   },
   // });
-
   // const LikeBtn = (item) => {
   //   const payload = {
   //     id: item.id,
@@ -102,39 +254,19 @@ const HospitalList = () => {
   //   }
   //   // console.log(item.id);
   // };
+  // const onSortingHandler = (e) => {
+  //   setSort(e.target.value);
+  //   // document.getElementById("sort");
+  //   // document.getElementById("search");
+  //   console.log(sort);
+  // };
 
-  const onSortingHandler = (e) => {
-    setSort(e.target.value);
-    onSearchHandler(e.target.value);
-  };
-
-  const onSearchHandler = async (updatedSort) => {
-    setIsSearchMode(true);
-    try {
-      const { data } = await SearchPost({
-        category: "미용",
-        sort: updatedSort || sort,
-        keyword: searchkeyword,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        page: 0,
-        size: 2,
-      });
-      console.log(data.response);
-      setSearchData(data.response);
-    } catch (error) {
-      console.log(error);
-      alert("검색결과가 없습니다!");
-      window.location.replace("/shop");
-    }
-  };
-
-  //엔터 누르면 검색
   const onKeyPressHandler = (event) => {
     if (event.key === "Enter") {
       onSearchHandler();
     }
   };
+
   return (
     <>
       <StPlace>
@@ -169,7 +301,7 @@ const HospitalList = () => {
             <GoSearch />
           </button>
         </div>
-        <select id="sort" name="sorting" onChange={onSortingHandler}>
+        <select id="sort" name="sort" onChange={onSortingHandler}>
           <option value="DISTANCE"> 근거리순 </option>
           <option value="STAR"> 평점순</option>
           <option value="REVIEW"> 후기순</option>
@@ -205,7 +337,7 @@ const HospitalList = () => {
         </StCards>
       ) : (
         <StCards>
-          {searchData.length > 0 &&
+          {searchData !== [] &&
             searchData?.map((item) => {
               return (
                 <div key={item.id}>

@@ -10,15 +10,15 @@ import { useCookies } from "react-cookie";
 
 const ShopList = () => {
   const [cards, setCards] = useState([]);
-  const [searchkeyword, setSearchKeyword] = useState();
+  const [searchkeyword, setSearchKeyword] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [isSearchMode, setIsSearchMode] = useState(false);
-  const navigate = useNavigate();
-  const queryclient = useQueryClient();
   const [sort, setSort] = useState("DISTANCE");
   const [cookies] = useCookies(["lat", "lng"]);
-
-  const size = 2;
+  const size = 1;
+  const page = 0;
+  const navigate = useNavigate();
+  const queryclient = useQueryClient();
   //봤던 게시글 조회
   const [history, setHistory] = useState([]);
 
@@ -28,14 +28,54 @@ const ShopList = () => {
     },
   });
 
+  const { data: alldata } = useQuery(
+    [
+      "AllPost",
+      {
+        category: "미용",
+        sort: sort,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: "0",
+        size: size,
+      },
+    ],
+    () =>
+      AllPost({
+        category: "",
+        sort,
+        // keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page,
+        size,
+      }),
+    {
+      onSuccess: (item) => {
+        setCards(item.data.content);
+        queryclient.invalidateQueries("");
+      },
+    }
+  );
+
   //무한스크롤
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    "searchPost",
+    [
+      "searchPost",
+      {
+        category: "미용",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        size: size,
+      },
+    ],
     ({ pageParam = 0 }) =>
       AllPost({
         category: "미용",
-        // sort: "REVIEW",
         sort: sort,
+        // keyword: searchkeyword,
         lat: cookies.lat,
         lng: cookies.lng,
         page: pageParam,
@@ -64,21 +104,38 @@ const ShopList = () => {
         fetchNextPage();
       }
     }
-
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [fetchNextPage, hasNextPage]);
 
-  const onSortingHandler = (e) => {
-    setSort(e.target.value);
-    onSearchHandler(e.target.value);
+  const onSearchHandler = async () => {
+    setIsSearchMode(true);
+    // e.preventDefault();
+    try {
+      const { data } = await SearchPost({
+        category: "미용",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: 0,
+        size: size,
+      });
+
+      // console.log(data.response);
+      setSearchData(data.response);
+    } catch (error) {
+      // console.log(error);
+      alert("검색결과가 없습니다!");
+      window.location.replace("/shop");
+    }
   };
 
-  const onSearchHandler = async (updatedSort) => {
-    setIsSearchMode(true);
+  const onSortingHandler = async (e) => {
+    const updatedSort = e.target.value;
+    setSort(updatedSort);
     try {
       const { data } = await SearchPost({
         category: "미용",
@@ -89,10 +146,10 @@ const ShopList = () => {
         page: 0,
         size: size,
       });
-      console.log(data.response);
+      // console.log(data.response);
       setSearchData(data.response);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       alert("검색결과가 없습니다!");
       window.location.replace("/shop");
     }
