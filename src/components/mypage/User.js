@@ -21,7 +21,7 @@ function User() {
   const onEditMode = () => {
     setEdit(!edit);
     setUpdateNick(mypage.nickname);
-    setImage(mypage.image);
+    setImage(image);
     setImgView([mypage.image]);
   };
 
