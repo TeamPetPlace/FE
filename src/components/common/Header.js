@@ -32,6 +32,8 @@ function Header() {
       removeCookie("loginType");
       removeCookie("email");
       removeCookie("nickname");
+      removeCookie("lat");
+      removeCookie("lng");
       alert("로그아웃 되었습니다");
       window.location.href = "/";
     },
@@ -63,16 +65,11 @@ function Header() {
             )}
 
             <div>{cookies.nickname}</div>
-            <StUserBar
-              onMouseEnter={() => setDrop(!drop)}
-              onMouseLeave={() => setDrop(!drop)}
-            >
+            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
               ▼
               {drop && (
                 <StUserCategory>
-                  <StUserCh onClick={() => navigate("/mypage")}>
-                    마이페이지
-                  </StUserCh>
+                  <StUserCh onClick={() => navigate("/mypage")}>마이페이지</StUserCh>
                   <StUserCh onClick={onLogoutHandler}>로그아웃</StUserCh>
                 </StUserCategory>
               )}
