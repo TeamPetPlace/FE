@@ -304,6 +304,37 @@ const HospitalDetailForm = () => {
     }
   };
 
+  const telNumberHandler = (event) => {
+    const { value } = event.target;
+    const regex = /^[0-9\b -]{0,13}$/;
+    if (regex.test(event.target.value)) {
+      setUpTelNum(value);
+    }
+  };
+
+  useEffect(() => {
+    if (upTelNum.length === 10) {
+      setUpTelNum(upTelNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"));
+    }
+    if (upTelNum.length === 13) {
+      setUpTelNum(
+        upTelNum.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+      );
+    }
+  }, [upTelNum]);
+
+  const handleKeyDown = (e) => {
+    const key = e.key;
+    const selectionStart = e.target.selectionStart;
+    const selectionEnd = e.target.selectionEnd;
+
+    if (key === "Backspace" || key === "Delete") {
+      if (selectionStart === 3 && selectionEnd === 3) {
+        e.preventDefault();
+      }
+    }
+  };
+
   return (
     <Stdiv>
       {edit ? (
@@ -314,7 +345,7 @@ const HospitalDetailForm = () => {
             <StFormBox>
               <StForm onSubmit={onUpdateHandler} encType="multipart/form-data">
                 <StLine>
-                  <StTitle>업종</StTitle>
+                  <StTitle>*업종</StTitle>
                   <StLabels>
                     <label>
                       병원
@@ -355,7 +386,7 @@ const HospitalDetailForm = () => {
                   </StLabels>
                 </StLine>
                 <StLine>
-                  <StTitle>업체명</StTitle>
+                  <StTitle>*업체명</StTitle>
                   <StInput
                     type="text"
                     placeholder="업체명"
@@ -366,7 +397,7 @@ const HospitalDetailForm = () => {
                   />
                 </StLine>
                 <div>
-                  <StTitle>소개</StTitle>
+                  <StTitle>*소개</StTitle>
                   <StText
                     placeholder="소개글을 입력해주세요.(500자 이내)"
                     maxLength={500}
@@ -377,7 +408,7 @@ const HospitalDetailForm = () => {
                   />
                 </div>
                 <StLine style={{ marginBottom: "40px" }}>
-                  <StTitle>주소</StTitle>
+                  <StTitle>*주소</StTitle>
                   <div>
                     <div style={{ display: "flex" }}>
                       <StBtn type="button" onClick={openPostCode} size="large">
@@ -420,9 +451,9 @@ const HospitalDetailForm = () => {
                   </div>
                 </StLine>
                 <StLine>
-                  {upCategory === "병원" && <StTitle>대표 수의사</StTitle>}
+                  {upCategory === "병원" && <StTitle>*대표 수의사</StTitle>}
                   {(upCategory === "미용" || upCategory === "카페") && (
-                    <StTitle>대표자</StTitle>
+                    <StTitle>*대표자</StTitle>
                   )}
                   <StInput
                     type="text"
@@ -435,37 +466,32 @@ const HospitalDetailForm = () => {
                   />
                 </StLine>
                 <StLine>
-                  <StTitle>대표연락처</StTitle>
+                  <StTitle>*대표연락처</StTitle>
                   <StInput
                     type="text"
                     placeholder="000-0000-0000"
                     value={upTelNum}
-                    onChange={(event) => {
-                      setUpTelNum(event.target.value);
-                    }}
+                    onChange={telNumberHandler}
+                    onKeyDown={handleKeyDown}
                     size="medium"
                   />
                 </StLine>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <StLine>
-                    <StTitle>영업시간</StTitle>
+                    <StTitle>*영업시간</StTitle>
                     <StInput
-                      type="text"
+                      type="time"
                       placeholder="시작시간"
                       value={upStartTime}
-                      onChange={(event) => {
-                        setUpStartTime(event.target.value);
-                      }}
+                      onChange={(event) => setUpStartTime(event.target.value)}
                       size="small"
                     />{" "}
                     :
                     <StInput
-                      type="text"
+                      type="time"
                       placeholder="종료시간"
                       value={upEndTime}
-                      onChange={(event) => {
-                        setUpEndTime(event.target.value);
-                      }}
+                      onChange={(event) => setUpEndTime(event.target.value)}
                       size="small"
                     />
                     <input
@@ -667,7 +693,7 @@ const HospitalDetailForm = () => {
                 )}
                 <div>
                   <StLine>
-                    <StTitle>업체사진</StTitle>
+                    <StTitle>*업체사진</StTitle>
                     <StImgBox>
                       <StBtn onClick={onImgButton} size="small">
                         업로드
@@ -752,7 +778,12 @@ const HospitalDetailForm = () => {
               >
                 <IoCopyOutline />
               </button>
-              <Review id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+              <Review
+                id={id}
+                queryClient={queryClient}
+                detail={detail}
+                setDetail={setDetail}
+              />
               <ReviewList
                 id={id}
                 queryClient={queryClient}
