@@ -1,12 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import styled from "styled-components";
 import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import { AllPost, AddLikesPost, SearchPost, DeleteLikePost } from "../../api/category";
+import {
+  AllPost,
+  AddLikesPost,
+  SearchPost,
+  DeleteLikePost,
+} from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
+import Skeletons from "../../element/Skeletons";
 
 const HospitalList = () => {
   const [cards, setCards] = useState([]);
@@ -58,51 +69,57 @@ const HospitalList = () => {
     }
   );
 
-  // //무한스크롤
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    [
-      "searchPost",
-      {
-        category: "병원",
-        sort: sort,
-        keyword: searchkeyword,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        size: size,
-      },
-    ],
-    ({ pageParam = 0 }) =>
-      AllPost({
-        category: "병원",
-        sort: sort,
-        // keyword: searchkeyword,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        page: pageParam,
-        size: size,
-      }),
+  //무한스크롤
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useInfiniteQuery(
+      [
+        "searchPost",
+        {
+          category: "병원",
+          sort: sort,
+          keyword: searchkeyword,
+          lat: cookies.lat,
+          lng: cookies.lng,
+          size: size,
+        },
+      ],
+      ({ pageParam = 0 }) =>
+        AllPost({
+          category: "병원",
+          sort: sort,
+          // keyword: searchkeyword,
+          lat: cookies.lat,
+          lng: cookies.lng,
+          page: pageParam,
+          size: size,
+        }),
 
-    {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.data.last) {
-          return null;
-        }
-        // return pages.length;
-        return pages.length;
-      },
-      onSuccess: (newData) => {
-        setCards((prevCards) => {
-          const newItems = newData.pages.flatMap((page) => page.data.content);
-          const uniqueItems = newItems.filter((item) => !prevCards.includes(item));
-          return [...prevCards, ...uniqueItems];
-        });
-      },
-    }
-  );
+      {
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.data.last) {
+            return null;
+          }
+          // return pages.length;
+          return pages.length;
+        },
+        onSuccess: (newData) => {
+          setCards((prevCards) => {
+            const newItems = newData.pages.flatMap((page) => page.data.content);
+            const uniqueItems = newItems.filter(
+              (item) => !prevCards.includes(item)
+            );
+            return [...prevCards, ...uniqueItems];
+          });
+        },
+      }
+    );
 
   useEffect(() => {
     function handleScroll() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage)
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        hasNextPage
+      )
         fetchNextPage();
     }
     window.addEventListener("scroll", handleScroll, true);
@@ -111,76 +128,11 @@ const HospitalList = () => {
     };
   }, [fetchNextPage, hasNextPage]);
 
-  // // const LikeMutation = useMutation(AddLikesPost, {
-  // //   onSuccess: () => {
-  // //     queryclient.invalidateQueries("AllPost");
-  // //     console.log("찜성공");
-  // //   },
-  // //   onError: (error) => {
-  // //     queryclient.invalidateQueries("AllPost");
-  // //     console.log("찜실패");
-  // //   },
-  // // });
-
-  // // const DeleteMutation = useMutation(DeleteLikePost, {
-  // //   onSuccess: () => {
-  // //     queryclient.invalidateQueries("AllPost");
-  // //     console.log("삭제성공");
-  // //   },
-  // //   onError: (error) => {
-  // //     queryclient.invalidateQueries("AllPost");
-  // //     console.log("삭제실패");
-  // //   },
-  // // });
-
-  // // const LikeBtn = (item) => {
-  // //   const payload = {
-  // //     id: item.id,
-  // //   };
-  // //   if (item.like === false) {
-  // //     LikeMutation.mutate(payload);
-  // //   } else if (item.like === true) {
-  // //     DeleteMutation.mutate(payload);
-  // //   }
-  // //   // console.log(item.id);
-  // // };
-
-  // const onSortingHandler = (e) => {
-  //   setSort(e.target.value);
-  //   onSearchHandler(e.target.value);
-  // };
-
-  // const onSearchHandler = async (updatedSort) => {
-  //   setIsSearchMode(true);
-  //   try {
-  //     const { data } = await SearchPost({
-  //       category: "병원",
-  //       sort: updatedSort || sort,
-  //       keyword: searchkeyword,
-  //       lat: cookies.lat,
-  //       lng: cookies.lng,
-  //       page: 0,
-  //       size: size,
-  //     });
-  //     console.log(data.response);
-  //     setSearchData(data.response);
-  //   } catch (error) {
-  //     console.log(error);
-  //     console.log("검색결과가 없습니다!");
-  //     // window.location.replace("/hospital");
-  //   }
-  // };
-
-  // //엔터 누르면 검색
-  // const onKeyPressHandler = (event) => {
-  //   if (event.key === "Enter") {
-  //     onSearchHandler();
-  //   }
-  // };
-
   const onSearchHandler = async () => {
     setIsSearchMode(true);
-    // e.preventDefault();
+    if (searchkeyword.trim() === "") {
+      window.location.replace("/hospital");
+    }
     try {
       const { data } = await SearchPost({
         category: "병원",
@@ -254,12 +206,6 @@ const HospitalList = () => {
   //   }
   //   // console.log(item.id);
   // };
-  // const onSortingHandler = (e) => {
-  //   setSort(e.target.value);
-  //   // document.getElementById("sort");
-  //   // document.getElementById("search");
-  //   console.log(sort);
-  // };
 
   const onKeyPressHandler = (event) => {
     if (event.key === "Enter") {
@@ -272,9 +218,9 @@ const HospitalList = () => {
       <StPlace>
         <StHistory>
           <div>
-            {history.map((item) => {
+            {history.map((item, index) => {
               return (
-                <div key={item.id}>
+                <div key={index}>
                   <img src={item.reSizeImage} alt="historyImg" />
                   <div>{item.title}</div>
                 </div>
@@ -309,9 +255,9 @@ const HospitalList = () => {
       </StPlace>
       {!isSearchMode ? (
         <StCards>
-          {cards?.map((item) => {
+          {cards?.map((item, index) => {
             return (
-              <div key={item.id}>
+              <div key={index}>
                 <StCard
                   key={item.id}
                   onClick={() => {
@@ -322,9 +268,13 @@ const HospitalList = () => {
                   <div>병원 이름 : {item.title}</div>
                   <div>주소 : {item.address}</div>
                   {parseInt(item.distance) > 999 && (
-                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
                   )}
-                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
                   <img src={item.reSizeImage} />
                 </StCard>
                 {/* <button onClick={() => LikeBtn(item)}>
@@ -334,15 +284,17 @@ const HospitalList = () => {
               </div>
             );
           })}
+          {isLoading || isFetching ? (
+            <Skeletons style={{ marginTop: "20px" }} />
+          ) : null}
         </StCards>
       ) : (
         <StCards>
           {searchData !== [] &&
-            searchData?.map((item) => {
+            searchData?.map((item, index) => {
               return (
-                <div key={item.id}>
+                <div key={index}>
                   <StCard
-                    key={item.id}
                     onClick={() => {
                       navigate(`/hospital/${item.id}`);
                     }}
@@ -351,9 +303,14 @@ const HospitalList = () => {
                     <div>병원 이름 : {item.title}</div>
                     <div>주소 : {item.address}</div>
                     {parseInt(item.distance) > 999 && (
-                      <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                      <div>
+                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
+                        km남음
+                      </div>
                     )}
-                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                    {parseInt(item.distance) < 999 && (
+                      <div>{parseInt(item.distance)}m남음</div>
+                    )}
                     <img src={item.reSizeImage} />
                   </StCard>
                   {/* <button onClick={() => LikeBtn(item)}>

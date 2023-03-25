@@ -90,29 +90,6 @@ const HospitalDetailForm = () => {
 
   const maxImage = 4;
 
-  //업체 중복확인
-  const [isTitle, setIsTitle] = useState(false);
-  const checkTitleMutation = useMutation(checkTitle, {
-    onSuccess: (response) => {
-      response ? setIsTitle(true) : setIsTitle(false);
-      if (response) {
-        setIsTitle(true);
-        alert("등록 가능한 업체명입니다.");
-      } else {
-        setIsTitle(false);
-        alert("이미 존재하는 업체명입니다.");
-      }
-    },
-  });
-
-  const checkTitleHandler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!event.target.value.trim()) return;
-    setTitleButtonClicked(true);
-    checkTitleMutation.mutate(event.target.value);
-  };
-
   //수정 모드
   const onEditMode = () => {
     if (detail) {
@@ -127,6 +104,8 @@ const HospitalDetailForm = () => {
       setUpEndTime(detail.endTime);
       setUpSelect(detail.closedDay);
       setUpFeature1(detail.feature1);
+      setUpImage(upImage);
+      setUpImgBase64(detail.image);
     }
   };
 
@@ -169,7 +148,8 @@ const HospitalDetailForm = () => {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -248,12 +228,6 @@ const HospitalDetailForm = () => {
       return alert("빈칸을 모두 채워주세요");
     if (buttonClicked === false) {
       return alert("주소 확인을 해주세요");
-    }
-    if (titleButtonClicked === false) {
-      return alert("업체명 중복확인을 해주세요");
-    }
-    if (isTitle === false) {
-      return alert("이미 존재하는 업체명입니다");
     }
     const formData = new FormData();
     upImage.forEach((upImage, index) => formData.append("image", upImage));
@@ -356,19 +330,7 @@ const HospitalDetailForm = () => {
                       setUpTitle(event.target.value);
                     }}
                   />
-                  <StBtn onClick={checkTitleHandler} value={upTitle} size="medium">
-                    중복확인
-                  </StBtn>
                 </StLine>
-                <StErrorMsg
-                  style={{
-                    height: "20px",
-                    paddingLeft: "60px",
-                    marginTop: "-25px",
-                  }}
-                >
-                  {titleButtonClicked === false ? <p>업체명 중복확인을 해주세요</p> : null}
-                </StErrorMsg>
                 <div>
                   <StTitle>소개</StTitle>
                   <StText
@@ -397,7 +359,10 @@ const HospitalDetailForm = () => {
                       {isPopupOpen && (
                         <PopupDom>
                           <div>
-                            <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
+                            <DaumPostcode
+                              style={postCodeStyle}
+                              onComplete={handlePostCode}
+                            />
                             <StInput value={address} disabled />
                             <StBtn size="small" onClick={handleSearch}>
                               확인
@@ -408,7 +373,11 @@ const HospitalDetailForm = () => {
                       {!isPopupOpen && (
                         <>
                           <StInput disabled />
-                          <StBtn size="small" onClick={handleSearch} style={{ marginLeft: "10px" }}>
+                          <StBtn
+                            size="small"
+                            onClick={handleSearch}
+                            style={{ marginLeft: "10px" }}
+                          >
                             확인
                           </StBtn>
                         </>
@@ -418,7 +387,9 @@ const HospitalDetailForm = () => {
                 </StLine>
                 <StLine>
                   {upCategory === "병원" && <StTitle>대표 수의사</StTitle>}
-                  {(upCategory === "미용" || upCategory === "카페") && <StTitle>대표자</StTitle>}
+                  {(upCategory === "미용" || upCategory === "카페") && (
+                    <StTitle>대표자</StTitle>
+                  )}
                   <StInput
                     type="text"
                     placeholder="대표명"
@@ -463,7 +434,11 @@ const HospitalDetailForm = () => {
                       }}
                       size="small"
                     />
-                    <input type="checkbox" value={isChecked} onChange={onCheckHandler} />
+                    <input
+                      type="checkbox"
+                      value={isChecked}
+                      onChange={onCheckHandler}
+                    />
                     <label>휴무일</label>
                     <div>
                       {isChecked && (
@@ -515,7 +490,9 @@ const HospitalDetailForm = () => {
                           value="true"
                           name="aboolean1"
                           checked={upAboolean1 === "true"}
-                          onChange={(event) => setUpAboolean1(event.target.value)}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
                         />
                       </label>
                       <label>
@@ -525,7 +502,9 @@ const HospitalDetailForm = () => {
                           value="false"
                           name="upAboolean1"
                           checked={upAboolean1 === "false"}
-                          onChange={(event) => setUpAboolean1(event.target.value)}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
                         />
                       </label>
                     </div>
@@ -558,7 +537,9 @@ const HospitalDetailForm = () => {
                           value="true"
                           name="upAboolean1"
                           checked={upAboolean1 === "true"}
-                          onChange={(event) => setUpAboolean1(event.target.value)}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
                         />
                       </label>
                       <label>
@@ -568,7 +549,9 @@ const HospitalDetailForm = () => {
                           value="false"
                           name="upAboolean1"
                           checked={upAboolean1 === "false"}
-                          onChange={(event) => setUpAboolean1(event.target.value)}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
                         />
                       </label>
                     </div>
@@ -581,7 +564,9 @@ const HospitalDetailForm = () => {
                           value="true"
                           name="upAboolean2"
                           checked={upAboolean2 === "true"}
-                          onChange={(event) => setUpAboolean2(event.target.value)}
+                          onChange={(event) =>
+                            setUpAboolean2(event.target.value)
+                          }
                         />
                       </label>
                       <label>
@@ -591,7 +576,9 @@ const HospitalDetailForm = () => {
                           value="false"
                           name="upAboolean2"
                           checked={upAboolean2 === "false"}
-                          onChange={(event) => setUpAboolean2(event.target.value)}
+                          onChange={(event) =>
+                            setUpAboolean2(event.target.value)
+                          }
                         />
                       </label>
                     </div>
@@ -616,7 +603,9 @@ const HospitalDetailForm = () => {
                           value="true"
                           name="upAboolean1"
                           checked={upAboolean1 === "true"}
-                          onChange={(event) => setUpAboolean1(event.target.value)}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
                         />
                       </label>
                       <label>
@@ -626,7 +615,9 @@ const HospitalDetailForm = () => {
                           value="false"
                           name="upAboolean1"
                           checked={upAboolean1 === "false"}
-                          onChange={(event) => setUpAboolean1(event.target.value)}
+                          onChange={(event) =>
+                            setUpAboolean1(event.target.value)
+                          }
                         />
                       </label>
                     </div>
@@ -675,7 +666,10 @@ const HospitalDetailForm = () => {
                 </div>
                 <StBtns>
                   <StBtn size="medium">수정</StBtn>
-                  <StBtn onClick={() => navigate(`/hospital/${id}`)} size="medium">
+                  <StBtn
+                    onClick={() => navigate(`/hospital/${id}`)}
+                    size="medium"
+                  >
                     취소
                   </StBtn>
                 </StBtns>
@@ -723,7 +717,12 @@ const HospitalDetailForm = () => {
               <div>평균평점:{detail.star}</div>
               <div>
                 지도
-                <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+                <Map
+                  id={id}
+                  queryClient={queryClient}
+                  detail={detail}
+                  setDetail={setDetail}
+                />
               </div>
             </StWrap>
           )}
