@@ -69,7 +69,8 @@ instance.interceptors.response.use(
           },
         });
         /* CHANGE ACCESSTOKEN ------------------------------------------------------- */
-        originalRequest.headers.Authorization = refreshedResponse.headers.Authorization;
+        originalRequest.headers.Authorization =
+          refreshedResponse.headers.Authorization;
         console.log("재발급 완료, 재실행");
         removeCookie("access_token");
         setCookie("access_token", refreshedResponse.headers.Authorization);

@@ -13,10 +13,12 @@ function Header() {
   const [profile, setProfile] = useState(
     "    https://us.123rf.com/450wm/sanek13744/sanek137441706/sanek13744170600240/80321806-%EB%B0%9C-%EC%9D%B8%EC%87%84-%EB%B2%A1%ED%84%B0-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EA%B0%95%EC%95%84%EC%A7%80-%EB%98%90%EB%8A%94-%EA%B3%A0%EC%96%91%EC%9D%B4-pawprint-%EA%B7%B8%EB%A6%BC-%EA%B8%B4-%EA%B7%B8%EB%A6%BC%EC%9E%90%EA%B0%80%EC%9E%88%EB%8A%94-%EB%8F%99%EB%AC%BC.jpg?ver=6"
   );
+  const [nickname, setNickname] = useState("");
   const queryClient = useQueryClient();
   const { data } = useQuery("getmypage", getMypage, {
     onSuccess: (response) => {
       setProfile(response.response.image);
+      setNickname(response.response.nickname);
     },
   });
 
@@ -64,12 +66,17 @@ function Header() {
               <StProfile src={profile} alt="img" />
             )}
 
-            <div>{cookies.nickname}</div>
-            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
+            <div>{nickname}</div>
+            <StUserBar
+              onMouseEnter={() => setDrop(!drop)}
+              onMouseLeave={() => setDrop(!drop)}
+            >
               ▼
               {drop && (
                 <StUserCategory>
-                  <StUserCh onClick={() => navigate("/mypage")}>마이페이지</StUserCh>
+                  <StUserCh onClick={() => navigate("/mypage")}>
+                    마이페이지
+                  </StUserCh>
                   <StUserCh onClick={onLogoutHandler}>로그아웃</StUserCh>
                 </StUserCategory>
               )}

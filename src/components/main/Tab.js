@@ -1,6 +1,11 @@
 import { async } from "q";
 import React, { useEffect, useState } from "react";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { useNavigate } from "react-router";
 import styled, { css } from "styled-components";
 import { addDibs, cancelDibs, getPost } from "../../api/main";
@@ -26,7 +31,11 @@ function Tab() {
         setCookie("lng", lng);
       },
       (error) => {
-        console.log("geolocation ");
+        setLat(37.555078);
+        setLng(126.970702);
+        console.log(`위치no:latitude: ${lat}, longitude: ${lng}`);
+        setCookie("lat", lat);
+        setCookie("lng", lng);
       },
       {
         enableHighAccuracy: true,
@@ -181,22 +190,36 @@ function Tab() {
       <button onClick={onLocationHandler}>현재 위치 전송</button>
       <div>
         {mainTabList?.map((item, i) => (
-          <button key={i} checked={checked[i]} onClick={() => onClickHandler(i)} value={category}>
+          <button
+            key={i}
+            checked={checked[i]}
+            onClick={() => onClickHandler(i)}
+            value={category}
+          >
             {item.text}
           </button>
         ))}
       </div>
       <StTabBox>
-        {category === "병원" && <div onClick={() => navigate("/hospital")}>내 위치 펫플레이스</div>}
-        {category === "미용" && <div onClick={() => navigate("/shop")}>내 위치 펫플레이스</div>}
-        {category === "카페" && <div onClick={() => navigate("/cafe")}>내 위치 펫플레이스</div>}
+        {category === "병원" && (
+          <div onClick={() => navigate("/hospital")}>내 위치 펫플레이스</div>
+        )}
+        {category === "미용" && (
+          <div onClick={() => navigate("/shop")}>내 위치 펫플레이스</div>
+        )}
+        {category === "카페" && (
+          <div onClick={() => navigate("/cafe")}>내 위치 펫플레이스</div>
+        )}
 
         {category === "병원"
           ? data &&
             data.length > 0 &&
             data.map((item, i) => (
               <div key={i}>
-                <StCard key={i} onClick={() => navigate(`/hospital/${item.id}`)}>
+                <StCard
+                  key={i}
+                  onClick={() => navigate(`/hospital/${item.id}`)}
+                >
                   <div>{item.category}</div>
                   <div>{item.title}</div>
                   <div>{item.address}</div>
@@ -207,7 +230,9 @@ function Tab() {
                         km남음
                       </div>
                     )}
-                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                    {parseInt(item.distance) < 999 && (
+                      <div>{parseInt(item.distance)}m남음</div>
+                    )}
                   </div>
                   <img src={item.reSizeImage} alt="mainImg" />
                 </StCard>
@@ -227,9 +252,13 @@ function Tab() {
                   <div>{item.title}</div>
                   <div>{item.address}</div>
                   {parseInt(item.distance) > 999 && (
-                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
                   )}
-                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
                   <img src={item.reSizeImage} alt="mainImg" />
                 </StCard>
                 <button onClick={() => onDibsHandler(item)}>
@@ -247,9 +276,13 @@ function Tab() {
                   <div>{item.title}</div>
                   <div>{item.address}</div>
                   {parseInt(item.distance) > 999 && (
-                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
                   )}
-                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
                   <img src={item.reSizeImage} alt="mainImg" />
                 </StCard>
                 <button onClick={() => onDibsHandler(item)}>
