@@ -50,8 +50,7 @@ function ReviewList({ id }) {
 
   const reviewTabList = [
     { id: 0, text: "전체후기", category: "all" },
-    { id: 1, text: "텍스트후기", category: "textReview" },
-    { id: 2, text: "사진후기", category: "photoReview" },
+    { id: 1, text: "사진후기", category: "photoReview" },
   ];
 
   const reviewClickHandler = (i) => {
@@ -61,8 +60,6 @@ function ReviewList({ id }) {
     if (i === 0) {
       setTab("all");
     } else if (i === 1) {
-      setTab("textReview");
-    } else {
       setTab("photoReview");
     }
   };
@@ -208,33 +205,6 @@ function ReviewList({ id }) {
           ) : (
             <>
               {tab === "all" ? (
-                <>
-                  <div>{item.email}</div>
-                  <div>{item.nickname}</div>
-                  <div>{item.review}</div>
-                  <div>{item.createdAt.slice(0, 10)}</div>
-                  {item.image === null ? (
-                    <img style={{ display: "none" }} />
-                  ) : (
-                    <StImg src={item.image} alt="img" />
-                  )}
-
-                  {(item.star === 1 && <div>★</div>) ||
-                    (item.star === 2 && <div>★★</div>) ||
-                    (item.star === 3 && <div>★★★</div>) ||
-                    (item.star === 4 && <div>★★★★</div>) ||
-                    (item.star === 5 && <div>★★★★★</div>)}
-                  <div>{item.star}</div>
-                  {cookies.email === item.email && (
-                    <div>
-                      <button onClick={() => onEditMode(item.id)}>수정</button>
-                      <button onClick={() => onDeletetReviewHandler(item.id)}>
-                        삭제
-                      </button>
-                    </div>
-                  )}
-                </>
-              ) : tab === "textReview" && item.image === null ? (
                 <>
                   <div>{item.email}</div>
                   <div>{item.nickname}</div>

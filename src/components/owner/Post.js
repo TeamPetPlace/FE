@@ -55,7 +55,8 @@ function Post() {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -81,13 +82,14 @@ function Post() {
 
   //업체 등록
   const [title, titleHandler] = useInput("");
-  const [category, categoryHandler] = useInput("");
+  const [category, setCategory] = useState("병원");
+  // const [category, categoryHandler] = useInput("병원");
   const [contents, contentsHandler] = useInput("");
   const [image, setImage] = useState([]);
   const [imgBase64, setImgBase64] = useState([]);
   const [cost, setCostHandler] = useInput("");
   const [ceo, ceoHandler] = useInput("");
-  const [telNum, telNumHandler] = useInput("");
+  const [telNum, setTelNum] = useState("010");
   const [startTime, startTimeHandler] = useInput("");
   const [endTime, endTimeHandler] = useInput("");
   const [select, selectHandler] = useInput("");
@@ -207,6 +209,37 @@ function Post() {
     fileInput.current.click();
   };
 
+  const telNumberHandler = (event) => {
+    const { value } = event.target;
+    const regex = /^[0-9\b -]{0,13}$/;
+    if (regex.test(event.target.value)) {
+      setTelNum(value);
+    }
+  };
+
+  useEffect(() => {
+    if (telNum.length === 10) {
+      setTelNum(telNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"));
+    }
+    if (telNum.length === 13) {
+      setTelNum(
+        telNum.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+      );
+    }
+  }, [telNum]);
+
+  const handleKeyDown = (e) => {
+    const key = e.key;
+    const selectionStart = e.target.selectionStart;
+    const selectionEnd = e.target.selectionEnd;
+
+    if (key === "Backspace" || key === "Delete") {
+      if (selectionStart === 3 && selectionEnd === 3) {
+        e.preventDefault();
+      }
+    }
+  };
+
   return (
     <>
       <StBox>
@@ -214,7 +247,7 @@ function Post() {
         <StFormBox>
           <StForm onSubmit={onSubmitHandler} encType="multipart/form-data">
             <StLine>
-              <StTitle>업종</StTitle>
+              <StTitle>*업종</StTitle>
               <StLabels>
                 <label>
                   병원
@@ -223,7 +256,7 @@ function Post() {
                     value="병원"
                     name="category"
                     checked={category === "병원"}
-                    onChange={categoryHandler}
+                    onChange={(event) => setCategory(event.target.value)}
                   />
                 </label>
                 <label>
@@ -233,7 +266,7 @@ function Post() {
                     value="미용"
                     name="category"
                     checked={category === "미용"}
-                    onChange={categoryHandler}
+                    onChange={(event) => setCategory(event.target.value)}
                   />
                 </label>
                 <label>
@@ -243,14 +276,19 @@ function Post() {
                     value="카페"
                     name="category"
                     checked={category === "카페"}
-                    onChange={categoryHandler}
+                    onChange={(event) => setCategory(event.target.value)}
                   />
                 </label>
               </StLabels>
             </StLine>
             <StLine>
-              <StTitle>업체명</StTitle>
-              <StInput type="text" placeholder="업체명" value={title} onChange={titleHandler} />
+              <StTitle>*업체명</StTitle>
+              <StInput
+                type="text"
+                placeholder="업체명"
+                value={title}
+                onChange={titleHandler}
+              />
               <StBtn onClick={checkTitleHandler} value={title} size="medium">
                 중복확인
               </StBtn>
@@ -262,11 +300,13 @@ function Post() {
                 marginTop: "-25px",
               }}
             >
-              {titleButtonClicked === false ? <p>업체명 중복확인을 해주세요</p> : null}
+              {titleButtonClicked === false ? (
+                <p>업체명 중복확인을 해주세요</p>
+              ) : null}
             </StErrorMsg>
 
             <div>
-              <StTitle>소개</StTitle>
+              <StTitle>*소개</StTitle>
               <StText
                 placeholder="소개글을 입력해주세요.(500자 이내)"
                 maxLength={250}
@@ -275,21 +315,26 @@ function Post() {
               />
             </div>
             <StLine style={{ marginBottom: "40px" }}>
-              <StTitle>주소</StTitle>
+              <StTitle>*주소</StTitle>
               <div>
                 <div style={{ display: "flex" }}>
                   <StBtn type="button" onClick={openPostCode} size="large">
                     우편번호 검색
                   </StBtn>
                   <StErrorMsg>
-                    {buttonClicked === false ? <p>주소 입력 후 확인을 꼭 클릭해주세요</p> : null}
+                    {buttonClicked === false ? (
+                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
+                    ) : null}
                   </StErrorMsg>
                 </div>
                 <div id="popupDom">
                   {isPopupOpen && (
                     <PopupDom>
                       <div>
-                        <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
+                        <DaumPostcode
+                          style={postCodeStyle}
+                          onComplete={handlePostCode}
+                        />
                         <StInput value={address} disabled />
                         <StBtn size="small" onClick={handleSearch}>
                           확인
@@ -300,7 +345,11 @@ function Post() {
                   {!isPopupOpen && (
                     <>
                       <StInput disabled />
-                      <StBtn size="small" onClick={handleSearch} style={{ marginLeft: "10px" }}>
+                      <StBtn
+                        size="small"
+                        onClick={handleSearch}
+                        style={{ marginLeft: "10px" }}
+                      >
                         확인
                       </StBtn>
                     </>
@@ -309,8 +358,10 @@ function Post() {
               </div>
             </StLine>
             <StLine>
-              {category === "병원" && <StTitle>대표 수의사</StTitle>}
-              {(category === "미용" || category === "카페") && <StTitle>대표자</StTitle>}
+              {category === "병원" && <StTitle>*대표 수의사</StTitle>}
+              {(category === "미용" || category === "카페") && (
+                <StTitle>*대표자</StTitle>
+              )}
               <StInput
                 type="text"
                 placeholder="대표명"
@@ -320,20 +371,21 @@ function Post() {
               />
             </StLine>
             <StLine>
-              <StTitle>대표연락처</StTitle>
+              <StTitle>*대표연락처</StTitle>
               <StInput
                 type="text"
-                placeholder="000-0000-0000"
+                placeholder="010-0000-0000"
                 value={telNum}
-                onChange={telNumHandler}
+                onChange={telNumberHandler}
+                onKeyDown={handleKeyDown}
                 size="medium"
               />
             </StLine>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <StLine>
-                <StTitle>영업시간</StTitle>
+                <StTitle>*영업시간</StTitle>
                 <StInput
-                  type="text"
+                  type="time"
                   placeholder="시작시간"
                   value={startTime}
                   onChange={startTimeHandler}
@@ -341,13 +393,17 @@ function Post() {
                 />
                 :
                 <StInput
-                  type="text"
+                  type="time"
                   placeholder="종료시간"
                   value={endTime}
                   onChange={endTimeHandler}
                   size="small"
                 />
-                <input type="checkbox" value={isChecked} onChange={onCheckHandler} />
+                <input
+                  type="checkbox"
+                  value={isChecked}
+                  onChange={onCheckHandler}
+                />
                 <label>휴무일</label>
                 <div>
                   {isChecked && (
@@ -527,7 +583,7 @@ function Post() {
 
             <div>
               <StLine>
-                <StTitle>업체사진</StTitle>
+                <StTitle>*업체사진</StTitle>
                 <StImgBox>
                   <StBtn onClick={onImgButton} size="small">
                     업로드

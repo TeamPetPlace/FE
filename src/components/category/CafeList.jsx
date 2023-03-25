@@ -6,6 +6,7 @@ import { SearchPost, AllPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
+import Skeletons from "../../element/Skeletons";
 
 const CafeList = () => {
   const [cards, setCards] = useState([]);
@@ -58,48 +59,54 @@ const CafeList = () => {
   );
 
   //무한스크롤
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    [
-      "searchPost",
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useInfiniteQuery(
+      [
+        "searchPost",
+        {
+          category: "카페",
+          sort: sort,
+          keyword: searchkeyword,
+          lat: cookies.lat,
+          lng: cookies.lng,
+          size: size,
+        },
+      ],
+      ({ pageParam = 0 }) =>
+        AllPost({
+          category: "카페",
+          sort: sort,
+          // keyword: searchkeyword,
+          lat: cookies.lat,
+          lng: cookies.lng,
+          page: pageParam,
+          size: size,
+        }),
       {
-        category: "카페",
-        sort: sort,
-        keyword: searchkeyword,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        size: size,
-      },
-    ],
-    ({ pageParam = 0 }) =>
-      AllPost({
-        category: "카페",
-        sort: sort,
-        // keyword: searchkeyword,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        page: pageParam,
-        size: size,
-      }),
-    {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.data.last) {
-          return null;
-        }
-        return pages.length;
-      },
-      onSuccess: (newData) => {
-        setCards((prevCards) => {
-          const newItems = newData.pages.flatMap((page) => page.data.content);
-          const uniqueItems = newItems.filter((item) => !prevCards.includes(item));
-          return [...prevCards, ...uniqueItems];
-        });
-      },
-    }
-  );
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.data.last) {
+            return null;
+          }
+          return pages.length;
+        },
+        onSuccess: (newData) => {
+          setCards((prevCards) => {
+            const newItems = newData.pages.flatMap((page) => page.data.content);
+            const uniqueItems = newItems.filter(
+              (item) => !prevCards.includes(item)
+            );
+            return [...prevCards, ...uniqueItems];
+          });
+        },
+      }
+    );
 
   useEffect(() => {
     function handleScroll() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage)
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        hasNextPage
+      )
         fetchNextPage();
     }
     window.addEventListener("scroll", handleScroll, true);
@@ -249,9 +256,13 @@ const CafeList = () => {
                   <div>카페 이름 : {item.title}</div>
                   <div>주소 : {item.address}</div>
                   {parseInt(item.distance) > 999 && (
-                    <div>{((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음</div>
+                    <div>
+                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                    </div>
                   )}
-                  {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  {parseInt(item.distance) < 999 && (
+                    <div>{parseInt(item.distance)}m남음</div>
+                  )}
                   <img src={item.reSizeImage} />
                 </StCard>
                 {/* <button onClick={() => LikeBtn(item)}>
@@ -261,6 +272,9 @@ const CafeList = () => {
               </div>
             );
           })}
+          {isLoading || isFetching ? (
+            <Skeletons style={{ marginTop: "20px" }} />
+          ) : null}
         </StCards>
       ) : (
         <StCards>
@@ -283,7 +297,9 @@ const CafeList = () => {
                         km남음
                       </div>
                     )}
-                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                    {parseInt(item.distance) < 999 && (
+                      <div>{parseInt(item.distance)}m남음</div>
+                    )}
                     <img src={item.reSizeImage} />
                   </StCard>
                   {/* <button onClick={() => LikeBtn(item)}>
