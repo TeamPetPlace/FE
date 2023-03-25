@@ -25,7 +25,7 @@ const LoginForm = () => {
       setCookie("nickname", response.data.response.nickname);
       setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
-      setCookie("refresh_token", response.headers.refresh_token);
+      // setCookie("refresh_token", response.headers.refresh_token);
       alert("로그인 성공");
       console.log(response);
       navigate("/main");

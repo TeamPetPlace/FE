@@ -1,7 +1,5 @@
 import axios from "axios";
 import { getCookie, removeCookie, setCookie } from "./cookie";
-import { debounce } from "lodash";
-
 const access_token = getCookie("ACCESS_TOKEN");
 
 //instance without token
@@ -51,42 +49,37 @@ instance.interceptors.response.use(
   async (response) => response,
   async (error) => {
     const { response, config } = error;
-    const originalRequest = config;
+    const originalRequest = error.config;
     try {
       console.log("재발급중...");
-      // console.log(response);
-      // console.log(config);
-
-      if (error.response.data.status === "400") {
+      console.log(error);
+      console.log(response.status);
+      // error.response.data.status === "400"
+      if (response.status === "401" || error.response.data.status === "401") {
         const Refresh_token = getCookie("Refresh_token");
-        const refreshedResponse = await axios({
-          method: "GET",
-          url: `${process.env.REACT_APP_SERVER_URL}/token`,
+        const refreshedResponse = await baseURL.get("/token", {
           headers: {
-            accept: "application/json",
-            // "Content-Type": "application/json",
             Refresh_token: Refresh_token,
           },
         });
         /* CHANGE ACCESSTOKEN ------------------------------------------------------- */
-        originalRequest.headers.Authorization =
-          refreshedResponse.headers.Authorization;
+        originalRequest.headers["Authorization"] = refreshedResponse.headers["Authorization"];
         console.log("재발급 완료, 재실행");
         removeCookie("access_token");
-        setCookie("access_token", refreshedResponse.headers.Authorization);
-        return axios(originalRequest);
+        setCookie("access_token", refreshedResponse.headers["Authorization"]);
+        return baseURL(originalRequest);
       }
     } catch (error) {
       // 새로운 accessToken 발급에 실패한 경우 쿠키에 있던 기존 토큰을 모두 없애고 redirect
       removeCookie("access_token");
       removeCookie("refresh_token");
-      alert("로그인 만료");
+      console.log("로그인 만료");
       window.location.replace("/");
-      // return false;
-      return Promise.reject(error);
+      return false;
+      // return Promise.reject(error);
     }
-    return axios(originalRequest);
-    // return Promise.reject(error);
+    // return baseURL(originalRequest);
+    return Promise.reject(error);
   }
 );
 
