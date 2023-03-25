@@ -12,6 +12,7 @@ import DaumPostcode from "react-daum-postcode";
 import Review from "../../element/Review";
 import ReviewList from "../../element/ReviewList";
 import MagicSliderDots from "react-magic-slider-dots";
+import { IoCopyOutline } from "react-icons/io5";
 
 const HospitalDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
@@ -294,6 +295,39 @@ const HospitalDetailForm = () => {
     updatePostMutation.mutate(payload);
     onEditMode();
     alert("수정 완료!");
+  };
+
+  //복사하기
+  const handleCopyClipBoard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 복사되었습니다.");
+    } catch (e) {
+      alert("복사에 실패하였습니다");
+    }
+  };
+
+  //공유하기
+  const sharePage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const shareObject = {
+      title: "공유할 콘텐츠의 제목",
+      text: "petplace 장소 공유하기",
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      navigator
+        .share(shareObject)
+        .then(() => {
+          alert("공유하기 성공");
+        })
+        .catch((error) => {});
+    } else {
+      // navigator.share()를 지원하지 않는 경우
+      alert("페이지 공유를 지원하지 않습니다.");
+    }
   };
 
   return (
@@ -697,6 +731,7 @@ const HospitalDetailForm = () => {
               <StSlider>
                 <Stimg src={detail.reSizeImage} alt="imgslide" />
               </StSlider>
+              <button onClick={sharePage}>현재 페이지 공유하기</button>
               <h2>{detail.title}</h2>
               <h2>{detail.id}</h2>
               <label>업종 : {detail.category} </label> <br />
@@ -704,15 +739,26 @@ const HospitalDetailForm = () => {
                 운영 시간 : {detail.startTime} : {detail.endTime}
               </label>{" "}
               <br />
+              <label>대표번호 : {detail.telNum} </label>{" "}
+              <button
+                onClick={() => {
+                  handleCopyClipBoard(`${detail.telNum}`);
+                }}
+              >
+                <IoCopyOutline />
+              </button>
+              <br />
               <label>휴무일 : {detail.closedDay}</label> <br />
               <div> {detail.contents} </div>
-              <label> {detail.address}</label>
-              <Review
-                id={id}
-                queryClient={queryClient}
-                detail={detail}
-                setDetail={setDetail}
-              />
+              <label> {detail.address}</label>{" "}
+              <button
+                onClick={() => {
+                  handleCopyClipBoard(`${detail.address}`);
+                }}
+              >
+                <IoCopyOutline />
+              </button>
+              <Review id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
               <ReviewList
                 id={id}
                 queryClient={queryClient}
