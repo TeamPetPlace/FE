@@ -4,7 +4,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import Tab from "../components/main/Tab";
 import styled from "styled-components";
-import Banner from "../components/main/Banner";
+import Banner from "../components/main/Banner/Banner";
 
 function Main() {
   return (

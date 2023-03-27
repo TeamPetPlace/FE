@@ -8,5 +8,5 @@ function Layout(props) {
 export default Layout;
 
 const LayoutBox = styled.div`
-  width: 100%;
+  width: 1920px;
 `;

@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import img1 from "../../style/img/1.jpg";
-import img2 from "../../style/img/2.jpg";
-import img3 from "../../style/img/3.JPG";
+// import img1 from "../../style/img/1.jpg";
+// import img2 from "../../style/img/2.jpg";
+// import img3 from "../../style/img/3.JPG";
 
 function Banner() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["access_token", "loginType"]);
 
   //배너 슬라이드
-  const [slide, setSlide] = useState([img1, img2, img3]);
+  const [slide, setSlide] = useState([1, 1, 1]);
   const [current, setCurrent] = useState(0);
 
   const prevSlide = () => {
