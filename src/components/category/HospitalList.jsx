@@ -1,23 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import {
-  AllPost,
-  AddLikesPost,
-  SearchPost,
-  DeleteLikePost,
-} from "../../api/category";
+import { AllPost, AddLikesPost, SearchPost, DeleteLikePost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
 import Skeletons from "../../element/Skeletons";
+import {
+  StHistoryTitle,
+  StHistoryCard,
+  StHistoryImg,
+  StCardImg,
+  StPlace,
+  StCards,
+  StCard,
+  StHistory,
+  StTitle,
+  StContent,
+  StListPage,
+  StSearchInput,
+  StSearchButton,
+  StSearchDiv,
+  StSearchSortingDiv,
+  StSelect,
+  StOption,
+} from "./AllCategoryListStyle";
 
 const HospitalList = () => {
   const [cards, setCards] = useState([]);
@@ -26,7 +35,7 @@ const HospitalList = () => {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [sort, setSort] = useState("DISTANCE");
   const [cookies] = useCookies(["lat", "lng"]);
-  const size = 1;
+  const size = 3;
   const page = 0;
   const navigate = useNavigate();
   const queryclient = useQueryClient();
@@ -70,56 +79,50 @@ const HospitalList = () => {
   );
 
   //무한스크롤
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useInfiniteQuery(
-      [
-        "searchPost",
-        {
-          category: "병원",
-          sort: sort,
-          keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          size: size,
-        },
-      ],
-      ({ pageParam = 0 }) =>
-        AllPost({
-          category: "병원",
-          sort: sort,
-          // keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          page: pageParam,
-          size: size,
-        }),
-
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useInfiniteQuery(
+    [
+      "searchPost",
       {
-        getNextPageParam: (lastPage, pages) => {
-          if (lastPage.data.last) {
-            return null;
-          }
-          // return pages.length;
-          return pages.length;
-        },
-        onSuccess: (newData) => {
-          setCards((prevCards) => {
-            const newItems = newData.pages.flatMap((page) => page.data.content);
-            const uniqueItems = newItems.filter(
-              (item) => !prevCards.includes(item)
-            );
-            return [...prevCards, ...uniqueItems];
-          });
-        },
-      }
-    );
+        category: "병원",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        size: size,
+      },
+    ],
+    ({ pageParam = 0 }) =>
+      AllPost({
+        category: "병원",
+        sort: sort,
+        // keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: pageParam,
+        size: size,
+      }),
+
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.data.last) {
+          return null;
+        }
+        // return pages.length;
+        return pages.length;
+      },
+      onSuccess: (newData) => {
+        setCards((prevCards) => {
+          const newItems = newData.pages.flatMap((page) => page.data.content);
+          const uniqueItems = newItems.filter((item) => !prevCards.includes(item));
+          return [...prevCards, ...uniqueItems];
+        });
+      },
+    }
+  );
 
   useEffect(() => {
     function handleScroll() {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        hasNextPage
-      )
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage)
         fetchNextPage();
     }
     window.addEventListener("scroll", handleScroll, true);
@@ -175,37 +178,38 @@ const HospitalList = () => {
     }
   };
 
-  // const LikeMutation = useMutation(AddLikesPost, {
-  //   onSuccess: () => {
-  //     queryclient.invalidateQueries("AllPost");
-  //     console.log("찜성공");
-  //   },
-  //   onError: (error) => {
-  //     queryclient.invalidateQueries("AllPost");
-  //     console.log("찜실패");
-  //   },
-  // });
-  // const DeleteMutation = useMutation(DeleteLikePost, {
-  //   onSuccess: () => {
-  //     queryclient.invalidateQueries("AllPost");
-  //     console.log("삭제성공");
-  //   },
-  //   onError: (error) => {
-  //     queryclient.invalidateQueries("AllPost");
-  //     console.log("삭제실패");
-  //   },
-  // });
-  // const LikeBtn = (item) => {
-  //   const payload = {
-  //     id: item.id,
-  //   };
-  //   if (item.like === false) {
-  //     LikeMutation.mutate(payload);
-  //   } else if (item.like === true) {
-  //     DeleteMutation.mutate(payload);
-  //   }
-  //   // console.log(item.id);
-  // };
+  const LikeMutation = useMutation(AddLikesPost, {
+    onSuccess: () => {
+      queryclient.invalidateQueries("AllPost");
+      console.log("찜성공");
+    },
+    onError: (error) => {
+      queryclient.invalidateQueries("AllPost");
+      console.log("찜실패");
+    },
+  });
+  const DeleteMutation = useMutation(DeleteLikePost, {
+    onSuccess: () => {
+      queryclient.invalidateQueries("AllPost");
+      console.log("삭제성공");
+    },
+    onError: (error) => {
+      queryclient.invalidateQueries("AllPost");
+      console.log("삭제실패");
+    },
+  });
+
+  const LikeBtn = (item) => {
+    const payload = {
+      id: item.id,
+    };
+    if (item.like === false) {
+      LikeMutation.mutate(payload);
+    } else if (item.like === true) {
+      DeleteMutation.mutate(payload);
+    }
+    // console.log(item.id);
+  };
 
   const onKeyPressHandler = (event) => {
     if (event.key === "Enter") {
@@ -216,107 +220,124 @@ const HospitalList = () => {
   return (
     <>
       <StPlace>
-        <StHistory>
-          <div>
-            {history.map((item, index) => {
+        <StTitle fontSize="36px">병원</StTitle>
+        <StSearchSortingDiv>
+          <StSearchDiv>
+            <StSearchInput
+              type="text"
+              placeholder="검색할 명칭을 입력해주세요"
+              value={searchkeyword || ""}
+              onChange={(e) => {
+                setSearchKeyword(e.target.value);
+              }}
+              onKeyPress={onKeyPressHandler}
+            />
+            <StSearchButton id="search" onClick={onSearchHandler}>
+              <GoSearch />
+            </StSearchButton>
+          </StSearchDiv>
+          <StSelect id="sort" name="sort" onChange={onSortingHandler}>
+            <StOption value="DISTANCE"> 근거리순 </StOption>
+            <StOption value="STAR"> 평점순</StOption>
+            <StOption value="REVIEW"> 후기순</StOption>
+          </StSelect>
+        </StSearchSortingDiv>
+      </StPlace>
+      {!isSearchMode ? (
+        <StListPage>
+          <StCards>
+            {cards?.map((item, index) => {
               return (
                 <div key={index}>
-                  <img src={item.reSizeImage} alt="historyImg" />
-                  <div>{item.title}</div>
+                  <StCard
+                    key={item.id}
+                    onClick={() => {
+                      navigate(`/hospital/${item.id}`);
+                    }}
+                  >
+                    <button onClick={() => LikeBtn(item)}>
+                      {" "}
+                      {item.like === false ? "찜하기" : "찜취소"}{" "}
+                    </button>
+                    <StCardImg src={item.reSizeImage} />
+                    {/* <StTitle fontSize="24px">
+                      {item.title} {"★".repeat(item.star)}
+                    </StTitle> */}
+                    {(item.star === 0 && <div>☆☆☆☆☆</div>) ||
+                      (item.star === 1 && <div>★☆☆☆☆</div>) ||
+                      (item.star === 2 && <div>★★☆☆☆</div>) ||
+                      (item.star === 3 && <div>★★★☆☆</div>) ||
+                      (item.star === 4 && <div>★★★★☆</div>) ||
+                      (item.star === 5 && <div>★★★★★</div>)}
+                    <StTitle fontSize="24px">{item.title}</StTitle>
+                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    {parseInt(item.distance) > 999 && (
+                      <StContent>
+                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                      </StContent>
+                    )}
+                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  </StCard>
                 </div>
               );
             })}
-          </div>
-        </StHistory>
-        <h2>
-          병원
-          <MdLocalHospital />
-        </h2>
-        <div>
-          <input
-            style={{ width: "300px" }}
-            type="text"
-            placeholder="검색할 명칭을 입력해주세요"
-            value={searchkeyword || ""}
-            onChange={(e) => {
-              setSearchKeyword(e.target.value);
-            }}
-            onKeyPress={onKeyPressHandler}
-          />
-          <button id="search" onClick={onSearchHandler}>
-            <GoSearch />
-          </button>
-        </div>
-        <select id="sort" name="sort" onChange={onSortingHandler}>
-          <option value="DISTANCE"> 근거리순 </option>
-          <option value="STAR"> 평점순</option>
-          <option value="REVIEW"> 후기순</option>
-        </select>
-      </StPlace>
-      {!isSearchMode ? (
-        <StCards>
-          {cards?.map((item, index) => {
-            return (
-              <div key={index}>
-                <StCard
-                  key={item.id}
-                  onClick={() => {
-                    navigate(`/hospital/${item.id}`);
-                  }}
-                >
-                  <div>별점 : {"⭐".repeat(item.star)}</div>
-                  <div>병원 이름 : {item.title}</div>
-                  <div>주소 : {item.address.split(" ", 2).join(" ")}</div>
-                  {parseInt(item.distance) > 999 && (
-                    <div>
-                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                    </div>
-                  )}
-                  {parseInt(item.distance) < 999 && (
-                    <div>{parseInt(item.distance)}m남음</div>
-                  )}
-                  <img src={item.reSizeImage} />
-                </StCard>
-                {/* <button onClick={() => LikeBtn(item)}>
-                  {" "}
-                  {item.like === false ? "찜하기" : "찜취소"}{" "}
-                </button> */}
-              </div>
-            );
-          })}
-          {isLoading || isFetching ? (
-            <Skeletons style={{ marginTop: "20px" }} />
-          ) : null}
-        </StCards>
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
+          </StCards>
+          <StHistory>
+            <div>
+              <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
+              {history.map((item, index) => {
+                return (
+                  <StHistoryCard key={index}>
+                    <StHistoryImg src={item.reSizeImage} alt="historyImg" />
+                    <div>{item.title}</div>
+                  </StHistoryCard>
+                );
+              })}
+            </div>
+          </StHistory>
+        </StListPage>
       ) : (
         <StCards>
+          <StHistory>
+            <div>
+              <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
+              {history.map((item, index) => {
+                return (
+                  <StHistoryCard key={index}>
+                    <StHistoryImg src={item.reSizeImage} alt="historyImg" />
+                    <div>{item.title}</div>
+                  </StHistoryCard>
+                );
+              })}
+            </div>
+          </StHistory>
           {searchData !== [] &&
             searchData?.map((item, index) => {
               return (
                 <div key={index}>
                   <StCard
+                    key={item.id}
                     onClick={() => {
                       navigate(`/hospital/${item.id}`);
                     }}
                   >
-                    <div>별점 : {"⭐".repeat(item.star)}</div>
-                    <div>병원 이름 : {item.title}</div>
-                    <div>주소 : {item.address}</div>
+                    <StCardImg src={item.reSizeImage} />
+                    <StTitle fontSize="24px">
+                      {item.title} {"⭐".repeat(item.star)}
+                    </StTitle>
+                    <StContent>{item.address}</StContent>
                     {parseInt(item.distance) > 999 && (
-                      <div>
-                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
-                        km남음
-                      </div>
+                      <StContent>
+                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                      </StContent>
                     )}
-                    {parseInt(item.distance) < 999 && (
-                      <div>{parseInt(item.distance)}m남음</div>
-                    )}
-                    <img src={item.reSizeImage} />
+                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                   </StCard>
-                  {/* <button onClick={() => LikeBtn(item)}>
-                  {" "}
-                  {item.like === false ? "찜하기" : "찜취소"}{" "}
-                </button> */}
+                  <button onClick={() => LikeBtn(item)}>
+                    {" "}
+                    {item.like === false ? "찜하기" : "찜취소"}{" "}
+                  </button>
                 </div>
               );
             })}
@@ -327,37 +348,3 @@ const HospitalList = () => {
 };
 
 export default HospitalList;
-
-const StPlace = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  background-color: skyblue;
-`;
-
-const StCards = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-direction: column;
-
-  background-color: #f7f7de;
-`;
-
-const StCard = styled.div`
-  width: 300px;
-  height: 300px;
-  background-color: #e3def7;
-`;
-
-const StHistory = styled.div`
-  width: 200px;
-  height: 600px;
-  position: fixed;
-  background-color: aliceblue;
-  left: 80%;
-`;
