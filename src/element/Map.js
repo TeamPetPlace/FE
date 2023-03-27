@@ -7,7 +7,7 @@ function Map({ id, queryClient, detail, setDetail }) {
     const container = document.getElementById("map");
     const options = {
       center: new kakao.maps.LatLng(detail.lat, detail.lng),
-      level: 2,
+      level: 1,
     };
     const map = new kakao.maps.Map(container, options);
     const mapTypeControl = new kakao.maps.MapTypeControl();
@@ -31,7 +31,7 @@ function Map({ id, queryClient, detail, setDetail }) {
     infowindow.open(map, marker);
   }, []);
 
-  return <div id="map" style={{ width: "500px", height: "500px" }}></div>;
+  return <div id="map" style={{ width: "940px", height: "430px" }}></div>;
 }
 
 export default Map;

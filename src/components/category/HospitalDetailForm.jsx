@@ -13,6 +13,11 @@ import Review from "../../element/Review";
 import ReviewList from "../../element/ReviewList";
 import MagicSliderDots from "react-magic-slider-dots";
 import { IoCopyOutline } from "react-icons/io5";
+import SwiperCore, { Navigation, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "../../../node_modules/swiper/swiper.scss";
+import "../../../node_modules/swiper/modules/navigation/navigation.scss";
+import "../../../node_modules/swiper/modules/pagination/pagination.scss";
 
 const HospitalDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
@@ -332,6 +337,32 @@ const HospitalDetailForm = () => {
       if (selectionStart === 3 && selectionEnd === 3) {
         e.preventDefault();
       }
+    }
+  };
+
+  //탭
+  const [tab, setTab] = useState("상세정보");
+
+  const TabList = [
+    {
+      id: 0,
+      text: "상세정보",
+      category: "상세정보",
+    },
+    { id: 1, text: "후기", category: "후기" },
+  ];
+
+  const [checked, setChecked] = useState([true, false]);
+
+  const onClickHandler = (i) => {
+    const newArr = Array(TabList.length).fill(false);
+    newArr[i] = true;
+
+    setChecked(newArr);
+    if (i === 0) {
+      setTab("상세정보");
+    } else if (i === 1) {
+      setTab("후기");
     }
   };
 
@@ -752,25 +783,19 @@ const HospitalDetailForm = () => {
                 <Stimg src={detail.reSizeImage} alt="imgslide" />
               </StSlider>
               <button onClick={sharePage}>현재 페이지 공유하기</button>
-              <h2>{detail.title}</h2>
-              <h2>{detail.id}</h2>
-              <label>업종 : {detail.category} </label> <br />
-              <label>
-                운영 시간 : {detail.startTime} : {detail.endTime}
-              </label>{" "}
-              <br />
-              <label>대표번호 : {detail.telNum} </label>{" "}
-              <button
-                onClick={() => {
-                  handleCopyClipBoard(`${detail.telNum}`);
-                }}
-              >
-                <IoCopyOutline />
-              </button>
-              <br />
-              <label>휴무일 : {detail.closedDay}</label> <br />
-              <div> {detail.contents} </div>
-              <label> {detail.address}</label>{" "}
+              <StFirst>
+                <StTitleName>{detail.title}</StTitleName>
+                <div>
+                  {(detail.star === 0 && <StStar>☆☆☆☆☆</StStar>) ||
+                    (detail.star === 1 && <StStar>★☆☆☆☆</StStar>) ||
+                    (detail.star === 2 && <StStar>★★☆☆☆</StStar>) ||
+                    (detail.star === 3 && <StStar>★★★☆☆</StStar>) ||
+                    (detail.star === 4 && <StStar>★★★★☆</StStar>) ||
+                    (detail.star === 5 && <StStar>★★★★★</StStar>)}
+                </div>
+                <StAverage>(평균 {detail.star}/5.0)</StAverage>
+              </StFirst>
+              <StAddress>{detail.address}</StAddress>
               <button
                 onClick={() => {
                   handleCopyClipBoard(`${detail.address}`);
@@ -778,22 +803,109 @@ const HospitalDetailForm = () => {
               >
                 <IoCopyOutline />
               </button>
-              <Review
-                id={id}
-                queryClient={queryClient}
-                detail={detail}
-                setDetail={setDetail}
-              />
-              <ReviewList
-                id={id}
-                queryClient={queryClient}
-                detail={detail}
-                data={data}
-              ></ReviewList>
-              <div>전체 리뷰수:{detail.reviewCount}</div>
-              <div>평균평점:{detail.star}</div>
+              <StTime>
+                <StAddress>
+                  AM {detail.startTime} - PM {detail.endTime}
+                </StAddress>
+                {detail.closedDay === "" ? (
+                  <StClosedDay>휴무일 없음</StClosedDay>
+                ) : (
+                  <StClosedDay>{detail.closedDay} 휴무</StClosedDay>
+                )}
+              </StTime>
               <div>
-                지도
+                {TabList?.map((item, i) => (
+                  <button key={item.id} onClick={() => onClickHandler(i)}>
+                    {item.text}
+                  </button>
+                ))}
+              </div>
+              {tab === "상세정보" && detail.category === "병원" && (
+                <div>
+                  <div>{detail.contents}</div>
+                  <div>대표 수의사 {detail.ceo}</div>
+                  <div>기본 진료비 {detail.cost}</div>
+                  {detail.aboolean1 === "false" ? (
+                    <div>야간진료 불가능</div>
+                  ) : (
+                    <div>야간진료 가능</div>
+                  )}
+                  <div>진료항목 {detail.feature1}</div>
+                  <label>대표번호 : {detail.telNum} </label>{" "}
+                  <button
+                    onClick={() => {
+                      handleCopyClipBoard(`${detail.telNum}`);
+                    }}
+                  >
+                    <IoCopyOutline />
+                  </button>
+                </div>
+              )}
+              {tab === "상세정보" && detail.category === "미용" && (
+                <div>
+                  <div>{detail.contents}</div>
+                  <div>대표명 {detail.ceo}</div>
+                  <div>기본 미용비 {detail.cost}</div>
+                  {detail.aboolean1 === "false" ? (
+                    <div>주차여부 불가능</div>
+                  ) : (
+                    <div>주차여부 가능</div>
+                  )}
+                  {detail.aboolean2 === "false" ? (
+                    <div>예약여부 불필요</div>
+                  ) : (
+                    <div>예약여부 필요</div>
+                  )}
+                  <label>대표번호 : {detail.telNum} </label>{" "}
+                  <button
+                    onClick={() => {
+                      handleCopyClipBoard(`${detail.telNum}`);
+                    }}
+                  >
+                    <IoCopyOutline />
+                  </button>
+                </div>
+              )}
+              {tab === "상세정보" && detail.category === "카페" && (
+                <div>
+                  <div>{detail.contents}</div>
+                  <div>대표명 {detail.ceo}</div>
+                  <div>입장료 {detail.cost}</div>
+                  <div>부대시설 {detail.feature1}</div>
+                  {detail.aboolean1 === "false" ? (
+                    <div>주차여부 불가능</div>
+                  ) : (
+                    <div>주차여부 가능</div>
+                  )}
+                  <div>대표번호 : {detail.telNum} </div>
+                  <button
+                    onClick={() => {
+                      handleCopyClipBoard(`${detail.telNum}`);
+                    }}
+                  >
+                    <IoCopyOutline />
+                  </button>
+                </div>
+              )}
+              {tab === "후기" && (
+                <div>
+                  <Review
+                    id={id}
+                    queryClient={queryClient}
+                    detail={detail}
+                    setDetail={setDetail}
+                  />
+                  <ReviewList
+                    id={id}
+                    queryClient={queryClient}
+                    detail={detail}
+                    data={data}
+                  ></ReviewList>
+                  <div>전체 리뷰수:{detail.reviewCount}</div>
+                  <div>평균평점:{detail.star}</div>
+                </div>
+              )}
+              <div>
                 <Map
                   id={id}
                   queryClient={queryClient}
@@ -812,14 +924,12 @@ const HospitalDetailForm = () => {
 export default HospitalDetailForm;
 
 const Stdiv = styled.div`
-  background-color: gray;
   width: 100%;
   height: 1200px;
 `;
 
 const StWrap = styled.div`
-  width: 600px;
-  height: 600px;
+  width: 1240px;
   margin: 0 auto;
 `;
 
@@ -840,6 +950,48 @@ const Stimg = styled.img`
   left: 0;
   opacity: 1;
   transition: background-image 0.5s ease-in-out, opacity 0.5s ease-in-out;
+`;
+
+const StFirst = styled.div`
+  display: flex;
+  width: 500px;
+  height: 50px;
+  line-height: 50px;
+`;
+
+const StTitleName = styled.div`
+  font-size: 34px;
+  font-weight: 900;
+  margin-right: 10px;
+`;
+
+const StStar = styled.div`
+  color: #ffd53f;
+  font-size: 25px;
+  margin-right: 5px;
+`;
+
+const StAverage = styled.div`
+  font-size: 16px;
+  line-height: 60px;
+`;
+
+const StTime = styled.div`
+  display: flex;
+  height: 30px;
+  line-height: 30px;
+`;
+
+const StAddress = styled.div`
+  font-size: 24px;
+`;
+
+const StClosedDay = styled.div`
+  font-size: 20px;
+  margin-left: 10px;
+  color: #0d0d0d;
+  border-left: 1px solid #0d0d0d;
+  padding-left: 10px;
 `;
 
 const StBox = styled.div`
