@@ -9,4 +9,6 @@ export default Layout;
 
 const LayoutBox = styled.div`
   width: 1920px;
+  overflow: hidden;
+  margin: 0 auto;
 `;

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Layout from "./Layout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -17,15 +16,12 @@ function Header() {
     "    https://us.123rf.com/450wm/sanek13744/sanek137441706/sanek13744170600240/80321806-%EB%B0%9C-%EC%9D%B8%EC%87%84-%EB%B2%A1%ED%84%B0-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EA%B0%95%EC%95%84%EC%A7%80-%EB%98%90%EB%8A%94-%EA%B3%A0%EC%96%91%EC%9D%B4-pawprint-%EA%B7%B8%EB%A6%BC-%EA%B8%B4-%EA%B7%B8%EB%A6%BC%EC%9E%90%EA%B0%80%EC%9E%88%EB%8A%94-%EB%8F%99%EB%AC%BC.jpg?ver=6"
   );
   const [nickname, setNickname] = useState("");
-  const queryClient = useQueryClient();
   const { data } = useQuery("getmypage", getMypage, {
     onSuccess: (response) => {
       setProfile(response.response.image);
       setNickname(response.response.nickname);
     },
   });
-
-  const [cookies] = useCookies(["access_token", "nickname"]);
 
   //드롭다운
   const [drop, setDrop] = useState(false);
@@ -94,7 +90,7 @@ function Header() {
 export default Header;
 
 const StHeader = styled.div`
-  width: 100%;
+  width: 1920px;
   height: 100px;
   background-color: #ffd53f;
   box-shadow: 0px 4px 8px 1px rgba(254, 215, 0, 0.15);
@@ -134,9 +130,11 @@ const StCateogry = styled.div`
 const StTab = styled.div`
   cursor: pointer;
   color: #0d0d0d;
+  font-weight: 900;
   font-size: 20px;
   &:hover {
     font-weight: 900;
+    color: #fff;
   }
 `;
 

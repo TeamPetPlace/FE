@@ -5,6 +5,7 @@ import Layout from "./Layout";
 function Footer() {
   return (
     <Layout>
+      <StTop>(C) 2023. Design by Pet place</StTop>
       <StFooter>
         <StWrap>
           <StUl>
@@ -33,6 +34,14 @@ function Footer() {
 }
 
 export default Footer;
+
+const StTop = styled.div`
+  width: 300px;
+  color: #98886b;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  font-size: 10px;
+`;
 
 const StFooter = styled.div`
   width: 100%;
