@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Layout from "./Layout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -7,6 +6,9 @@ import { NomalLogin } from "../../api/user";
 import { removeCookie } from "../../api/cookie";
 import { getMypage } from "../../api/mypage";
 import { useCookies } from "react-cookie";
+import logo from "../../style/img/logo.png";
+import profileOrigin from "../../style/img/profile.png";
+import "../../style/fonts/font.css";
 
 function Header() {
   const navigate = useNavigate();
@@ -14,15 +16,12 @@ function Header() {
     "    https://us.123rf.com/450wm/sanek13744/sanek137441706/sanek13744170600240/80321806-%EB%B0%9C-%EC%9D%B8%EC%87%84-%EB%B2%A1%ED%84%B0-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EA%B0%95%EC%95%84%EC%A7%80-%EB%98%90%EB%8A%94-%EA%B3%A0%EC%96%91%EC%9D%B4-pawprint-%EA%B7%B8%EB%A6%BC-%EA%B8%B4-%EA%B7%B8%EB%A6%BC%EC%9E%90%EA%B0%80%EC%9E%88%EB%8A%94-%EB%8F%99%EB%AC%BC.jpg?ver=6"
   );
   const [nickname, setNickname] = useState("");
-  const queryClient = useQueryClient();
   const { data } = useQuery("getmypage", getMypage, {
     onSuccess: (response) => {
       setProfile(response.response.image);
       setNickname(response.response.nickname);
     },
   });
-
-  const [cookies] = useCookies(["access_token", "nickname"]);
 
   //드롭다운
   const [drop, setDrop] = useState(false);
@@ -47,21 +46,20 @@ function Header() {
   };
 
   return (
-    <Layout>
+    <>
       <StHeader>
         <StWrap>
           <StMenu>
-            <StLogo onClick={() => navigate("/main")}>로고</StLogo>
-            <StTab onClick={() => navigate("/hospital")}>병원</StTab>
-            <StTab onClick={() => navigate("/shop")}>미용</StTab>
-            <StTab onClick={() => navigate("/cafe")}>카페</StTab>
+            <StLogo src={logo} onClick={() => navigate("/main")} />
+            <StCateogry>
+              <StTab onClick={() => navigate("/hospital")}>병원</StTab>
+              <StTab onClick={() => navigate("/shop")}>미용</StTab>
+              <StTab onClick={() => navigate("/cafe")}>카페</StTab>
+            </StCateogry>
           </StMenu>
           <StUser>
             {profile === null ? (
-              <StProfile
-                src="http://www.urbanbrush.net/web/wp-content/uploads/edd/2017/09/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7-2017-09-19-%EC%98%A4%ED%9B%84-2.17.32.png"
-                alt="origin"
-              />
+              <StProfile src={profileOrigin} alt="origin" />
             ) : (
               <StProfile src={profile} alt="img" />
             )}
@@ -74,97 +72,116 @@ function Header() {
               ▼
               {drop && (
                 <StUserCategory>
-                  <StUserCh onClick={() => navigate("/mypage")}>
+                  <StUserMenu onClick={() => navigate("/mypage")}>
                     마이페이지
-                  </StUserCh>
-                  <StUserCh onClick={onLogoutHandler}>로그아웃</StUserCh>
+                  </StUserMenu>
+                  <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
                 </StUserCategory>
               )}
             </StUserBar>
           </StUser>
         </StWrap>
       </StHeader>
-    </Layout>
+      <div style={{ height: "100px" }}></div>
+    </>
   );
 }
 
 export default Header;
 
 const StHeader = styled.div`
-  width: 100%;
-  height: 4.5rem;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  width: 1920px;
+  height: 100px;
+  background-color: #ffd53f;
+  box-shadow: 0px 4px 8px 1px rgba(254, 215, 0, 0.15);
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  position: absolute;
   z-index: 999;
 `;
 
 const StWrap = styled.div`
-  width: 1100px;
+  width: 1235px;
+  height: 37px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 `;
 
 const StMenu = styled.div`
   display: flex;
-  width: 300px;
-  justify-content: space-between;
+  width: 637px;
   position: relative;
 `;
 
-const StLogo = styled.div`
+const StLogo = styled.img`
   cursor: pointer;
+  width: 182px;
+  height: 37px;
+`;
+
+const StCateogry = styled.div`
+  width: 316px;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 140px;
 `;
 
 const StTab = styled.div`
   cursor: pointer;
-  color: gray;
+  color: #0d0d0d;
+  font-weight: 900;
+  font-size: 20px;
   &:hover {
-    color: black;
+    font-weight: 900;
+    color: #fff;
   }
 `;
 
 const StUser = styled.div`
   display: flex;
-  gap: 10px;
+  width: 135px;
+  line-height: 37px;
+  font-size: 15px;
 `;
 
 const StProfile = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 25px;
-  border: 1px solid black;
-`;
-
-const StUserCategory = styled.div`
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100px;
-  position: absolute;
-  right: 5%;
+  margin-right: 10px;
 `;
 
 const StUserBar = styled.ul`
-  position: absolute;
-  top: 1.3%;
-  right: 11%;
+  position: relative;
+  margin: 0px;
+  height: 37px;
   &:hover {
     cursor: pointer;
     transition: all ease 2s 0s;
   }
 `;
 
-const StUserCh = styled.li`
+const StUserCategory = styled.div`
+  width: 100px;
+  height: 75px;
+  font-size: 14px;
+  color: #999;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  right: 5%;
+`;
+
+const StUserMenu = styled.li`
   list-style: none;
   width: 100px;
   text-align: center;
-  padding: 5px 0px;
   &:hover {
-    background-color: lightgray;
+    color: #000;
+    font-weight: 900;
   }
 `;

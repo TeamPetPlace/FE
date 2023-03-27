@@ -266,7 +266,7 @@ const HospitalList = () => {
                 >
                   <div>별점 : {"⭐".repeat(item.star)}</div>
                   <div>병원 이름 : {item.title}</div>
-                  <div>주소 : {item.address}</div>
+                  <div>주소 : {item.address.split(" ", 2).join(" ")}</div>
                   {parseInt(item.distance) > 999 && (
                     <div>
                       {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
