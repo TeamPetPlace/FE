@@ -36,21 +36,23 @@ export default Footer;
 
 const StFooter = styled.div`
   width: 100%;
-  height: 8rem;
-  background-color: rgb(43, 43, 43);
+  height: 200px;
+  background-color: #0d0d0d;
 `;
 
 const StWrap = styled.div`
+  width: 450px;
+  height: 119px;
   display: flex;
   float: right;
-  padding-right: 60px;
-  margin-top: 5px;
+  margin-top: 20px;
+  margin-right: 300px;
 `;
 
 const StUl = styled.ul`
   color: rgb(127, 132, 135);
   font-weight: 900;
-  font-size: 10px;
+  font-size: 12px;
 `;
 
 const StLi = styled.li`

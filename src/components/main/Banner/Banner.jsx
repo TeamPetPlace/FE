@@ -31,7 +31,8 @@ function Banner() {
             key={index}
             style={{ display: index === current ? "block" : "none" }}
           >
-            <img src={item} alt={`image${index}`} />
+            {/* <img src={item} alt={`image${index}`} /> */}
+            <Stex>임시배너</Stex>
           </StSlide>
         ))}
         <StBtns>
@@ -60,6 +61,7 @@ const StWrap = styled.div`
   transition: transform 0.3s ease-in-out;
   transform: translateX(${(props) => props.translateValue}px);
   width: 100%;
+  font-size: 50px;
 `;
 
 const StSlide = styled.div`
@@ -92,4 +94,9 @@ const StButton = styled.div`
   width: 400px;
   height: 200px;
   border: 1px solid black;
+`;
+
+const Stex = styled.div`
+  height: 634px;
+  background-color: #fffcec;
 `;

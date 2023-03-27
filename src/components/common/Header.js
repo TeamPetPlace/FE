@@ -50,7 +50,7 @@ function Header() {
   };
 
   return (
-    <Layout>
+    <>
       <StHeader>
         <StWrap>
           <StMenu>
@@ -86,7 +86,8 @@ function Header() {
           </StUser>
         </StWrap>
       </StHeader>
-    </Layout>
+      <div style={{ height: "100px" }}></div>
+    </>
   );
 }
 
@@ -99,6 +100,7 @@ const StHeader = styled.div`
   box-shadow: 0px 4px 8px 1px rgba(254, 215, 0, 0.15);
   display: flex;
   align-items: center;
+  position: absolute;
   z-index: 999;
 `;
 
