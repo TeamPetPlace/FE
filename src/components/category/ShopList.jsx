@@ -1,14 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { GoSearch } from "react-icons/go";
-import { AllPost, SearchPost } from "../../api/category";
+import { AddLikesPost, AllPost, DeleteLikePost, SearchPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
 import Skeleton from "react-loading-skeleton";
 import Skeletons from "../../element/Skeletons";
-// import InfiniteScroll from "react-infinite-scroll-component";
+import {
+  StHistoryTitle,
+  StHistoryCard,
+  StHistoryImg,
+  StCardImg,
+  StPlace,
+  StCards,
+  StCard,
+  StHistory,
+  StTitle,
+  StContent,
+  StListPage,
+  StSearchInput,
+  StSearchButton,
+  StSearchDiv,
+  StSearchSortingDiv,
+  StSelect,
+  StOption,
+} from "./AllCategoryListStyle";
 
 const ShopList = () => {
   const [cards, setCards] = useState([]);
@@ -61,54 +79,48 @@ const ShopList = () => {
   );
 
   //무한스크롤
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useInfiniteQuery(
-      [
-        "searchPost",
-        {
-          category: "미용",
-          sort: sort,
-          keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          size: size,
-        },
-      ],
-      ({ pageParam = 0 }) =>
-        AllPost({
-          category: "미용",
-          sort: sort,
-          // keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          page: pageParam,
-          size: size,
-        }),
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useInfiniteQuery(
+    [
+      "searchPost",
       {
-        getNextPageParam: (lastPage, pages) => {
-          if (lastPage.data.last) {
-            return null;
-          }
-          return pages.length;
-        },
-        onSuccess: (newData) => {
-          setCards((prevCards) => {
-            const newItems = newData.pages.flatMap((page) => page.data.content);
-            const uniqueItems = newItems.filter(
-              (item) => !prevCards.includes(item)
-            );
-            return [...prevCards, ...uniqueItems];
-          });
-        },
-      }
-    );
+        category: "미용",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        size: size,
+      },
+    ],
+    ({ pageParam = 0 }) =>
+      AllPost({
+        category: "미용",
+        sort: sort,
+        // keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: pageParam,
+        size: size,
+      }),
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.data.last) {
+          return null;
+        }
+        return pages.length;
+      },
+      onSuccess: (newData) => {
+        setCards((prevCards) => {
+          const newItems = newData.pages.flatMap((page) => page.data.content);
+          const uniqueItems = newItems.filter((item) => !prevCards.includes(item));
+          return [...prevCards, ...uniqueItems];
+        });
+      },
+    }
+  );
 
   useEffect(() => {
     function handleScroll() {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        hasNextPage
-      ) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage) {
         fetchNextPage();
       }
     }
@@ -163,6 +175,39 @@ const ShopList = () => {
     }
   };
 
+  const LikeMutation = useMutation(AddLikesPost, {
+    onSuccess: () => {
+      queryclient.invalidateQueries("AllPost");
+      console.log("찜성공");
+    },
+    onError: (error) => {
+      queryclient.invalidateQueries("AllPost");
+      console.log("찜실패");
+    },
+  });
+  const DeleteMutation = useMutation(DeleteLikePost, {
+    onSuccess: () => {
+      queryclient.invalidateQueries("AllPost");
+      console.log("삭제성공");
+    },
+    onError: (error) => {
+      queryclient.invalidateQueries("AllPost");
+      console.log("삭제실패");
+    },
+  });
+
+  const LikeBtn = (item) => {
+    const payload = {
+      id: item.id,
+    };
+    if (item.like === false) {
+      LikeMutation.mutate(payload);
+    } else if (item.like === true) {
+      DeleteMutation.mutate(payload);
+    }
+    // console.log(item.id);
+  };
+
   //엔터 누르면 검색
   const onKeyPressHandler = (event) => {
     if (event.key === "Enter") {
@@ -173,102 +218,127 @@ const ShopList = () => {
   return (
     <>
       <StPlace>
-        <StHistory>
-          <div>
-            {history.map((item) => {
+        <StTitle fontSize="36px">미용</StTitle>
+        <StSearchSortingDiv>
+          <StSearchDiv>
+            <StSearchInput
+              type="text"
+              placeholder="검색할 명칭을 입력해주세요"
+              value={searchkeyword || ""}
+              onChange={(e) => {
+                setSearchKeyword(e.target.value);
+              }}
+              onKeyPress={onKeyPressHandler}
+            />
+            <StSearchButton id="search" onClick={onSearchHandler}>
+              <GoSearch />
+            </StSearchButton>
+          </StSearchDiv>
+          <StSelect id="sort" name="sort" onChange={onSortingHandler}>
+            <StOption value="DISTANCE"> 근거리순 </StOption>
+            <StOption value="STAR"> 평점순</StOption>
+            <StOption value="REVIEW"> 후기순</StOption>
+          </StSelect>
+        </StSearchSortingDiv>
+      </StPlace>
+      {!isSearchMode ? (
+        <StListPage>
+          <StCards>
+            {cards?.map((item, index) => {
               return (
-                <div key={item.id}>
-                  <img src={item.reSizeImage} alt="historyImg" />
-                  <div>{item.title}</div>
+                <div key={index}>
+                  <StCard
+                    key={item.id}
+                    onClick={() => {
+                      navigate(`/hospital/${item.id}`);
+                    }}
+                  >
+                    <button onClick={() => LikeBtn(item)}>
+                      {" "}
+                      {item.like === false ? "찜하기" : "찜취소"}{" "}
+                    </button>
+                    <StCardImg src={item.reSizeImage} />
+                    {/* <StTitle fontSize="24px">
+                      {item.title} {"★".repeat(item.star)}
+                    </StTitle> */}
+                    {(item.star === 0 && <div>☆☆☆☆☆</div>) ||
+                      (item.star === 1 && <div>★☆☆☆☆</div>) ||
+                      (item.star === 2 && <div>★★☆☆☆</div>) ||
+                      (item.star === 3 && <div>★★★☆☆</div>) ||
+                      (item.star === 4 && <div>★★★★☆</div>) ||
+                      (item.star === 5 && <div>★★★★★</div>)}
+                    <StTitle fontSize="24px">{item.title}</StTitle>
+                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    {parseInt(item.distance) > 999 && (
+                      <StContent>
+                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                      </StContent>
+                    )}
+                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  </StCard>
                 </div>
               );
             })}
-          </div>
-        </StHistory>
-        <h2>미용</h2>
-        <div>
-          <input
-            style={{ width: "300px" }}
-            type="text"
-            placeholder="검색할 명칭을 입력해주세요"
-            value={searchkeyword || ""}
-            onChange={(e) => {
-              setSearchKeyword(e.target.value);
-            }}
-            onKeyPress={onKeyPressHandler}
-          />
-          <button onClick={onSearchHandler}>
-            <GoSearch />
-          </button>
-        </div>
-        <StFilterBox>
-          <select id="sort" name="sort" onChange={onSortingHandler}>
-            <option value="DISTANCE"> 근거리순 </option>
-            <option value="STAR"> 평점순</option>
-            <option value="REVIEW"> 후기순</option>
-          </select>
-        </StFilterBox>
-      </StPlace>
-      {!isSearchMode ? (
-        <StCards>
-          {cards?.map((item) => {
-            return (
-              <div key={item.id}>
-                <StCard
-                  key={item.id}
-                  onClick={() => {
-                    navigate(`/hospital/${item.id}`);
-                  }}
-                >
-                  <div>별점 : {"⭐".repeat(item.star)}</div>
-                  <div>미용실 이름 : {item.title}</div>
-                  <div>주소 : {item.address}</div>
-                  {parseInt(item.distance) > 999 && (
-                    <div>
-                      {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                    </div>
-                  )}
-                  {parseInt(item.distance) < 999 && (
-                    <div>{parseInt(item.distance)}m남음</div>
-                  )}
-                  <img src={item.reSizeImage} />
-                </StCard>
-                {/* <button onClick={() => LikeBtn(item)}>
-                {" "}
-                {item.like === false ? "찜하기" : "찜취소"}{" "}
-              </button> */}
-              </div>
-            );
-          })}
-          {isLoading || isFetching ? (
-            <Skeletons style={{ marginTop: "20px" }} />
-          ) : null}
-        </StCards>
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
+          </StCards>
+          <StHistory>
+            <div>
+              <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
+              {history.map((item, index) => {
+                return (
+                  <StHistoryCard key={index}>
+                    <StHistoryImg src={item.reSizeImage} alt="historyImg" />
+                    <div>{item.title}</div>
+                  </StHistoryCard>
+                );
+              })}
+            </div>
+          </StHistory>
+        </StListPage>
       ) : (
         <StCards>
-          {searchData?.map((item) => {
-            return (
-              <StCard
-                key={item.id}
-                onClick={() => {
-                  navigate(`/shop/${item.id}`);
-                }}
-              >
-                <div>별점 : {"⭐".repeat(item.star)}</div>
-                <div>미용실 이름 : {item.title}</div>
-                <div>주소 : {item.address}</div>
-                {parseInt(item.distance) > 999 && (
-                  <div>
-                    {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                  </div>
-                )}
-                {parseInt(item.distance) < 999 && (
-                  <div>{parseInt(item.distance)}m남음</div>
-                )}
-                <img src={item.reSizeImage} />
-              </StCard>
-            );
-          })}
+          <StHistory>
+            <div>
+              <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
+              {history.map((item, index) => {
+                return (
+                  <StHistoryCard key={index}>
+                    <StHistoryImg src={item.reSizeImage} alt="historyImg" />
+                    <div>{item.title}</div>
+                  </StHistoryCard>
+                );
+              })}
+            </div>
+          </StHistory>
+          {searchData !== [] &&
+            searchData?.map((item, index) => {
+              return (
+                <div key={index}>
+                  <StCard
+                    key={item.id}
+                    onClick={() => {
+                      navigate(`/hospital/${item.id}`);
+                    }}
+                  >
+                    <StCardImg src={item.reSizeImage} />
+                    <StTitle fontSize="24px">
+                      {item.title} {"⭐".repeat(item.star)}
+                    </StTitle>
+                    <StContent>{item.address}</StContent>
+                    {parseInt(item.distance) > 999 && (
+                      <StContent>
+                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                      </StContent>
+                    )}
+                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                  </StCard>
+                  <button onClick={() => LikeBtn(item)}>
+                    {" "}
+                    {item.like === false ? "찜하기" : "찜취소"}{" "}
+                  </button>
+                </div>
+              );
+            })}
         </StCards>
       )}
     </>
@@ -276,42 +346,3 @@ const ShopList = () => {
 };
 
 export default ShopList;
-
-const StPlace = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-
-  background-color: skyblue;
-`;
-
-const StCards = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  flex-direction: column;
-
-  background-color: #f7f7de;
-`;
-
-const StCard = styled.div`
-  width: 300px;
-  height: 300px;
-  background-color: #e3def7;
-  position: relative;
-`;
-
-const StHistory = styled.div`
-  width: 200px;
-  height: 600px;
-  position: fixed;
-  background-color: aliceblue;
-  left: 80%;
-`;
-
-const StFilterBox = styled.div``;
