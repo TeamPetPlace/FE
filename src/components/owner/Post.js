@@ -240,6 +240,12 @@ function Post() {
     }
   };
 
+  const handleSelect = (e) => {
+    if (e.target.value.startsWith("010-")) {
+      e.target.setSelectionRange(12, e.target.value.length);
+    }
+  };
+
   return (
     <>
       <StBox>
@@ -378,6 +384,8 @@ function Post() {
                 value={telNum}
                 onChange={telNumberHandler}
                 onKeyDown={handleKeyDown}
+                onSelect={handleSelect}
+                onDragStart={(event) => event.preventDefault()}
                 size="medium"
               />
             </StLine>

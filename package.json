@@ -31,8 +31,10 @@
     "react-slick": "^0.29.0",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
+    "sass": "^1.60.0",
     "skeleton": "^0.1.2",
     "styled-components": "^5.3.8",
+    "swiper": "^9.1.1",
     "web-vitals": "^2.1.0",
     "window": "^4.2.7"
   },

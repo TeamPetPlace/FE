@@ -5,6 +5,7 @@ import Layout from "./Layout";
 function Footer() {
   return (
     <Layout>
+      <StTop>(C) 2023. Design by Pet place</StTop>
       <StFooter>
         <StWrap>
           <StUl>
@@ -34,23 +35,33 @@ function Footer() {
 
 export default Footer;
 
+const StTop = styled.div`
+  width: 300px;
+  color: #98886b;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  font-size: 10px;
+`;
+
 const StFooter = styled.div`
   width: 100%;
-  height: 8rem;
-  background-color: rgb(43, 43, 43);
+  height: 200px;
+  background-color: #0d0d0d;
 `;
 
 const StWrap = styled.div`
+  width: 450px;
+  height: 119px;
   display: flex;
   float: right;
-  padding-right: 60px;
-  margin-top: 5px;
+  margin-top: 20px;
+  margin-right: 300px;
 `;
 
 const StUl = styled.ul`
   color: rgb(127, 132, 135);
   font-weight: 900;
-  font-size: 10px;
+  font-size: 12px;
 `;
 
 const StLi = styled.li`
