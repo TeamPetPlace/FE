@@ -158,111 +158,104 @@ const BusinessSignupForm = () => {
   };
 
   return (
-    <StSignupFormDiv>
-      <StSignupDiv>
-        <form onSubmit={onSignupSubmit}>
-          {/* <div>사업자회원가입</div> */}
-          <div>
-            <StInput
-              Width="350px"
-              type="text"
-              name="Email"
-              value={useremail || ""}
-              placeholder="이메일"
-              onChange={onEmailChangeHandler}
-            />
-            <StCheckBtn
-              type="button"
-              disabled={!isValidEmail}
-              value={useremail}
-              onClick={checkEmail}
-            >
-              중복확인
-            </StCheckBtn>
-          </div>
-          <StInput
-            Width="500px"
-            type="text"
-            value={usernickname || ""}
-            name="Username"
-            placeholder="닉네임"
-            onChange={handleNicknameChange}
-          />
-          {isVaildNickName ? (
-            <StDescDiv style={{ color: "#008000" }}>사용가능한 닉네임입니다.</StDescDiv>
-          ) : (
-            <StDescDiv style={{ color: "#ff6666" }}>
-              특수문자를 제외하고 2자 이상 20자 이하여야 합니다.
-            </StDescDiv>
-          )}
+    <StSignupDiv>
+      <form onSubmit={onSignupSubmit}>
+        {/* <div>사업자회원가입</div> */}
+        <div>
           <StInput
             Width="350px"
             type="text"
-            name="Biznumber"
-            value={biznumber || ""}
-            placeholder="사업자 번호"
-            onKeyPress={onBizNumPress}
-            onChange={onBizNumChangeHandler}
+            name="Email"
+            value={useremail || ""}
+            placeholder="이메일"
+            onChange={onEmailChangeHandler}
           />
-          <StCheckBtn
-            type="button"
-            disabled={!isValidBiznum}
-            value={biznumber}
-            onClick={checkBizNumber}
-          >
-            사업자번호확인
-          </StCheckBtn>{" "}
+          <StCheckBtn type="button" disabled={!isValidEmail} value={useremail} onClick={checkEmail}>
+            중복확인
+          </StCheckBtn>
+        </div>
+        <StInput
+          Width="500px"
+          type="text"
+          value={usernickname || ""}
+          name="Username"
+          placeholder="닉네임"
+          onChange={handleNicknameChange}
+        />
+        {isVaildNickName ? (
+          <StDescDiv style={{ color: "#008000" }}>사용가능한 닉네임입니다.</StDescDiv>
+        ) : (
+          <StDescDiv style={{ color: "#ff6666" }}>
+            특수문자를 제외하고 2자 이상 20자 이하여야 합니다.
+          </StDescDiv>
+        )}
+        <StInput
+          Width="350px"
+          type="text"
+          name="Biznumber"
+          value={biznumber || ""}
+          placeholder="사업자 번호"
+          onKeyPress={onBizNumPress}
+          onChange={onBizNumChangeHandler}
+        />
+        <StCheckBtn
+          type="button"
+          disabled={!isValidBiznum}
+          value={biznumber}
+          onClick={checkBizNumber}
+        >
+          사업자번호확인
+        </StCheckBtn>{" "}
+        <StInput
+          Width="500px"
+          // type={userpassword}
+          type={pwType.type}
+          value={userpassword || ""}
+          name="PassWord"
+          placeholder="비밀번호"
+          onChange={onPasswordChange}
+        />
+        {isValidPassword ? (
+          <StDescDiv style={{ color: "Black" }}>사용가능한 비밀번호 입니다.</StDescDiv>
+        ) : (
+          <StDescDiv style={{ color: "#ff6666" }}>
+            영어,숫자,특수문자를 포함한 8자이상이여야 합니다.
+          </StDescDiv>
+        )}
+        <div>
           <StInput
             Width="500px"
-            // type={userpassword}
-            type={pwType.type}
-            value={userpassword || ""}
-            name="PassWord"
-            placeholder="비밀번호"
-            onChange={onPasswordChange}
+            type="password"
+            // type="text"
+            placeholder="비밀번호 확인"
+            value={uservalpassword || ""}
+            onChange={handleConfirmPasswordChange}
           />
-          {isValidPassword ? (
-            <StDescDiv style={{ color: "Black" }}>사용가능한 비밀번호 입니다.</StDescDiv>
-          ) : (
-            <StDescDiv style={{ color: "#ff6666" }}>
-              영어,숫자,특수문자를 포함한 8자이상이여야 합니다.
-            </StDescDiv>
-          )}
-          <div>
-            <StInput
-              Width="500px"
-              type="password"
-              // type="text"
-              placeholder="비밀번호 확인"
-              value={uservalpassword || ""}
-              onChange={handleConfirmPasswordChange}
-            />
-          </div>
-          {passwordcheck ? (
-            <StDescDiv style={{ color: "#008000" }}>비밀번호가 일치합니다.</StDescDiv>
-          ) : (
-            <StDescDiv style={{ color: "#ff6666" }}>비밀번호가 일치하지 않습니다.</StDescDiv>
-          )}
-          <div>
-            {/* <button disabled={!(passwordcheck && isValidPassword && isValidEmail)}> */}
-            <StSignupBtn
-              disabled={!(isValidBiznum && passwordcheck && isValidPassword && isValidEmail)}
-            >
-              회원가입
-            </StSignupBtn>
-          </div>
-        </form>
+        </div>
+        {passwordcheck ? (
+          <StDescDiv style={{ color: "#008000" }}>비밀번호가 일치합니다.</StDescDiv>
+        ) : (
+          <StDescDiv style={{ color: "#ff6666" }}>비밀번호가 일치하지 않습니다.</StDescDiv>
+        )}
         <div>
+          {/* <button disabled={!(passwordcheck && isValidPassword && isValidEmail)}> */}
           <StSignupBtn
-            onClick={() => {
-              navigate("/");
-            }}
+            disabled={!(isValidBiznum && passwordcheck && isValidPassword && isValidEmail)}
           >
-            로그인
+            회원가입
           </StSignupBtn>
         </div>
-      </StSignupDiv>
-    </StSignupFormDiv>
+      </form>
+      <div>
+        <StSignupBtn
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          로그인
+        </StSignupBtn>
+      </div>
+    </StSignupDiv>
   );
 };
 

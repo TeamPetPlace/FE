@@ -24,13 +24,12 @@ const StSignupFormDiv = styled.div`
 
 const StSignupDiv = styled.div`
   width: 660px;
-  height: 580px;
-  margin: 120px auto;
+  height: 570px;
+  margin: -1px auto;
   display: flex;
-  padding-top: 73px;
+  padding-top: 50px;
   background-color: white;
   border: 1px solid #d9d9d9;
-  /* box-shadow: 1px 1px 15px 0px #d9d9d9; */
   flex-direction: column;
 `;
 
