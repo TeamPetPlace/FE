@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { setCookie } from "../../api/cookie";
 import { KaKaoLogin, NomalLogin } from "../../api/user";
 import Layout from "../common/Layout";
-import animal_illust_back from "../../style/img/animal_illust_back.png";
+import animal_illust_back from "../../style/img/animal_illust_back.svg";
 import logo from "../../style/img/logo.png";
 
 const LoginForm = () => {

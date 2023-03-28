@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Layout from "../components/common/Layout";
 import BusinessSignupForm from "../components/register/BusinessSignupForm";
 import UserSignupForm from "../components/register/UserSignupForm";
-import animal_illust_back from "../../src/style/img/animal_illust_back.png";
+import animal_illust_back from "../../src/style/img/animal_illust_back.svg";
 
 function Signup() {
   // const [loginmode, setLoginMode] = useState(0);

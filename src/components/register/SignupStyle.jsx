@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import animal_illust_back from "../../style/img/animal_illust_back.png";
+import animal_illust_back from "../../style/img/animal_illust_back.svg";
 
 export {
   StSignupFormDiv,
