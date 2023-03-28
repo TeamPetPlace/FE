@@ -16,7 +16,7 @@ const StSignupFormDiv = styled.div`
   width: 1920px;
   height: 1080px;
   margin: auto;
-  background-color: #fffcec;
+  /* background-color: #fffcec; */
   display: flex;
   background-image: url(${animal_illust_back});
   display: flex;
@@ -28,7 +28,7 @@ const StSignupDiv = styled.div`
   margin: -1px auto;
   display: flex;
   padding-top: 50px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid #d9d9d9;
   flex-direction: column;
 `;

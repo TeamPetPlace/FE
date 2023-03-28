@@ -50,7 +50,7 @@ function Signup() {
 export default Signup;
 
 const StTabBtn = styled.button`
-  width: 332px;
+  width: 331px;
   height: 52px;
   font-size: 24px;
   background-color: #fff;

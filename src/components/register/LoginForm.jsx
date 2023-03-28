@@ -155,4 +155,5 @@ const StInput = styled.input`
   border: 1px solid #d9d9d9;
   margin: 0px 124px 5px 124px;
   text-indent: 10px;
+  outline: none;
 `;
