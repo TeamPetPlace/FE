@@ -34,28 +34,6 @@ const HospitalDetailForm = () => {
     },
   });
 
-  //이미지 슬라이드
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const settings = {
-    dots: true,
-    arrows: true,
-    infinite: false,
-    spped: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    appendDots: (dots) => {
-      return <MagicSliderDots dots={dots} numDotsToshow={4} dotWidth={30} />;
-    },
-  };
-
-  // useEffect(() => {
-  //   const intervalid = setInterval(() => {
-  //     setCurrentImageIndex((currentImageIndex + 1) % slideImg.length);
-  //   }, 3000);
-  //   return () => clearInterval(intervalid);
-  // }, [currentImageIndex, slideImg.length]);
-
   //게시글 삭제
   const queryClient = useQueryClient();
   const deletPostMutation = useMutation(deletePost, {
@@ -357,7 +335,6 @@ const HospitalDetailForm = () => {
   const onClickHandler = (i) => {
     const newArr = Array(TabList.length).fill(false);
     newArr[i] = true;
-
     setChecked(newArr);
     if (i === 0) {
       setTab("상세정보");
@@ -780,7 +757,19 @@ const HospitalDetailForm = () => {
                 </>
               )}
               <StSlider>
-                <Stimg src={detail.reSizeImage} alt="imgslide" />
+                <Swiper
+                  className="banner"
+                  spaceBetween={50}
+                  slidesPerView={1}
+                  navigation
+                  pagination={{ clickable: true }}
+                >
+                  {detail?.image?.map((image, index) => (
+                    <SwiperSlide key={index}>
+                      <StSliderImg src={image} alt={`Image ${index}`} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </StSlider>
               <button onClick={sharePage}>현재 페이지 공유하기</button>
               <StFirst>
@@ -795,14 +784,16 @@ const HospitalDetailForm = () => {
                 </div>
                 <StAverage>(평균 {detail.star}/5.0)</StAverage>
               </StFirst>
-              <StAddress>{detail.address}</StAddress>
-              <button
-                onClick={() => {
-                  handleCopyClipBoard(`${detail.address}`);
-                }}
-              >
-                <IoCopyOutline />
-              </button>
+              <div style={{ display: "flex" }}>
+                <StAddress>{detail.address}</StAddress>
+                <StCopy
+                  onClick={() => {
+                    handleCopyClipBoard(`${detail.address}`);
+                  }}
+                >
+                  <IoCopyOutline />
+                </StCopy>
+              </div>
               <StTime>
                 <StAddress>
                   AM {detail.startTime} - PM {detail.endTime}
@@ -815,77 +806,162 @@ const HospitalDetailForm = () => {
               </StTime>
               <div>
                 {TabList?.map((item, i) => (
-                  <button key={item.id} onClick={() => onClickHandler(i)}>
+                  <StTabBtn
+                    key={item.id}
+                    onClick={() => onClickHandler(i)}
+                    className={checked[i] ? "selected" : ""}
+                  >
                     {item.text}
-                  </button>
+                  </StTabBtn>
                 ))}
               </div>
               {tab === "상세정보" && detail.category === "병원" && (
-                <div>
-                  <div>{detail.contents}</div>
-                  <div>대표 수의사 {detail.ceo}</div>
-                  <div>기본 진료비 {detail.cost}</div>
-                  {detail.aboolean1 === "false" ? (
-                    <div>야간진료 불가능</div>
-                  ) : (
-                    <div>야간진료 가능</div>
-                  )}
-                  <div>진료항목 {detail.feature1}</div>
-                  <label>대표번호 : {detail.telNum} </label>{" "}
-                  <button
-                    onClick={() => {
-                      handleCopyClipBoard(`${detail.telNum}`);
-                    }}
-                  >
-                    <IoCopyOutline />
-                  </button>
-                </div>
+                <StContentsBox>
+                  <StContents>{detail.contents}</StContents>
+                  <StInformation>
+                    <StInfoBox>
+                      <StBold>대표 수의사</StBold>
+                      <StPlus>{detail.ceo}</StPlus>
+                    </StInfoBox>
+                    <StInfoBox>
+                      <StBold>기본 진료비</StBold>
+                      <StPlus>{detail.cost}</StPlus>
+                    </StInfoBox>
+                    {detail.aboolean1 === "false" ? (
+                      <StInfoBox>
+                        <StBold>야간진료</StBold>
+                        <StPlus>불가능</StPlus>
+                      </StInfoBox>
+                    ) : (
+                      <StInfoBox>
+                        <StBold>야간진료</StBold>
+                        <StPlus>가능</StPlus>
+                      </StInfoBox>
+                    )}
+                    <StInfoBox>
+                      <StBold>진료항목</StBold>
+                      <StPlus>{detail.feature1}</StPlus>
+                    </StInfoBox>
+                    <label>대표번호 : {detail.telNum} </label>{" "}
+                    <StCopy
+                      onClick={() => {
+                        handleCopyClipBoard(`${detail.telNum}`);
+                      }}
+                    >
+                      <IoCopyOutline />
+                    </StCopy>
+                  </StInformation>
+                  <div>
+                    <StMap>지도</StMap>
+                    <Map
+                      id={id}
+                      queryClient={queryClient}
+                      detail={detail}
+                      setDetail={setDetail}
+                    />
+                  </div>
+                </StContentsBox>
               )}
               {tab === "상세정보" && detail.category === "미용" && (
-                <div>
-                  <div>{detail.contents}</div>
-                  <div>대표명 {detail.ceo}</div>
-                  <div>기본 미용비 {detail.cost}</div>
-                  {detail.aboolean1 === "false" ? (
-                    <div>주차여부 불가능</div>
-                  ) : (
-                    <div>주차여부 가능</div>
-                  )}
-                  {detail.aboolean2 === "false" ? (
-                    <div>예약여부 불필요</div>
-                  ) : (
-                    <div>예약여부 필요</div>
-                  )}
-                  <label>대표번호 : {detail.telNum} </label>{" "}
-                  <button
-                    onClick={() => {
-                      handleCopyClipBoard(`${detail.telNum}`);
-                    }}
-                  >
-                    <IoCopyOutline />
-                  </button>
-                </div>
+                <StContentsBox>
+                  <StContents>{detail.contents}</StContents>
+                  <StInformation>
+                    <StInfoBox>
+                      <StBold>대표명</StBold>
+                      <StPlus>{detail.ceo}</StPlus>
+                    </StInfoBox>
+                    <StInfoBox>
+                      <StBold>기본 미용비</StBold>
+                      <StPlus>{detail.cost}</StPlus>
+                    </StInfoBox>
+                    {detail.aboolean1 === "false" ? (
+                      <StInfoBox>
+                        <StBold>주차여부</StBold>
+                        <StPlus>불가능</StPlus>
+                      </StInfoBox>
+                    ) : (
+                      <StInfoBox>
+                        <StBold>주차여부</StBold>
+                        <StPlus>가능</StPlus>
+                      </StInfoBox>
+                    )}
+                    {detail.aboolean2 === "false" ? (
+                      <StInfoBox>
+                        <StBold>예약여부</StBold>
+                        <StPlus>불필요</StPlus>
+                      </StInfoBox>
+                    ) : (
+                      <StInfoBox>
+                        <StBold>예약여부</StBold>
+                        <StPlus>필요</StPlus>
+                      </StInfoBox>
+                    )}
+                    <label>대표번호 : {detail.telNum} </label>{" "}
+                    <StCopy
+                      onClick={() => {
+                        handleCopyClipBoard(`${detail.telNum}`);
+                      }}
+                    >
+                      <IoCopyOutline />
+                    </StCopy>
+                  </StInformation>
+                  <div>
+                    <StMap>지도</StMap>
+                    <Map
+                      id={id}
+                      queryClient={queryClient}
+                      detail={detail}
+                      setDetail={setDetail}
+                    />
+                  </div>
+                </StContentsBox>
               )}
               {tab === "상세정보" && detail.category === "카페" && (
-                <div>
-                  <div>{detail.contents}</div>
-                  <div>대표명 {detail.ceo}</div>
-                  <div>입장료 {detail.cost}</div>
-                  <div>부대시설 {detail.feature1}</div>
-                  {detail.aboolean1 === "false" ? (
-                    <div>주차여부 불가능</div>
-                  ) : (
-                    <div>주차여부 가능</div>
-                  )}
-                  <div>대표번호 : {detail.telNum} </div>
-                  <button
-                    onClick={() => {
-                      handleCopyClipBoard(`${detail.telNum}`);
-                    }}
-                  >
-                    <IoCopyOutline />
-                  </button>
-                </div>
+                <StContentsBox>
+                  <StContents>{detail.contents}</StContents>
+                  <StInformation>
+                    <StInfoBox>
+                      <StBold>대표명</StBold>
+                      <StPlus>{detail.ceo}</StPlus>
+                    </StInfoBox>
+                    <StInfoBox>
+                      <StBold>입장료</StBold>
+                      <StPlus>{detail.cost}</StPlus>
+                    </StInfoBox>
+                    <StInfoBox>
+                      <StBold>부대시설</StBold>
+                      <StPlus>{detail.feature1}</StPlus>
+                    </StInfoBox>
+                    {detail.aboolean1 === "false" ? (
+                      <StInfoBox>
+                        <StBold>주차여부</StBold>
+                        <StPlus>불가능</StPlus>
+                      </StInfoBox>
+                    ) : (
+                      <StInfoBox>
+                        <StBold>주차여부</StBold>
+                        <StPlus>가능</StPlus>
+                      </StInfoBox>
+                    )}
+                    <div>대표번호 : {detail.telNum} </div>
+                    <StCopy
+                      onClick={() => {
+                        handleCopyClipBoard(`${detail.telNum}`);
+                      }}
+                    >
+                      <IoCopyOutline />
+                    </StCopy>
+                  </StInformation>
+                  <div>
+                    <StMap>지도</StMap>
+                    <Map
+                      id={id}
+                      queryClient={queryClient}
+                      detail={detail}
+                      setDetail={setDetail}
+                    />
+                  </div>
+                </StContentsBox>
               )}
               {tab === "후기" && (
                 <div>
@@ -895,24 +971,16 @@ const HospitalDetailForm = () => {
                     detail={detail}
                     setDetail={setDetail}
                   />
+                  {/* <div>전체 리뷰수:{detail.reviewCount}</div>
+                  <div>평균평점:{detail.star}</div> */}
                   <ReviewList
                     id={id}
                     queryClient={queryClient}
                     detail={detail}
                     data={data}
                   ></ReviewList>
-                  <div>전체 리뷰수:{detail.reviewCount}</div>
-                  <div>평균평점:{detail.star}</div>
                 </div>
               )}
-              <div>
-                <Map
-                  id={id}
-                  queryClient={queryClient}
-                  detail={detail}
-                  setDetail={setDetail}
-                />
-              </div>
             </StWrap>
           )}
         </>
@@ -925,31 +993,24 @@ export default HospitalDetailForm;
 
 const Stdiv = styled.div`
   width: 100%;
-  height: 1200px;
 `;
 
 const StWrap = styled.div`
   width: 1240px;
-  margin: 0 auto;
+  margin: 60px auto;
+  margin-bottom: 100px;
 `;
 
 const StSlider = styled.div`
-  width: 500px;
-  height: 300px;
+  width: 1240px;
+  height: 545px;
   overflow: hidden;
   position: relative;
 `;
 
-const Stimg = styled.img`
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 1;
-  transition: background-image 0.5s ease-in-out, opacity 0.5s ease-in-out;
+const StSliderImg = styled.img`
+  width: 1240px;
+  height: 545px;
 `;
 
 const StFirst = styled.div`
@@ -1189,4 +1250,71 @@ const StBtn = styled.button`
         `;
     }
   }}
+`;
+
+const StContentsBox = styled.div`
+  width: 1180px;
+  height: 1080px;
+  border: 1px solid #d9d9d9;
+  padding: 30px;
+`;
+
+const StContents = styled.div`
+  height: 68px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 20px;
+  border-bottom: 1px solid #d9d9d9;
+`;
+
+const StInformation = styled.div`
+  height: 70px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-bottom: 100px;
+`;
+
+const StInfoBox = styled.div`
+  display: flex;
+  margin-bottom: 5px;
+`;
+
+const StBold = styled.div`
+  font-size: 22px;
+  font-weight: 900;
+  width: 120px;
+`;
+
+const StPlus = styled.div`
+  font-size: 20px;
+  margin-left: 15px;
+`;
+
+const StCopy = styled.button`
+  border: none;
+  background-color: #ffd53f;
+`;
+
+const StMap = styled.div`
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 15px;
+`;
+
+const StTabBtn = styled.button`
+  width: 150px;
+  height: 45px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-top: 60px;
+  cursor: pointer;
+  &:hover {
+    background-color: #ffd53f;
+    border: 1px solid #d9d9d9;
+  }
+  &.selected {
+    background-color: #ffd53f;
+  }
 `;

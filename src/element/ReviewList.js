@@ -6,7 +6,7 @@ import { instance } from "../api/axios";
 import { deleteReview, getReview, updateReviews } from "../api/detail";
 import MyReviewList from "../components/mypage/MyReviewList";
 
-function ReviewList({ id }) {
+function ReviewList({ id, detail }) {
   const [cookies] = useCookies(["access_token", "email"]);
   const [checked, setChecked] = useState([true, false, false]);
   const [tab, setTab] = useState("all");
@@ -144,137 +144,172 @@ function ReviewList({ id }) {
 
   return (
     <div>
-      <div>
-        {reviewTabList?.map((item, i) => (
-          <button
-            key={i}
-            checked={checked[i]}
-            onClick={() => reviewClickHandler(i)}
-          >
-            {item.text}
-          </button>
-        ))}
-      </div>
-      {review?.map((item) => (
-        <StReview key={item.id}>
-          {edit.reviewId === item.id && edit.isEdit === true ? (
-            <>
-              <form
-                onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
-                encType="multipart/form-data"
-              >
-                <input
-                  type="text"
-                  placeholder="후기를 작성해주세요"
-                  value={updateReview}
-                  onChange={(event) => setUpdateReview(event.target.value)}
-                />
-                <button onClick={onImgButton}>이미지 업로드</button>
-                <div>
-                  {imgView.map((item, index) => {
-                    return <StImg src={item} alt="img" key={index} />;
-                  })}
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="fileUpload"
-                  style={{ display: "none" }}
-                  ref={fileInput}
-                  onChange={onImgHandler}
-                />
-                <StStar>
-                  <p>평점</p>
-                  <div style={{ display: "flex" }}>
-                    {[1, 2, 3, 4, 5].map((el) => (
-                      <p
-                        key={el}
-                        onMouseEnter={() => setHovered(el)}
-                        onMouseLeave={() => setHovered(null)}
-                        onClick={() => setClicked(el)}
-                        value={clicked}
-                      >{`${(clicked >= el) | (hovered >= el) && "★"}`}</p>
-                    ))}
+      <StContentsBox>
+        <div>
+          <div>전체 리뷰수:{detail.reviewCount}</div>
+          <div>평균평점:{detail.star}</div>
+        </div>
+        <div>
+          {reviewTabList?.map((item, i) => (
+            <StPostBtn
+              key={i}
+              checked={checked[i]}
+              onClick={() => reviewClickHandler(i)}
+              className={checked[i] ? "selected" : ""}
+            >
+              {item.text}
+            </StPostBtn>
+          ))}
+        </div>
+        {review?.map((item) => (
+          <StReview key={item.id}>
+            {edit.reviewId === item.id && edit.isEdit === true ? (
+              <>
+                <form
+                  onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
+                  encType="multipart/form-data"
+                >
+                  <input
+                    type="text"
+                    placeholder="후기를 작성해주세요"
+                    value={updateReview}
+                    onChange={(event) => setUpdateReview(event.target.value)}
+                  />
+                  <button onClick={onImgButton}>이미지 업로드</button>
+                  <div>
+                    {imgView.map((item, index) => {
+                      return <StImg src={item} alt="img" key={index} />;
+                    })}
                   </div>
-                </StStar>
-
-                <button>수정</button>
-                <button onClick={() => onEditMode(item.id)}>취소</button>
-              </form>
-            </>
-          ) : (
-            <>
-              {tab === "all" ? (
-                <>
-                  <div>{item.email}</div>
-                  <div>{item.nickname}</div>
-                  <div>{item.review}</div>
-                  <div>{item.createdAt.slice(0, 10)}</div>
-                  {item.image === null ? (
-                    <img style={{ display: "none" }} />
-                  ) : (
-                    <StImg src={item.image} alt="img" />
-                  )}
-
-                  {(item.star === 1 && <div>★</div>) ||
-                    (item.star === 2 && <div>★★</div>) ||
-                    (item.star === 3 && <div>★★★</div>) ||
-                    (item.star === 4 && <div>★★★★</div>) ||
-                    (item.star === 5 && <div>★★★★★</div>)}
-                  <div>{item.star}</div>
-                  {cookies.email === item.email && (
-                    <div>
-                      <button onClick={() => onEditMode(item.id)}>수정</button>
-                      <button onClick={() => onDeletetReviewHandler(item.id)}>
-                        삭제
-                      </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="fileUpload"
+                    style={{ display: "none" }}
+                    ref={fileInput}
+                    onChange={onImgHandler}
+                  />
+                  <StStar>
+                    <p>평점</p>
+                    <div style={{ display: "flex" }}>
+                      {[1, 2, 3, 4, 5].map((el) => (
+                        <p
+                          key={el}
+                          onMouseEnter={() => setHovered(el)}
+                          onMouseLeave={() => setHovered(null)}
+                          onClick={() => setClicked(el)}
+                          value={clicked}
+                        >{`${(clicked >= el) | (hovered >= el) && "★"}`}</p>
+                      ))}
                     </div>
-                  )}
-                </>
-              ) : tab === "photoReview" && item.image !== null ? (
-                <>
-                  <div>{item.email}</div>
-                  <div>{item.nickname}</div>
-                  <div>{item.review}</div>
-                  <div>{item.createdAt.slice(0, 10)}</div>
-                  {item.image === null ? (
-                    <img style={{ display: "none" }} />
-                  ) : (
-                    <StImg src={item.image} alt="img" />
-                  )}
+                  </StStar>
 
-                  {(item.star === 1 && <div>★</div>) ||
-                    (item.star === 2 && <div>★★</div>) ||
-                    (item.star === 3 && <div>★★★</div>) ||
-                    (item.star === 4 && <div>★★★★</div>) ||
-                    (item.star === 5 && <div>★★★★★</div>)}
-                  <div>{item.star}</div>
-                  {cookies.email === item.email && (
+                  <button>수정</button>
+                  <button onClick={() => onEditMode(item.id)}>취소</button>
+                </form>
+              </>
+            ) : (
+              <>
+                {tab === "all" ? (
+                  <>
+                    <img src={item.memberImage} />
                     <div>
-                      <button onClick={() => onEditMode(item.id)}>수정</button>
-                      <button onClick={() => onDeletetReviewHandler(item.id)}>
-                        삭제
-                      </button>
+                      <div>{item.nickname}</div>
+                      {(item.star === 1 && <div>★☆☆☆☆</div>) ||
+                        (item.star === 2 && <div>★★☆☆☆</div>) ||
+                        (item.star === 3 && <div>★★★☆☆</div>) ||
+                        (item.star === 4 && <div>★★★★☆</div>) ||
+                        (item.star === 5 && <div>★★★★★</div>)}
                     </div>
-                  )}
-                </>
-              ) : null}
-            </>
-          )}
-        </StReview>
-      ))}
-      <button disabled={page === 0} onClick={handlePrevPage}>
-        이전페이지
-      </button>
-      <div>{page}</div>
-      <button disabled={response?.length < size} onClick={handleNextPage}>
-        다음페이지
-      </button>
+                    <div>{item.review}</div>
+                    <div>{item.createdAt.slice(0, 10)}</div>
+                    {item.image === null ? (
+                      <img style={{ display: "none" }} />
+                    ) : (
+                      <StImg src={item.image} alt="img" />
+                    )}
+
+                    {cookies.email === item.email && (
+                      <div>
+                        <button onClick={() => onEditMode(item.id)}>
+                          수정
+                        </button>
+                        <button onClick={() => onDeletetReviewHandler(item.id)}>
+                          삭제
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : tab === "photoReview" && item.image !== null ? (
+                  <>
+                    <div>{item.email}</div>
+                    <div>{item.nickname}</div>
+                    <div>{item.review}</div>
+                    <div>{item.createdAt.slice(0, 10)}</div>
+                    {item.image === null ? (
+                      <img style={{ display: "none" }} />
+                    ) : (
+                      <StImg src={item.image} alt="img" />
+                    )}
+
+                    {(item.star === 1 && <div>★</div>) ||
+                      (item.star === 2 && <div>★★</div>) ||
+                      (item.star === 3 && <div>★★★</div>) ||
+                      (item.star === 4 && <div>★★★★</div>) ||
+                      (item.star === 5 && <div>★★★★★</div>)}
+                    <div>{item.star}</div>
+                    {cookies.email === item.email && (
+                      <div>
+                        <button onClick={() => onEditMode(item.id)}>
+                          수정
+                        </button>
+                        <button onClick={() => onDeletetReviewHandler(item.id)}>
+                          삭제
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : null}
+              </>
+            )}
+          </StReview>
+        ))}
+        <button disabled={page === 0} onClick={handlePrevPage}>
+          이전페이지
+        </button>
+        <div>{page}</div>
+        <button disabled={response?.length < size} onClick={handleNextPage}>
+          다음페이지
+        </button>
+      </StContentsBox>
     </div>
   );
 }
 
 export default ReviewList;
+
+const StPostBtn = styled.button`
+  border: none;
+  background-color: transparent;
+  font-size: 18px;
+  color: #555;
+  cursor: pointer;
+  &:hover {
+    color: black;
+    text-decoration: underline;
+  }
+  &.selected {
+    color: black;
+    text-decoration: underline;
+  }
+`;
+
+const StContentsBox = styled.div`
+  width: 1180px;
+  height: 1080px;
+  border: 1px solid #d9d9d9;
+  padding: 30px;
+`;
 
 const StReview = styled.div`
   display: flex;

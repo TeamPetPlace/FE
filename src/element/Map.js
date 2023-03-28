@@ -31,7 +31,7 @@ function Map({ id, queryClient, detail, setDetail }) {
     infowindow.open(map, marker);
   }, []);
 
-  return <div id="map" style={{ width: "940px", height: "430px" }}></div>;
+  return <div id="map" style={{ width: "1180px", height: "450px" }}></div>;
 }
 
 export default Map;

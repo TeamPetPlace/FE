@@ -31,13 +31,14 @@ function BossMypage() {
     <>
       <div>
         {bossTabList?.map((item, i) => (
-          <button
+          <StTabBtn
             key={i}
             checked={checked[i]}
             onClick={() => bossClickHandler(i)}
+            className={checked[i] ? "selected" : ""}
           >
             {item.text}
-          </button>
+          </StTabBtn>
         ))}
       </div>
       <StTabBox>
@@ -59,4 +60,22 @@ export default BossMypage;
 
 const StTabBox = styled.div`
   display: flex;
+`;
+
+const StTabBtn = styled.div`
+  width: 150px;
+  height: 45px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-top: 60px;
+  cursor: pointer;
+  &:hover {
+    background-color: #ffd53f;
+    border: 1px solid #d9d9d9;
+  }
+  &.selected {
+    background-color: #ffd53f;
+  }
 `;
