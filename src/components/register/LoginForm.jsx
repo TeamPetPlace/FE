@@ -70,8 +70,7 @@ const LoginForm = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <StInput
-                  // type={pwType.type}
-                  type="text"
+                  type={pwType.type}
                   value={password || ""}
                   name="password"
                   placeholder="password"
