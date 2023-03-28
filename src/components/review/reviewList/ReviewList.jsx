@@ -1,20 +1,19 @@
 import React, { useRef, useState } from "react";
-import { useCookies } from "react-cookie";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
-import { instance } from "../api/axios";
-import { deleteReview, getReview, updateReviews } from "../api/detail";
-import MyReviewList from "../components/mypage/MyReviewList";
+import { deleteReview, getReview, updateReviews } from "../../../api/detail";
+import Pagination from "react-js-pagination";
+import Reviews from "../reviews/Reviews";
+import Review from "../../../element/Review";
 
 function ReviewList({ id, detail }) {
-  const [cookies] = useCookies(["access_token", "email"]);
   const [checked, setChecked] = useState([true, false, false]);
   const [tab, setTab] = useState("all");
 
   const [review, setReview] = useState([]);
 
   //페이지네이션
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
 
   const response = useQuery(
@@ -40,12 +39,8 @@ function ReviewList({ id, detail }) {
   );
 
   //페이지네이션
-  const handlePrevPage = () => {
-    setPage((prevPage) => prevPage - 1);
-  };
-
-  const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
+  const handlerPageChange = (page) => {
+    setPage(page);
   };
 
   const reviewTabList = [
@@ -142,13 +137,20 @@ function ReviewList({ id, detail }) {
     }
   };
 
+  const [open, setOpen] = useState(false);
+
+  const onToggle = () => {
+    setOpen(!open);
+  };
+
   return (
     <div>
       <StContentsBox>
         <div>
           <div>전체 리뷰수:{detail.reviewCount}</div>
-          <div>평균평점:{detail.star}</div>
+          <button onClick={onToggle}>작성하기</button>
         </div>
+        {open && <Review />}
         <div>
           {reviewTabList?.map((item, i) => (
             <StPostBtn
@@ -169,12 +171,6 @@ function ReviewList({ id, detail }) {
                   onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
                   encType="multipart/form-data"
                 >
-                  <input
-                    type="text"
-                    placeholder="후기를 작성해주세요"
-                    value={updateReview}
-                    onChange={(event) => setUpdateReview(event.target.value)}
-                  />
                   <button onClick={onImgButton}>이미지 업로드</button>
                   <div>
                     {imgView.map((item, index) => {
@@ -189,9 +185,9 @@ function ReviewList({ id, detail }) {
                     ref={fileInput}
                     onChange={onImgHandler}
                   />
-                  <StStar>
-                    <p>평점</p>
-                    <div style={{ display: "flex" }}>
+                  <StNickBox>
+                    <StNick>{item.nickname}</StNick>
+                    <StStar style={{ display: "flex" }}>
                       {[1, 2, 3, 4, 5].map((el) => (
                         <p
                           key={el}
@@ -201,86 +197,47 @@ function ReviewList({ id, detail }) {
                           value={clicked}
                         >{`${(clicked >= el) | (hovered >= el) && "★"}`}</p>
                       ))}
-                    </div>
-                  </StStar>
-
-                  <button>수정</button>
-                  <button onClick={() => onEditMode(item.id)}>취소</button>
+                    </StStar>
+                  </StNickBox>
+                  <input
+                    type="text"
+                    placeholder="후기를 작성해주세요"
+                    value={updateReview}
+                    onChange={(event) => setUpdateReview(event.target.value)}
+                  />
+                  <StDate>{item.createdAt.slice(0, 10)}</StDate>
+                  <StBtn>수정</StBtn>
+                  <StBtn onClick={() => onEditMode(item.id)}>취소</StBtn>
                 </form>
               </>
             ) : (
               <>
                 {tab === "all" ? (
-                  <>
-                    <img src={item.memberImage} />
-                    <div>
-                      <div>{item.nickname}</div>
-                      {(item.star === 1 && <div>★☆☆☆☆</div>) ||
-                        (item.star === 2 && <div>★★☆☆☆</div>) ||
-                        (item.star === 3 && <div>★★★☆☆</div>) ||
-                        (item.star === 4 && <div>★★★★☆</div>) ||
-                        (item.star === 5 && <div>★★★★★</div>)}
-                    </div>
-                    <div>{item.review}</div>
-                    <div>{item.createdAt.slice(0, 10)}</div>
-                    {item.image === null ? (
-                      <img style={{ display: "none" }} />
-                    ) : (
-                      <StImg src={item.image} alt="img" />
-                    )}
-
-                    {cookies.email === item.email && (
-                      <div>
-                        <button onClick={() => onEditMode(item.id)}>
-                          수정
-                        </button>
-                        <button onClick={() => onDeletetReviewHandler(item.id)}>
-                          삭제
-                        </button>
-                      </div>
-                    )}
-                  </>
+                  <Reviews
+                    item={item}
+                    onEditMode={onEditMode}
+                    onDeletetReviewHandler={onDeletetReviewHandler}
+                  />
                 ) : tab === "photoReview" && item.image !== null ? (
-                  <>
-                    <div>{item.email}</div>
-                    <div>{item.nickname}</div>
-                    <div>{item.review}</div>
-                    <div>{item.createdAt.slice(0, 10)}</div>
-                    {item.image === null ? (
-                      <img style={{ display: "none" }} />
-                    ) : (
-                      <StImg src={item.image} alt="img" />
-                    )}
-
-                    {(item.star === 1 && <div>★</div>) ||
-                      (item.star === 2 && <div>★★</div>) ||
-                      (item.star === 3 && <div>★★★</div>) ||
-                      (item.star === 4 && <div>★★★★</div>) ||
-                      (item.star === 5 && <div>★★★★★</div>)}
-                    <div>{item.star}</div>
-                    {cookies.email === item.email && (
-                      <div>
-                        <button onClick={() => onEditMode(item.id)}>
-                          수정
-                        </button>
-                        <button onClick={() => onDeletetReviewHandler(item.id)}>
-                          삭제
-                        </button>
-                      </div>
-                    )}
-                  </>
+                  <Reviews
+                    item={item}
+                    onEditMode={onEditMode}
+                    onDeletetReviewHandler={onDeletetReviewHandler}
+                  />
                 ) : null}
               </>
             )}
           </StReview>
         ))}
-        <button disabled={page === 0} onClick={handlePrevPage}>
-          이전페이지
-        </button>
-        <div>{page}</div>
-        <button disabled={response?.length < size} onClick={handleNextPage}>
-          다음페이지
-        </button>
+        <PageBox>
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={size}
+            totalItemsCount={40}
+            pageRangeDisplayed={5}
+            onChange={handlerPageChange}
+          />
+        </PageBox>
       </StContentsBox>
     </div>
   );
@@ -312,34 +269,95 @@ const StContentsBox = styled.div`
 `;
 
 const StReview = styled.div`
+  width: 1140px;
   display: flex;
 `;
 
-const StImg = styled.img`
-  width: 30px;
-  height: 30px;
+const StNickBox = styled.div`
+  display: flex;
 `;
 
-const StReviewBox = styled.div`
-  border: 3px solid black;
-  display: flex;
+const StDate = styled.div`
+  font-size: 14px;
+  color: #999;
+`;
+
+const StNick = styled.div`
+  font-size: 24px;
+  margin-right: 10px;
 `;
 
 const StStar = styled.div`
-  font-size: 20px;
+  color: #ffd53f;
+  font-size: 25px;
+  margin-right: 5px;
+`;
+
+const StImg = styled.img`
+  width: 270px;
+  height: 160px;
+  border-radius: 10px;
+  float: left;
+  transition: all 0.2s linear;
   cursor: pointer;
-  display: flex;
-  font-size: 20px;
-
-  i {
-    margin: 20px 10px 20px 0;
-    opacity: 0.1;
-    cursor: pointer;
-    font-size: 50px;
+  &:hover {
+    transform: scale(1.1);
   }
+`;
 
-  .yellowStar {
-    color: orange;
-    opacity: 1;
+const StBtn = styled.button`
+  width: 70px;
+  height: 30px;
+  border: 1px solid #d9d9d9;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: transparent;
+  margin-right: 10px;
+  &:hover {
+    background-color: #d9d9d9;
+  }
+`;
+
+const PageBox = styled.div`
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  ul.pagination li {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e2e2e2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    border: none;
+  }
+  ul.pagination li:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+  ul.pagination li:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+  ul.pagination li a {
+    text-decoration: none;
+    color: #337ab7;
+    font-size: 1rem;
+  }
+  ul.pagination li.active a {
+    color: white;
+  }
+  ul.pagination li.active {
+    background-color: #337ab7;
+  }
+  ul.pagination li a:hover,
+  ul.pagination li a.active {
+    color: blue;
   }
 `;

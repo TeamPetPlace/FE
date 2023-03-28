@@ -4,20 +4,22 @@ import { createPortal } from "react-dom";
 import styled, { css } from "styled-components";
 import Map from "../../element/Map";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getDetail, getReview } from "../../api/detail";
+import { getDetail } from "../../api/detail";
 import { useCookies } from "react-cookie";
-import { checkTitle, deletePost, updatePost } from "../../api/owner";
+import { deletePost, updatePost } from "../../api/owner";
 import PopupDom from "../owner/Popup";
 import DaumPostcode from "react-daum-postcode";
 import Review from "../../element/Review";
-import ReviewList from "../../element/ReviewList";
+import ReviewList from "../review/reviewList/ReviewList";
 import MagicSliderDots from "react-magic-slider-dots";
 import { IoCopyOutline } from "react-icons/io5";
-import SwiperCore, { Navigation, Pagination } from "swiper";
+import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../../../node_modules/swiper/swiper.scss";
 import "../../../node_modules/swiper/modules/navigation/navigation.scss";
 import "../../../node_modules/swiper/modules/pagination/pagination.scss";
+
+SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const HospitalDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
@@ -88,8 +90,6 @@ const HospitalDetailForm = () => {
       setUpEndTime(detail.endTime);
       setUpSelect(detail.closedDay);
       setUpFeature1(detail.feature1);
-      setUpImage(upImage);
-      setUpImgBase64(detail.image);
     }
   };
 
@@ -763,6 +763,7 @@ const HospitalDetailForm = () => {
                   slidesPerView={1}
                   navigation
                   pagination={{ clickable: true }}
+                  autoplay={{ delay: 2000, disableOnInteraction: false }}
                 >
                   {detail?.image?.map((image, index) => (
                     <SwiperSlide key={index}>

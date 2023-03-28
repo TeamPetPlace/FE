@@ -1,4 +1,15 @@
 import styled from "styled-components";
+import mainMid from "../../../style/img/mainMid.svg";
+
+const StWrap = styled.div`
+  background-image: url(${mainMid});
+  background-size: 1900px 990px;
+  width: 1900px;
+  height: 800px;
+  background-position: cover;
+  background-repeat: no-repeat;
+  z-index: 999;
+`;
 
 const StPlace = styled.div`
   display: flex;
@@ -87,6 +98,7 @@ const StDibBtn = styled.button`
 `;
 
 export {
+  StWrap,
   StPlace,
   StMyPlace,
   StTabBox,
