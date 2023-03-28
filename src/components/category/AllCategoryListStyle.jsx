@@ -72,33 +72,25 @@ const StOption = styled.option`
 const StSearchSortingDiv = styled.div`
   display: flex;
   align-items: center;
-  /* background-color: white; */
   gap: 11px;
-  /* background-color: none; */
 `;
 
 const StListPage = styled.div`
   width: 85%;
   height: 100%;
-  /* display: flex; */
-  display: block;
+  display: flex;
   gap: 5px;
   margin-left: 340px;
-  overflow: hidden;
 `;
 
 const StCards = styled.div`
   width: 1240px;
   height: 100%;
   display: flex;
-  /* justify-content: center; */
   gap: 11px;
   flex-flow: row wrap;
-  /* margin: auto; */
-  /* flex-direction: column; */
-  /*   flex-wrap: wrap; */
   align-items: space-evenly;
-  background-color: #f7f7de;
+  /* background-color: #f7f7de; */
   padding: 30px 0px 30px 0px;
 `;
 
@@ -106,28 +98,28 @@ const StCard = styled.div`
   width: 406px;
   height: 320px;
   margin-bottom: 43px;
-  /* background-color: #e3def7; */
   border-radius: 10px;
-  /* align-items: space-evenly; */
+  display: block;
 `;
 
 const StHistory = styled.div`
   width: 250px;
-  /* min-height: 350px; */
   max-height: 780px;
   background-image: url(${List_History});
-  margin-left: 57px;
-  right: 5%;
-  top: 50%;
-  position: absolute;
+  margin-left: 50px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 `;
 
 const StHistoryImg = styled.img`
   width: 160px;
-  height: 110px;
+  height: 140px;
   justify-content: center;
   flex-direction: column;
   border-radius: 15px;
+  overflow: hidden;
+  position: cover;
 `;
 
 const StHistoryCard = styled.div`
@@ -138,12 +130,13 @@ const StHistoryCard = styled.div`
   flex-direction: column;
   align-items: center;
   padding-left: 45px;
+  padding-top: 30px;
 `;
 
 const StHistoryTitle = styled.div`
-  font-size: 24px;
-  padding-left: 55px;
-  padding-top: 90px;
+  font-size: 22px;
+  padding-left: 60px;
+  padding-top: 120px;
   font-weight: bold;
 `;
 
@@ -154,11 +147,12 @@ const StTitle = styled.div`
   font-size: ${(props) => props.fontSize};
   font-weight: bold;
   margin-bottom: 5px;
+  cursor: pointer;
 `;
 
 const StContent = styled.div`
   color: #555555;
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 const StCardImg = styled.img`
@@ -166,9 +160,11 @@ const StCardImg = styled.img`
   height: 230px;
   justify-content: center;
   flex-direction: column;
-  border: 3px solid #ffd53f;
+  border: 3px solid transparent;
   border-radius: 10px;
+  cursor: pointer;
   overflow: hidden;
+  position: cover;
 `;
 
 const StDibBtn = styled.button`
@@ -176,9 +172,9 @@ const StDibBtn = styled.button`
   background-color: transparent;
   cursor: pointer;
   position: absolute;
-  z-index: 99;
-  right: 6%;
-  top: 0%;
+  z-index: 999;
+  margin-left: 350px;
+  margin-top: -2px;
 `;
 
 const StIconimg = styled.img`
@@ -186,7 +182,13 @@ const StIconimg = styled.img`
   padding: 0 5px;
 `;
 
+const StStarIcon = styled.div`
+  color: #ffd53f;
+  margin-left: 10px;
+`;
+
 export {
+  StStarIcon,
   StIconimg,
   StDibBtn,
   StHistoryTitle,
