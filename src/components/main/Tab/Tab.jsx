@@ -3,16 +3,18 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { addDibs, cancelDibs, getPost } from "../../../api/main";
 import { setCookie } from "../../../api/cookie";
-import cafe from "../../../style/img/cafe.png";
-import hospital from "../../../style/img/hospital.png";
-import shop from "../../../style/img/shop.png";
-import foot from "../../../style/img/foot.png";
-import dibs from "../../../style/img/dibs.png";
-import noDibs from "../../../style/img/noDibs.png";
-import clickedHospital from "../../../style/img/clickedHospital.png";
-import clickedShop from "../../../style/img/clickedShop.png";
-import clickedCafe from "../../../style/img/clickedCafe.png";
+import cafe from "../../../style/img/cafe.svg";
+import hospital from "../../../style/img/hospital.svg";
+import shop from "../../../style/img/shop.svg";
+import foot from "../../../style/img/foot.svg";
+import dibs from "../../../style/img/dibs.svg";
+import noDibs from "../../../style/img/noDibs.svg";
+import clickedHospital from "../../../style/img/clickedHospital.svg";
+import clickedShop from "../../../style/img/clickedShop.svg";
+import clickedCafe from "../../../style/img/clickedCafe.svg";
+
 import {
+  StWrap,
   StPlace,
   StMyPlace,
   StTabBox,
@@ -211,7 +213,7 @@ function Tab() {
   };
 
   return (
-    <div>
+    <StWrap>
       <button onClick={onLocationHandler}>현재 위치 전송</button>
       <StTabBox>
         {mainTabList?.map((item, i) => (
@@ -378,7 +380,7 @@ function Tab() {
             ))
           : null}
       </StPlace>
-    </div>
+    </StWrap>
   );
 }
 

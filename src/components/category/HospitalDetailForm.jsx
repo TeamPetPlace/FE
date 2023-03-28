@@ -4,15 +4,22 @@ import { createPortal } from "react-dom";
 import styled, { css } from "styled-components";
 import Map from "../../element/Map";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getDetail, getReview } from "../../api/detail";
+import { getDetail } from "../../api/detail";
 import { useCookies } from "react-cookie";
-import { checkTitle, deletePost, updatePost } from "../../api/owner";
+import { deletePost, updatePost } from "../../api/owner";
 import PopupDom from "../owner/Popup";
 import DaumPostcode from "react-daum-postcode";
 import Review from "../../element/Review";
-import ReviewList from "../../element/ReviewList";
+import ReviewList from "../review/reviewList/ReviewList";
 import MagicSliderDots from "react-magic-slider-dots";
 import { IoCopyOutline } from "react-icons/io5";
+import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "../../../node_modules/swiper/swiper.scss";
+import "../../../node_modules/swiper/modules/navigation/navigation.scss";
+import "../../../node_modules/swiper/modules/pagination/pagination.scss";
+
+SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const HospitalDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
@@ -28,28 +35,6 @@ const HospitalDetailForm = () => {
       setSlideImg(response.image);
     },
   });
-
-  //이미지 슬라이드
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const settings = {
-    dots: true,
-    arrows: true,
-    infinite: false,
-    spped: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    appendDots: (dots) => {
-      return <MagicSliderDots dots={dots} numDotsToshow={4} dotWidth={30} />;
-    },
-  };
-
-  // useEffect(() => {
-  //   const intervalid = setInterval(() => {
-  //     setCurrentImageIndex((currentImageIndex + 1) % slideImg.length);
-  //   }, 3000);
-  //   return () => clearInterval(intervalid);
-  // }, [currentImageIndex, slideImg.length]);
 
   //게시글 삭제
   const queryClient = useQueryClient();
@@ -105,8 +90,6 @@ const HospitalDetailForm = () => {
       setUpEndTime(detail.endTime);
       setUpSelect(detail.closedDay);
       setUpFeature1(detail.feature1);
-      setUpImage(upImage);
-      setUpImgBase64(detail.image);
     }
   };
 
@@ -332,6 +315,31 @@ const HospitalDetailForm = () => {
       if (selectionStart === 3 && selectionEnd === 3) {
         e.preventDefault();
       }
+    }
+  };
+
+  //탭
+  const [tab, setTab] = useState("상세정보");
+
+  const TabList = [
+    {
+      id: 0,
+      text: "상세정보",
+      category: "상세정보",
+    },
+    { id: 1, text: "후기", category: "후기" },
+  ];
+
+  const [checked, setChecked] = useState([true, false]);
+
+  const onClickHandler = (i) => {
+    const newArr = Array(TabList.length).fill(false);
+    newArr[i] = true;
+    setChecked(newArr);
+    if (i === 0) {
+      setTab("상세정보");
+    } else if (i === 1) {
+      setTab("후기");
     }
   };
 
@@ -749,58 +757,231 @@ const HospitalDetailForm = () => {
                 </>
               )}
               <StSlider>
-                <Stimg src={detail.reSizeImage} alt="imgslide" />
+                <Swiper
+                  className="banner"
+                  spaceBetween={50}
+                  slidesPerView={1}
+                  navigation
+                  pagination={{ clickable: true }}
+                  autoplay={{ delay: 2000, disableOnInteraction: false }}
+                >
+                  {detail?.image?.map((image, index) => (
+                    <SwiperSlide key={index}>
+                      <StSliderImg src={image} alt={`Image ${index}`} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </StSlider>
               <button onClick={sharePage}>현재 페이지 공유하기</button>
-              <h2>{detail.title}</h2>
-              <h2>{detail.id}</h2>
-              <label>업종 : {detail.category} </label> <br />
-              <label>
-                운영 시간 : {detail.startTime} : {detail.endTime}
-              </label>{" "}
-              <br />
-              <label>대표번호 : {detail.telNum} </label>{" "}
-              <button
-                onClick={() => {
-                  handleCopyClipBoard(`${detail.telNum}`);
-                }}
-              >
-                <IoCopyOutline />
-              </button>
-              <br />
-              <label>휴무일 : {detail.closedDay}</label> <br />
-              <div> {detail.contents} </div>
-              <label> {detail.address}</label>{" "}
-              <button
-                onClick={() => {
-                  handleCopyClipBoard(`${detail.address}`);
-                }}
-              >
-                <IoCopyOutline />
-              </button>
-              <Review
-                id={id}
-                queryClient={queryClient}
-                detail={detail}
-                setDetail={setDetail}
-              />
-              <ReviewList
-                id={id}
-                queryClient={queryClient}
-                detail={detail}
-                data={data}
-              ></ReviewList>
-              <div>전체 리뷰수:{detail.reviewCount}</div>
-              <div>평균평점:{detail.star}</div>
-              <div>
-                지도
-                <Map
-                  id={id}
-                  queryClient={queryClient}
-                  detail={detail}
-                  setDetail={setDetail}
-                />
+              <StFirst>
+                <StTitleName>{detail.title}</StTitleName>
+                <div>
+                  {(detail.star === 0 && <StStar>☆☆☆☆☆</StStar>) ||
+                    (detail.star === 1 && <StStar>★☆☆☆☆</StStar>) ||
+                    (detail.star === 2 && <StStar>★★☆☆☆</StStar>) ||
+                    (detail.star === 3 && <StStar>★★★☆☆</StStar>) ||
+                    (detail.star === 4 && <StStar>★★★★☆</StStar>) ||
+                    (detail.star === 5 && <StStar>★★★★★</StStar>)}
+                </div>
+                <StAverage>(평균 {detail.star}/5.0)</StAverage>
+              </StFirst>
+              <div style={{ display: "flex" }}>
+                <StAddress>{detail.address}</StAddress>
+                <StCopy
+                  onClick={() => {
+                    handleCopyClipBoard(`${detail.address}`);
+                  }}
+                >
+                  <IoCopyOutline />
+                </StCopy>
               </div>
+              <StTime>
+                <StAddress>
+                  AM {detail.startTime} - PM {detail.endTime}
+                </StAddress>
+                {detail.closedDay === "" ? (
+                  <StClosedDay>휴무일 없음</StClosedDay>
+                ) : (
+                  <StClosedDay>{detail.closedDay} 휴무</StClosedDay>
+                )}
+              </StTime>
+              <div>
+                {TabList?.map((item, i) => (
+                  <StTabBtn
+                    key={item.id}
+                    onClick={() => onClickHandler(i)}
+                    className={checked[i] ? "selected" : ""}
+                  >
+                    {item.text}
+                  </StTabBtn>
+                ))}
+              </div>
+              {tab === "상세정보" && detail.category === "병원" && (
+                <StContentsBox>
+                  <StContents>{detail.contents}</StContents>
+                  <StInformation>
+                    <StInfoBox>
+                      <StBold>대표 수의사</StBold>
+                      <StPlus>{detail.ceo}</StPlus>
+                    </StInfoBox>
+                    <StInfoBox>
+                      <StBold>기본 진료비</StBold>
+                      <StPlus>{detail.cost}</StPlus>
+                    </StInfoBox>
+                    {detail.aboolean1 === "false" ? (
+                      <StInfoBox>
+                        <StBold>야간진료</StBold>
+                        <StPlus>불가능</StPlus>
+                      </StInfoBox>
+                    ) : (
+                      <StInfoBox>
+                        <StBold>야간진료</StBold>
+                        <StPlus>가능</StPlus>
+                      </StInfoBox>
+                    )}
+                    <StInfoBox>
+                      <StBold>진료항목</StBold>
+                      <StPlus>{detail.feature1}</StPlus>
+                    </StInfoBox>
+                    <label>대표번호 : {detail.telNum} </label>{" "}
+                    <StCopy
+                      onClick={() => {
+                        handleCopyClipBoard(`${detail.telNum}`);
+                      }}
+                    >
+                      <IoCopyOutline />
+                    </StCopy>
+                  </StInformation>
+                  <div>
+                    <StMap>지도</StMap>
+                    <Map
+                      id={id}
+                      queryClient={queryClient}
+                      detail={detail}
+                      setDetail={setDetail}
+                    />
+                  </div>
+                </StContentsBox>
+              )}
+              {tab === "상세정보" && detail.category === "미용" && (
+                <StContentsBox>
+                  <StContents>{detail.contents}</StContents>
+                  <StInformation>
+                    <StInfoBox>
+                      <StBold>대표명</StBold>
+                      <StPlus>{detail.ceo}</StPlus>
+                    </StInfoBox>
+                    <StInfoBox>
+                      <StBold>기본 미용비</StBold>
+                      <StPlus>{detail.cost}</StPlus>
+                    </StInfoBox>
+                    {detail.aboolean1 === "false" ? (
+                      <StInfoBox>
+                        <StBold>주차여부</StBold>
+                        <StPlus>불가능</StPlus>
+                      </StInfoBox>
+                    ) : (
+                      <StInfoBox>
+                        <StBold>주차여부</StBold>
+                        <StPlus>가능</StPlus>
+                      </StInfoBox>
+                    )}
+                    {detail.aboolean2 === "false" ? (
+                      <StInfoBox>
+                        <StBold>예약여부</StBold>
+                        <StPlus>불필요</StPlus>
+                      </StInfoBox>
+                    ) : (
+                      <StInfoBox>
+                        <StBold>예약여부</StBold>
+                        <StPlus>필요</StPlus>
+                      </StInfoBox>
+                    )}
+                    <label>대표번호 : {detail.telNum} </label>{" "}
+                    <StCopy
+                      onClick={() => {
+                        handleCopyClipBoard(`${detail.telNum}`);
+                      }}
+                    >
+                      <IoCopyOutline />
+                    </StCopy>
+                  </StInformation>
+                  <div>
+                    <StMap>지도</StMap>
+                    <Map
+                      id={id}
+                      queryClient={queryClient}
+                      detail={detail}
+                      setDetail={setDetail}
+                    />
+                  </div>
+                </StContentsBox>
+              )}
+              {tab === "상세정보" && detail.category === "카페" && (
+                <StContentsBox>
+                  <StContents>{detail.contents}</StContents>
+                  <StInformation>
+                    <StInfoBox>
+                      <StBold>대표명</StBold>
+                      <StPlus>{detail.ceo}</StPlus>
+                    </StInfoBox>
+                    <StInfoBox>
+                      <StBold>입장료</StBold>
+                      <StPlus>{detail.cost}</StPlus>
+                    </StInfoBox>
+                    <StInfoBox>
+                      <StBold>부대시설</StBold>
+                      <StPlus>{detail.feature1}</StPlus>
+                    </StInfoBox>
+                    {detail.aboolean1 === "false" ? (
+                      <StInfoBox>
+                        <StBold>주차여부</StBold>
+                        <StPlus>불가능</StPlus>
+                      </StInfoBox>
+                    ) : (
+                      <StInfoBox>
+                        <StBold>주차여부</StBold>
+                        <StPlus>가능</StPlus>
+                      </StInfoBox>
+                    )}
+                    <div>대표번호 : {detail.telNum} </div>
+                    <StCopy
+                      onClick={() => {
+                        handleCopyClipBoard(`${detail.telNum}`);
+                      }}
+                    >
+                      <IoCopyOutline />
+                    </StCopy>
+                  </StInformation>
+                  <div>
+                    <StMap>지도</StMap>
+                    <Map
+                      id={id}
+                      queryClient={queryClient}
+                      detail={detail}
+                      setDetail={setDetail}
+                    />
+                  </div>
+                </StContentsBox>
+              )}
+              {tab === "후기" && (
+                <div>
+                  <Review
+                    id={id}
+                    queryClient={queryClient}
+                    detail={detail}
+                    setDetail={setDetail}
+                  />
+                  {/* <div>전체 리뷰수:{detail.reviewCount}</div>
+                  <div>평균평점:{detail.star}</div> */}
+                  <ReviewList
+                    id={id}
+                    queryClient={queryClient}
+                    detail={detail}
+                    data={data}
+                  ></ReviewList>
+                </div>
+              )}
             </StWrap>
           )}
         </>
@@ -812,34 +993,67 @@ const HospitalDetailForm = () => {
 export default HospitalDetailForm;
 
 const Stdiv = styled.div`
-  background-color: gray;
   width: 100%;
-  height: 1200px;
 `;
 
 const StWrap = styled.div`
-  width: 600px;
-  height: 600px;
-  margin: 0 auto;
+  width: 1240px;
+  margin: 60px auto;
+  margin-bottom: 100px;
 `;
 
 const StSlider = styled.div`
-  width: 500px;
-  height: 300px;
+  width: 1240px;
+  height: 545px;
   overflow: hidden;
   position: relative;
 `;
 
-const Stimg = styled.img`
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 1;
-  transition: background-image 0.5s ease-in-out, opacity 0.5s ease-in-out;
+const StSliderImg = styled.img`
+  width: 1240px;
+  height: 545px;
+`;
+
+const StFirst = styled.div`
+  display: flex;
+  width: 500px;
+  height: 50px;
+  line-height: 50px;
+`;
+
+const StTitleName = styled.div`
+  font-size: 34px;
+  font-weight: 900;
+  margin-right: 10px;
+`;
+
+const StStar = styled.div`
+  color: #ffd53f;
+  font-size: 25px;
+  margin-right: 5px;
+`;
+
+const StAverage = styled.div`
+  font-size: 16px;
+  line-height: 60px;
+`;
+
+const StTime = styled.div`
+  display: flex;
+  height: 30px;
+  line-height: 30px;
+`;
+
+const StAddress = styled.div`
+  font-size: 24px;
+`;
+
+const StClosedDay = styled.div`
+  font-size: 20px;
+  margin-left: 10px;
+  color: #0d0d0d;
+  border-left: 1px solid #0d0d0d;
+  padding-left: 10px;
 `;
 
 const StBox = styled.div`
@@ -1037,4 +1251,71 @@ const StBtn = styled.button`
         `;
     }
   }}
+`;
+
+const StContentsBox = styled.div`
+  width: 1180px;
+  height: 1080px;
+  border: 1px solid #d9d9d9;
+  padding: 30px;
+`;
+
+const StContents = styled.div`
+  height: 68px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 20px;
+  border-bottom: 1px solid #d9d9d9;
+`;
+
+const StInformation = styled.div`
+  height: 70px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-bottom: 100px;
+`;
+
+const StInfoBox = styled.div`
+  display: flex;
+  margin-bottom: 5px;
+`;
+
+const StBold = styled.div`
+  font-size: 22px;
+  font-weight: 900;
+  width: 120px;
+`;
+
+const StPlus = styled.div`
+  font-size: 20px;
+  margin-left: 15px;
+`;
+
+const StCopy = styled.button`
+  border: none;
+  background-color: #ffd53f;
+`;
+
+const StMap = styled.div`
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 15px;
+`;
+
+const StTabBtn = styled.button`
+  width: 150px;
+  height: 45px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-top: 60px;
+  cursor: pointer;
+  &:hover {
+    background-color: #ffd53f;
+    border: 1px solid #d9d9d9;
+  }
+  &.selected {
+    background-color: #ffd53f;
+  }
 `;

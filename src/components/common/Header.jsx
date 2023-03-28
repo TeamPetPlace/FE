@@ -6,8 +6,8 @@ import { NomalLogin } from "../../api/user";
 import { removeCookie } from "../../api/cookie";
 import { getMypage } from "../../api/mypage";
 import { useCookies } from "react-cookie";
-import logo from "../../style/img/logo.png";
-import profileOrigin from "../../style/img/profile.png";
+import logo from "../../style/img/logo.svg";
+import profileOrigin from "../../style/img/profile.svg";
 import "../../style/fonts/font.css";
 
 function Header() {

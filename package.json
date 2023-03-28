@@ -20,6 +20,7 @@
     "react-dom": "^18.2.0",
     "react-geocode": "^0.2.3",
     "react-icons": "^4.8.0",
+    "react-js-pagination": "^3.0.3",
     "react-kakao-maps": "^0.0.13",
     "react-loading": "^2.0.3",
     "react-loading-skeleton": "^3.2.0",
