@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { setCookie } from "../../api/cookie";
 import { KaKaoLogin, NomalLogin } from "../../api/user";
 import Layout from "../common/Layout";
+import animal_illust_back from "../../style/img/animal_illust_back.png";
+import logo from "../../style/img/logo.png";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -58,7 +60,7 @@ const LoginForm = () => {
         <StLoginDiv>
           <>
             <form onSubmit={onLoginSubmit}>
-              <StTitle> PET PLACE </StTitle>
+              <StTitle />
               <div>
                 <StInput
                   type="text"
@@ -106,17 +108,18 @@ const StLoginFormDiv = styled.div`
   width: 1920px;
   height: 1080px;
   margin: auto;
-  background-color: #fffcec;
+  /* background-color: #fffcec; */
+  background-image: url(${animal_illust_back});
   display: flex;
 `;
 
 const StLoginDiv = styled.div`
   width: 660px;
   height: 580px;
-  margin: auto;
+  margin: 120px auto;
   display: flex;
   background-color: white;
-  box-shadow: 1px 1px 15px 0px #ffd53f;
+  box-shadow: 1px 1px 15px 0px #ffeba2;
   flex-direction: column;
 `;
 
@@ -124,8 +127,9 @@ const StTitle = styled.div`
   width: 210px;
   height: 44px;
   margin: 54px auto;
-  text-align: center;
-  line-height: 44px;
+  background-image: url(${logo});
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 const StBtn = styled.button`

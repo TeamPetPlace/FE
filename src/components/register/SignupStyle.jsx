@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import animal_illust_back from "../../style/img/animal_illust_back.png";
 
 export {
   StSignupFormDiv,
@@ -17,12 +18,14 @@ const StSignupFormDiv = styled.div`
   margin: auto;
   background-color: #fffcec;
   display: flex;
+  background-image: url(${animal_illust_back});
+  display: flex;
 `;
 
 const StSignupDiv = styled.div`
   width: 660px;
   height: 580px;
-  margin: auto;
+  margin: 120px auto;
   display: flex;
   padding-top: 73px;
   background-color: white;
