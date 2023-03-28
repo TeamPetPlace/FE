@@ -21,6 +21,7 @@ const StContentsBox = styled.div`
   height: 1080px;
   border: 1px solid #d9d9d9;
   padding: 30px;
+  position: relative;
 `;
 
 const StReview = styled.div`
@@ -30,8 +31,7 @@ const StReview = styled.div`
 
 const PageBox = styled.div`
   position: absolute;
-  left: 45%;
-  top: 180%;
+  left: 40%;
   .pagination {
     display: flex;
     justify-content: center;
