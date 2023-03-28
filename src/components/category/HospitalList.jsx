@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
 import Skeletons from "../../element/Skeletons";
-
+import hospital_icon from "../../style/img/hospital_icon.svg";
 import {
   StHistoryTitle,
   StHistoryCard,
@@ -28,6 +28,7 @@ import {
   StSelect,
   StOption,
   StDibBtn,
+  StIconimg,
 } from "./AllCategoryListStyle";
 
 function HospitalList() {
@@ -222,7 +223,10 @@ function HospitalList() {
   return (
     <>
       <StPlace>
-        <StTitle fontSize="36px">병원</StTitle>
+        <StTitle fontSize="36px">
+          병원
+          <StIconimg src={hospital_icon} />
+        </StTitle>
         <StSearchSortingDiv>
           <StSearchDiv>
             <StSearchInput
@@ -291,7 +295,7 @@ function HospitalList() {
                 return (
                   <StHistoryCard key={index}>
                     <StHistoryImg src={item.reSizeImage} alt="historyImg" />
-                    <div>{item.title}</div>
+                    <StContent>{item.title}</StContent>
                   </StHistoryCard>
                 );
               })}

@@ -7,6 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
 import Skeletons from "../../element/Skeletons";
+import cafe_icon from "../../style/img/cafe_icon.svg";
+import star_fill from "../../style/img/star_fill.svg";
+import star_empty from "../../style/img/star_empty.svg";
+
 import {
   StHistoryTitle,
   StHistoryCard,
@@ -25,6 +29,7 @@ import {
   StSearchSortingDiv,
   StSelect,
   StOption,
+  StIconimg,
 } from "./AllCategoryListStyle";
 
 function CafeList() {
@@ -216,7 +221,10 @@ function CafeList() {
   return (
     <>
       <StPlace>
-        <StTitle fontSize="36px">카페</StTitle>
+        <StTitle fontSize="36px">
+          카페
+          <StIconimg src={cafe_icon} />
+        </StTitle>
         <StSearchSortingDiv>
           <StSearchDiv>
             <StSearchInput
@@ -256,9 +264,9 @@ function CafeList() {
                       {item.like === false ? "찜하기" : "찜취소"}{" "}
                     </button>
                     <StCardImg src={item.reSizeImage} />
-                    {/* <StTitle fontSize="24px">
-                      {item.title} {"★".repeat(item.star)}
-                    </StTitle> */}
+                    <StTitle fontSize="24px">
+                      {item.title} <img src={star_fill} /> <img src={star_empty} />
+                    </StTitle>
                     {(item.star === 0 && <div>☆☆☆☆☆</div>) ||
                       (item.star === 1 && <div>★☆☆☆☆</div>) ||
                       (item.star === 2 && <div>★★☆☆☆</div>) ||
