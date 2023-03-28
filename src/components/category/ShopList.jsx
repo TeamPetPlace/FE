@@ -28,7 +28,7 @@ import {
   StOption,
 } from "./AllCategoryListStyle";
 
-const ShopList = () => {
+function ShopList() {
   const [cards, setCards] = useState([]);
   const [searchkeyword, setSearchKeyword] = useState("");
   const [searchData, setSearchData] = useState([]);
@@ -343,6 +343,6 @@ const ShopList = () => {
       )}
     </>
   );
-};
+}
 
 export default ShopList;

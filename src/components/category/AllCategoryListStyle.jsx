@@ -17,8 +17,8 @@ const StSearchInput = styled.input`
   height: 40px;
   border: none;
   outline: none;
-  padding-left: 10px;
   font-size: 14px;
+  text-indent: 10px;
 `;
 
 const StSearchButton = styled.button`
@@ -48,6 +48,10 @@ const StSelect = styled.select`
   &:hover {
     cursor: pointer;
     transition: all ease 2s 0s;
+  }
+  @media screen and (max-width: 768px) {
+    padding: 0;
+    margin-right: 0px;
   }
 `;
 
@@ -91,12 +95,11 @@ const StCards = styled.div`
   /* justify-content: center; */
   gap: 11px;
   flex-flow: row wrap;
-
   /* margin: auto; */
   /* flex-direction: column; */
   /*   flex-wrap: wrap; */
   align-items: space-evenly;
-  /* background-color: #f7f7de; */
+  background-color: #f7f7de;
   padding: 30px 0px 30px 0px;
 `;
 
@@ -148,6 +151,7 @@ const StHistoryTitle = styled.div`
 
 const StTitle = styled.div`
   color: #0d0d0d;
+  display: flex;
   /* font-size: 36px; */
   font-size: ${(props) => props.fontSize};
   font-weight: bold;
@@ -166,9 +170,21 @@ const StCardImg = styled.img`
   flex-direction: column;
   border: 3px solid #ffd53f;
   border-radius: 10px;
+  overflow: hidden;
+`;
+
+const StDibBtn = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  z-index: 99;
+  right: 6%;
+  top: 0%;
 `;
 
 export {
+  StDibBtn,
   StHistoryTitle,
   StHistoryCard,
   StHistoryImg,

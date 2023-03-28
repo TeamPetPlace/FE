@@ -27,7 +27,7 @@ import {
   StOption,
 } from "./AllCategoryListStyle";
 
-const CafeList = () => {
+function CafeList() {
   const [cards, setCards] = useState([]);
   const [searchkeyword, setSearchKeyword] = useState("");
   const [searchData, setSearchData] = useState([]);
@@ -341,6 +341,6 @@ const CafeList = () => {
       )}
     </>
   );
-};
+}
 
 export default CafeList;
