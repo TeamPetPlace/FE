@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { setCookie } from "../../api/cookie";
 import { KaKaoLogin, NomalLogin } from "../../api/user";
+import Layout from "../common/Layout";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -52,56 +53,103 @@ const LoginForm = () => {
   };
 
   return (
-    <StLoginDiv>
-      <form onSubmit={onLoginSubmit}>
-        <div>
-          <input
-            type="text"
-            value={email || ""}
-            name="email"
-            placeholder="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            // type={pwType.type}
-            type="text"
-            value={password || ""}
-            name="password"
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button>로그인</button>
-        </div>
-      </form>
-      <div>
-        <StkakaoBtn onClick={onKaKaologin}>카카오 로그인</StkakaoBtn>
-      </div>
-      <button
-        onClick={() => {
-          navigate("/signup");
-        }}
-      >
-        회원가입
-      </button>
-    </StLoginDiv>
+    <Layout>
+      <StLoginFormDiv>
+        <StLoginDiv>
+          <>
+            <form onSubmit={onLoginSubmit}>
+              <StTitle> PET PLACE </StTitle>
+              <div>
+                <StInput
+                  type="text"
+                  value={email || ""}
+                  name="email"
+                  placeholder="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <StInput
+                  // type={pwType.type}
+                  type="text"
+                  value={password || ""}
+                  name="password"
+                  placeholder="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <StBtn style={{ border: "None" }} backgroundColor="#ffd53f">
+                  로그인
+                </StBtn>
+              </div>
+            </form>
+            <div>
+              <StBtn backgroundColor="White" onClick={onKaKaologin}>
+                카카오 로그인
+              </StBtn>
+            </div>
+            <StBtn
+              onClick={() => {
+                navigate("/signup");
+              }}
+              backgroundColor="White"
+            >
+              회원가입
+            </StBtn>
+          </>
+        </StLoginDiv>
+      </StLoginFormDiv>
+    </Layout>
   );
 };
 
 export default LoginForm;
 
-const StLoginDiv = styled.div`
-  margin: 100px auto;
+const StLoginFormDiv = styled.div`
+  width: 1920px;
+  height: 1080px;
+  margin: auto;
+  background-color: #fffcec;
   display: flex;
-  padding: 50px;
-  background-color: gray;
-  width: 30%;
-  height: 300px;
+`;
+
+const StLoginDiv = styled.div`
+  width: 660px;
+  height: 580px;
+  margin: auto;
+  display: flex;
+  background-color: white;
+  box-shadow: 1px 1px 15px 0px #ffd53f;
   flex-direction: column;
 `;
 
-const StkakaoBtn = styled.button`
-  background-color: yellow;
-  width: 90%;
-  height: 30px;
-  margin: 10px 0px;
+const StTitle = styled.div`
+  width: 210px;
+  height: 44px;
+  margin: 54px auto;
+  text-align: center;
+  line-height: 44px;
+`;
+
+const StBtn = styled.button`
+  background-color: ${(props) => props.backgroundColor};
+  border: 1px solid #d9d9d9;
+  width: 410px;
+  height: 52px;
+  margin: 23px 124px 0px 124px;
+  font-size: 22px;
+  /* border: none; */
+  border-radius: 5px;
+  &:hover {
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid #6d6d6d;
+  }
+`;
+
+const StInput = styled.input`
+  border-radius: 5px;
+  width: 410px;
+  height: 52px;
+  font-size: 16px;
+  border: 1px solid #d9d9d9;
+  margin: 0px 124px 5px 124px;
+  text-indent: 10px;
 `;
