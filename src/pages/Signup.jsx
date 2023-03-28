@@ -8,7 +8,7 @@ import animal_illust_back from "../../src/style/img/animal_illust_back.svg";
 function Signup() {
   // const [loginmode, setLoginMode] = useState(0);
   const [ischecked, setIsChecked] = useState([true, false]);
-  const [tab, setTab] = useState("user");
+  const [tab, setTab] = useState("USER");
 
   const SignupTab = [
     { id: 0, text: "일반 회원", category: "USER" },
