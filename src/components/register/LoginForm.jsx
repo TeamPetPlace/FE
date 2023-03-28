@@ -7,7 +7,7 @@ import { setCookie } from "../../api/cookie";
 import { KaKaoLogin, NomalLogin } from "../../api/user";
 import Layout from "../common/Layout";
 import animal_illust_back from "../../style/img/animal_illust_back.svg";
-import logo from "../../style/img/logo.png";
+import logo from "../../style/img/logo.svg";
 
 const LoginForm = () => {
   const navigate = useNavigate();

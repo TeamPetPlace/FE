@@ -30,7 +30,11 @@ import {
   StSelect,
   StOption,
   StIconimg,
+  StDibBtn,
+  StStarIcon,
 } from "./AllCategoryListStyle";
+import dibs from "../../style/img/dibs.svg";
+import noDibs from "../../style/img/noDibs.svg";
 
 function CafeList() {
   const [cards, setCards] = useState([]);
@@ -253,27 +257,50 @@ function CafeList() {
             {cards?.map((item, index) => {
               return (
                 <div key={index}>
-                  <StCard
-                    key={item.id}
-                    onClick={() => {
-                      navigate(`/hospital/${item.id}`);
-                    }}
-                  >
-                    <button onClick={() => LikeBtn(item)}>
-                      {" "}
-                      {item.like === false ? "찜하기" : "찜취소"}{" "}
-                    </button>
-                    <StCardImg src={item.reSizeImage} />
-                    <StTitle fontSize="24px">
-                      {item.title} <img src={star_fill} /> <img src={star_empty} />
+                  <StCard key={index}>
+                    <div>
+                      <StDibBtn onClick={() => LikeBtn(item)}>
+                        {item.like === false ? (
+                          <>
+                            <img src={noDibs} />
+                          </>
+                        ) : (
+                          <img src={dibs} />
+                        )}
+                      </StDibBtn>
+                      {item.like === false ? (
+                        <StCardImg
+                          onClick={() => {
+                            navigate(`/cafe/${item.id}`);
+                          }}
+                          src={item.reSizeImage}
+                          alt="IMG"
+                        />
+                      ) : (
+                        <StCardImg
+                          onClick={() => {
+                            navigate(`/cafe/${item.id}`);
+                          }}
+                          src={item.reSizeImage}
+                          alt="IMG"
+                          style={{ border: "3px solid #FFD53F" }}
+                        />
+                      )}
+                    </div>
+                    <StTitle
+                      fontSize="24px"
+                      onClick={() => {
+                        navigate(`/cafe/${item.id}`);
+                      }}
+                    >
+                      {item.title}
+                      {(item.star === 0 && <StStarIcon>☆☆☆☆☆</StStarIcon>) ||
+                        (item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
+                        (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
+                        (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
+                        (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
+                        (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>
-                    {(item.star === 0 && <div>☆☆☆☆☆</div>) ||
-                      (item.star === 1 && <div>★☆☆☆☆</div>) ||
-                      (item.star === 2 && <div>★★☆☆☆</div>) ||
-                      (item.star === 3 && <div>★★★☆☆</div>) ||
-                      (item.star === 4 && <div>★★★★☆</div>) ||
-                      (item.star === 5 && <div>★★★★★</div>)}
-                    <StTitle fontSize="24px">{item.title}</StTitle>
                     <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
@@ -294,7 +321,7 @@ function CafeList() {
                 return (
                   <StHistoryCard key={index}>
                     <StHistoryImg src={item.reSizeImage} alt="historyImg" />
-                    <div>{item.title}</div>
+                    <StTitle fontSize="18px">{item.title}</StTitle>
                   </StHistoryCard>
                 );
               })}
@@ -302,7 +329,69 @@ function CafeList() {
           </StHistory>
         </StListPage>
       ) : (
-        <StCards>
+        <StListPage>
+          <StCards>
+            {searchData !== [] &&
+              searchData?.map((item, index) => {
+                return (
+                  <div key={index}>
+                    <StCard key={index}>
+                      <div>
+                        <StDibBtn onClick={() => LikeBtn(item)}>
+                          {item.like === false ? (
+                            <>
+                              <img src={noDibs} />
+                            </>
+                          ) : (
+                            <img src={dibs} />
+                          )}
+                        </StDibBtn>
+                        {item.like === false ? (
+                          <StCardImg
+                            onClick={() => {
+                              navigate(`/cafe/${item.id}`);
+                            }}
+                            src={item.reSizeImage}
+                            alt="IMG"
+                          />
+                        ) : (
+                          <StCardImg
+                            onClick={() => {
+                              navigate(`/cafe/${item.id}`);
+                            }}
+                            src={item.reSizeImage}
+                            alt="IMG"
+                            style={{ border: "3px solid #FFD53F" }}
+                          />
+                        )}
+                      </div>
+                      <StTitle
+                        fontSize="24px"
+                        onClick={() => {
+                          navigate(`/cafe/${item.id}`);
+                        }}
+                      >
+                        {item.title}
+                        {(item.star === 0 && <StStarIcon>☆☆☆☆☆</StStarIcon>) ||
+                          (item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
+                          (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
+                          (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
+                          (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
+                          (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
+                      </StTitle>
+                      <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                      {parseInt(item.distance) > 999 && (
+                        <StContent>
+                          {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                        </StContent>
+                      )}
+                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                    </StCard>
+                  </div>
+                );
+              })}
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
+          </StCards>
           <StHistory>
             <div>
               <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
@@ -310,42 +399,13 @@ function CafeList() {
                 return (
                   <StHistoryCard key={index}>
                     <StHistoryImg src={item.reSizeImage} alt="historyImg" />
-                    <div>{item.title}</div>
+                    <StTitle fontSize="18px">{item.title}</StTitle>
                   </StHistoryCard>
                 );
               })}
             </div>
           </StHistory>
-          {searchData !== [] &&
-            searchData?.map((item, index) => {
-              return (
-                <div key={index}>
-                  <StCard
-                    key={item.id}
-                    onClick={() => {
-                      navigate(`/hospital/${item.id}`);
-                    }}
-                  >
-                    <StCardImg src={item.reSizeImage} />
-                    <StTitle fontSize="24px">
-                      {item.title} {"⭐".repeat(item.star)}
-                    </StTitle>
-                    <StContent>{item.address}</StContent>
-                    {parseInt(item.distance) > 999 && (
-                      <StContent>
-                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
-                      </StContent>
-                    )}
-                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
-                  </StCard>
-                  <button onClick={() => LikeBtn(item)}>
-                    {" "}
-                    {item.like === false ? "찜하기" : "찜취소"}{" "}
-                  </button>
-                </div>
-              );
-            })}
-        </StCards>
+        </StListPage>
       )}
     </>
   );
