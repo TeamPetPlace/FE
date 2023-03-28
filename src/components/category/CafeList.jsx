@@ -43,7 +43,7 @@ function CafeList() {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [sort, setSort] = useState("DISTANCE");
   const [cookies] = useCookies(["lat", "lng"]);
-  const size = 1;
+  const size = 3;
   const page = 0;
   const navigate = useNavigate();
   const queryclient = useQueryClient();
