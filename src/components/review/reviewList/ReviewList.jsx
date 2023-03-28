@@ -1,12 +1,38 @@
 import React, { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import styled from "styled-components";
 import { deleteReview, getReview, updateReviews } from "../../../api/detail";
 import Pagination from "react-js-pagination";
 import Reviews from "../reviews/Reviews";
-import Review from "../../../element/Review";
+import Review from "../reviewPost/Review";
+import foot from "../../../style/img/foot.svg";
+import plus from "../../../style/img/plus.svg";
+import { useCookies } from "react-cookie";
+import {
+  StPostBtn,
+  StContentsBox,
+  StReview,
+  PageBox,
+  StReviewBox,
+  StBackGround,
+  StFormBox,
+  StForm,
+  StTopBox,
+  StTop,
+  StMid,
+  StInputBox,
+  StInput,
+  StImgBtn,
+  StImg,
+  StStar,
+  StBtns,
+  StBtn,
+  StReviewBtn,
+  StCount,
+  StTopReviewBox,
+} from "./ReviewListStyle";
 
 function ReviewList({ id, detail }) {
+  const [cookies] = useCookies(["access_token", "loginType"]);
   const [checked, setChecked] = useState([true, false, false]);
   const [tab, setTab] = useState("all");
 
@@ -95,6 +121,7 @@ function ReviewList({ id, detail }) {
 
   const onUpdateReviewHandler = (event, reviewId) => {
     event.preventDefault();
+
     const formData = new FormData();
     formData.append("review", updateReview);
     formData.append("image", image);
@@ -107,7 +134,6 @@ function ReviewList({ id, detail }) {
     console.log(reviewId);
     updateReviewMutation.mutate(payload);
     alert("수정 완료");
-    // setDetail([...detail, updateReview]);
     onEditMode(reviewId);
   };
 
@@ -146,69 +172,108 @@ function ReviewList({ id, detail }) {
   return (
     <div>
       <StContentsBox>
-        <div>
-          <div>전체 리뷰수:{detail.reviewCount}</div>
-          <button onClick={onToggle}>작성하기</button>
-        </div>
-        {open && <Review />}
-        <div>
-          {reviewTabList?.map((item, i) => (
-            <StPostBtn
-              key={i}
-              checked={checked[i]}
-              onClick={() => reviewClickHandler(i)}
-              className={checked[i] ? "selected" : ""}
-            >
-              {item.text}
-            </StPostBtn>
-          ))}
+        <div style={{ marginBottom: "30px" }}>
+          <StTopReviewBox>
+            <StCount>전체 리뷰수:{detail.reviewCount}</StCount>
+            <StReviewBtn onClick={onToggle}>작성하기</StReviewBtn>
+          </StTopReviewBox>
+          {open && <Review id={id} onToggle={onToggle} />}
+          <div>
+            {reviewTabList?.map((item, i) => (
+              <StPostBtn
+                key={i}
+                checked={checked[i]}
+                onClick={() => reviewClickHandler(i)}
+                className={checked[i] ? "selected" : ""}
+              >
+                {item.text}
+              </StPostBtn>
+            ))}
+          </div>
         </div>
         {review?.map((item) => (
           <StReview key={item.id}>
             {edit.reviewId === item.id && edit.isEdit === true ? (
               <>
-                <form
-                  onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
-                  encType="multipart/form-data"
-                >
-                  <button onClick={onImgButton}>이미지 업로드</button>
-                  <div>
-                    {imgView.map((item, index) => {
-                      return <StImg src={item} alt="img" key={index} />;
-                    })}
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="fileUpload"
-                    style={{ display: "none" }}
-                    ref={fileInput}
-                    onChange={onImgHandler}
-                  />
-                  <StNickBox>
-                    <StNick>{item.nickname}</StNick>
-                    <StStar style={{ display: "flex" }}>
-                      {[1, 2, 3, 4, 5].map((el) => (
-                        <p
-                          key={el}
-                          onMouseEnter={() => setHovered(el)}
-                          onMouseLeave={() => setHovered(null)}
-                          onClick={() => setClicked(el)}
-                          value={clicked}
-                        >{`${(clicked >= el) | (hovered >= el) && "★"}`}</p>
-                      ))}
-                    </StStar>
-                  </StNickBox>
-                  <input
-                    type="text"
-                    placeholder="후기를 작성해주세요"
-                    value={updateReview}
-                    onChange={(event) => setUpdateReview(event.target.value)}
-                  />
-                  <StDate>{item.createdAt.slice(0, 10)}</StDate>
-                  <StBtn>수정</StBtn>
-                  <StBtn onClick={() => onEditMode(item.id)}>취소</StBtn>
-                </form>
+                <StReviewBox>
+                  <StBackGround>
+                    <StFormBox>
+                      {cookies.loginType === "USER" && (
+                        <StForm
+                          onSubmit={(event) =>
+                            onUpdateReviewHandler(event, item.id)
+                          }
+                          encType="multipart/form-data"
+                        >
+                          <StTopBox style={{ display: "flex" }}>
+                            <StTop>후기 수정</StTop>
+                            <img src={foot} style={{ width: "40px" }} />
+                          </StTopBox>
+
+                          <StMid>평점을 수정하고 싶으신가요?</StMid>
+                          <StStar>
+                            <div style={{ display: "flex" }}>
+                              {[1, 2, 3, 4, 5].map((el) => (
+                                <p
+                                  key={el}
+                                  onMouseEnter={() => setHovered(el)}
+                                  onMouseLeave={() => setHovered(null)}
+                                  onClick={() => setClicked(el)}
+                                  value={clicked}
+                                >
+                                  {`${
+                                    (clicked >= el) | (hovered >= el)
+                                      ? "★"
+                                      : "☆"
+                                  }`}
+                                </p>
+                              ))}
+                            </div>
+                          </StStar>
+                          <div>업체에 대한 후기를 수정할 수 있습니다</div>
+                          <StInputBox>
+                            <StInput
+                              type="text"
+                              value={updateReview}
+                              onChange={(event) =>
+                                setUpdateReview(event.target.value)
+                              }
+                              minLength={10}
+                              placeholder={item.review}
+                            />
+                            <div>
+                              <StImgBtn onClick={onImgButton}>
+                                <img src={plus} />
+                              </StImgBtn>
+                              <div>
+                                {imgView.length > 0 &&
+                                  imgView.map((item, index) => {
+                                    return (
+                                      <StImg src={item} alt="img" key={index} />
+                                    );
+                                  })}
+                              </div>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                id="fileUpload"
+                                style={{ display: "none" }}
+                                ref={fileInput}
+                                onChange={onImgHandler}
+                              />
+                            </div>
+                          </StInputBox>
+                          <StBtns>
+                            <StBtn>수정하기</StBtn>
+                            <StBtn onClick={() => onEditMode(item.id)}>
+                              취소하기
+                            </StBtn>
+                          </StBtns>
+                        </StForm>
+                      )}
+                    </StFormBox>
+                  </StBackGround>
+                </StReviewBox>
               </>
             ) : (
               <>
@@ -244,120 +309,3 @@ function ReviewList({ id, detail }) {
 }
 
 export default ReviewList;
-
-const StPostBtn = styled.button`
-  border: none;
-  background-color: transparent;
-  font-size: 18px;
-  color: #555;
-  cursor: pointer;
-  &:hover {
-    color: black;
-    text-decoration: underline;
-  }
-  &.selected {
-    color: black;
-    text-decoration: underline;
-  }
-`;
-
-const StContentsBox = styled.div`
-  width: 1180px;
-  height: 1080px;
-  border: 1px solid #d9d9d9;
-  padding: 30px;
-`;
-
-const StReview = styled.div`
-  width: 1140px;
-  display: flex;
-`;
-
-const StNickBox = styled.div`
-  display: flex;
-`;
-
-const StDate = styled.div`
-  font-size: 14px;
-  color: #999;
-`;
-
-const StNick = styled.div`
-  font-size: 24px;
-  margin-right: 10px;
-`;
-
-const StStar = styled.div`
-  color: #ffd53f;
-  font-size: 25px;
-  margin-right: 5px;
-`;
-
-const StImg = styled.img`
-  width: 270px;
-  height: 160px;
-  border-radius: 10px;
-  float: left;
-  transition: all 0.2s linear;
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
-const StBtn = styled.button`
-  width: 70px;
-  height: 30px;
-  border: 1px solid #d9d9d9;
-  cursor: pointer;
-  font-size: 14px;
-  background-color: transparent;
-  margin-right: 10px;
-  &:hover {
-    background-color: #d9d9d9;
-  }
-`;
-
-const PageBox = styled.div`
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  ul.pagination li {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #e2e2e2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
-    border: none;
-  }
-  ul.pagination li:first-child {
-    border-radius: 5px 0 0 5px;
-  }
-  ul.pagination li:last-child {
-    border-radius: 0 5px 5px 0;
-  }
-  ul.pagination li a {
-    text-decoration: none;
-    color: #337ab7;
-    font-size: 1rem;
-  }
-  ul.pagination li.active a {
-    color: white;
-  }
-  ul.pagination li.active {
-    background-color: #337ab7;
-  }
-  ul.pagination li a:hover,
-  ul.pagination li a.active {
-    color: blue;
-  }
-`;
