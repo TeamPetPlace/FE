@@ -6,6 +6,7 @@ import PopupDom from "./Popup";
 import DaumPostcode from "react-daum-postcode";
 import { useMutation, useQueryClient } from "react-query";
 import { addPost, checkTitle } from "../../api/owner";
+import ownerPost from "../../style/img/ownerPost.svg";
 
 function Post() {
   const navigate = useNavigate();
@@ -253,9 +254,11 @@ function Post() {
         <StFormBox>
           <StForm onSubmit={onSubmitHandler} encType="multipart/form-data">
             <StLine>
-              <StTitle>*업종</StTitle>
+              <StTitle>
+                <StImp>*</StImp>업종
+              </StTitle>
               <StLabels>
-                <label>
+                <StRadioLabel>
                   병원
                   <StRadio
                     type="radio"
@@ -264,8 +267,8 @@ function Post() {
                     checked={category === "병원"}
                     onChange={(event) => setCategory(event.target.value)}
                   />
-                </label>
-                <label>
+                </StRadioLabel>
+                <StRadioLabel>
                   미용
                   <StRadio
                     type="radio"
@@ -274,8 +277,8 @@ function Post() {
                     checked={category === "미용"}
                     onChange={(event) => setCategory(event.target.value)}
                   />
-                </label>
-                <label>
+                </StRadioLabel>
+                <StRadioLabel>
                   카페
                   <StRadio
                     type="radio"
@@ -284,11 +287,13 @@ function Post() {
                     checked={category === "카페"}
                     onChange={(event) => setCategory(event.target.value)}
                   />
-                </label>
+                </StRadioLabel>
               </StLabels>
             </StLine>
             <StLine>
-              <StTitle>*업체명</StTitle>
+              <StTitle>
+                <StImp>*</StImp>업체명
+              </StTitle>
               <StInput
                 type="text"
                 placeholder="업체명"
@@ -301,30 +306,34 @@ function Post() {
             </StLine>
             <StErrorMsg
               style={{
-                height: "20px",
-                paddingLeft: "60px",
-                marginTop: "-25px",
+                marginLeft: "180px",
+                marginTop: "-45px",
               }}
             >
               {titleButtonClicked === false ? (
                 <p>업체명 중복확인을 해주세요</p>
               ) : null}
             </StErrorMsg>
-
-            <div>
-              <StTitle>*소개</StTitle>
-              <StText
-                placeholder="소개글을 입력해주세요.(500자 이내)"
-                maxLength={250}
-                value={contents}
-                onChange={contentsHandler}
-              />
-            </div>
-            <StLine style={{ marginBottom: "40px" }}>
-              <StTitle>*주소</StTitle>
+            <StLine>
+              <StContents>
+                <StTitle>
+                  <StImp>*</StImp>소개
+                </StTitle>
+                <StText
+                  placeholder="소개글을 입력해주세요.(500자 이내)"
+                  maxLength={250}
+                  value={contents}
+                  onChange={contentsHandler}
+                />
+              </StContents>
+            </StLine>
+            <StLine>
+              <StTitle>
+                <StImp>*</StImp>주소
+              </StTitle>
               <div>
                 <div style={{ display: "flex" }}>
-                  <StBtn type="button" onClick={openPostCode} size="large">
+                  <StBtn type="button" onClick={openPostCode} size="medium">
                     우편번호 검색
                   </StBtn>
                   <StErrorMsg>
@@ -342,7 +351,7 @@ function Post() {
                           onComplete={handlePostCode}
                         />
                         <StInput value={address} disabled />
-                        <StBtn size="small" onClick={handleSearch}>
+                        <StBtn size="medium" onClick={handleSearch}>
                           확인
                         </StBtn>
                       </div>
@@ -350,7 +359,7 @@ function Post() {
                   )}
                   {!isPopupOpen && (
                     <>
-                      <StInput disabled />
+                      <StInput disabled style={{ marginTop: "10px" }} />
                       <StBtn
                         size="small"
                         onClick={handleSearch}
@@ -364,20 +373,27 @@ function Post() {
               </div>
             </StLine>
             <StLine>
-              {category === "병원" && <StTitle>*대표 수의사</StTitle>}
+              {category === "병원" && (
+                <StTitle>
+                  <StImp>*</StImp>대표 수의사
+                </StTitle>
+              )}
               {(category === "미용" || category === "카페") && (
-                <StTitle>*대표자</StTitle>
+                <StTitle>
+                  <StImp>*</StImp>대표자
+                </StTitle>
               )}
               <StInput
                 type="text"
                 placeholder="대표명"
                 value={ceo}
                 onChange={ceoHandler}
-                size="medium"
               />
             </StLine>
             <StLine>
-              <StTitle>*대표연락처</StTitle>
+              <StTitle>
+                <StImp>*</StImp>대표연락처
+              </StTitle>
               <StInput
                 type="text"
                 placeholder="010-0000-0000"
@@ -386,73 +402,23 @@ function Post() {
                 onKeyDown={handleKeyDown}
                 onSelect={handleSelect}
                 onDragStart={(event) => event.preventDefault()}
-                size="medium"
               />
             </StLine>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <StLine>
-                <StTitle>*영업시간</StTitle>
-                <StInput
-                  type="time"
-                  placeholder="시작시간"
-                  value={startTime}
-                  onChange={startTimeHandler}
-                  size="small"
-                />
-                :
-                <StInput
-                  type="time"
-                  placeholder="종료시간"
-                  value={endTime}
-                  onChange={endTimeHandler}
-                  size="small"
-                />
-                <input
-                  type="checkbox"
-                  value={isChecked}
-                  onChange={onCheckHandler}
-                />
-                <label>휴무일</label>
-                <div>
-                  {isChecked && (
-                    <StHoliday value={select} onChange={selectHandler}>
-                      요일 ▼<StWeek>월요일</StWeek>
-                      <StWeek>화요일</StWeek>
-                      <StWeek>수요일</StWeek>
-                      <StWeek>목요일</StWeek>
-                      <StWeek>금요일</StWeek>
-                      <StWeek>토요일</StWeek>
-                      <StWeek>일요일</StWeek>
-                      <StWeek>주말(토/일)</StWeek>
-                    </StHoliday>
-                  )}
-                </div>
-              </StLine>
-              <StErrorMsg style={{ height: "20px" }}>
-                <div
-                  style={{
-                    paddingLeft: "75px",
-                    paddingTop: "5px",
-                  }}
-                >
-                  00:00 형식으로 기입해주세요
-                </div>
-              </StErrorMsg>
-            </div>
+
             {category === "병원" && (
               <div>
-                <div>
+                <StLine>
                   <StTitle>기본 진료비</StTitle>
-                  <input
+                  <StInput
                     type="text"
                     placeholder="3-10만원"
                     value={cost}
                     onChange={setCostHandler}
                   />
-                </div>
-                <div>
-                  야간진료:
-                  <label>
+                </StLine>
+                <StLine>
+                  <StTitle>야간진료</StTitle>
+                  <StLabels>
                     가능
                     <input
                       type="radio"
@@ -461,8 +427,8 @@ function Post() {
                       checked={aboolean1 === "true"}
                       onChange={aboolean1Handler}
                     />
-                  </label>
-                  <label>
+                  </StLabels>
+                  <tLabels>
                     불가능
                     <input
                       type="radio"
@@ -471,33 +437,33 @@ function Post() {
                       checked={aboolean1 === "false"}
                       onChange={aboolean1Handler}
                     />
-                  </label>
-                </div>
-                <div>
+                  </tLabels>
+                </StLine>
+                <StLine>
                   <StTitle>진료항목</StTitle>
-                  <input
+                  <StInput
                     type="text"
                     placeholder="중성화, 슬개골 수술…"
                     value={feature1}
                     onChange={feature1Handler}
                   />
-                </div>
+                </StLine>
               </div>
             )}
             {category === "미용" && (
               <div>
-                <div>
+                <StLine>
                   <StTitle>기본 미용비</StTitle>
-                  <input
+                  <StInput
                     type="text"
                     placeholder="3-10만원"
                     value={cost}
                     onChange={setCostHandler}
                   />
-                </div>
-                <div>
-                  주차여부:
-                  <label>
+                </StLine>
+                <StLine>
+                  <StTitle>주차여부</StTitle>
+                  <StLabels>
                     가능
                     <input
                       type="radio"
@@ -506,8 +472,8 @@ function Post() {
                       checked={aboolean1 === "true"}
                       onChange={aboolean1Handler}
                     />
-                  </label>
-                  <label>
+                  </StLabels>
+                  <StLabels>
                     불가능
                     <input
                       type="radio"
@@ -516,11 +482,11 @@ function Post() {
                       checked={aboolean1 === "false"}
                       onChange={aboolean1Handler}
                     />
-                  </label>
-                </div>
-                <div>
-                  예약여부:
-                  <label>
+                  </StLabels>
+                </StLine>
+                <StLine>
+                  <StTitle>예약여부</StTitle>
+                  <StLabels>
                     필요
                     <input
                       type="radio"
@@ -529,8 +495,8 @@ function Post() {
                       checked={aboolean2 === "true"}
                       onChange={aboolean2Handler}
                     />
-                  </label>
-                  <label>
+                  </StLabels>
+                  <StLabels>
                     불필요
                     <input
                       type="radio"
@@ -539,24 +505,24 @@ function Post() {
                       checked={aboolean2 === "false"}
                       onChange={aboolean2Handler}
                     />
-                  </label>
-                </div>
+                  </StLabels>
+                </StLine>
               </div>
             )}
             {category === "카페" && (
               <div>
-                <div>
+                <StLine>
                   <StTitle>입장료</StTitle>
-                  <input
+                  <StInput
                     type="text"
                     placeholder="3-10만원"
                     value={cost}
                     onChange={setCostHandler}
                   />
-                </div>
-                <div>
-                  주차여부:
-                  <label>
+                </StLine>
+                <StLine>
+                  <StTitle>주차여부</StTitle>
+                  <StLabels>
                     가능
                     <input
                       type="radio"
@@ -565,8 +531,8 @@ function Post() {
                       checked={aboolean1 === "true"}
                       onChange={aboolean1Handler}
                     />
-                  </label>
-                  <label>
+                  </StLabels>
+                  <StLabels>
                     불가능
                     <input
                       type="radio"
@@ -575,25 +541,70 @@ function Post() {
                       checked={aboolean1 === "false"}
                       onChange={aboolean1Handler}
                     />
-                  </label>
-                </div>
-                <div>
+                  </StLabels>
+                </StLine>
+                <StLine>
                   <StTitle>부대시설</StTitle>
-                  <input
+                  <StInput
                     type="text"
                     placeholder="수영장, 운동장…"
                     value={feature1}
                     onChange={feature1Handler}
                   />
-                </div>
+                </StLine>
               </div>
             )}
 
             <div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <StLine>
+                  <StTitle>
+                    <StImp>*</StImp>영업시간
+                  </StTitle>
+                  <StInput
+                    type="time"
+                    placeholder="시작시간"
+                    value={startTime}
+                    onChange={startTimeHandler}
+                    size="small"
+                  />
+                  ㅡ
+                  <StInput
+                    type="time"
+                    placeholder="종료시간"
+                    value={endTime}
+                    onChange={endTimeHandler}
+                    size="small"
+                    style={{ marginLeft: "20px" }}
+                  />
+                  <input
+                    type="checkbox"
+                    value={isChecked}
+                    onChange={onCheckHandler}
+                  />
+                  <label>휴무일</label>
+                  <div>
+                    {isChecked && (
+                      <StHoliday value={select} onChange={selectHandler}>
+                        요일 ▼<StWeek>월요일</StWeek>
+                        <StWeek>화요일</StWeek>
+                        <StWeek>수요일</StWeek>
+                        <StWeek>목요일</StWeek>
+                        <StWeek>금요일</StWeek>
+                        <StWeek>토요일</StWeek>
+                        <StWeek>일요일</StWeek>
+                        <StWeek>주말(토/일)</StWeek>
+                      </StHoliday>
+                    )}
+                  </div>
+                </StLine>
+              </div>
               <StLine>
-                <StTitle>*업체사진</StTitle>
+                <StTitle>
+                  <StImp>*</StImp>업체사진
+                </StTitle>
                 <StImgBox>
-                  <StBtn onClick={onImgButton} size="small">
+                  <StBtn onClick={onImgButton} size="medium">
                     업로드
                   </StBtn>
                   <p>최대 4장까지 업로드 가능합니다.</p>
@@ -608,14 +619,17 @@ function Post() {
                 style={{ display: "none" }}
                 ref={fileInput}
               />
+
               <StImgUpload>
                 <StFakeBox>
+                  <StTitle></StTitle>
                   <StFake />
                   <StFake />
                   <StFake />
                   <StFake />
                 </StFakeBox>
                 <StRealBox>
+                  <StTitle></StTitle>
                   {imgBase64.map((item, index) => {
                     return <StImg src={item} alt="img" key={index} />;
                   })}
@@ -623,8 +637,8 @@ function Post() {
               </StImgUpload>
             </div>
             <StBtns>
-              <StBtn size="medium">등록</StBtn>
-              <StBtn onClick={() => navigate("/main")} size="medium">
+              <StBtn size="large">등록</StBtn>
+              <StBtn onClick={() => navigate("/main")} size="large">
                 취소
               </StBtn>
             </StBtns>
@@ -639,28 +653,45 @@ export default Post;
 
 const StBox = styled.div`
   width: 100%;
-  height: 1200px;
-  background-color: #eee;
+  height: 1800px;
+  background-image: url(${ownerPost});
   margin: 0 auto;
 `;
 
 const StPost = styled.div`
   text-align: center;
   padding: 20px 0px;
-  padding-top: 60px;
+  padding-top: 80px;
   font-weight: 900;
-  font-size: 20px;
+  font-size: 30px;
 `;
 
 const StTitle = styled.div`
   font-weight: 900;
+  font-size: 26px;
+
+  width: 180px;
+`;
+
+const StContents = styled.div`
+  height: 230px;
+  display: flex;
+  line-height: 230px;
+`;
+
+const StImp = styled.span`
+  color: red;
+  font-size: 20px;
+`;
+
+const StRadioLabel = styled.label`
+  font-size: 18px;
 `;
 
 const StLine = styled.div`
   display: flex;
-  height: 40px;
   line-height: 40px;
-  gap: 10px;
+  margin-bottom: 20px;
 `;
 
 const StErrorMsg = styled.div`
@@ -671,12 +702,14 @@ const StErrorMsg = styled.div`
 `;
 
 const StFormBox = styled.div`
-  width: 900px;
-  height: 850px;
-  background-color: white;
+  width: 1240px;
+  height: 1440px;
+  background-color: #fff;
+  box-shadow: 1px 1px 10px 0px #ffeba2;
   border-radius: 5px;
   margin: 0px auto;
-  padding: 70px 20px;
+  padding: 0px 20px;
+  padding-top: 80px;
 `;
 
 const StForm = styled.form`
@@ -684,15 +717,15 @@ const StForm = styled.form`
   flex-direction: column;
   gap: 18px;
   margin: 0 auto;
-  width: 600px;
+  width: 955px;
 `;
 
 const StLabels = styled.div`
   margin-left: 10px;
+  font-size: 18px;
 `;
 
 const StRadio = styled.input.attrs({ type: "radio" })`
-  /* display: none; */
   margin-right: 15px;
   cursor: pointer;
 `;
@@ -722,6 +755,7 @@ const StInput = styled.input`
   border: 1px solid lightgray;
   border-radius: 5px;
   outline: none;
+  margin-right: 20px;
   padding: 10px 15px;
   ${({ size }) => {
     switch (size) {
@@ -735,11 +769,13 @@ const StInput = styled.input`
         `;
       case "small":
         return css`
-          width: 60px;
+          width: 120px;
+          height: 27px;
         `;
       default:
         return css`
-          width: 400px;
+          width: 540px;
+          height: 27px;
         `;
     }
   }}
@@ -750,8 +786,8 @@ const StText = styled.textarea`
   border-radius: 5px;
   outline: none;
   padding: 10px 15px;
-  width: 560px;
-  height: 100px;
+  width: 750px;
+  height: 200px;
   margin-top: 10px;
 `;
 
@@ -772,8 +808,8 @@ const StFakeBox = styled.div`
 `;
 
 const StFake = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 170px;
+  height: 170px;
   margin-right: 10px;
   background-color: lightgray;
   border-radius: 5px;
@@ -783,13 +819,14 @@ const StRealBox = styled.div`
   position: absolute;
   margin-top: 10px;
   top: 0%;
+  left: 180px;
   overflow: hidden;
-  height: 120px;
+  height: 170px;
 `;
 
 const StImg = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 170px;
+  height: 170px;
   margin-right: 10px;
   border-radius: 5px;
 `;
@@ -804,27 +841,38 @@ const StBtn = styled.button`
   cursor: pointer;
   padding: 8px 8px;
   margin-right: 10px;
-  border: 1px solid black;
+  border: 1px solid #999;
   text-align: center;
   border-radius: 5px;
   background-color: white;
   &:hover {
-    background-color: black;
+    background-color: #999;
     color: white;
   }
   ${({ size }) => {
     switch (size) {
       case "large":
         return css`
-          width: 120px;
+          width: 164px;
+          height: 45px;
+          font-size: 20px;
+          &:hover {
+            background-color: #ffd53f;
+            border: none;
+            color: black;
+          }
         `;
       case "medium":
         return css`
-          width: 90px;
+          width: 164px;
+          height: 45px;
+          font-size: 20px;
         `;
       case "small":
         return css`
-          width: 80px;
+          width: 160px;
+          height: 45px;
+          font-size: 20px;
         `;
       default:
         return css`

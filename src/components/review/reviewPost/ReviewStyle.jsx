@@ -13,6 +13,8 @@ const StBackGround = styled.div`
   backdrop-filter: blur(5px);
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
   position: fixed;
   z-index: 999;
 `;
