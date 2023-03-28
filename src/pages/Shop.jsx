@@ -4,6 +4,7 @@ import ShopList from "../components/category/ShopList";
 import Footer from "../components/common/Footer";
 import Header from "../components/common/Header";
 import Layout from "../components/common/Layout";
+import shop_banner from "../../src/style/img/shop_banner.svg";
 
 export default function Shop() {
   return (
@@ -27,7 +28,7 @@ const StBanner = styled.div`
   justify-content: center;
   padding-left: 340px;
   padding-right: 340px;
-  background: lightgray;
+  background-image: url(${shop_banner});
 `;
 
 const StTitle = styled.div`

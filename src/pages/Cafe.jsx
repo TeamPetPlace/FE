@@ -4,6 +4,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import Layout from "../components/common/Layout";
 import CafeList from "../components/category/CafeList";
+import cafe_banner from "../../src/style/img/cafe_banner.svg";
 
 export default function Cafe() {
   return (
@@ -27,7 +28,7 @@ const StBanner = styled.div`
   justify-content: center;
   padding-left: 340px;
   padding-right: 340px;
-  background: lightgray;
+  background-image: url(${cafe_banner});
 `;
 
 const StTitle = styled.div`

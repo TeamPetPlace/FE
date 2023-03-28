@@ -1,24 +1,36 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { CheckEmail, UserSignup } from "../../api/user";
+import {
+  StSignupFormDiv,
+  StSignupDiv,
+  StTitle,
+  StSignupBtn,
+  StInput,
+  StCheckBtn,
+  StDescDiv,
+  StInputDiv,
+} from "./SignupStyle";
 
 const UserSignupForm = () => {
   const navigate = useNavigate();
   const [useremail, setUserEmail] = useState();
-  const [usernickname, setUserNickName] = useState();
-  const [userpassword, setUserpassword] = useState();
-  const [uservalpassword, setValPassword] = useState();
-  const [passwordcheck, setPasswordCheck] = useState(false);
   const [isEmail, setIsEmail] = useState(false);
-  const [isNickName, setIsNickName] = useState(false);
-  const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
+  const [userpassword, setUserpassword] = useState();
+  const [passwordcheck, setPasswordCheck] = useState(false);
+  const [uservalpassword, setValPassword] = useState();
+  const [isValidPassword, setIsValidPassword] = useState(false);
   const [pwType, setPwType] = useState({
     type: "password",
     visible: false,
   });
+  const [usernickname, setUserNickName] = useState();
+  const [uservalnick, setUserValNick] = useState();
+  const [nicknamecheck, setNickNameCheck] = useState(false);
+  const [isVaildNickName, setIsVaildNickName] = useState(false);
+
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
   const nickRegex = /^[a-zA-Z0-9가-힣_-]{2,20}$/;
@@ -29,7 +41,7 @@ const UserSignupForm = () => {
       if (response) {
         console.log(response);
         setIsEmail(true);
-        alert("사용가능한 이메일입니다.");
+        alert("사용 가능한 이메일입니다.");
       } else {
         setIsEmail(false);
         alert("이미 사용중인 이메일입니다.");
@@ -58,17 +70,25 @@ const UserSignupForm = () => {
     passwordRegex.test(value) ? setIsValidPassword(true) : setIsValidPassword(false);
   };
 
+  //닉네임 확인
+  const handleNicknameChange = (e) => {
+    const value = e.target.value;
+    setUserNickName(value);
+    value === uservalnick ? setNickNameCheck(true) : setNickNameCheck(false);
+    nickRegex.test(value) ? setIsVaildNickName(true) : setIsVaildNickName(false);
+  };
+
   // 가입
   const signUpMutation = useMutation(UserSignup, {
     onSuccess: (response) => {
       // console.log(response.data);
-      alert("회원가입 성공!");
+      alert("펫플레이스에 방문하신것을 환영합니다");
       navigate("/");
       return response.data;
     },
     onError: (response) => {
       // console.log(response.data);
-      alert("다시시도해주십시오!");
+      alert("다시 시도해주십시오!");
       return response.data;
     },
   });
@@ -91,89 +111,92 @@ const UserSignupForm = () => {
 
   return (
     <StSignupDiv>
+      {/* <StTitle>회원가입</StTitle> */}
       <form onSubmit={onSignupSubmit}>
-        <div>
-          <div>일반회원가입</div>
+        <StInputDiv Margin_B="30px">
           <div>
-            <input
+            <StInput
+              Width="350px"
               type="text"
               name="Email"
               value={useremail || ""}
               placeholder="이메일"
               onChange={onEmailChange}
             />
-
-            <button
-              // id="check"
+            <StCheckBtn
               type="button"
               disabled={!isValidEmail || ""}
               value={useremail}
               onClick={checkEmail}
             >
               중복확인
-            </button>
+            </StCheckBtn>
           </div>
-        </div>
-
-        <input
-          type="text"
-          value={usernickname || ""}
-          name="Username"
-          placeholder="이름"
-          onChange={(e) => setUserNickName(e.target.value)}
-        />
-        <input
-          type={userpassword}
-          // type={pwType.type}
-          value={userpassword || ""}
-          name="PassWord"
-          placeholder="비밀번호"
-          onChange={handlePasswordChange}
-        />
-        {isValidPassword ? (
-          <p style={{ color: "White" }}>사용가능한 비밀번호 입니다.</p>
-        ) : (
-          <p style={{ color: "#ff6666" }}>영어,숫자,특수문자를 포함한 8자이상이여야 합니다.</p>
-        )}
-        <div>
-          <input
-            // type="password"
+          <StInput
+            Width="500px"
             type="text"
-            placeholder="비밀번호 확인"
-            value={uservalpassword || ""}
-            onChange={handleConfirmPasswordChange}
+            value={usernickname || ""}
+            name="Username"
+            placeholder="닉네임"
+            onChange={handleNicknameChange}
           />
-        </div>
-        {passwordcheck ? (
-          <p style={{ color: "#008000" }}>비밀번호 일치!</p>
-        ) : (
-          <p style={{ color: "#ff6666" }}>비밀번호 불일치!</p>
-        )}
-        <div>
-          <button disabled={!(passwordcheck && isValidPassword && isValidEmail)}>회원가입</button>
-        </div>
+          {isVaildNickName ? (
+            <StDescDiv style={{ color: "#008000" }}>사용가능한 닉네임입니다.</StDescDiv>
+          ) : (
+            <StDescDiv style={{ color: "#ff6666" }}>
+              특수문자를 제외하고 2자 이상 20자 이하여야 합니다.
+            </StDescDiv>
+          )}
+          <StInput
+            Width="500px"
+            type={pwType.type}
+            value={userpassword || ""}
+            name="PassWord"
+            placeholder="비밀번호"
+            onChange={handlePasswordChange}
+          />
+          {isValidPassword ? (
+            <StDescDiv style={{ color: "#008000" }}>사용가능한 비밀번호 입니다.</StDescDiv>
+          ) : (
+            <StDescDiv style={{ color: "#ff6666" }}>
+              영어,숫자,특수문자를 포함한 8자이상이여야 합니다.
+            </StDescDiv>
+          )}
+          <div>
+            <StInput
+              Width="500px"
+              type="password"
+              placeholder="비밀번호 확인"
+              value={uservalpassword || ""}
+              onChange={handleConfirmPasswordChange}
+            />
+          </div>
+
+          {passwordcheck ? (
+            <StDescDiv style={{ color: "#008000" }}>비밀번호가 일치합니다.</StDescDiv>
+          ) : (
+            <StDescDiv style={{ color: "#ff6666" }}>비밀번호가 일치하지 않습니다.</StDescDiv>
+          )}
+        </StInputDiv>
+        <StSignupBtn
+          // BackColor="#ffd53f"
+          disabled={!(passwordcheck && isValidPassword && isValidEmail)}
+        >
+          회원가입
+        </StSignupBtn>
       </form>
       <div>
-        <button
+        <StSignupBtn
+          // BackColor="white"
           onClick={() => {
             navigate("/");
           }}
         >
           로그인
-        </button>
+        </StSignupBtn>
       </div>
     </StSignupDiv>
   );
 };
 
 export default UserSignupForm;
-
-const StSignupDiv = styled.div`
-  margin: 100px auto;
-  display: flex;
-  padding: 50px;
-  background-color: pink;
-  width: 30%;
-  height: 300px;
-  flex-direction: column;
-`;

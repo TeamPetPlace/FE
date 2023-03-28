@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
 import Skeletons from "../../element/Skeletons";
+import hospital_icon from "../../style/img/hospital_icon.svg";
 import {
   StHistoryTitle,
   StHistoryCard,
@@ -36,9 +37,11 @@ import {
   StSearchSortingDiv,
   StSelect,
   StOption,
+  StDibBtn,
+  StIconimg,
 } from "./AllCategoryListStyle";
 
-const HospitalList = () => {
+function HospitalList() {
   const [cards, setCards] = useState([]);
   const [searchkeyword, setSearchKeyword] = useState("");
   const [searchData, setSearchData] = useState([]);
@@ -236,7 +239,10 @@ const HospitalList = () => {
   return (
     <>
       <StPlace>
-        <StTitle fontSize="36px">병원</StTitle>
+        <StTitle fontSize="36px">
+          병원
+          <StIconimg src={hospital_icon} />
+        </StTitle>
         <StSearchSortingDiv>
           <StSearchDiv>
             <StSearchInput
@@ -275,19 +281,17 @@ const HospitalList = () => {
                       {item.like === false ? "찜하기" : "찜취소"}{" "}
                     </button>
                     <StCardImg src={item.reSizeImage} />
-                    {/* <StTitle fontSize="24px">
-                      {item.title} {"★".repeat(item.star)}
-                    </StTitle> */}
-                    {(item.star === 0 && <div>☆☆☆☆☆</div>) ||
-                      (item.star === 1 && <div>★☆☆☆☆</div>) ||
-                      (item.star === 2 && <div>★★☆☆☆</div>) ||
-                      (item.star === 3 && <div>★★★☆☆</div>) ||
-                      (item.star === 4 && <div>★★★★☆</div>) ||
-                      (item.star === 5 && <div>★★★★★</div>)}
-                    <StTitle fontSize="24px">{item.title}</StTitle>
-                    <StContent>
-                      {item.address.split(" ", 2).join(" ")}
-                    </StContent>
+
+                    <StTitle fontSize="24px">
+                      {item.title}
+                      {(item.star === 0 && <div>☆☆☆☆☆</div>) ||
+                        (item.star === 1 && <div>★☆☆☆☆</div>) ||
+                        (item.star === 2 && <div>★★☆☆☆</div>) ||
+                        (item.star === 3 && <div>★★★☆☆</div>) ||
+                        (item.star === 4 && <div>★★★★☆</div>) ||
+                        (item.star === 5 && <div>★★★★★</div>)}
+                    </StTitle>
+                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
                         {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
@@ -312,7 +316,7 @@ const HospitalList = () => {
                 return (
                   <StHistoryCard key={index}>
                     <StHistoryImg src={item.reSizeImage} alt="historyImg" />
-                    <div>{item.title}</div>
+                    <StContent>{item.title}</StContent>
                   </StHistoryCard>
                 );
               })}
@@ -320,7 +324,45 @@ const HospitalList = () => {
           </StHistory>
         </StListPage>
       ) : (
-        <StCards>
+        <StListPage>
+          <StCards>
+            {searchData !== [] &&
+              searchData?.map((item, index) => {
+                return (
+                  <div key={index}>
+                    <StCard
+                      key={item.id}
+                      onClick={() => {
+                        navigate(`/hospital/${item.id}`);
+                      }}
+                    >
+                      <button onClick={() => LikeBtn(item)}>
+                        {" "}
+                        {item.like === false ? "찜하기" : "찜취소"}{" "}
+                      </button>
+                      <StCardImg src={item.reSizeImage} />
+                      <StTitle fontSize="24px">
+                        {item.title}
+                        {(item.star === 0 && <div>☆☆☆☆☆</div>) ||
+                          (item.star === 1 && <div>★☆☆☆☆</div>) ||
+                          (item.star === 2 && <div>★★☆☆☆</div>) ||
+                          (item.star === 3 && <div>★★★☆☆</div>) ||
+                          (item.star === 4 && <div>★★★★☆</div>) ||
+                          (item.star === 5 && <div>★★★★★</div>)}
+                      </StTitle>
+                      <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                      {parseInt(item.distance) > 999 && (
+                        <StContent>
+                          {((parseInt(item.distance) * 1) / 1000).toFixed(1)}km남음
+                        </StContent>
+                      )}
+                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                    </StCard>
+                  </div>
+                );
+              })}
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
+          </StCards>
           <StHistory>
             <div>
               <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
@@ -334,42 +376,10 @@ const HospitalList = () => {
               })}
             </div>
           </StHistory>
-          {searchData !== [] &&
-            searchData?.map((item, index) => {
-              return (
-                <div key={index}>
-                  <StCard
-                    key={item.id}
-                    onClick={() => {
-                      navigate(`/hospital/${item.id}`);
-                    }}
-                  >
-                    <StCardImg src={item.reSizeImage} />
-                    <StTitle fontSize="24px">
-                      {item.title} {"⭐".repeat(item.star)}
-                    </StTitle>
-                    <StContent>{item.address}</StContent>
-                    {parseInt(item.distance) > 999 && (
-                      <StContent>
-                        {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
-                        km남음
-                      </StContent>
-                    )}
-                    {parseInt(item.distance) < 999 && (
-                      <div>{parseInt(item.distance)}m남음</div>
-                    )}
-                  </StCard>
-                  <button onClick={() => LikeBtn(item)}>
-                    {" "}
-                    {item.like === false ? "찜하기" : "찜취소"}{" "}
-                  </button>
-                </div>
-              );
-            })}
-        </StCards>
+        </StListPage>
       )}
     </>
   );
-};
+}
 
 export default HospitalList;

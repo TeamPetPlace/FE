@@ -1,28 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { BusinessSignup, CheckBizNum, CheckEmail } from "../../api/user";
+import {
+  StSignupFormDiv,
+  StSignupDiv,
+  StTitle,
+  StSignupBtn,
+  StInput,
+  StCheckBtn,
+  StDescDiv,
+} from "./SignupStyle";
 
 const BusinessSignupForm = () => {
   const [useremail, setUserEmail] = useState();
-  const [usernickname, setUserNickName] = useState();
-  const [userpassword, setUserpassword] = useState();
-  const [biznumber, setBizNumber] = useState();
-  const [uservalpassword, setValPassword] = useState();
-  const [valbiznum, setValBizNum] = useState();
-  const [passwordcheck, setPasswordCheck] = useState(false);
-  const [biznumcheck, setBizNumCheck] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
-  const [isNickName, setIsNickName] = useState(false);
-  const [isBizNum, setIsBizNum] = useState(false);
-  const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
-  const [isValidBiznum, setIsValidBizNum] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
+  const [usernickname, setUserNickName] = useState();
+  const [uservalnick, setUserValNick] = useState();
+  const [nicknamecheck, setNickNameCheck] = useState(false);
+  const [isVaildNickName, setIsVaildNickName] = useState(false);
+  const [userpassword, setUserpassword] = useState();
+  const [uservalpassword, setValPassword] = useState();
+  const [passwordcheck, setPasswordCheck] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
   const [pwType, setPwType] = useState({
     type: "password",
     visible: false,
   });
+  const [biznumber, setBizNumber] = useState([]);
+  const [valbiznum, setValBizNum] = useState();
+  const [biznumcheck, setBizNumCheck] = useState(false);
+  const [isBizNum, setIsBizNum] = useState(false);
+  const [isValidBiznum, setIsValidBizNum] = useState(false);
+
   const navigate = useNavigate();
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -54,6 +65,14 @@ const BusinessSignupForm = () => {
     const value = e.target.value;
     setUserEmail(value);
     emailRegex.test(value) ? setIsValidEmail(true) : setIsValidEmail(false);
+  };
+
+  //닉네임 확인
+  const handleNicknameChange = (e) => {
+    const value = e.target.value;
+    setUserNickName(value);
+    value === uservalnick ? setNickNameCheck(true) : setNickNameCheck(false);
+    nickRegex.test(value) ? setIsVaildNickName(true) : setIsVaildNickName(false);
   };
 
   //사업자번호 확인
@@ -122,103 +141,122 @@ const BusinessSignupForm = () => {
     value === userpassword ? setPasswordCheck(true) : setPasswordCheck(false);
   };
 
+  useEffect(() => {
+    if (biznumber.length === 11) {
+      setBizNumber(biznumber.replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3"));
+    }
+    if (biznumber.length === 10) {
+      setBizNumber(biznumber.replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3"));
+    }
+  }, [biznumber]);
+
+  const onBizNumPress = (e) => {
+    const regex = /^[0-9\b -]{0,10}$/;
+    if (regex.test(e.target.value)) {
+      setBizNumber(e.target.value);
+    }
+  };
+
   return (
     <StSignupDiv>
       <form onSubmit={onSignupSubmit}>
+        {/* <div>사업자회원가입</div> */}
         <div>
-          <div>사업자회원가입</div>
-          <div>
-            <Stinput
-              type="text"
-              name="Email"
-              value={useremail || ""}
-              placeholder="이메일"
-              onChange={onEmailChangeHandler}
-            />
-            <button type="button" disabled={!isValidEmail} value={useremail} onClick={checkEmail}>
-              중복확인
-            </button>
-          </div>
+          <StInput
+            Width="350px"
+            type="text"
+            name="Email"
+            value={useremail || ""}
+            placeholder="이메일"
+            onChange={onEmailChangeHandler}
+          />
+          <StCheckBtn type="button" disabled={!isValidEmail} value={useremail} onClick={checkEmail}>
+            중복확인
+          </StCheckBtn>
         </div>
-        <Stinput
+        <StInput
+          Width="500px"
           type="text"
           value={usernickname || ""}
           name="Username"
           placeholder="닉네임"
-          onChange={(e) => setUserNickName(e.target.value)}
-        />{" "}
-        <br />
-        <p> 닉네임은 2자이상 20자 이내로 작성해주시기 바랍니다.</p>
-        <Stinput
+          onChange={handleNicknameChange}
+        />
+        {isVaildNickName ? (
+          <StDescDiv style={{ color: "#008000" }}>사용가능한 닉네임입니다.</StDescDiv>
+        ) : (
+          <StDescDiv style={{ color: "#ff6666" }}>
+            특수문자를 제외하고 2자 이상 20자 이하여야 합니다.
+          </StDescDiv>
+        )}
+        <StInput
+          Width="350px"
           type="text"
           name="Biznumber"
           value={biznumber || ""}
-          placeholder="000-00-00000의 형식으로 작성해주세요"
+          placeholder="사업자 번호"
+          onKeyPress={onBizNumPress}
           onChange={onBizNumChangeHandler}
         />
-        <button type="button" disabled={!isValidBiznum} value={biznumber} onClick={checkBizNumber}>
+        <StCheckBtn
+          type="button"
+          disabled={!isValidBiznum}
+          value={biznumber}
+          onClick={checkBizNumber}
+        >
           사업자번호확인
-        </button>{" "}
-        <br />
-        <Stinput
-          type={userpassword}
-          // type={pwType.type}
+        </StCheckBtn>{" "}
+        <StInput
+          Width="500px"
+          // type={userpassword}
+          type={pwType.type}
           value={userpassword || ""}
           name="PassWord"
           placeholder="비밀번호"
           onChange={onPasswordChange}
         />
         {isValidPassword ? (
-          <p style={{ color: "Black" }}>사용가능한 비밀번호 입니다.</p>
+          <StDescDiv style={{ color: "Black" }}>사용가능한 비밀번호 입니다.</StDescDiv>
         ) : (
-          <p style={{ color: "#ff6666" }}>영어,숫자,특수문자를 포함한 8자이상이여야 합니다.</p>
+          <StDescDiv style={{ color: "#ff6666" }}>
+            영어,숫자,특수문자를 포함한 8자이상이여야 합니다.
+          </StDescDiv>
         )}
         <div>
-          <Stinput
-            // type="password"
-            type="text"
+          <StInput
+            Width="500px"
+            type="password"
+            // type="text"
             placeholder="비밀번호 확인"
             value={uservalpassword || ""}
             onChange={handleConfirmPasswordChange}
           />
         </div>
         {passwordcheck ? (
-          <p style={{ color: "Black" }}>비밀번호 일치!</p>
+          <StDescDiv style={{ color: "#008000" }}>비밀번호가 일치합니다.</StDescDiv>
         ) : (
-          <p style={{ color: "#ff6666" }}>비밀번호 불일치!</p>
+          <StDescDiv style={{ color: "#ff6666" }}>비밀번호가 일치하지 않습니다.</StDescDiv>
         )}
         <div>
           {/* <button disabled={!(passwordcheck && isValidPassword && isValidEmail)}> */}
-          <button disabled={!(isValidBiznum && passwordcheck && isValidPassword && isValidEmail)}>
+          <StSignupBtn
+            disabled={!(isValidBiznum && passwordcheck && isValidPassword && isValidEmail)}
+          >
             회원가입
-          </button>
+          </StSignupBtn>
         </div>
       </form>
       <div>
-        <button
+        <StSignupBtn
           onClick={() => {
             navigate("/");
           }}
         >
           로그인
-        </button>
+        </StSignupBtn>
       </div>
     </StSignupDiv>
   );
 };
 
 export default BusinessSignupForm;
-
-const StSignupDiv = styled.div`
-  margin: 100px auto;
-  display: flex;
-  padding: 50px;
-  background-color: skyblue;
-  width: 50%;
-  height: 40%;
-  flex-direction: column;
-`;
-
-const Stinput = styled.input`
-  width: 70%;
-`;

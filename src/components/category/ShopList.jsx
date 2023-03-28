@@ -6,8 +6,8 @@ import { AddLikesPost, AllPost, DeleteLikePost, SearchPost } from "../../api/cat
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
-import Skeleton from "react-loading-skeleton";
 import Skeletons from "../../element/Skeletons";
+import shop_icon from "../../style/img/shop_icon.svg";
 import {
   StHistoryTitle,
   StHistoryCard,
@@ -26,9 +26,10 @@ import {
   StSearchSortingDiv,
   StSelect,
   StOption,
+  StIconimg,
 } from "./AllCategoryListStyle";
 
-const ShopList = () => {
+function ShopList() {
   const [cards, setCards] = useState([]);
   const [searchkeyword, setSearchKeyword] = useState("");
   const [searchData, setSearchData] = useState([]);
@@ -218,7 +219,10 @@ const ShopList = () => {
   return (
     <>
       <StPlace>
-        <StTitle fontSize="36px">미용</StTitle>
+        <StTitle fontSize="36px">
+          미용
+          <StIconimg src={shop_icon} />
+        </StTitle>
         <StSearchSortingDiv>
           <StSearchDiv>
             <StSearchInput
@@ -343,6 +347,6 @@ const ShopList = () => {
       )}
     </>
   );
-};
+}
 
 export default ShopList;
