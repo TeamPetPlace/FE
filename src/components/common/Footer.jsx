@@ -41,6 +41,7 @@ const StTop = styled.div`
   margin: 0 auto;
   margin-bottom: 20px;
   font-size: 10px;
+  text-align: center;
 `;
 
 const StFooter = styled.div`
