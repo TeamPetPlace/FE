@@ -341,7 +341,7 @@ function HospitalList() {
               );
             })}
             {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px" }} />
+              <Skeletons style={{ marginTop: "20px", color: "transparent" }} />
             ) : null}
           </StCards>
           <Draggable onDrag={(e, data) => trackPos(data)}>
