@@ -17,6 +17,7 @@ const LoginForm = () => {
     type: "password",
     visible: false,
   });
+  const [valid, setValid] = useState(true);
 
   const onKaKaologin = () => {
     KaKaoLogin();
@@ -29,11 +30,12 @@ const LoginForm = () => {
       setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
       // setCookie("refresh_token", response.headers.refresh_token);
-      alert("로그인 성공");
+      alert("환영합니다");
       console.log(response);
       navigate("/main");
     },
     onError: (error) => {
+      setValid(false);
       console.log(error);
       // alert("로그인 실패");
     },
@@ -47,9 +49,11 @@ const LoginForm = () => {
       password,
     };
     if (!email.trim()) {
-      alert("이메일을 확인해주세요!");
+      // alert("이메일을 확인해주세요!");
+      setValid(false);
     } else if (!password.trim()) {
-      alert("비밀번호를 확인해주세요!");
+      // alert("비밀번호를 확인해주세요!");
+      setValid(false);
     }
     loginMutation.mutate(res);
   };
@@ -69,6 +73,7 @@ const LoginForm = () => {
                   placeholder="email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
+
                 <StInput
                   type={pwType.type}
                   value={password || ""}
@@ -76,6 +81,11 @@ const LoginForm = () => {
                   placeholder="password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                {valid ? null : (
+                  <StDescDiv style={{ color: "#ff6666" }}>
+                    ID/PW가 일치하지 않습니다.
+                  </StDescDiv>
+                )}
                 <StBtn style={{ border: "None" }} backgroundColor="#ffd53f">
                   로그인
                 </StBtn>
@@ -136,7 +146,7 @@ const StBtn = styled.button`
   border: 1px solid #d9d9d9;
   width: 410px;
   height: 52px;
-  margin: 23px 124px 0px 124px;
+  margin: 20px 124px 0px 124px;
   font-size: 22px;
   /* border: none; */
   border-radius: 5px;
@@ -153,7 +163,12 @@ const StInput = styled.input`
   height: 52px;
   font-size: 16px;
   border: 1px solid #d9d9d9;
-  margin: 0px 124px 5px 124px;
+  margin: 0px 124px 20px 124px;
   text-indent: 10px;
   outline: none;
+`;
+
+const StDescDiv = styled.div`
+  font-size: 12px;
+  margin: -15px 5px 10px 125px;
 `;
