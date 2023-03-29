@@ -29,7 +29,7 @@ const LoginForm = () => {
       setCookie("nickname", response.data.response.nickname);
       setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
-      // setCookie("refresh_token", response.headers.refresh_token);
+      setCookie("refresh_token", response.headers.refresh_token);
       alert("환영합니다");
       console.log(response);
       navigate("/main");
@@ -82,17 +82,13 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {valid ? null : (
-                  <StDescDiv style={{ color: "#ff6666" }}>
-                    ID/PW가 일치하지 않습니다.
-                  </StDescDiv>
+                  <StDescDiv style={{ color: "#ff6666" }}>ID/PW가 일치하지 않습니다.</StDescDiv>
                 )}
-                <StBtn style={{ border: "None" }} backgroundColor="#ffd53f">
-                  로그인
-                </StBtn>
+                <StBtn Border="1px solid #fee500">로그인</StBtn>
               </div>
             </form>
             <div>
-              <StBtn backgroundColor="White" onClick={onKaKaologin}>
+              <StBtn Border="1px solid #fee500" onClick={onKaKaologin}>
                 카카오 로그인
               </StBtn>
             </div>
@@ -100,7 +96,7 @@ const LoginForm = () => {
               onClick={() => {
                 navigate("/signup");
               }}
-              backgroundColor="White"
+              Border="1px solid #d9d9d9"
             >
               회원가입
             </StBtn>
@@ -142,8 +138,8 @@ const StTitle = styled.div`
 `;
 
 const StBtn = styled.button`
-  background-color: ${(props) => props.backgroundColor};
-  border: 1px solid #d9d9d9;
+  border: ${(props) => props.Border};
+  background-color: #fff;
   width: 410px;
   height: 52px;
   margin: 20px 124px 0px 124px;

@@ -6,11 +6,11 @@ import PostList from "./PostList";
 import { StMypageLayout, StTabBtn, StContentBox, StTabBtnContainer } from "./MypageStyle";
 
 function BossMypage() {
-  const [checked, setChecked] = useState([true, false, false]);
-  const [tab, setTab] = useState("user");
+  const [checked, setChecked] = useState([true, false]);
+  const [tab, setTab] = useState("postList");
 
   const bossTabList = [
-    { id: 0, text: "게시글", category: "postList" },
+    { id: 0, text: "업체정보", category: "postList" },
     { id: 1, text: "찜목록", category: "dibsList" },
   ];
 
