@@ -225,6 +225,7 @@ function MyReviewList() {
       <button disabled={data?.length < size} onClick={handleNextPage}>
         다음페이지
       </button>
+
     </div>
   );
 }

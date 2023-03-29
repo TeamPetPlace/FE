@@ -95,6 +95,7 @@ const StDibBtn = styled.button`
   z-index: 99;
   right: 6%;
   top: 0%;
+  margin-top: -2px;
 `;
 
 export {

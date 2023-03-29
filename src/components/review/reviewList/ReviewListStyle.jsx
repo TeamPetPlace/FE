@@ -21,7 +21,7 @@ const StContentsBox = styled.div`
   height: 1080px;
   border: 1px solid #d9d9d9;
   padding: 30px;
-  position: relative;
+  /* position: relative; */
 `;
 
 const StReview = styled.div`
@@ -32,6 +32,7 @@ const StReview = styled.div`
 const PageBox = styled.div`
   position: absolute;
   left: 40%;
+  top: -80%;
   .pagination {
     display: flex;
     justify-content: center;
@@ -60,18 +61,19 @@ const PageBox = styled.div`
   }
   ul.pagination li a {
     text-decoration: none;
-    color: #337ab7;
+    color: #5e5e5e;
     font-size: 1rem;
   }
   ul.pagination li.active a {
-    color: white;
+    color: black;
   }
   ul.pagination li.active {
-    background-color: #337ab7;
+    background-color: #fffbe3;
+    color: black;
   }
   ul.pagination li a:hover,
   ul.pagination li a.active {
-    color: blue;
+    color: black;
   }
 `;
 

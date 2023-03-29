@@ -10,6 +10,7 @@ const StWrap = styled.div`
   display: flex;
   width: 1920px;
   font-size: 50px;
+  height: 636px;
 `;
 
 const StPostBtn = styled.div`
