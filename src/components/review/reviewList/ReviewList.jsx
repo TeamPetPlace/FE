@@ -296,6 +296,14 @@ function ReviewList({ id, detail }) {
             )}
           </StReview>
         ))}
+      </StContentsBox>
+      <div
+        style={{
+          width: "1243px",
+          height: "100px",
+          position: "relative",
+        }}
+      >
         <PageBox>
           <Pagination
             activePage={page}
@@ -305,7 +313,7 @@ function ReviewList({ id, detail }) {
             onChange={handlerPageChange}
           />
         </PageBox>
-      </StContentsBox>
+      </div>
     </div>
   );
 }
