@@ -15,7 +15,7 @@ function Mypage() {
       {cookies.loginType === "USER" && <UserMypage />}
       {cookies.loginType === "KAKAO_USER" && <UserMypage />}
       {cookies.loginType === "BUSINESS" && <BossMypage />}
-      {/* <Footer/> */}
+      <Footer />
     </Layout>
   );
 }
