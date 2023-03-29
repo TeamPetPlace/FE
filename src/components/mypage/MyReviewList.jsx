@@ -4,13 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { deleteReview, getDetail, updateReviews } from "../../api/detail";
 import { getMyReview } from "../../api/mypage";
+import { StContent, StStarIcon } from "./MypageStyle";
 
 function MyReviewList() {
   const [reviewList, setReviewList] = useState([]);
   const navigate = useNavigate();
 
   //페이지네이션
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
 
   const { data } = useQuery(
@@ -122,27 +123,23 @@ function MyReviewList() {
 
   return (
     <div>
-      <div>
-        {reviewList.length > 0 &&
+      <StAllReviewList>
+        {reviewList !== [] &&
           reviewList?.map((item) => {
             return (
-              <div key={item.id}>
+              <StReviewDiv key={item.id}>
                 <div>
                   {edit.reviewId === item.id && edit.isEdit === true ? (
                     <>
                       <form
-                        onSubmit={(event) =>
-                          onUpdateReviewHandler(event, item.id)
-                        }
+                        onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
                         encType="multipart/form-data"
                       >
                         <input
                           type="text"
                           placeholder="후기를 작성해주세요"
                           value={updateReview}
-                          onChange={(event) =>
-                            setUpdateReview(event.target.value)
-                          }
+                          onChange={(event) => setUpdateReview(event.target.value)}
                         />
                         <button onClick={onImgButton}>이미지 업로드</button>
                         <div>
@@ -168,71 +165,66 @@ function MyReviewList() {
                                 onMouseLeave={() => setHovered(null)}
                                 onClick={() => setClicked(el)}
                                 value={clicked}
-                              >{`${
-                                (clicked >= el) | (hovered >= el) && "★"
-                              }`}</p>
+                              >{`${(clicked >= el) | (hovered >= el) && "★"}`}</p>
                             ))}
                           </div>
                         </StStar>
                         <button>수정</button>
-                        <button onClick={() => onEditMode(item.id)}>
-                          취소
-                        </button>
+                        <button onClick={() => onEditMode(item.id)}>취소</button>
                       </form>
                     </>
                   ) : (
                     <StReviews key={item.id}>
                       {item.category === "병원" && (
-                        <button
+                        <StReviewImg
                           onClick={() => navigate(`/hospital/${item.postId}`)}
-                        >
-                          리뷰 보러가기
-                        </button>
+                          src={item.image}
+                        />
                       )}
                       {item.category === "미용" && (
-                        <button
-                          onClick={() => navigate(`/shop/${item.postId}`)}
-                        >
-                          리뷰 보러가기
-                        </button>
+                        <StReviewImg
+                          onClick={() => navigate(`/cafe/${item.postId}`)}
+                          src={item.image}
+                        />
                       )}
                       {item.category === "카페" && (
-                        <button
+                        <StReviewImg
                           onClick={() => navigate(`/cafe/${item.postId}`)}
-                        >
-                          리뷰 보러가기
-                        </button>
+                          src={item.image}
+                        />
                       )}
-                      <div>{item.id}이메일</div>
-                      <div>{item.email}이메일</div>
-                      <div>{item.nickname}닉네임</div>
-                      <div>{item.review}</div>
-                      <div>{item.category}</div>
-                      <div>{item.title}</div>
-                      <div>{item.postId}</div>
-                      {(item.star === 1 && <div>★</div>) ||
-                        (item.star === 2 && <div>★★</div>) ||
-                        (item.star === 3 && <div>★★★</div>) ||
-                        (item.star === 4 && <div>★★★★</div>) ||
-                        (item.star === 5 && <div>★★★★★</div>)}
-                      <div>{item.star}</div>
-                      <button onClick={() => onEditMode(item.id)}>수정</button>
-                      <button onClick={() => onDeletetReviewHandler(item.id)}>
-                        삭제
-                      </button>
+                      <div style={{ width: "580px" }}>
+                        <StTitle fontSize="20px">
+                          {item.nickname}
+                          {(item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
+                            (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
+                            (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
+                            (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
+                            (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
+                        </StTitle>
+                        <div style={{ padding: "10px 0" }}>{item.review}</div>
+                        <StContainer Width="200px">
+                          <StContent>{item.modifiedAt.split("T", 1)}</StContent>
+                          <StContent>{item.title}</StContent>
+                        </StContainer>
+                      </div>
+                      <div style={{ margin: "35px 0" }}>
+                        <StBtn onClick={() => onEditMode(item.id)}>수정</StBtn>
+                        <StBtn onClick={() => onDeletetReviewHandler(item.id)}>삭제</StBtn>
+                      </div>
                     </StReviews>
                   )}
                 </div>
-              </div>
+              </StReviewDiv>
             );
           })}
-        <button disabled={page === 0} onClick={handlePrevPage}>
-          이전페이지
-        </button>
-        <button disabled={data?.length < size} onClick={handleNextPage}>
-          다음페이지
-        </button>
-      </div>
+      </StAllReviewList>
+      <button disabled={page === 0} onClick={handlePrevPage}>
+        이전페이지
+      </button>
+      <button disabled={data?.length < size} onClick={handleNextPage}>
+        다음페이지
+      </button>
     </div>
   );
 }
@@ -241,11 +233,19 @@ export default MyReviewList;
 
 const StReviews = styled.div`
   display: flex;
+  margin: auto;
 `;
 
 const StImg = styled.img`
   width: 30px;
   height: 30px;
+`;
+
+const StContainer = styled.div`
+  width: ${(props) => props.Width};
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const StStar = styled.div`
@@ -265,4 +265,48 @@ const StStar = styled.div`
     color: orange;
     opacity: 1;
   }
+`;
+
+const StAllReviewList = styled.div`
+  width: 918px;
+  height: 880px;
+  margin: 55px 30px;
+  display: flex;
+  flex-direction: column;
+  /* background-color: yellowgreen; */
+`;
+
+const StReviewDiv = styled.div`
+  width: 918px;
+  height: 190px;
+  /* background-color: skyblue; */
+  margin: 0 0 0 0;
+  border-bottom: 3px solid #f0f0f0;
+`;
+
+const StReviewImg = styled.img`
+  width: 100px;
+  height: 100px;
+  border: 1px solid transparent;
+  margin: 30px 20px 10px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
+const StBtn = styled.button`
+  font-size: 14px;
+  width: 68px;
+  height: 30px;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+  margin-right: 10px;
+`;
+
+const StTitle = styled.div`
+  color: #0d0d0d;
+  display: flex;
+  font-size: ${(props) => props.fontSize};
+  font-weight: bold;
+  margin-top: 35px;
+  cursor: pointer;
 `;
