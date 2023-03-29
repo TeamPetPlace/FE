@@ -240,10 +240,12 @@ function HospitalList() {
     }
   };
 
+  //내가 봤던 기록 드래그
   const [position, setPosition] = useState({ x: 500, y: 500 });
   const trackPos = (data) => {
     setPosition({ x: data.x, y: data.y });
   };
+
   return (
     <>
       <StPlace>
