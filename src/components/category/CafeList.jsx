@@ -185,17 +185,18 @@ function CafeList() {
   const LikeMutation = useMutation(AddLikesPost, {
     onSuccess: () => {
       queryclient.invalidateQueries("AllPost");
-      console.log("찜성공");
+      alert("찜하기 성공");
     },
     onError: (error) => {
       queryclient.invalidateQueries("AllPost");
-      console.log("찜실패");
+      console.log("찜하기 실패");
     },
   });
+
   const DeleteMutation = useMutation(DeleteLikePost, {
     onSuccess: () => {
       queryclient.invalidateQueries("AllPost");
-      console.log("삭제성공");
+      alert("찜하기 취소");
     },
     onError: (error) => {
       queryclient.invalidateQueries("AllPost");
