@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
 } from "react-query";
-import styled from "styled-components";
-import { MdLocalHospital } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import {
   AllPost,
@@ -234,6 +232,7 @@ function HospitalList() {
     // console.log(item.id);
   };
 
+  //엔터 누르면 검색
   const onKeyPressHandler = (event) => {
     if (event.key === "Enter") {
       onSearchHandler();
@@ -342,7 +341,7 @@ function HospitalList() {
               );
             })}
             {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px" }} />
+              <Skeletons style={{ marginTop: "20px", color: "transparent" }} />
             ) : null}
           </StCards>
           <Draggable onDrag={(e, data) => trackPos(data)}>

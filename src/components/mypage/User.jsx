@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getMypage, updateUser } from "../../api/mypage";
+import profileOrigin from "../../style/img/profile.svg";
 // import { StUserInfoDiv } from "./MypageStyle";
 
 function User() {
@@ -82,7 +83,9 @@ function User() {
       {edit ? (
         <StForm onSubmit={onUpdateHandler} encType="multipart/form-data">
           <StUserInfoDiv>
-            <StUploadBtn onClick={onImgButton}>+</StUploadBtn>
+            <div style={{ position: "relative" }}>
+              <StUploadBtn onClick={onImgButton}>+</StUploadBtn>
+            </div>
             <input
               type="file"
               accept="image/*"
@@ -91,13 +94,21 @@ function User() {
               ref={fileInput}
               onChange={onImgHandler}
             />
-
-            <StImgDiv>
-              {imgView.length > 0 &&
-                imgView?.map((item, index) => {
-                  return <StImg src={item} alt="img" key={index} />;
-                })}
-            </StImgDiv>
+            <div style={{ position: "relative" }}>
+              <StImgDiv>
+                {imgView.length > 0 &&
+                  imgView?.map((item, index) => {
+                    return (
+                      <StImg
+                        src={item}
+                        alt="img"
+                        key={index}
+                        style={{ zIndex: "999" }}
+                      />
+                    );
+                  })}
+              </StImgDiv>
+            </div>
             <StUserBox>
               <StInfoContainer>
                 <StInfo>
@@ -156,23 +167,40 @@ function User() {
         <StUserInfoDiv>
           {mypage && (
             <>
-              <StImgDiv>
-                {mypage.image === null ? (
-                  <StImg
-                    src="http://www.urbanbrush.net/web/wp-content/uploads/edd/2017/09/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7-2017-09-19-%EC%98%A4%ED%9B%84-2.17.32.png"
-                    alt="origin"
-                  />
-                ) : (
-                  <StImg src={mypage.image} alt="img" />
-                )}
-              </StImgDiv>
+              <div style={{ position: "relative" }}>
+                <StImgDiv>
+                  {mypage.image === null ? (
+                    <StImg
+                      src={profileOrigin}
+                      alt="origin"
+                      style={{
+                        width: "330px",
+                        height: "330px",
+                        position: "absolute",
+                        top: "-6%",
+                        left: "-23px",
+                      }}
+                    />
+                  ) : (
+                    <StImg src={mypage.image} alt="img" />
+                  )}
+                </StImgDiv>
+              </div>
               <StUserBox>
                 <StInfoContainer>
                   <StInfo>
                     <StInfoTextDiv>닉네임 </StInfoTextDiv>
                     <StInfoTextDiv>{mypage.nickname}</StInfoTextDiv>
                     {cookies.loginType === "BUSINESS" && (
-                      <div style={{ fontWeight: "900" }}>(사업자)</div>
+                      <StInfoTextDiv
+                        style={{
+                          padding: " 5px 15px",
+                          borderRadius: "10px",
+                          backgroundColor: "#ffd53f",
+                        }}
+                      >
+                        사업자
+                      </StInfoTextDiv>
                     )}
                     {cookies.loginType === "USER" && (
                       <StInfoTextDiv
@@ -221,6 +249,8 @@ const StUserBox = styled.div`
   margin: auto;
   font-size: 22px;
   border-radius: 5px;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
   background-color: #ffffff;
   box-shadow: 1px 1px 15px 0px #d9d9d9;
 `;
@@ -243,17 +273,23 @@ const StInfoContainer = styled.div`
 `;
 
 const StImg = styled.img`
-  width: 225px;
-  height: 225px;
+  width: 280px;
+  height: 280px;
   object-fit: cover;
   border-radius: 100%;
-  z-index: 999;
-  box-shadow: 3px 3px 3px 0px #d9d9d9;
+  z-index: 99;
 `;
 
 const StImgDiv = styled.div`
   position: absolute;
   z-index: 99;
+  width: 280px;
+  height: 280px;
+  background-color: #fff;
+  overflow: hidden;
+  border-radius: 280px;
+  top: -10%;
+  box-shadow: 3px 3px 3px 0px #d9d9d9;
 `;
 
 const StUserInfoDiv = styled.div`
@@ -271,6 +307,7 @@ const StEditBtn = styled.button`
   font-size: 18px;
   width: 64px;
   height: 34px;
+  cursor: pointer;
 `;
 
 const StNickInput = styled.input`
@@ -290,6 +327,8 @@ const StUploadBtn = styled.button`
   border: none;
   position: absolute;
   z-index: 999;
+  top: 5%;
+  left: 40px;
   margin-top: 180px;
   margin-left: 150px;
   background-color: #ffffff;

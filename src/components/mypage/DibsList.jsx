@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { cancelDibs } from "../../api/main";
 import { getMyDibs } from "../../api/mypage";
 import dibs from "../../style/img/dibs.svg";
-import noDibs from "../../style/img/noDibs.svg";
+import Pagination from "react-js-pagination";
 import {
   DibCategoryBtn,
   DibCategoryContainer,
@@ -14,16 +13,16 @@ import {
   StCards,
   StContent,
   StDibBtn,
-  StPagenationDiv,
   StStarIcon,
   StTitle,
+  PageBox,
 } from "./MypageStyle";
 
 function DibsList() {
   const [dibList, setDibList] = useState([]);
   const navigate = useNavigate();
   //페이지네이션
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [size, setSize] = useState(9);
 
   const { data } = useQuery(
@@ -46,12 +45,9 @@ function DibsList() {
     }
   );
 
-  const handlePrevPage = () => {
-    setPage((prevPage) => prevPage - 1);
-  };
-
-  const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
+  //페이지네이션
+  const handlerPageChange = (page) => {
+    setPage(page);
   };
 
   const queryClient = useQueryClient();
@@ -135,7 +131,9 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>
-                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    <StContent>
+                      {item.address.split(" ", 2).join(" ")}
+                    </StContent>
                   </StCard>
                 ) : category === "미용" && item.category === "미용" ? (
                   <StCard key={item.id}>
@@ -158,7 +156,9 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>{" "}
-                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    <StContent>
+                      {item.address.split(" ", 2).join(" ")}
+                    </StContent>
                     {/* <div>{item.star}</div> */}
                   </StCard>
                 ) : category === "카페" && item.category === "카페" ? (
@@ -182,30 +182,35 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>{" "}
-                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    <StContent>
+                      {item.address.split(" ", 2).join(" ")}
+                    </StContent>
                   </StCard>
                 ) : null}
               </>
             );
           })}
         </StCards>
-        <StPagenationDiv>
-          <button disabled={page === 0} onClick={handlePrevPage}>
-            이전페이지
-          </button>
-          <button disabled={data?.length < size} onClick={handleNextPage}>
-            다음페이지
-          </button>
-        </StPagenationDiv>
+        <div
+          style={{
+            width: "978px",
+            height: "100px",
+            position: "relative",
+          }}
+        >
+          <PageBox>
+            <Pagination
+              activePage={page}
+              itemsCountPerPage={size}
+              totalItemsCount={40}
+              pageRangeDisplayed={5}
+              onChange={handlerPageChange}
+            />
+          </PageBox>
+        </div>
       </div>
     </div>
   );
 }
 
 export default DibsList;
-
-const StDiv = styled.div`
-  /* width: 282px; */
-  height: 250px;
-  background-color: red;
-`;

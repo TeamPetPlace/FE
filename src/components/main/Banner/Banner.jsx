@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import main1 from "../../../style/img/1.svg";
 import main2 from "../../../style/img/2.svg";
-import main3 from "../../../style/img/main3.png";
+import main3 from "../../../style/img/3.svg";
 import { StContainer, StWrap, StPostBtn, StClickBtn } from "./BannerStyle";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
