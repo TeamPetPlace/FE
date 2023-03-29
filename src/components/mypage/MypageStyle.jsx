@@ -99,9 +99,8 @@ const DibCategoryBtn = styled.button`
   font-size: 20px;
   color: #595959;
   background-color: transparent;
-  width: 50px;
   height: 27px;
-  margin-right: 16px;
+  margin-left: 12px;
   cursor: pointer;
   &:hover {
     color: black;
@@ -138,6 +137,54 @@ const StPagenationDiv = styled.div`
   align-items: center;
 `;
 
+const PageBox = styled.div`
+  position: absolute;
+  left: 35%;
+  top: 95%;
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  ul.pagination li {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e2e2e2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    border: none;
+  }
+  ul.pagination li:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+  ul.pagination li:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+  ul.pagination li a {
+    text-decoration: none;
+    color: #5e5e5e;
+    font-size: 1rem;
+  }
+  ul.pagination li.active a {
+    color: black;
+  }
+  ul.pagination li.active {
+    background-color: #fffbe3;
+    color: black;
+  }
+  ul.pagination li a:hover,
+  ul.pagination li a.active {
+    color: black;
+  }
+`;
+
 export {
   StPagenationDiv,
   StDibBtn,
@@ -153,4 +200,5 @@ export {
   StTabBtnContainer,
   StMypageLayout,
   StTabBtn,
+  PageBox,
 };

@@ -3,7 +3,7 @@ import { instance } from "./axios";
 
 const getDetail = async (id) => {
   const response = await instance.get(`${id}`);
-  return response.data;
+  return response.data.response;
 };
 
 const getReview = async (payload) => {
