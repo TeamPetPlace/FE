@@ -1,5 +1,18 @@
 import styled, { css } from "styled-components";
-import ownerPost from "../../style/img/ownerPost.svg";
+import ownerPost from "../../../style/img/ownerPost.svg";
+
+const StDelBtn = styled.button`
+  width: 70px;
+  height: 30px;
+  border: 1px solid #d9d9d9;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: transparent;
+  margin-left: 10px;
+  &:hover {
+    background-color: #d9d9d9;
+  }
+`;
 
 const StBox = styled.div`
   width: 100%;
@@ -234,7 +247,18 @@ const StBtn = styled.button`
   }}
 `;
 
+const Stdiv = styled.div`
+  width: 100%;
+`;
+
+const StWrap = styled.div`
+  width: 1240px;
+  margin: 60px auto;
+  margin-bottom: 100px;
+`;
+
 export {
+  StDelBtn,
   StBox,
   StPost,
   StTitle,
@@ -259,4 +283,6 @@ export {
   StImg,
   StBtns,
   StBtn,
+  Stdiv,
+  StWrap,
 };
