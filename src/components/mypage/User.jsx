@@ -172,7 +172,15 @@ function User() {
                     <StInfoTextDiv>닉네임 </StInfoTextDiv>
                     <StInfoTextDiv>{mypage.nickname}</StInfoTextDiv>
                     {cookies.loginType === "BUSINESS" && (
-                      <div style={{ fontWeight: "900" }}>(사업자)</div>
+                      <StInfoTextDiv
+                        style={{
+                          padding: " 5px 15px",
+                          borderRadius: "10px",
+                          backgroundColor: "#ffd53f",
+                        }}
+                      >
+                        사업자
+                      </StInfoTextDiv>
                     )}
                     {cookies.loginType === "USER" && (
                       <StInfoTextDiv

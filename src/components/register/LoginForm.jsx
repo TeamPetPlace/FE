@@ -29,7 +29,7 @@ const LoginForm = () => {
       setCookie("nickname", response.data.response.nickname);
       setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
-      // setCookie("refresh_token", response.headers.refresh_token);
+      setCookie("refresh_token", response.headers.refresh_token);
       alert("환영합니다");
       console.log(response);
       navigate("/main");
@@ -82,9 +82,7 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {valid ? null : (
-                  <StDescDiv style={{ color: "#ff6666" }}>
-                    ID/PW가 일치하지 않습니다.
-                  </StDescDiv>
+                  <StDescDiv style={{ color: "#ff6666" }}>ID/PW가 일치하지 않습니다.</StDescDiv>
                 )}
                 <StBtn style={{ border: "None" }} backgroundColor="#ffd53f">
                   로그인
