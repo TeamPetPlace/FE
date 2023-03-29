@@ -10,7 +10,7 @@ function MyReviewList() {
   const navigate = useNavigate();
 
   //페이지네이션
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
 
   const { data } = useQuery(
@@ -123,7 +123,7 @@ function MyReviewList() {
   return (
     <div>
       <div>
-        {reviewList.length > 0 &&
+        {reviewList !== [] &&
           reviewList?.map((item) => {
             return (
               <div key={item.id}>

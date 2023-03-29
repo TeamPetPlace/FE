@@ -175,7 +175,9 @@ function ReviewList({ id, detail }) {
         <div style={{ marginBottom: "30px" }}>
           <StTopReviewBox>
             <StCount>전체 리뷰수:{detail.reviewCount}</StCount>
-            <StReviewBtn onClick={onToggle}>작성하기</StReviewBtn>
+            {cookies.loginType === "USER" && (
+              <StReviewBtn onClick={onToggle}>작성하기</StReviewBtn>
+            )}
           </StTopReviewBox>
           {open && <Review id={id} onToggle={onToggle} />}
           <div>
@@ -294,6 +296,14 @@ function ReviewList({ id, detail }) {
             )}
           </StReview>
         ))}
+      </StContentsBox>
+      <div
+        style={{
+          width: "1243px",
+          height: "100px",
+          position: "relative",
+        }}
+      >
         <PageBox>
           <Pagination
             activePage={page}
@@ -303,7 +313,7 @@ function ReviewList({ id, detail }) {
             onChange={handlerPageChange}
           />
         </PageBox>
-      </StContentsBox>
+      </div>
     </div>
   );
 }

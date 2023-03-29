@@ -5,7 +5,6 @@ import Layout from "./Layout";
 function Footer() {
   return (
     <Layout>
-      <StTop>(C) 2023. Design by Pet place</StTop>
       <StFooter>
         <StWrap>
           <StUl>
@@ -28,6 +27,7 @@ function Footer() {
             <StLi>김은정</StLi>
           </StUl>
         </StWrap>
+        <StTop>(C) 2023. Design by Pet place</StTop>
       </StFooter>
     </Layout>
   );
@@ -39,9 +39,10 @@ const StTop = styled.div`
   width: 300px;
   color: #98886b;
   margin: 0 auto;
-  margin-bottom: 20px;
   font-size: 10px;
   text-align: center;
+  background-color: transparent;
+  padding-top: 150px;
 `;
 
 const StFooter = styled.div`

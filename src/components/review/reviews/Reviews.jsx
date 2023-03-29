@@ -21,7 +21,7 @@ function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
     window.open(src);
   };
   return (
-    <>
+    <div>
       <StReviewBoxs>
         <div style={{ display: "flex" }}>
           {item.memberImage === null ? (
@@ -62,7 +62,7 @@ function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
           )}
         </div>
       </StReviewBoxs>
-    </>
+    </div>
   );
 }
 
