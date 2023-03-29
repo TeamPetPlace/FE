@@ -12,6 +12,7 @@ import noDibs from "../../../style/img/noDibs.svg";
 import clickedHospital from "../../../style/img/clickedHospital.svg";
 import clickedShop from "../../../style/img/clickedShop.svg";
 import clickedCafe from "../../../style/img/clickedCafe.svg";
+import footMap from "../../../style/img/footMap.svg";
 
 import {
   StWrap,
@@ -28,6 +29,7 @@ import {
   StText,
   StDibBtn,
 } from "./TabStyle";
+import styled from "styled-components";
 
 function Tab() {
   const [category, setCategory] = useState("병원");
@@ -214,7 +216,6 @@ function Tab() {
 
   return (
     <StWrap>
-      <button onClick={onLocationHandler}>현재 위치 전송</button>
       <StTabBox>
         {mainTabList?.map((item, i) => (
           <StTabs key={item.id}>
@@ -228,22 +229,118 @@ function Tab() {
         ))}
       </StTabBox>
       {category === "병원" && (
-        <StMyPlace onClick={() => navigate("/hospital")}>
-          내 위치 펫플레이스
-          <img src={foot} />
-        </StMyPlace>
+        <>
+          <div style={{ position: "relative" }}>
+            <div
+              style={{
+                width: "400px",
+                position: "absolute",
+                left: "1160px",
+                bottom: "90px",
+              }}
+            >
+              <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                width: "500px",
+                margin: "0 auto",
+              }}
+            >
+              <StMyPlace onClick={() => navigate("/hospital")}>
+                내 위치 펫플레이스
+              </StMyPlace>
+              <img
+                src={footMap}
+                onClick={onLocationHandler}
+                style={{
+                  marginLeft: "-100px",
+                  marginTop: "10px",
+                  cursor: "pointer",
+                  width: "50px",
+                  height: "50px",
+                }}
+              />
+            </div>
+          </div>
+        </>
       )}
       {category === "미용" && (
-        <StMyPlace onClick={() => navigate("/shop")}>
-          내 위치 펫플레이스
-          <img src={foot} />
-        </StMyPlace>
+        <>
+          <div style={{ position: "relative" }}>
+            <div
+              style={{
+                width: "400px",
+                position: "absolute",
+                left: "1160px",
+                bottom: "90px",
+              }}
+            >
+              <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                width: "500px",
+                margin: "0 auto",
+              }}
+            >
+              <StMyPlace onClick={() => navigate("/shop")}>
+                내 위치 펫플레이스
+              </StMyPlace>
+              <img
+                src={footMap}
+                onClick={onLocationHandler}
+                style={{
+                  marginLeft: "-100px",
+                  marginTop: "10px",
+                  cursor: "pointer",
+                  width: "50px",
+                  height: "50px",
+                }}
+              />
+            </div>
+          </div>
+        </>
       )}
       {category === "카페" && (
-        <StMyPlace onClick={() => navigate("/cafe")}>
-          내 위치 펫플레이스
-          <img src={foot} />
-        </StMyPlace>
+        <>
+          <div style={{ position: "relative" }}>
+            <div
+              style={{
+                width: "400px",
+                position: "absolute",
+                left: "1160px",
+                bottom: "90px",
+              }}
+            >
+              <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                width: "500px",
+                margin: "0 auto",
+              }}
+            >
+              <StMyPlace onClick={() => navigate("/cafe")}>
+                내 위치 펫플레이스
+              </StMyPlace>
+              <img
+                src={footMap}
+                onClick={onLocationHandler}
+                style={{
+                  marginLeft: "-100px",
+                  marginTop: "10px",
+                  cursor: "pointer",
+                  width: "50px",
+                  height: "50px",
+                }}
+              />
+            </div>
+          </div>
+        </>
       )}
       <StPlace>
         {category === "병원"
@@ -385,3 +482,69 @@ function Tab() {
 }
 
 export default Tab;
+
+const StMsg = styled.div`
+  background-color: #ffd53f;
+  border: #ffd53f solid 1px;
+  border-radius: 5px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  height: auto;
+  letter-spacing: -0.25px;
+  margin-top: 10px;
+  padding: 5px 11px;
+  position: relative;
+  width: fit-content;
+  z-index: 100;
+  color: #000;
+  animation: jumpDown 1.5s linear 10;
+  &::after {
+    border-color: #ffd53f transparent;
+    border-style: solid;
+    border-width: 0 6px 8px 6.5px;
+    content: "";
+    display: block;
+    left: 5px;
+    position: absolute;
+    left: 1150px;
+    top: -7px;
+    width: 0;
+    z-index: 1;
+  }
+  &::before {
+    border-color: #ffd53f transparent;
+    border-style: solid;
+    border-width: 0 6px 8px 6.5px;
+    content: "";
+    display: block;
+    left: 5px;
+    position: absolute;
+    left: 1150px;
+    top: -8px;
+    width: 0;
+    z-index: 0;
+  }
+  @keyframes jumpDown {
+    0% {
+      left: 0px;
+      top: 0px;
+    }
+    25% {
+      left: 0px;
+      top: 5px;
+    }
+    50% {
+      left: 0px;
+      top: 0px;
+    }
+    75% {
+      left: 0px;
+      top: 5px;
+    }
+    100% {
+      left: 0px;
+      top: 0px;
+    }
+  }
+`;
