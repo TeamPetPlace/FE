@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import main1 from "../../../style/img/main1.svg";
+import main1 from "../../../style/img/1.svg";
 import main2 from "../../../style/img/2.svg";
 import main3 from "../../../style/img/main3.png";
 import { StContainer, StWrap, StPostBtn, StClickBtn } from "./BannerStyle";
@@ -28,13 +28,13 @@ function Banner() {
           pagination={{ clickable: true }}
         >
           <SwiperSlide>
-            <img src={main1} />
+            <img src={main1} style={{ marginTop: "-5px" }} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={main2} />
+            <img src={main2} style={{ marginTop: "-5px" }} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={main3} />
+            <img src={main3} style={{ marginTop: "-5px" }} />
           </SwiperSlide>
         </Swiper>
       </StWrap>
