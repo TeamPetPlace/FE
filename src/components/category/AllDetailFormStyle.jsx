@@ -26,6 +26,7 @@ const StContents = styled.div`
   height: 230px;
   display: flex;
   line-height: 230px;
+  border-bottom: 1px solid #d9d9d9;
 `;
 
 const StImp = styled.span`

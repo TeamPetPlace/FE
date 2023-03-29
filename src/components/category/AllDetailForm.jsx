@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { createPortal } from "react-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Map from "../../element/Map";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getDetail } from "../../api/detail";
@@ -9,19 +9,43 @@ import { useCookies } from "react-cookie";
 import { deletePost, updatePost } from "../../api/owner";
 import PopupDom from "../owner/Popup";
 import DaumPostcode from "react-daum-postcode";
-import Review from "../review/reviewPost/Review";
 import ReviewList from "../review/reviewList/ReviewList";
-import MagicSliderDots from "react-magic-slider-dots";
 import { IoCopyOutline, IoShareOutline } from "react-icons/io5";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../../../node_modules/swiper/swiper.scss";
 import "../../../node_modules/swiper/modules/navigation/navigation.scss";
 import "../../../node_modules/swiper/modules/pagination/pagination.scss";
+import {
+  StBox,
+  StPost,
+  StTitle,
+  StContents,
+  StImp,
+  StRadioLabel,
+  StLine,
+  StErrorMsg,
+  StFormBox,
+  StForm,
+  StLabels,
+  StRadio,
+  StHoliday,
+  StWeek,
+  StInput,
+  StText,
+  StImgBox,
+  StImgUpload,
+  StFakeBox,
+  StFake,
+  StRealBox,
+  StImg,
+  StBtns,
+  StBtn,
+} from "./AllDetailFormStyle";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
-const HospitalDetailForm = () => {
+const AllDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
   const navigate = useNavigate();
 
@@ -318,6 +342,12 @@ const HospitalDetailForm = () => {
     }
   };
 
+  const handleSelect = (e) => {
+    if (e.target.value.startsWith("010-")) {
+      e.target.setSelectionRange(12, e.target.value.length);
+    }
+  };
+
   //탭
   const [tab, setTab] = useState("상세정보");
 
@@ -353,9 +383,11 @@ const HospitalDetailForm = () => {
             <StFormBox>
               <StForm onSubmit={onUpdateHandler} encType="multipart/form-data">
                 <StLine>
-                  <StTitle>*업종</StTitle>
+                  <StTitle>
+                    <StImp>*</StImp>업종
+                  </StTitle>
                   <StLabels>
-                    <label>
+                    <StRadioLabel>
                       병원
                       <StRadio
                         type="radio"
@@ -366,8 +398,8 @@ const HospitalDetailForm = () => {
                           setUpCategory(event.target.value);
                         }}
                       />
-                    </label>
-                    <label>
+                    </StRadioLabel>
+                    <StRadioLabel>
                       미용
                       <StRadio
                         type="radio"
@@ -378,8 +410,8 @@ const HospitalDetailForm = () => {
                           setUpCategory(event.target.value);
                         }}
                       />
-                    </label>
-                    <label>
+                    </StRadioLabel>
+                    <StRadioLabel>
                       카페
                       <StRadio
                         type="radio"
@@ -390,11 +422,14 @@ const HospitalDetailForm = () => {
                           setUpCategory(event.target.value);
                         }}
                       />
-                    </label>
+                    </StRadioLabel>
                   </StLabels>
                 </StLine>
                 <StLine>
-                  <StTitle>*업체명</StTitle>
+                  <StTitle>
+                    {" "}
+                    <StImp>*</StImp>업체명
+                  </StTitle>
                   <StInput
                     type="text"
                     placeholder="업체명"
@@ -404,22 +439,29 @@ const HospitalDetailForm = () => {
                     }}
                   />
                 </StLine>
-                <div>
-                  <StTitle>*소개</StTitle>
-                  <StText
-                    placeholder="소개글을 입력해주세요.(500자 이내)"
-                    maxLength={500}
-                    value={upContents}
-                    onChange={(event) => {
-                      setUpContents(event.target.value);
-                    }}
-                  />
-                </div>
-                <StLine style={{ marginBottom: "40px" }}>
-                  <StTitle>*주소</StTitle>
+                <StLine>
+                  <StContents>
+                    <StTitle>
+                      {" "}
+                      <StImp>*</StImp>소개
+                    </StTitle>
+                    <StText
+                      placeholder="소개글을 입력해주세요.(500자 이내)"
+                      maxLength={500}
+                      value={upContents}
+                      onChange={(event) => {
+                        setUpContents(event.target.value);
+                      }}
+                    />
+                  </StContents>
+                </StLine>
+                <StLine>
+                  <StTitle>
+                    <StImp>*</StImp>주소
+                  </StTitle>
                   <div>
                     <div style={{ display: "flex" }}>
-                      <StBtn type="button" onClick={openPostCode} size="large">
+                      <StBtn type="button" onClick={openPostCode} size="medium">
                         우편번호 검색
                       </StBtn>
                       <StErrorMsg>
@@ -437,7 +479,7 @@ const HospitalDetailForm = () => {
                               onComplete={handlePostCode}
                             />
                             <StInput value={address} disabled />
-                            <StBtn size="small" onClick={handleSearch}>
+                            <StBtn size="medium" onClick={handleSearch}>
                               확인
                             </StBtn>
                           </div>
@@ -445,7 +487,7 @@ const HospitalDetailForm = () => {
                       )}
                       {!isPopupOpen && (
                         <>
-                          <StInput disabled />
+                          <StInput disabled style={{ marginTop: "10px" }} />
                           <StBtn
                             size="small"
                             onClick={handleSearch}
@@ -459,9 +501,17 @@ const HospitalDetailForm = () => {
                   </div>
                 </StLine>
                 <StLine>
-                  {upCategory === "병원" && <StTitle>*대표 수의사</StTitle>}
+                  {upCategory === "병원" && (
+                    <StTitle>
+                      {" "}
+                      <StImp>*</StImp>대표 수의사
+                    </StTitle>
+                  )}
                   {(upCategory === "미용" || upCategory === "카페") && (
-                    <StTitle>*대표자</StTitle>
+                    <StTitle>
+                      {" "}
+                      <StImp>*</StImp>대표자
+                    </StTitle>
                   )}
                   <StInput
                     type="text"
@@ -470,88 +520,37 @@ const HospitalDetailForm = () => {
                     onChange={(event) => {
                       setUpCeo(event.target.value);
                     }}
-                    size="medium"
                   />
                 </StLine>
                 <StLine>
-                  <StTitle>*대표연락처</StTitle>
+                  <StTitle>
+                    {" "}
+                    <StImp>*</StImp>대표자
+                  </StTitle>
                   <StInput
                     type="text"
                     placeholder="000-0000-0000"
                     value={upTelNum}
                     onChange={telNumberHandler}
                     onKeyDown={handleKeyDown}
-                    size="medium"
+                    onSelect={handleSelect}
+                    onDragStart={(event) => event.preventDefault()}
                   />
                 </StLine>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <StLine>
-                    <StTitle>*영업시간</StTitle>
-                    <StInput
-                      type="time"
-                      placeholder="시작시간"
-                      value={upStartTime}
-                      onChange={(event) => setUpStartTime(event.target.value)}
-                      size="small"
-                    />{" "}
-                    :
-                    <StInput
-                      type="time"
-                      placeholder="종료시간"
-                      value={upEndTime}
-                      onChange={(event) => setUpEndTime(event.target.value)}
-                      size="small"
-                    />
-                    <input
-                      type="checkbox"
-                      value={isChecked}
-                      onChange={onCheckHandler}
-                    />
-                    <label>휴무일</label>
-                    <div>
-                      {isChecked && (
-                        <StHoliday
-                          value={upSelect}
-                          onChange={(event) => {
-                            setUpSelect(event.target.value);
-                          }}
-                        >
-                          요일 ▼<StWeek>월요일</StWeek>
-                          <StWeek>화요일</StWeek>
-                          <StWeek>수요일</StWeek>
-                          <StWeek>목요일</StWeek>
-                          <StWeek>금요일</StWeek>
-                          <StWeek>토요일</StWeek>
-                          <StWeek>일요일</StWeek>
-                          <StWeek>주말(토/일)</StWeek>
-                        </StHoliday>
-                      )}
-                    </div>
-                  </StLine>
-                  <StErrorMsg style={{ height: "20px" }}>
-                    <div
-                      style={{
-                        paddingLeft: "75px",
-                        paddingTop: "5px",
-                      }}
-                    >
-                      00:00 형식으로 기입해주세요
-                    </div>
-                  </StErrorMsg>
-                </div>
+
                 {upCategory === "병원" && (
                   <div>
-                    <div>
+                    <StLine>
                       <StTitle>기본 진료비</StTitle>
-                      <input
+                      <StInput
                         type="text"
                         value={upCost}
                         onChange={(event) => setUpCost(event.target.value)}
                       />
-                    </div>
-                    <div>
-                      야간진료:
-                      <label>
+                    </StLine>
+                    <StLine>
+                      <StTitle>야간진료</StTitle>
+                      <StLabels>
                         가능
                         <input
                           type="radio"
@@ -562,8 +561,8 @@ const HospitalDetailForm = () => {
                             setUpAboolean1(event.target.value)
                           }
                         />
-                      </label>
-                      <label>
+                      </StLabels>
+                      <StLabels>
                         불가능
                         <input
                           type="radio"
@@ -574,31 +573,31 @@ const HospitalDetailForm = () => {
                             setUpAboolean1(event.target.value)
                           }
                         />
-                      </label>
-                    </div>
-                    <div>
+                      </StLabels>
+                    </StLine>
+                    <StLine>
                       <StTitle>진료항목</StTitle>
-                      <input
+                      <StInput
                         type="text"
                         value={upFeature1}
                         onChange={(event) => setUpFeature1(event.target.value)}
                       />
-                    </div>
+                    </StLine>
                   </div>
                 )}
                 {upCategory === "미용" && (
                   <div>
-                    <div>
+                    <StLine>
                       <StTitle>기본 미용비</StTitle>
-                      <input
+                      <StInput
                         type="text"
                         value={upCost}
                         onChange={(event) => setUpCost(event.target.value)}
                       />
-                    </div>
-                    <div>
-                      주차여부:
-                      <label>
+                    </StLine>
+                    <StLine>
+                      <StTitle>주차여부</StTitle>
+                      <StLabels>
                         가능
                         <input
                           type="radio"
@@ -609,8 +608,8 @@ const HospitalDetailForm = () => {
                             setUpAboolean1(event.target.value)
                           }
                         />
-                      </label>
-                      <label>
+                      </StLabels>
+                      <StLabels>
                         불가능
                         <input
                           type="radio"
@@ -621,11 +620,11 @@ const HospitalDetailForm = () => {
                             setUpAboolean1(event.target.value)
                           }
                         />
-                      </label>
-                    </div>
-                    <div>
-                      예약여부:
-                      <label>
+                      </StLabels>
+                    </StLine>
+                    <StLine>
+                      <StTitle>예약여부</StTitle>
+                      <StLabels>
                         필요
                         <input
                           type="radio"
@@ -636,8 +635,8 @@ const HospitalDetailForm = () => {
                             setUpAboolean2(event.target.value)
                           }
                         />
-                      </label>
-                      <label>
+                      </StLabels>
+                      <StLabels>
                         불필요
                         <input
                           type="radio"
@@ -648,23 +647,23 @@ const HospitalDetailForm = () => {
                             setUpAboolean2(event.target.value)
                           }
                         />
-                      </label>
-                    </div>
+                      </StLabels>
+                    </StLine>
                   </div>
                 )}
                 {upCategory === "카페" && (
                   <div>
-                    <div>
+                    <StLine>
                       <StTitle>입장료</StTitle>
-                      <input
+                      <StInput
                         type="text"
                         value={upCost}
                         onChange={(event) => setUpCost(event.target.value)}
                       />
-                    </div>
-                    <div>
-                      주차여부:
-                      <label>
+                    </StLine>
+                    <StLine>
+                      <StTitle>주차여부</StTitle>
+                      <StLabels>
                         가능
                         <input
                           type="radio"
@@ -675,8 +674,8 @@ const HospitalDetailForm = () => {
                             setUpAboolean1(event.target.value)
                           }
                         />
-                      </label>
-                      <label>
+                      </StLabels>
+                      <StLabels>
                         불가능
                         <input
                           type="radio"
@@ -687,23 +686,72 @@ const HospitalDetailForm = () => {
                             setUpAboolean1(event.target.value)
                           }
                         />
-                      </label>
-                    </div>
-                    <div>
+                      </StLabels>
+                    </StLine>
+                    <StLine>
                       <StTitle>부대시설</StTitle>
-                      <input
+                      <StInput
                         type="text"
                         value={upFeature1}
                         onChange={(event) => setUpFeature1(event.target.value)}
                       />
-                    </div>
+                    </StLine>
                   </div>
                 )}
                 <div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <StLine>
+                      <StTitle>*영업시간</StTitle>
+                      <StInput
+                        type="time"
+                        placeholder="시작시간"
+                        value={upStartTime}
+                        onChange={(event) => setUpStartTime(event.target.value)}
+                        size="small"
+                      />
+                      :
+                      <StInput
+                        type="time"
+                        placeholder="종료시간"
+                        value={upEndTime}
+                        onChange={(event) => setUpEndTime(event.target.value)}
+                        size="small"
+                        style={{ marginLeft: "20px" }}
+                      />
+                      <input
+                        type="checkbox"
+                        value={isChecked}
+                        onChange={onCheckHandler}
+                      />
+                      <label>휴무일</label>
+                      <div>
+                        {isChecked && (
+                          <StHoliday
+                            value={upSelect}
+                            onChange={(event) => {
+                              setUpSelect(event.target.value);
+                            }}
+                          >
+                            요일 ▼<StWeek>월요일</StWeek>
+                            <StWeek>화요일</StWeek>
+                            <StWeek>수요일</StWeek>
+                            <StWeek>목요일</StWeek>
+                            <StWeek>금요일</StWeek>
+                            <StWeek>토요일</StWeek>
+                            <StWeek>일요일</StWeek>
+                            <StWeek>주말(토/일)</StWeek>
+                          </StHoliday>
+                        )}
+                      </div>
+                    </StLine>
+                  </div>
                   <StLine>
-                    <StTitle>*업체사진</StTitle>
+                    <StTitle>
+                      {" "}
+                      <StImp>*</StImp>업체사진
+                    </StTitle>
                     <StImgBox>
-                      <StBtn onClick={onImgButton} size="small">
+                      <StBtn onClick={onImgButton} size="medium">
                         업로드
                       </StBtn>
                       <p>최대 4장까지 업로드 가능합니다.</p>
@@ -720,12 +768,14 @@ const HospitalDetailForm = () => {
                   />
                   <StImgUpload>
                     <StFakeBox>
+                      <StTitle></StTitle>
                       <StFake />
                       <StFake />
                       <StFake />
                       <StFake />
                     </StFakeBox>
                     <StRealBox>
+                      <StTitle></StTitle>
                       {upImgBase64.map((item, index) => {
                         return <StImg src={item} alt="img" key={index} />;
                       })}
@@ -733,10 +783,10 @@ const HospitalDetailForm = () => {
                   </StImgUpload>
                 </div>
                 <StBtns>
-                  <StBtn size="medium">수정</StBtn>
+                  <StBtn size="large">수정</StBtn>
                   <StBtn
                     onClick={() => navigate(`/hospital/${id}`)}
-                    size="medium"
+                    size="large"
                   >
                     취소
                   </StBtn>
@@ -970,7 +1020,9 @@ const HospitalDetailForm = () => {
   );
 };
 
-export default HospitalDetailForm;
+export default AllDetailForm;
+
+// 수정,삭제 분리
 
 const Stdiv = styled.div`
   width: 100%;
@@ -1053,216 +1105,11 @@ const StTelNum = styled.div`
   margin-top: 7px;
 `;
 
-const StBox = styled.div`
-  width: 100%;
-  height: 1200px;
-  background-color: #eee;
-  margin: 0 auto;
-`;
-
-const StPost = styled.div`
-  text-align: center;
-  padding: 20px 0px;
-  padding-top: 60px;
-  font-weight: 900;
-  font-size: 20px;
-`;
-
-const StTitle = styled.div`
-  font-weight: 900;
-`;
-
-const StLine = styled.div`
-  display: flex;
-  height: 40px;
-  line-height: 40px;
-  gap: 10px;
-`;
-
-const StErrorMsg = styled.div`
-  height: 40px;
-  line-height: 20px;
-  font-size: 12px;
-  color: red;
-`;
-
-const StFormBox = styled.div`
-  width: 900px;
-  height: 800px;
-  background-color: white;
-  border-radius: 5px;
-  margin: 0px auto;
-  padding: 70px 20px;
-`;
-
-const StForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin: 0 auto;
-  width: 600px;
-`;
-
-const StLabels = styled.div`
-  margin-left: 10px;
-`;
-
-const StRadio = styled.input.attrs({ type: "radio" })`
-  /* display: none; */
-  margin-right: 15px;
-  cursor: pointer;
-`;
-
-const StHoliday = styled.select`
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  outline: none;
-  padding: 5px 5px;
-  width: 80px;
-  text-align: center;
-  margin-left: 10px;
-  cursor: pointer;
-`;
-
-const StWeek = styled.option`
-  text-align: center;
-  font-size: 12px;
-  cursor: pointer;
-  &:hover {
-    background-color: lightgray;
-    cursor: pointer;
-  }
-`;
-
-const StInput = styled.input`
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  outline: none;
-  padding: 10px 15px;
-  ${({ size }) => {
-    switch (size) {
-      case "large":
-        return css`
-          width: 400px;
-        `;
-      case "medium":
-        return css`
-          width: 200px;
-        `;
-      case "small":
-        return css`
-          width: 60px;
-        `;
-      default:
-        return css`
-          width: 400px;
-        `;
-    }
-  }}
-`;
-
-const StText = styled.textarea`
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  outline: none;
-  padding: 10px 15px;
-  width: 560px;
-  height: 100px;
-  margin-top: 10px;
-`;
-
-const StImgBox = styled.div`
-  display: flex;
-  height: 40px;
-  line-height: 10px;
-`;
-
-const StImgUpload = styled.div`
-  position: relative;
-  border: 1px solid transparent;
-`;
-
-const StFakeBox = styled.div`
-  display: flex;
-  margin-top: 10px;
-`;
-
-const StFake = styled.div`
-  width: 120px;
-  height: 120px;
-  margin-right: 10px;
-  background-color: lightgray;
-  border-radius: 5px;
-`;
-
-const StRealBox = styled.div`
-  position: absolute;
-  margin-top: 10px;
-  top: 0%;
-  overflow: hidden;
-  height: 120px;
-`;
-
-const StImg = styled.img`
-  width: 120px;
-  height: 120px;
-  margin-right: 10px;
-  border-radius: 5px;
-`;
-
-const StBtns = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
-
-const StBtn = styled.button`
-  cursor: pointer;
-  padding: 8px 8px;
-  margin-right: 10px;
-  border: 1px solid black;
-  text-align: center;
-  border-radius: 5px;
-  background-color: white;
-  &:hover {
-    background-color: black;
-    color: white;
-  }
-  ${({ size }) => {
-    switch (size) {
-      case "large":
-        return css`
-          width: 120px;
-        `;
-      case "medium":
-        return css`
-          width: 90px;
-        `;
-      case "small":
-        return css`
-          width: 80px;
-        `;
-      default:
-        return css`
-          width: 20px;
-        `;
-    }
-  }}
-`;
-
 const StContentsBox = styled.div`
   width: 1180px;
   height: 1080px;
   border: 1px solid #d9d9d9;
   padding: 30px;
-`;
-
-const StContents = styled.div`
-  height: 68px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  font-size: 20px;
-  border-bottom: 1px solid #d9d9d9;
 `;
 
 const StInformation = styled.div`

@@ -1,13 +1,13 @@
 import React from "react";
 import Layout from "../components/common/Layout";
 import Header from "../components/common/Header";
-import HospitalDetailForm from "../components/category/HospitalDetailForm";
+import AllDetailForm from "../components/category/AllDetailForm";
 
 function CafeDetail() {
   return (
     <Layout>
       <Header />
-      <HospitalDetailForm />
+      <AllDetailForm />
     </Layout>
   );
 }

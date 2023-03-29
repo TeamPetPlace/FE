@@ -5,7 +5,6 @@ import PopupDom from "./Popup";
 import DaumPostcode from "react-daum-postcode";
 import { useMutation, useQueryClient } from "react-query";
 import { addPost, checkTitle } from "../../api/owner";
-
 import {
   StBox,
   StPost,
@@ -417,7 +416,7 @@ function Post() {
             </StLine>
             <StLine>
               <StTitle>
-                <StImp>*</StImp>대표연락처
+                <StImp>*</StImp>대표자
               </StTitle>
               <StInput
                 type="text"
