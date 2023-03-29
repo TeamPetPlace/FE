@@ -3,7 +3,7 @@ import ownerPost from "../../style/img/ownerPost.svg";
 
 const StBox = styled.div`
   width: 100%;
-  height: 1800px;
+  height: 1850px;
   background-image: url(${ownerPost});
   margin: 0 auto;
 `;
@@ -20,6 +20,7 @@ const StTitle = styled.div`
   font-weight: 900;
   font-size: 26px;
   width: 180px;
+  display: flex;
 `;
 
 const StContents = styled.div`
@@ -28,9 +29,16 @@ const StContents = styled.div`
   line-height: 230px;
 `;
 
-const StImp = styled.span`
+const StImp = styled.div`
   color: red;
-  font-size: 20px;
+  font-size: 15px;
+  line-height: 20px;
+`;
+
+const StImps = styled.div`
+  color: red;
+  font-size: 15px;
+  line-height: 210px;
 `;
 
 const StRadioLabel = styled.label`
@@ -239,6 +247,7 @@ export {
   StTitle,
   StContents,
   StImp,
+  StImps,
   StRadioLabel,
   StLine,
   StErrorMsg,

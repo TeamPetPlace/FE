@@ -11,6 +11,7 @@ import {
   StTitle,
   StContents,
   StImp,
+  StImps,
   StRadioLabel,
   StLine,
   StErrorMsg,
@@ -274,7 +275,7 @@ function Post() {
   return (
     <>
       <StBox>
-        <StPost>업체등록</StPost>
+        <StPost>업체 등록</StPost>
         <StFormBox>
           <StForm onSubmit={onSubmitHandler} encType="multipart/form-data">
             <StLine>
@@ -341,7 +342,7 @@ function Post() {
             <StLine>
               <StContents>
                 <StTitle>
-                  <StImp>*</StImp>소개
+                  <StImps>*</StImps>소개
                 </StTitle>
                 <StText
                   placeholder="소개글을 입력해주세요.(500자 이내)"

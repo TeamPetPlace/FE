@@ -30,6 +30,7 @@ import {
   StMap,
   StTabBtn,
 } from "./AllDetailListStyle";
+import Footer from "../../common/Footer";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 

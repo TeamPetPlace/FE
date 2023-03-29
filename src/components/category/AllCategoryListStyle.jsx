@@ -107,9 +107,12 @@ const StHistory = styled.div`
   max-height: 780px;
   background-image: url(${List_History});
   margin-left: 50px;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
+  z-index: 999;
+  /* position: -webkit-sticky;
+  position: sticky; */
+  left: 82%;
+  top: 30%;
+  cursor: pointer;
 `;
 
 const StHistoryImg = styled.img`
