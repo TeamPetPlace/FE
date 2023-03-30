@@ -81,7 +81,7 @@ const BusinessSignupForm = () => {
       response ? setIsBizNum(true) : setIsBizNum(false);
       if (response) {
         setIsBizNum(true);
-        alert("ok, i got it");
+        alert("확인되었습니다.");
       } else {
         setIsBizNum(false);
         alert("이미 등록된 사업자번호입니다.");
