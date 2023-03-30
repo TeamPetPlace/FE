@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
-import styled from "styled-components";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { GoSearch } from "react-icons/go";
-import { AddLikesPost, AllPost, DeleteLikePost, SearchPost } from "../../api/category";
+import {
+  AddLikesPost,
+  AllPost,
+  DeleteLikePost,
+  SearchPost,
+} from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
@@ -85,48 +94,54 @@ function ShopList() {
   );
 
   //무한스크롤
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useInfiniteQuery(
-    [
-      "searchPost",
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useInfiniteQuery(
+      [
+        "searchPost",
+        {
+          category: "미용",
+          sort: sort,
+          keyword: searchkeyword,
+          lat: cookies.lat,
+          lng: cookies.lng,
+          size: size,
+        },
+      ],
+      ({ pageParam = 0 }) =>
+        AllPost({
+          category: "미용",
+          sort: sort,
+          // keyword: searchkeyword,
+          lat: cookies.lat,
+          lng: cookies.lng,
+          page: pageParam,
+          size: size,
+        }),
       {
-        category: "미용",
-        sort: sort,
-        keyword: searchkeyword,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        size: size,
-      },
-    ],
-    ({ pageParam = 0 }) =>
-      AllPost({
-        category: "미용",
-        sort: sort,
-        // keyword: searchkeyword,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        page: pageParam,
-        size: size,
-      }),
-    {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.data.last) {
-          return null;
-        }
-        return pages.length;
-      },
-      onSuccess: (newData) => {
-        setCards((prevCards) => {
-          const newItems = newData.pages.flatMap((page) => page.data.content);
-          const uniqueItems = newItems.filter((item) => !prevCards.includes(item));
-          return [...prevCards, ...uniqueItems];
-        });
-      },
-    }
-  );
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.data.last) {
+            return null;
+          }
+          return pages.length;
+        },
+        onSuccess: (newData) => {
+          setCards((prevCards) => {
+            const newItems = newData.pages.flatMap((page) => page.data.content);
+            const uniqueItems = newItems.filter(
+              (item) => !prevCards.includes(item)
+            );
+            return [...prevCards, ...uniqueItems];
+          });
+        },
+      }
+    );
 
   useEffect(() => {
     function handleScroll() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage) {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        hasNextPage
+      ) {
         fetchNextPage();
       }
     }
@@ -136,8 +151,18 @@ function ShopList() {
     };
   }, [fetchNextPage, hasNextPage]);
 
+  //엔터 누르면 검색
+  const onKeyPressHandler = (event) => {
+    if (event.key === "Enter") {
+      onSearchHandler();
+    }
+  };
+
   const onSearchHandler = async () => {
     setIsSearchMode(true);
+    if (searchkeyword.trim() === "") {
+      window.location.replace("/shop");
+    }
     // e.preventDefault();
     try {
       const { data } = await SearchPost({
@@ -174,9 +199,9 @@ function ShopList() {
       // console.log(data.response);
       setSearchData(data.response);
     } catch (error) {
-      // console.log(error);
-      alert("검색결과가 없습니다!");
-      window.location.replace("/shop");
+      console.log(error);
+      // alert("검색결과가 없습니다!");
+      // window.location.replace("/shop");
     }
   };
 
@@ -212,13 +237,6 @@ function ShopList() {
       DeleteMutation.mutate(payload);
     }
     // console.log(item.id);
-  };
-
-  //엔터 누르면 검색
-  const onKeyPressHandler = (event) => {
-    if (event.key === "Enter") {
-      onSearchHandler();
-    }
   };
 
   //내가 봤던 기록 드래그
@@ -306,19 +324,25 @@ function ShopList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>
-                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    <StContent>
+                      {item.address.split(" ", 2).join(" ")}
+                    </StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
                         {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
                         km남음
                       </StContent>
                     )}
-                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                    {parseInt(item.distance) < 999 && (
+                      <div>{parseInt(item.distance)}m남음</div>
+                    )}
                   </StCard>
                 </div>
               );
             })}
-            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
+            {isLoading || isFetching ? (
+              <Skeletons style={{ marginTop: "20px" }} />
+            ) : null}
           </StCards>
           <Draggable onDrag={(e, data) => trackPos(data)}>
             <StHistory>
@@ -394,12 +418,16 @@ function ShopList() {
                           km남음
                         </StContent>
                       )}
-                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                      {parseInt(item.distance) < 999 && (
+                        <div>{parseInt(item.distance)}m남음</div>
+                      )}
                     </StCard>
                   </div>
                 );
               })}
-            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
+            {isLoading || isFetching ? (
+              <Skeletons style={{ marginTop: "20px" }} />
+            ) : null}
           </StCards>
           <Draggable onDrag={(e, data) => trackPos(data)}>
             <StHistory>
@@ -422,4 +450,4 @@ function ShopList() {
   );
 }
 
-export default React.memo(ShopList);
+export default ShopList;

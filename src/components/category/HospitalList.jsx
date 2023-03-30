@@ -55,6 +55,7 @@ function HospitalList() {
   const page = 0;
   const navigate = useNavigate();
   const queryclient = useQueryClient();
+
   //봤던 게시글 조회
   const [history, setHistory] = useState([]);
 
@@ -260,9 +261,6 @@ function HospitalList() {
               placeholder="검색할 명칭을 입력해주세요"
               value={searchkeyword || ""}
               onChange={(e) => {
-                setSearchKeyword(e.target.value);
-              }}
-              onBlur={(e) => {
                 setSearchKeyword(e.target.value);
               }}
               onKeyPress={onKeyPressHandler}
