@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
 import Skeletons from "../../element/Skeletons";
-import cafe_icon from "../../style/img/cafe_icon.svg";
+import cafe_icon from "../../style/img/clickedCafe.svg";
 
 import {
   StHistoryTitle,

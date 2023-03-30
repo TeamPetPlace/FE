@@ -46,7 +46,8 @@ function PostList() {
                 <StImg src={item.reSizeImage} alt="img" />
                 <StContentContainer>
                   <StSmallContent style={{ margin: "0 0 0 440px" }}>
-                    <img src={chatbubble} style={{ marginRight: "5px" }} /> {item.reviewCount}
+                    <img src={chatbubble} style={{ marginRight: "5px" }} />{" "}
+                    {item.reviewCount}
                   </StSmallContent>
                   <StTitle>{item.title}</StTitle>
                   <StContent>{item.contents}</StContent>
@@ -56,21 +57,33 @@ function PostList() {
                     </StSmallContent>
                     {item.category === "병원" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/hospital/${item.id}`)}>보러가기</StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
+                        <StBtn onClick={() => navigate(`/hospital/${item.id}`)}>
+                          보러가기
+                        </StBtn>
+                        <StBtn onClick={() => onDeleteHandler(item.id)}>
+                          삭제
+                        </StBtn>
                       </div>
                     )}
                     {item.category === "미용" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/shop/${item.id}`)}>보러가기</StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
+                        <StBtn onClick={() => navigate(`/shop/${item.id}`)}>
+                          보러가기
+                        </StBtn>
+                        <StBtn onClick={() => onDeleteHandler(item.id)}>
+                          삭제
+                        </StBtn>
                       </div>
                     )}
                     {item.category === "카페" && (
-                      <StBtnDiv>
-                        <StBtn onClick={() => navigate(`/cafe/${item.id}`)}>보러가기</StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
-                      </StBtnDiv>
+                      <div>
+                        <StBtn onClick={() => navigate(`/cafe/${item.id}`)}>
+                          보러가기
+                        </StBtn>
+                        <StBtn onClick={() => onDeleteHandler(item.id)}>
+                          삭제
+                        </StBtn>
+                      </div>
                     )}
                   </StUnderDiv>
                 </StContentContainer>
