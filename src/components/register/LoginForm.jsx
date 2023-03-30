@@ -8,6 +8,7 @@ import { KaKaoLogin, NomalLogin } from "../../api/user";
 import Layout from "../common/Layout";
 import animal_illust_back from "../../style/img/animal_illust_back.svg";
 import logo from "../../style/img/logo.svg";
+import KaKaoLoginBtn from "../../style/img/kakao_login_large_wide.png";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -88,8 +89,20 @@ const LoginForm = () => {
               </div>
             </form>
             <div>
-              <StBtn Border="1px solid #fee500" onClick={onKaKaologin}>
-                카카오 로그인
+              {/* <img
+                src={KaKaoLoginBtn}
+                onClick={onKaKaologin}
+                style={{
+                  width: "410px",
+                  height: "52px",
+                  margin: "20px 124px 0px 124px",
+                  objectFit: "cover",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              /> */}
+              <StBtn style={{ color: "grey" }} Border="1px solid #fee500" onClick={onKaKaologin}>
+                카카오 로그인 (구현중)
               </StBtn>
             </div>
             <StBtn
