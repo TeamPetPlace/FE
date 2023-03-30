@@ -42,6 +42,7 @@ import {
 import dibs from "../../style/img/dibs.svg";
 import noDibs from "../../style/img/noDibs.svg";
 import Draggable from "react-draggable";
+import _ from "lodash";
 
 function HospitalList() {
   const [cards, setCards] = useState([]);
@@ -54,6 +55,7 @@ function HospitalList() {
   const page = 0;
   const navigate = useNavigate();
   const queryclient = useQueryClient();
+
   //봤던 게시글 조회
   const [history, setHistory] = useState([]);
 
@@ -130,7 +132,7 @@ function HospitalList() {
           setCards((prevCards) => {
             const newItems = newData.pages.flatMap((page) => page.data.content);
             const uniqueItems = newItems.filter(
-              (item) => !prevCards.includes(item)
+              (item) => !prevCards.some((prevItem) => prevItem.id === item.id)
             );
             return [...prevCards, ...uniqueItems];
           });
@@ -152,7 +154,14 @@ function HospitalList() {
     };
   }, [fetchNextPage, hasNextPage]);
 
-  const onSearchHandler = async (event) => {
+  //엔터 누르면 검색
+  const onKeyPressHandler = (event) => {
+    if (event.key === "Enter") {
+      onSearchHandler();
+    }
+  };
+
+  const onSearchHandler = async () => {
     setIsSearchMode(true);
     if (searchkeyword.trim() === "") {
       window.location.replace("/hospital");
@@ -229,13 +238,6 @@ function HospitalList() {
       LikeMutation.mutate(payload);
     } else if (item.like === true) {
       DeleteMutation.mutate(payload);
-    }
-  };
-
-  //엔터 누르면 검색
-  const onKeyPressHandler = (event) => {
-    if (event.key === "Enter") {
-      onSearchHandler();
     }
   };
 
