@@ -29,7 +29,7 @@ const Router = () => {
         <Route path="/cafe/:id" element={<CafeDetail />} />
         <Route path="/ownerpost" element={<OwnerPost />} />
         <Route path="/ownerpage" element={<OwnerPage />} />
-        <Route path="/Redirect" element={<Redirect />} />
+        <Route path="/kakao/callback" element={<Redirect />} />
       </Routes>
     </BrowserRouter>
   );
