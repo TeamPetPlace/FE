@@ -417,7 +417,7 @@ function Post() {
             </StLine>
             <StLine>
               <StTitle>
-                <StImp>*</StImp>대표자
+                <StImp>*</StImp>대표 번호
               </StTitle>
               <StInput
                 type="text"
