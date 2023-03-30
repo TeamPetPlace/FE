@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
 import { GoSearch } from "react-icons/go";
-import {
-  SearchPost,
-  AllPost,
-  AddLikesPost,
-  DeleteLikePost,
-} from "../../api/category";
+import { SearchPost, AllPost, AddLikesPost, DeleteLikePost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
@@ -95,54 +85,48 @@ function CafeList() {
   );
 
   //무한스크롤
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useInfiniteQuery(
-      [
-        "searchPost",
-        {
-          category: "카페",
-          sort: sort,
-          keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          size: size,
-        },
-      ],
-      ({ pageParam = 0 }) =>
-        AllPost({
-          category: "카페",
-          sort: sort,
-          // keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          page: pageParam,
-          size: size,
-        }),
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useInfiniteQuery(
+    [
+      "searchPost",
       {
-        getNextPageParam: (lastPage, pages) => {
-          if (lastPage.data.last) {
-            return null;
-          }
-          return pages.length;
-        },
-        onSuccess: (newData) => {
-          setCards((prevCards) => {
-            const newItems = newData.pages.flatMap((page) => page.data.content);
-            const uniqueItems = newItems.filter(
-              (item) => !prevCards.includes(item)
-            );
-            return [...prevCards, ...uniqueItems];
-          });
-        },
-      }
-    );
+        category: "카페",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        size: size,
+      },
+    ],
+    ({ pageParam = 0 }) =>
+      AllPost({
+        category: "카페",
+        sort: sort,
+        // keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: pageParam,
+        size: size,
+      }),
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.data.last) {
+          return null;
+        }
+        return pages.length;
+      },
+      onSuccess: (newData) => {
+        setCards((prevCards) => {
+          const newItems = newData.pages.flatMap((page) => page.data.content);
+          const uniqueItems = newItems.filter((item) => !prevCards.includes(item));
+          return [...prevCards, ...uniqueItems];
+        });
+      },
+    }
+  );
 
   useEffect(() => {
     function handleScroll() {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        hasNextPage
-      )
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage)
         fetchNextPage();
     }
     window.addEventListener("scroll", handleScroll, true);
@@ -170,7 +154,7 @@ function CafeList() {
     } catch (error) {
       // console.log(error);
       alert("검색결과가 없습니다!");
-      window.location.replace("/hospital");
+      window.location.replace("/cafe");
     }
   };
 
@@ -192,7 +176,7 @@ function CafeList() {
     } catch (error) {
       // console.log(error);
       alert("검색결과가 없습니다!");
-      window.location.replace("/hospital");
+      window.location.replace("/cafe");
     }
   };
 
@@ -322,25 +306,19 @@ function CafeList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>
-                    <StContent>
-                      {item.address.split(" ", 2).join(" ")}
-                    </StContent>
+                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
                         {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
                         km남음
                       </StContent>
                     )}
-                    {parseInt(item.distance) < 999 && (
-                      <div>{parseInt(item.distance)}m남음</div>
-                    )}
+                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                   </StCard>
                 </div>
               );
             })}
-            {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px" }} />
-            ) : null}
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
           </StCards>
           <Draggable onDrag={(e, data) => trackPos(data)}>
             <StHistory>
@@ -409,25 +387,19 @@ function CafeList() {
                           (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                           (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                       </StTitle>
-                      <StContent>
-                        {item.address.split(" ", 2).join(" ")}
-                      </StContent>
+                      <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
                       {parseInt(item.distance) > 999 && (
                         <StContent>
                           {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
                           km남음
                         </StContent>
                       )}
-                      {parseInt(item.distance) < 999 && (
-                        <div>{parseInt(item.distance)}m남음</div>
-                      )}
+                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                     </StCard>
                   </div>
                 );
               })}
-            {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px" }} />
-            ) : null}
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
           </StCards>
           <div>
             <Draggable onDrag={(e, data) => trackPos(data)}>
