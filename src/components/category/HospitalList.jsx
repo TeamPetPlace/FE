@@ -42,6 +42,7 @@ import {
 import dibs from "../../style/img/dibs.svg";
 import noDibs from "../../style/img/noDibs.svg";
 import Draggable from "react-draggable";
+import _ from "lodash";
 
 function HospitalList() {
   const [cards, setCards] = useState([]);
@@ -130,7 +131,7 @@ function HospitalList() {
           setCards((prevCards) => {
             const newItems = newData.pages.flatMap((page) => page.data.content);
             const uniqueItems = newItems.filter(
-              (item) => !prevCards.includes(item)
+              (item) => !prevCards.some((prevItem) => prevItem.id === item.id)
             );
             return [...prevCards, ...uniqueItems];
           });
@@ -152,7 +153,14 @@ function HospitalList() {
     };
   }, [fetchNextPage, hasNextPage]);
 
-  const onSearchHandler = async (event) => {
+  //엔터 누르면 검색
+  const onKeyPressHandler = (event) => {
+    if (event.key === "Enter") {
+      onSearchHandler();
+    }
+  };
+
+  const onSearchHandler = async () => {
     setIsSearchMode(true);
     if (searchkeyword.trim() === "") {
       window.location.replace("/hospital");
@@ -232,13 +240,6 @@ function HospitalList() {
     }
   };
 
-  //엔터 누르면 검색
-  const onKeyPressHandler = (event) => {
-    if (event.key === "Enter") {
-      onSearchHandler();
-    }
-  };
-
   //내가 봤던 기록 드래그
   const [position, setPosition] = useState({ x: 500, y: 500 });
   const trackPos = (data) => {
@@ -259,6 +260,9 @@ function HospitalList() {
               placeholder="검색할 명칭을 입력해주세요"
               value={searchkeyword || ""}
               onChange={(e) => {
+                setSearchKeyword(e.target.value);
+              }}
+              onBlur={(e) => {
                 setSearchKeyword(e.target.value);
               }}
               onKeyPress={onKeyPressHandler}
