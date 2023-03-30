@@ -152,7 +152,7 @@ function HospitalList() {
     };
   }, [fetchNextPage, hasNextPage]);
 
-  const onSearchHandler = async () => {
+  const onSearchHandler = async (event) => {
     setIsSearchMode(true);
     if (searchkeyword.trim() === "") {
       window.location.replace("/hospital");
@@ -193,9 +193,9 @@ function HospitalList() {
       // console.log(data.response);
       setSearchData(data.response);
     } catch (error) {
-      // console.log(error);
-      alert("검색결과가 없습니다!");
-      window.location.replace("/hospital");
+      console.log(error);
+      // alert("검색결과가 없습니다!");
+      // window.location.replace("/hospital");
     }
   };
 
