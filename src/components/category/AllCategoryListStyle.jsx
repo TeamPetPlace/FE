@@ -1,6 +1,39 @@
 import styled from "styled-components";
 import List_History from "../../style/img/List_History.svg";
 
+export const StBannerTitle = styled.div`
+  font-size: 36px;
+  font-weight: bold;
+  width: 300px;
+  z-index: 99;
+  margin: 200px 0 0 350px;
+  @media screen and (max-width: 767px) {
+    margin: 13% 0 0 8%;
+    font-size: 15px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin: 13% 0 0 10%;
+    font-size: 25px;
+  }
+`;
+
+export const StBannerContent = styled.div`
+  font-size: 22px;
+  color: #555555;
+  font-weight: bold;
+  padding-top: 10px;
+  width: 300px;
+  margin: 0 0 0 350px;
+  @media screen and (max-width: 767px) {
+    margin: 0 0 0 8%;
+    font-size: 10px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin: 0 0 0 10%;
+    font-size: 15px;
+  }
+`;
+
 const StPlace = styled.div`
   width: 1240px;
   height: 50px;
