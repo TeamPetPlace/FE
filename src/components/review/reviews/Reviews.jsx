@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import reviewProfile from "../../../style/img/reviewProfile.svg";
 import {
   StReviewBoxs,
+  StBox,
   StProfile,
   StListBox,
   StNickBox,
@@ -23,7 +24,7 @@ function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
   return (
     <div>
       <StReviewBoxs>
-        <div style={{ display: "flex" }}>
+        <StBox>
           {item.memberImage === null ? (
             <StProfile src={reviewProfile} />
           ) : (
@@ -49,7 +50,7 @@ function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
             <StReviewText>{item.review}</StReviewText>
             <StDate>{item.createdAt.slice(0, 10)}</StDate>
           </StListBox>
-        </div>
+        </StBox>
         <div>
           {item.image === null ? (
             <img style={{ display: "none" }} />

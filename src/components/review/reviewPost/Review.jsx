@@ -91,7 +91,7 @@ function Review({ id, onToggle }) {
         <StFormBox>
           {cookies.loginType === "USER" && (
             <StForm onSubmit={onSubmitHandler} encType="multipart/form-data">
-              <StTopBox style={{ display: "flex" }}>
+              <StTopBox>
                 <StTop>후기 작성</StTop>
                 <img src={foot} style={{ width: "40px" }} />
               </StTopBox>

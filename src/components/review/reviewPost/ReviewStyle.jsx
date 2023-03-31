@@ -30,6 +30,11 @@ const StFormBox = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media screen and (max-width: 767px) {
+    width: 320px;
+    height: 400px;
+    padding: 1rem;
+  }
 `;
 
 const StForm = styled.form`
@@ -45,11 +50,17 @@ const StTopBox = styled.div`
 
 const StTop = styled.div`
   font-size: 40px;
+  @media screen and (max-width: 767px) {
+    font-size: 20px;
+  }
 `;
 
 const StMid = styled.div`
   font-size: 24px;
   color: #555;
+  @media screen and (max-width: 767px) {
+    font-size: 15px;
+  }
 `;
 
 const StInputBox = styled.div`
@@ -58,6 +69,9 @@ const StInputBox = styled.div`
   margin: auto 0;
   position: relative;
   margin-top: 10px;
+  @media screen and (max-width: 767px) {
+    width: 320px;
+  }
 `;
 
 const StInput = styled.textarea`
@@ -68,6 +82,10 @@ const StInput = styled.textarea`
   border: 1px solid #d9d9d9;
   outline: none;
   padding: 10px;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    height: 80px;
+  }
 `;
 
 const StImgBtn = styled.button`
@@ -76,6 +94,10 @@ const StImgBtn = styled.button`
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  @media screen and (max-width: 767px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const StImg = styled.img`
@@ -94,11 +116,21 @@ const StStar = styled.div`
   color: #ffd53f;
   cursor: pointer;
   display: flex;
+  @media screen and (max-width: 767px) {
+    font-size: 30px;
+    margin-top: -30px;
+    margin-bottom: -10px;
+  }
 `;
 
 const StBtns = styled.div`
   margin: 25px auto;
   width: 420px;
+  @media screen and (max-width: 767px) {
+    width: 220px;
+    margin: 0 auto;
+    margin-top: -50px;
+  }
 `;
 
 const StBtn = styled.button`
@@ -111,6 +143,11 @@ const StBtn = styled.button`
   cursor: pointer;
   &:hover {
     background-color: #ffd53f;
+  }
+  @media screen and (max-width: 767px) {
+    width: 100px;
+    font-size: 12px;
+    height: 30px;
   }
 `;
 
