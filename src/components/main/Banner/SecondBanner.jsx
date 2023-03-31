@@ -32,6 +32,19 @@ const StBanner = styled.div`
   background-color: #fffbe3;
   height: 400px;
   margin-bottom: 68px;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    height: 250px;
+    margin-bottom: 40px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 40px;
+  }
+
+  font-size: 5px;
 `;
 
 const StContents = styled.div`
@@ -40,14 +53,30 @@ const StContents = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 40px;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    padding-top: 10px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 600px;
+    padding-top: 30px;
+  }
 `;
 
 const StTitle = styled.div`
   font-size: 34px;
   font-weight: 900;
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
 `;
 
 const StText = styled.p`
   font-size: 20px;
   color: #555;
+  @media screen and (max-width: 768px) {
+    font-size: 5px;
+  }
 `;
