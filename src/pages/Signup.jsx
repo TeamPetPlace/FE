@@ -56,6 +56,7 @@ const StTabBtn = styled.button`
   background-color: #fff;
   border: 1px solid #d9d9d9;
   border-radius: 10px 10px 0 0;
+  color: #000000;
   /* margin-top: 20px; */
   cursor: pointer;
   &:hover {
@@ -67,6 +68,16 @@ const StTabBtn = styled.button`
     background-color: #ffd53f;
     font-weight: bold;
   }
+  @media screen and (max-width: 767px) {
+    width: 151px;
+    height: 40px;
+    font-size: 12px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 251px;
+    height: 50px;
+    font-size: 20px;
+  }
 `;
 
 const StSignupFormDiv = styled.div`
@@ -77,10 +88,32 @@ const StSignupFormDiv = styled.div`
   background-image: url(${animal_illust_back});
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 767px) {
+    width: 390px;
+    height: 800px;
+    background-size: 500px 900px;
+    background-position: center top 30px;
+    background-repeat: no-repeat;
+    background-color: #fffcec;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 768px;
+    height: 1024px;
+    background-size: 1000px 1000px;
+    background-position: center top 180px;
+    background-repeat: no-repeat;
+    background-color: #fffcec;
+  }
 `;
 
 const StSignupContainerdiv = styled.div`
   margin: 0 auto;
+  @media screen and (max-width: 767px) {
+    margin: 0 36px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin: 0 134px;
+  }
 `;
 
 const StTitle = styled.div`
@@ -89,6 +122,18 @@ const StTitle = styled.div`
   font-size: 32px;
   margin: 30px auto;
   text-align: center;
-  line-height: 44px;
+  /* line-height: 44px; */
   font-weight: bold;
+  @media screen and (max-width: 767px) {
+    width: 80px;
+    height: 40px;
+    font-size: 20px;
+    margin: 30px auto;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 150px;
+    height: 40px;
+    font-size: 30px;
+    margin: 50px auto;
+  }
 `;

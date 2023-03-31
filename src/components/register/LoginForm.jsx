@@ -126,9 +126,24 @@ const StLoginFormDiv = styled.div`
   width: 1920px;
   height: 1080px;
   margin: auto;
-  /* background-color: #fffcec; */
-  background-image: url(${animal_illust_back});
   display: flex;
+  background-image: url(${animal_illust_back});
+  @media screen and (max-width: 767px) {
+    width: 390px;
+    height: 844px;
+    background-size: 500px 900px;
+    background-position: center top 30px;
+    background-repeat: no-repeat;
+    background-color: #fffcec;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 768px;
+    height: 1024px;
+    background-size: 1000px 1000px;
+    background-position: center top 80px;
+    background-repeat: no-repeat;
+    background-color: #fffcec;
+  }
 `;
 
 const StLoginDiv = styled.div`
@@ -139,6 +154,16 @@ const StLoginDiv = styled.div`
   background-color: white;
   box-shadow: 1px 1px 15px 0px #ffeba2;
   flex-direction: column;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    height: 450px;
+    margin: 50px auto;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 500px;
+    height: 450px;
+    margin: 200px auto;
+  }
 `;
 
 const StTitle = styled.div`
@@ -148,21 +173,45 @@ const StTitle = styled.div`
   background-image: url(${logo});
   background-position: center;
   background-repeat: no-repeat;
+  @media screen and (max-width: 767px) {
+    width: 150px;
+    height: 45px;
+    background-size: 150px;
+    margin: 30px auto 20px auto;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 150px;
+    height: 40px;
+    background-size: 150px;
+    margin: 30px auto;
+  }
 `;
 
 const StBtn = styled.button`
   border: ${(props) => props.Border};
   background-color: #fff;
-  width: 410px;
+  width: 414px;
   height: 52px;
   margin: 20px 124px 0px 124px;
   font-size: 22px;
-  /* border: none; */
   border-radius: 5px;
+  color: #000000;
   &:hover {
     cursor: pointer;
     font-weight: bold;
     border: 1px solid #6d6d6d;
+  }
+  @media screen and (max-width: 767px) {
+    width: 200px;
+    height: 40px;
+    margin: 10px 50px 10px 50px;
+    font-size: 10px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 300px;
+    height: 45px;
+    margin: 10px 100px 10px 100px;
+    font-size: 13px;
   }
 `;
 
@@ -175,9 +224,29 @@ const StInput = styled.input`
   margin: 0px 124px 20px 124px;
   text-indent: 10px;
   outline: none;
+  @media screen and (max-width: 767px) {
+    width: 200px;
+    height: 40px;
+    margin: 10px 50px 10px 50px;
+    font-size: 10px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 300px;
+    height: 45px;
+    margin: 0px 100px 10px 100px;
+    font-size: 13px;
+  }
 `;
 
 const StDescDiv = styled.div`
   font-size: 12px;
   margin: -15px 5px 10px 125px;
+  @media screen and (max-width: 767px) {
+    margin: -5px 5px 10px 50px;
+    font-size: 8px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin: -5px 5px 5px 60px;
+    font-size: 10px;
+  }
 `;
