@@ -28,6 +28,8 @@ import {
   StTitle,
   StText,
   StDibBtn,
+  StPin,
+  StDivBox,
 } from "./TabStyle";
 import styled from "styled-components";
 
@@ -241,28 +243,12 @@ function Tab() {
             >
               <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
             </div>
-            <div
-              style={{
-                display: "flex",
-                width: "500px",
-                margin: "0 auto",
-              }}
-            >
+            <StDivBox>
               <StMyPlace onClick={() => navigate("/hospital")}>
                 내 위치 펫플레이스
               </StMyPlace>
-              <img
-                src={footMap}
-                onClick={onLocationHandler}
-                style={{
-                  marginLeft: "-100px",
-                  marginTop: "10px",
-                  cursor: "pointer",
-                  width: "50px",
-                  height: "50px",
-                }}
-              />
-            </div>
+              <StPin src={footMap} onClick={onLocationHandler} />
+            </StDivBox>
           </div>
         </>
       )}
@@ -279,28 +265,12 @@ function Tab() {
             >
               <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
             </div>
-            <div
-              style={{
-                display: "flex",
-                width: "500px",
-                margin: "0 auto",
-              }}
-            >
+            <StDivBox>
               <StMyPlace onClick={() => navigate("/shop")}>
                 내 위치 펫플레이스
               </StMyPlace>
-              <img
-                src={footMap}
-                onClick={onLocationHandler}
-                style={{
-                  marginLeft: "-100px",
-                  marginTop: "10px",
-                  cursor: "pointer",
-                  width: "50px",
-                  height: "50px",
-                }}
-              />
-            </div>
+              <StPin src={footMap} onClick={onLocationHandler} />
+            </StDivBox>
           </div>
         </>
       )}
@@ -317,28 +287,12 @@ function Tab() {
             >
               <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
             </div>
-            <div
-              style={{
-                display: "flex",
-                width: "500px",
-                margin: "0 auto",
-              }}
-            >
+            <StDivBox>
               <StMyPlace onClick={() => navigate("/cafe")}>
                 내 위치 펫플레이스
               </StMyPlace>
-              <img
-                src={footMap}
-                onClick={onLocationHandler}
-                style={{
-                  marginLeft: "-100px",
-                  marginTop: "10px",
-                  cursor: "pointer",
-                  width: "50px",
-                  height: "50px",
-                }}
-              />
-            </div>
+              <StPin src={footMap} onClick={onLocationHandler} />
+            </StDivBox>
           </div>
         </>
       )}

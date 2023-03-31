@@ -9,11 +9,13 @@ import "../../../../node_modules/swiper/modules/pagination/pagination.scss";
 import { useState } from "react";
 import Map from "../../../element/Map";
 import {
+  StContainer,
   StContents,
   StSlider,
   StSliderImg,
   StShare,
   StFirst,
+  StAddressBox,
   StTitleName,
   StStar,
   StAverage,
@@ -30,7 +32,6 @@ import {
   StMap,
   StTabBtn,
 } from "./AllDetailListStyle";
-import Footer from "../../common/Footer";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -93,7 +94,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
     }
   };
   return (
-    <>
+    <StContainer>
       <StSlider>
         <Swiper
           className="banner"
@@ -105,7 +106,11 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
         >
           {detail?.image?.map((image, index) => (
             <SwiperSlide key={index}>
-              <StSliderImg src={image} alt={`Image ${index}`} />
+              <StSliderImg
+                src={image}
+                alt={`Image ${index}`}
+                style={{ objectFit: "cover" }}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -125,7 +130,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
         </div>
         <StAverage>(평균 {detail.star}/5.0)</StAverage>
       </StFirst>
-      <div style={{ display: "flex" }}>
+      <StAddressBox>
         <StAddress>{detail.address}</StAddress>
         <StCopy
           onClick={() => {
@@ -134,7 +139,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
         >
           <IoCopyOutline />
         </StCopy>
-      </div>
+      </StAddressBox>
       <StTime>
         <StAddress>
           AM {detail.startTime} - PM {detail.endTime}
@@ -300,7 +305,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           ></ReviewList>
         </div>
       )}
-    </>
+    </StContainer>
   );
 }
 

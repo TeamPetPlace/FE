@@ -128,7 +128,7 @@ function ShopList() {
           setCards((prevCards) => {
             const newItems = newData.pages.flatMap((page) => page.data.content);
             const uniqueItems = newItems.filter(
-              (item) => !prevCards.includes(item)
+              (item) => !prevCards.some((prevItem) => prevItem.id === item.id)
             );
             return [...prevCards, ...uniqueItems];
           });

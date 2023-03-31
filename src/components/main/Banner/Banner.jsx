@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import main1 from "../../../style/img/1.png";
 import main2 from "../../../style/img/2.png";
 import main3 from "../../../style/img/3.png";
-import { StContainer, StWrap, StPostBtn, StClickBtn } from "./BannerStyle";
+import {
+  StContainer,
+  StWrap,
+  StPostBtn,
+  StClickBtn,
+  StImg,
+} from "./BannerStyle";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../../../../node_modules/swiper/swiper.scss";
@@ -28,13 +34,13 @@ function Banner() {
           pagination={{ clickable: true }}
         >
           <SwiperSlide>
-            <img src={main1} style={{ marginTop: "-5px" }} />
+            <StImg src={main1} style={{ marginTop: "-5px" }} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={main2} style={{ marginTop: "-5px" }} />
+            <StImg src={main2} style={{ marginTop: "-5px" }} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={main3} style={{ marginTop: "-5px" }} />
+            <StImg src={main3} style={{ marginTop: "-5px" }} />
           </SwiperSlide>
         </Swiper>
       </StWrap>

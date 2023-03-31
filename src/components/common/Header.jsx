@@ -9,6 +9,7 @@ import { useCookies } from "react-cookie";
 import logo from "../../style/img/logo.svg";
 import profileOrigin from "../../style/img/profile.svg";
 import "../../style/fonts/font.css";
+import { StContainer } from "../main/Banner/BannerStyle";
 
 function Header() {
   const navigate = useNavigate();
@@ -82,7 +83,7 @@ function Header() {
           </StUser>
         </StWrap>
       </StHeader>
-      <div style={{ height: "100px" }}></div>
+      <StPlusDiv></StPlusDiv>
     </>
   );
 }
@@ -98,6 +99,11 @@ const StHeader = styled.div`
   align-items: center;
   position: absolute;
   z-index: 999;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0 auto;
+    height: 80px;
+  }
 `;
 
 const StWrap = styled.div`
@@ -106,18 +112,37 @@ const StWrap = styled.div`
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 10px;
+  }
 `;
 
 const StMenu = styled.div`
   display: flex;
   width: 637px;
   position: relative;
+  @media screen and (max-width: 768px) {
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    position: relative;
+  }
 `;
 
 const StLogo = styled.img`
   cursor: pointer;
   width: 182px;
   height: 37px;
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    height: 30px;
+    position: absolute;
+    top: -25px;
+    left: 60%;
+  }
 `;
 
 const StCateogry = styled.div`
@@ -125,6 +150,13 @@ const StCateogry = styled.div`
   display: flex;
   justify-content: space-between;
   margin-left: 140px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-left: 0px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
 `;
 
 const StTab = styled.div`
@@ -136,6 +168,9 @@ const StTab = styled.div`
     font-weight: 900;
     color: #fff;
   }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const StUser = styled.div`
@@ -143,6 +178,11 @@ const StUser = styled.div`
   width: 135px;
   line-height: 37px;
   font-size: 15px;
+  @media screen and (max-width: 768px) {
+    display: flex;
+    width: 100px;
+    font-size: 12px;
+  }
 `;
 
 const StProfile = styled.img`
@@ -150,6 +190,9 @@ const StProfile = styled.img`
   height: 40px;
   border-radius: 25px;
   margin-right: 10px;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const StUserBar = styled.ul`
@@ -159,6 +202,10 @@ const StUserBar = styled.ul`
   &:hover {
     cursor: pointer;
     transition: all ease 2s 0s;
+  }
+  @media screen and (max-width: 768px) {
+    margin-left: -10px;
+    width: 10px;
   }
 `;
 
@@ -174,6 +221,12 @@ const StUserCategory = styled.div`
   align-items: center;
   position: absolute;
   right: 5%;
+
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    font-size: 12px;
+    height: 50px;
+  }
 `;
 
 const StUserMenu = styled.li`
@@ -183,5 +236,17 @@ const StUserMenu = styled.li`
   &:hover {
     color: #000;
     font-weight: 900;
+  }
+  @media screen and (max-width: 768px) {
+    height: 60px;
+    margin-bottom: -30px;
+    margin-top: -5px;
+  }
+`;
+
+const StPlusDiv = styled.div`
+  height: 100px;
+  @media screen and (max-width: 768px) {
+    height: 80px;
   }
 `;

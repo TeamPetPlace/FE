@@ -49,6 +49,9 @@ const StFooter = styled.div`
   width: 100%;
   height: 200px;
   background-color: #0d0d0d;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const StWrap = styled.div`
@@ -58,12 +61,24 @@ const StWrap = styled.div`
   float: right;
   margin-top: 20px;
   margin-right: 300px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+    float: center;
+    margin-right: 15px;
+  }
 `;
 
 const StUl = styled.ul`
   color: rgb(127, 132, 135);
   font-weight: 900;
   font-size: 12px;
+  @media screen and (max-width: 768px) {
+    font-size: 8px;
+    float: center;
+    margin: 0 auto;
+  }
 `;
 
 const StLi = styled.li`

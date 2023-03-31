@@ -4,6 +4,10 @@ const StContainer = styled.div`
   width: 1920px;
   position: relative;
   overflow: hidden;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0 auto;
+  }
 `;
 
 const StWrap = styled.div`
@@ -11,6 +15,12 @@ const StWrap = styled.div`
   width: 1920px;
   font-size: 50px;
   height: 636px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0 auto;
+    /* overflow: hidden; */
+    height: 300px;
+  }
 `;
 
 const StPostBtn = styled.div`
@@ -19,6 +29,8 @@ const StPostBtn = styled.div`
   top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media screen and (max-width: 768px) {
+  }
 `;
 
 const StClickBtn = styled.button`
@@ -34,6 +46,20 @@ const StClickBtn = styled.button`
   line-height: 45px;
   padding: 0 20px;
   cursor: pointer;
+  @media screen and (max-width: 768px) {
+    width: 120px;
+    height: 35px;
+    font-size: 12px;
+    line-height: 35px;
+  }
 `;
 
-export { StContainer, StWrap, StPostBtn, StClickBtn };
+const StImg = styled.img`
+  @media screen and (max-width: 768px) {
+    width: 120%;
+    margin: 0 auto;
+    height: 300px;
+  }
+`;
+
+export { StContainer, StWrap, StPostBtn, StClickBtn, StImg };
