@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
 import { GoSearch } from "react-icons/go";
-import {
-  AddLikesPost,
-  AllPost,
-  DeleteLikePost,
-  SearchPost,
-} from "../../api/category";
+import { AddLikesPost, AllPost, DeleteLikePost, SearchPost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
@@ -38,6 +28,8 @@ import {
   StIconimg,
   StDibBtn,
   StStarIcon,
+  StCardTitle,
+  StHistoryContent,
 } from "./AllCategoryListStyle";
 import dibs from "../../style/img/dibs.svg";
 import noDibs from "../../style/img/noDibs.svg";
@@ -94,54 +86,50 @@ function ShopList() {
   );
 
   //무한스크롤
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useInfiniteQuery(
-      [
-        "searchPost",
-        {
-          category: "미용",
-          sort: sort,
-          keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          size: size,
-        },
-      ],
-      ({ pageParam = 0 }) =>
-        AllPost({
-          category: "미용",
-          sort: sort,
-          // keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          page: pageParam,
-          size: size,
-        }),
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useInfiniteQuery(
+    [
+      "searchPost",
       {
-        getNextPageParam: (lastPage, pages) => {
-          if (lastPage.data.last) {
-            return null;
-          }
-          return pages.length;
-        },
-        onSuccess: (newData) => {
-          setCards((prevCards) => {
-            const newItems = newData.pages.flatMap((page) => page.data.content);
-            const uniqueItems = newItems.filter(
-              (item) => !prevCards.some((prevItem) => prevItem.id === item.id)
-            );
-            return [...prevCards, ...uniqueItems];
-          });
-        },
-      }
-    );
+        category: "미용",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        size: size,
+      },
+    ],
+    ({ pageParam = 0 }) =>
+      AllPost({
+        category: "미용",
+        sort: sort,
+        // keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: pageParam,
+        size: size,
+      }),
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.data.last) {
+          return null;
+        }
+        return pages.length;
+      },
+      onSuccess: (newData) => {
+        setCards((prevCards) => {
+          const newItems = newData.pages.flatMap((page) => page.data.content);
+          const uniqueItems = newItems.filter(
+            (item) => !prevCards.some((prevItem) => prevItem.id === item.id)
+          );
+          return [...prevCards, ...uniqueItems];
+        });
+      },
+    }
+  );
 
   useEffect(() => {
     function handleScroll() {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        hasNextPage
-      ) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage) {
         fetchNextPage();
       }
     }
@@ -248,7 +236,7 @@ function ShopList() {
   return (
     <>
       <StPlace>
-        <StTitle fontSize="36px">
+        <StTitle>
           미용
           <StIconimg src={shop_icon} />
         </StTitle>
@@ -310,8 +298,7 @@ function ShopList() {
                         />
                       )}
                     </div>
-                    <StTitle
-                      fontSize="24px"
+                    <StCardTitle
                       onClick={() => {
                         navigate(`/shop/${item.id}`);
                       }}
@@ -323,26 +310,20 @@ function ShopList() {
                         (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
-                    </StTitle>
-                    <StContent>
-                      {item.address.split(" ", 2).join(" ")}
-                    </StContent>
+                    </StCardTitle>
+                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
                         {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
                         km남음
                       </StContent>
                     )}
-                    {parseInt(item.distance) < 999 && (
-                      <div>{parseInt(item.distance)}m남음</div>
-                    )}
+                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                   </StCard>
                 </div>
               );
             })}
-            {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px" }} />
-            ) : null}
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
           </StCards>
           <Draggable onDrag={(e, data) => trackPos(data)}>
             <StHistory>
@@ -352,7 +333,7 @@ function ShopList() {
                   return (
                     <StHistoryCard key={index}>
                       <StHistoryImg src={item.reSizeImage} alt="historyImg" />
-                      <StTitle fontSize="18px">{item.title}</StTitle>
+                      <StHistoryContent>{item.title}</StHistoryContent>
                     </StHistoryCard>
                   );
                 })}
@@ -397,8 +378,7 @@ function ShopList() {
                           />
                         )}
                       </div>
-                      <StTitle
-                        fontSize="24px"
+                      <StCardTitle
                         onClick={() => {
                           navigate(`/shop/${item.id}`);
                         }}
@@ -410,7 +390,7 @@ function ShopList() {
                           (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
                           (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                           (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
-                      </StTitle>
+                      </StCardTitle>
                       <StContent>{item.address}</StContent>
                       {parseInt(item.distance) > 999 && (
                         <StContent>
@@ -418,16 +398,12 @@ function ShopList() {
                           km남음
                         </StContent>
                       )}
-                      {parseInt(item.distance) < 999 && (
-                        <div>{parseInt(item.distance)}m남음</div>
-                      )}
+                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                     </StCard>
                   </div>
                 );
               })}
-            {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px" }} />
-            ) : null}
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
           </StCards>
           <Draggable onDrag={(e, data) => trackPos(data)}>
             <StHistory>
@@ -437,7 +413,7 @@ function ShopList() {
                   return (
                     <StHistoryCard key={index}>
                       <StHistoryImg src={item.reSizeImage} alt="historyImg" />
-                      <StTitle fontSize="18px">{item.title}</StTitle>
+                      <StHistoryContent>{item.title}</StHistoryContent>
                     </StHistoryCard>
                   );
                 })}

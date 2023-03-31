@@ -14,8 +14,8 @@ function Skeletons({ type, color }) {
 export default Skeletons;
 
 const StSkeleton = styled.div`
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 150px;
   background-color: transparent;
   /* overflow-x: visible; */
 `;
