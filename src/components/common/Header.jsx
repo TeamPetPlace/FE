@@ -141,7 +141,7 @@ const StLogo = styled.img`
     height: 30px;
     position: absolute;
     top: -25px;
-    left: 60%;
+    left: 53%;
   }
 `;
 

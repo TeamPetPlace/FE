@@ -29,6 +29,7 @@ import {
   StReviewBtn,
   StCount,
   StTopReviewBox,
+  StPageBox,
 } from "./ReviewListStyle";
 
 function ReviewList({ id, detail }) {
@@ -297,7 +298,7 @@ function ReviewList({ id, detail }) {
           </StReview>
         ))}
       </StContentsBox>
-      <div
+      <StPageBox
         style={{
           width: "1243px",
           height: "100px",
@@ -313,7 +314,7 @@ function ReviewList({ id, detail }) {
             onChange={handlerPageChange}
           />
         </PageBox>
-      </div>
+      </StPageBox>
     </div>
   );
 }
