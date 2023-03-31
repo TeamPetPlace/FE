@@ -4,6 +4,10 @@ const StContainer = styled.div`
   width: 1920px;
   position: relative;
   overflow: hidden;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0 auto;
+  }
 `;
 
 const StWrap = styled.div`
@@ -11,6 +15,11 @@ const StWrap = styled.div`
   width: 1920px;
   font-size: 50px;
   height: 636px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0 auto;
+    /* overflow: hidden; */
+  }
 `;
 
 const StPostBtn = styled.div`
@@ -36,4 +45,12 @@ const StClickBtn = styled.button`
   cursor: pointer;
 `;
 
-export { StContainer, StWrap, StPostBtn, StClickBtn };
+const StImg = styled.img`
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0 auto;
+    /* overflow: hidden; */
+  }
+`;
+
+export { StContainer, StWrap, StPostBtn, StClickBtn, StImg };

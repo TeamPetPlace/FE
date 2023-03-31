@@ -105,7 +105,11 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
         >
           {detail?.image?.map((image, index) => (
             <SwiperSlide key={index}>
-              <StSliderImg src={image} alt={`Image ${index}`} />
+              <StSliderImg
+                src={image}
+                alt={`Image ${index}`}
+                style={{ objectFit: "cover" }}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
