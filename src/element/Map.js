@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import styled from "styled-components";
 
 function Map({ id, queryClient, detail, setDetail }) {
   const { kakao } = window;
@@ -31,7 +32,25 @@ function Map({ id, queryClient, detail, setDetail }) {
     infowindow.open(map, marker);
   }, []);
 
-  return <div id="map" style={{ width: "1180px", height: "450px" }}></div>;
+  const style = {
+    width: "1180px",
+    height: "450px",
+  };
+
+  return <StDiv id="map"></StDiv>;
 }
 
 export default Map;
+
+const StDiv = styled.div`
+  width: 1180px;
+  height: 450px;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    height: 400px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 800px) {
+    width: 700px;
+  }
+`;

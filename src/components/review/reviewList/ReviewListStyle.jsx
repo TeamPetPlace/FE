@@ -14,6 +14,10 @@ const StPostBtn = styled.button`
     color: black;
     text-decoration: underline;
   }
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+    margin-left: -8px;
+  }
 `;
 
 const StContentsBox = styled.div`
@@ -21,7 +25,15 @@ const StContentsBox = styled.div`
   height: 1080px;
   border: 1px solid #d9d9d9;
   padding: 30px;
-  /* position: relative; */
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    height: 800px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 800px) {
+    width: 700px;
+    height: 900px;
+  }
 `;
 
 const StReview = styled.div`
@@ -83,6 +95,7 @@ const StReviewBox = styled.div`
   top: 0;
   left: 0;
   background-color: white;
+  border: 1px solid black;
 `;
 
 const StBackGround = styled.div`
@@ -203,6 +216,16 @@ const StReviewBtn = styled.button`
   &:hover {
     background-color: #ffd53f;
   }
+  @media screen and (max-width: 767px) {
+    float: left;
+    font-size: 12px;
+    width: 70px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 800px) {
+    font-size: 12px;
+    width: 70px;
+  }
 `;
 
 const StCount = styled.div`
@@ -214,6 +237,13 @@ const StTopReviewBox = styled.div`
   width: 1150px;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 700px;
+  }
 `;
 
 export {
