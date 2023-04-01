@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { deleteReview, updateReviews } from "../../api/detail";
 import { getMyReview } from "../../api/mypage";
-import { StContent, StStarIcon } from "./MypageStyle";
+import { StContent, StReview, StStarIcon } from "./MypageStyle";
 import Pagination from "react-js-pagination";
 import foot from "../../style/img/foot.svg";
 import plus from "../../style/img/plus.svg";
@@ -184,9 +184,7 @@ function MyReviewList() {
                         <StBackGround>
                           <StFormBox>
                             <StForm
-                              onSubmit={(event) =>
-                                onUpdateReviewHandler(event, item.id)
-                              }
+                              onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
                               encType="multipart/form-data"
                             >
                               <StTopBox style={{ display: "flex" }}>
@@ -205,11 +203,7 @@ function MyReviewList() {
                                       onClick={() => setClicked(el)}
                                       value={clicked}
                                     >
-                                      {`${
-                                        (clicked >= el) | (hovered >= el)
-                                          ? "★"
-                                          : "☆"
-                                      }`}
+                                      {`${(clicked >= el) | (hovered >= el) ? "★" : "☆"}`}
                                     </p>
                                   ))}
                                 </div>
@@ -219,9 +213,7 @@ function MyReviewList() {
                                 <StInput
                                   type="text"
                                   value={updateReview}
-                                  onChange={(event) =>
-                                    setUpdateReview(event.target.value)
-                                  }
+                                  onChange={(event) => setUpdateReview(event.target.value)}
                                   minLength={10}
                                   placeholder={item.review}
                                 />
@@ -232,13 +224,7 @@ function MyReviewList() {
                                   <div>
                                     {imgView.length > 0 &&
                                       imgView.map((item, index) => {
-                                        return (
-                                          <StImgs
-                                            src={item}
-                                            alt="img"
-                                            key={index}
-                                          />
-                                        );
+                                        return <StImgs src={item} alt="img" key={index} />;
                                       })}
                                   </div>
                                   <input
@@ -253,9 +239,7 @@ function MyReviewList() {
                               </StInputBox>
                               <StBtns>
                                 <StBtnn>수정하기</StBtnn>
-                                <StBtnn onClick={() => onEditMode(item.id)}>
-                                  취소하기
-                                </StBtnn>
+                                <StBtnn onClick={() => onEditMode(item.id)}>취소하기</StBtnn>
                               </StBtns>
                             </StForm>
                           </StFormBox>
@@ -283,33 +267,23 @@ function MyReviewList() {
                         />
                       )}
                       <div style={{ width: "580px" }}>
-                        <StTitle fontSize="20px">
+                        <StTitle>
                           {item.nickname}
-                          {(item.star === 1 && (
-                            <StStarIcon>★☆☆☆☆</StStarIcon>
-                          )) ||
-                            (item.star === 2 && (
-                              <StStarIcon>★★☆☆☆</StStarIcon>
-                            )) ||
-                            (item.star === 3 && (
-                              <StStarIcon>★★★☆☆</StStarIcon>
-                            )) ||
-                            (item.star === 4 && (
-                              <StStarIcon>★★★★☆</StStarIcon>
-                            )) ||
+                          {(item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
+                            (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
+                            (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
+                            (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                             (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                         </StTitle>
-                        <div style={{ padding: "10px 0" }}>{item.review}</div>
-                        <StContainer Width="200px">
+                        <StReview>{item.review}</StReview>
+                        <StContainer>
                           <StContent>{item.modifiedAt.split("T", 1)}</StContent>
                           <StContent>{item.title}</StContent>
                         </StContainer>
                       </div>
                       <div style={{ margin: "35px 0" }}>
                         <StBtn onClick={() => onEditMode(item.id)}>수정</StBtn>
-                        <StBtn onClick={() => onDeletetReviewHandler(item.id)}>
-                          삭제
-                        </StBtn>
+                        <StBtn onClick={() => onDeletetReviewHandler(item.id)}>삭제</StBtn>
                       </div>
                     </StReviews>
                   )}
@@ -318,13 +292,7 @@ function MyReviewList() {
             );
           })}
       </StAllReviewList>
-      <div
-        style={{
-          width: "978px",
-          height: "100px",
-          position: "relative",
-        }}
-      >
+      <StPageDiv>
         <PageBox>
           <Pagination
             activePage={page}
@@ -334,12 +302,27 @@ function MyReviewList() {
             onChange={handlerPageChange}
           />
         </PageBox>
-      </div>
+      </StPageDiv>
     </div>
   );
 }
 
 export default MyReviewList;
+
+const StPageDiv = styled.div`
+  width: 978px;
+  height: 100px;
+  position: relative;
+  /* background-color: blue; */
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    height: 50px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 660px;
+    height: 80px;
+  }
+`;
 
 const StReviewBox = styled.div`
   position: absolute;
@@ -461,6 +444,9 @@ const PageBox = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 15px;
+    @media screen and (max-width: 767px) {
+      margin-top: 20px;
+    }
   }
   ul {
     list-style: none;
@@ -476,6 +462,10 @@ const PageBox = styled.div`
     align-items: center;
     font-size: 1rem;
     border: none;
+    @media screen and (max-width: 767px) {
+      width: 20px;
+      height: 20px;
+    }
   }
   ul.pagination li:first-child {
     border-radius: 5px 0 0 5px;
@@ -487,6 +477,12 @@ const PageBox = styled.div`
     text-decoration: none;
     color: #5e5e5e;
     font-size: 1rem;
+    @media screen and (max-width: 767px) {
+      font-size: 10px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      font-size: 15px;
+    }
   }
   ul.pagination li.active a {
     color: black;
@@ -499,6 +495,12 @@ const PageBox = styled.div`
   ul.pagination li a.active {
     color: black;
   }
+  @media screen and (max-width: 767px) {
+    left: 18%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    left: 30%;
+  }
 `;
 
 const StReviews = styled.div`
@@ -506,16 +508,14 @@ const StReviews = styled.div`
   margin: auto;
 `;
 
-const StImg = styled.img`
-  width: 30px;
-  height: 30px;
-`;
-
 const StContainer = styled.div`
-  width: ${(props) => props.Width};
+  width: 200px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media screen and (max-width: 767px) {
+    width: 100px;
+  }
 `;
 
 const StStar = styled.div`
@@ -544,14 +544,32 @@ const StAllReviewList = styled.div`
   display: flex;
   flex-direction: column;
   /* background-color: yellowgreen; */
+  @media screen and (max-width: 767px) {
+    width: 240px;
+    height: 320px;
+    margin: 20px 30px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 600px;
+    height: 560px;
+    margin: 50px 30px;
+  }
 `;
 
 const StReviewDiv = styled.div`
   width: 918px;
   height: 190px;
   /* background-color: skyblue; */
-  margin: 0 0 0 0;
+  margin: 0;
   border-bottom: 3px solid #f0f0f0;
+  @media screen and (max-width: 767px) {
+    width: 240px;
+    height: 110px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 600px;
+    height: 300px;
+  }
 `;
 
 const StReviewImg = styled.img`
@@ -561,6 +579,12 @@ const StReviewImg = styled.img`
   margin: 30px 20px 10px 5px;
   border-radius: 10px;
   cursor: pointer;
+  @media screen and (max-width: 767px) {
+    width: 50px;
+    height: 50px;
+    margin: 30px 10px 10px 5px;
+    border-radius: 5px;
+  }
 `;
 
 const StBtn = styled.button`
@@ -570,17 +594,36 @@ const StBtn = styled.button`
   border: 1px solid #cccccc;
   background-color: #ffffff;
   margin-right: 10px;
+  margin-left: 10px;
+  color: #000000;
   cursor: pointer;
   &:hover {
     background-color: #ccc;
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 8px;
+    width: 40px;
+    height: 25px;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 14px;
+    width: 60px;
+    margin-top: 10px;
+    margin-left: 10px;
   }
 `;
 
 const StTitle = styled.div`
   color: #0d0d0d;
   display: flex;
-  font-size: ${(props) => props.fontSize};
+  font-size: 20px;
   font-weight: bold;
   margin-top: 35px;
   cursor: pointer;
+  @media screen and (max-width: 767px) {
+    font-size: 13px;
+    margin-top: 20px;
+  }
 `;

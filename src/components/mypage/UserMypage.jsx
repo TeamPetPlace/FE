@@ -27,7 +27,7 @@ function UserMypage() {
 
   return (
     <StMypageLayout>
-      <User />
+      {/* <User /> */}
       <StTabBtnContainer>
         {userTabList?.map((item, i) => (
           <StTabBtn
