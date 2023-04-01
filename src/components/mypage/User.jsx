@@ -253,6 +253,15 @@ const StUserBox = styled.div`
   border-bottom-left-radius: 50px;
   background-color: #ffffff;
   box-shadow: 1px 1px 15px 0px #d9d9d9;
+  @media screen and (max-width: 767px) {
+    width: 330px;
+    height: 100px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 600px;
+    height: 150px;
+  }
 `;
 
 const StInfoTextDiv = styled.div`
@@ -261,10 +270,29 @@ const StInfoTextDiv = styled.div`
   margin: 5px;
   padding: 5px 0;
   /* font-size: ${(props) => props.fontSize}; */
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 15px;
+  }
 `;
 
 const StInfo = styled.div`
   display: flex;
+  @media screen and (max-width: 767px) {
+    width: 200px;
+    margin-left: -100px;
+    margin-top: -15px;
+    height: 30px;
+    margin-bottom: -10px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 300px;
+    margin-top: -10px;
+  }
 `;
 
 const StInfoContainer = styled.div`
@@ -278,6 +306,15 @@ const StImg = styled.img`
   object-fit: cover;
   border-radius: 100%;
   z-index: 99;
+  @media screen and (max-width: 767px) {
+    width: 120px;
+    height: 120px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 800px) {
+    width: 200px;
+    height: 200px;
+  }
 `;
 
 const StImgDiv = styled.div`
@@ -290,6 +327,19 @@ const StImgDiv = styled.div`
   border-radius: 280px;
   top: -10%;
   box-shadow: 3px 3px 3px 0px #d9d9d9;
+
+  @media screen and (max-width: 767px) {
+    width: 120px;
+    height: 120px;
+    top: 20%;
+    left: -10px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 800px) {
+    width: 200px;
+    height: 200px;
+    top: 5%;
+  }
 `;
 
 const StUserInfoDiv = styled.div`
@@ -298,6 +348,15 @@ const StUserInfoDiv = styled.div`
   height: 225px;
   display: flex;
   border: none;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    margin-left: 20px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 800px) {
+    width: 700px;
+    margin-left: 50px;
+  }
 `;
 
 const StEditBtn = styled.button`
@@ -308,6 +367,20 @@ const StEditBtn = styled.button`
   width: 64px;
   height: 34px;
   cursor: pointer;
+  &:hover {
+    background-color: #6d6d6d;
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+    height: 20px;
+    width: 40px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 14px;
+    height: 30px;
+    width: 60px;
+  }
 `;
 
 const StNickInput = styled.input`
@@ -317,6 +390,11 @@ const StNickInput = styled.input`
   font-size: 22px;
   width: 120px;
   text-indent: 5px;
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+    width: 80px;
+    height: 20px;
+  }
 `;
 
 const StUploadBtn = styled.button`
@@ -334,4 +412,16 @@ const StUploadBtn = styled.button`
   background-color: #ffffff;
   box-shadow: 3px 3px 3px 0px #d9d9d9;
   cursor: pointer;
+  @media screen and (max-width: 767px) {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    top: -15%;
+    left: -80px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 800px) {
+    top: 0%;
+    left: -10px;
+  }
 `;
