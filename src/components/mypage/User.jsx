@@ -98,14 +98,7 @@ function User() {
               <StImgDiv>
                 {imgView.length > 0 &&
                   imgView?.map((item, index) => {
-                    return (
-                      <StImg
-                        src={item}
-                        alt="img"
-                        key={index}
-                        style={{ zIndex: "999" }}
-                      />
-                    );
+                    return <StImg src={item} alt="img" key={index} style={{ zIndex: "999" }} />;
                   })}
               </StImgDiv>
             </div>
@@ -151,14 +144,8 @@ function User() {
                   </StInfo>
                 )}
               </StInfoContainer>
-              <StEditBtn
-                style={{
-                  margin: "0 10px 0 227px",
-                }}
-              >
-                수정
-              </StEditBtn>
-              <StEditBtn onClick={onEditMode}>취소</StEditBtn>
+              <StEditBtn>수정</StEditBtn>
+              <StCancelBtn onClick={onEditMode}>취소</StCancelBtn>
             </StUserBox>
           </StUserInfoDiv>
         </StForm>
@@ -194,7 +181,7 @@ function User() {
                     {cookies.loginType === "BUSINESS" && (
                       <StInfoTextDiv
                         style={{
-                          padding: " 5px 15px",
+                          padding: "5px 15px",
                           borderRadius: "10px",
                           backgroundColor: "#ffd53f",
                         }}
@@ -254,7 +241,7 @@ const StUserBox = styled.div`
   background-color: #ffffff;
   box-shadow: 1px 1px 15px 0px #d9d9d9;
   @media screen and (max-width: 767px) {
-    width: 330px;
+    width: 300px;
     height: 100px;
   }
 
@@ -283,15 +270,15 @@ const StInfo = styled.div`
   display: flex;
   @media screen and (max-width: 767px) {
     width: 200px;
-    margin-left: -100px;
+    margin-left: -110px;
     margin-top: -15px;
-    height: 30px;
-    margin-bottom: -10px;
+    height: 35px;
+    margin-bottom: -20px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 300px;
-    margin-top: -10px;
+    margin-top: -15px;
   }
 `;
 
@@ -351,11 +338,15 @@ const StUserInfoDiv = styled.div`
   @media screen and (max-width: 767px) {
     width: 300px;
     margin-left: 20px;
+    height: 50px;
+    margin: 50px auto 0px auto;
   }
 
   @media screen and (min-width: 768px) and (max-width: 800px) {
     width: 700px;
     margin-left: 50px;
+    height: 100px;
+    margin: 80px auto 30px auto;
   }
 `;
 
@@ -366,12 +357,41 @@ const StEditBtn = styled.button`
   font-size: 18px;
   width: 64px;
   height: 34px;
+  color: #000000;
+  cursor: pointer;
+  margin: 0 10px 0 227px;
+  &:hover {
+    background-color: #6d6d6d;
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 8px;
+    height: 20px;
+    width: 40px;
+    margin: 0 10px 0 120px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 14px;
+    height: 30px;
+    width: 60px;
+    margin: 0 10px 0 230px;
+  }
+`;
+
+const StCancelBtn = styled.button`
+  border-radius: 5px;
+  border: 1px solid #6d6d6d;
+  background-color: white;
+  font-size: 18px;
+  width: 64px;
+  height: 34px;
+  color: #000000;
   cursor: pointer;
   &:hover {
     background-color: #6d6d6d;
   }
   @media screen and (max-width: 767px) {
-    font-size: 10px;
+    font-size: 8px;
     height: 20px;
     width: 40px;
   }
@@ -390,10 +410,15 @@ const StNickInput = styled.input`
   font-size: 22px;
   width: 120px;
   text-indent: 5px;
-  @media screen and (max-width: 768px) {
-    font-size: 12px;
-    width: 80px;
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+    width: 55px;
     height: 20px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 12px;
+    width: 100px;
+    height: 30px;
   }
 `;
 
@@ -415,13 +440,13 @@ const StUploadBtn = styled.button`
   @media screen and (max-width: 767px) {
     width: 30px;
     height: 30px;
-    font-size: 15px;
-    top: -15%;
+    font-size: 10px;
+    top: -180%;
     left: -80px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 800px) {
-    top: 0%;
+    top: -50%;
     left: -10px;
   }
 `;
