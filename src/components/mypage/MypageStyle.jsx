@@ -7,6 +7,14 @@ const StMypageLayout = styled.div`
   background-color: #fffcec;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 767px) {
+    width: 375px;
+    height: 667px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 768px;
+    height: 1024px;
+  }
 `;
 
 const StTabBtnContainer = styled.div`
@@ -22,6 +30,14 @@ const StContentBox = styled.div`
   border: 1px solid #d9d9d9;
   display: flex;
   margin: -2px auto 0 auto;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    height: 440px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 660px;
+    height: 760px;
+  }
 `;
 
 const StTabBtn = styled.button`
@@ -32,6 +48,7 @@ const StTabBtn = styled.button`
   border: 1px solid #d9d9d9;
   border-radius: 10px 10px 0 0;
   text-align: center;
+  color: #000000;
   cursor: pointer;
   &:hover {
     background-color: #ffd53f;
@@ -43,6 +60,16 @@ const StTabBtn = styled.button`
     border: 1px solid #ffd53f;
     font-weight: bold;
   }
+  @media screen and (max-width: 767px) {
+    width: 151px;
+    height: 35px;
+    font-size: 13px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 330px;
+    height: 45px;
+    font-size: 18px;
+  }
 `;
 
 const StCards = styled.div`
@@ -52,7 +79,17 @@ const StCards = styled.div`
   display: flex;
   gap: 6px;
   flex-flow: row wrap;
-  /* background-color: yellowgreen; */
+  /* background-color: blue; */
+  @media screen and (max-width: 767px) {
+    width: 250px;
+    height: 250px;
+    margin: 10px 28px 0px 28px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 580px;
+    height: 500px;
+    margin: 15px 40px 0px 40px;
+  }
 `;
 
 const StCard = styled.div`
@@ -61,6 +98,14 @@ const StCard = styled.div`
   border-radius: 10px;
   box-align: left;
   /* background-color: pink; */
+  @media screen and (max-width: 767px) {
+    width: 120px;
+    height: 120px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 280px;
+    height: 200px;
+  }
 `;
 
 const StTitle = styled.div`
@@ -70,11 +115,27 @@ const StTitle = styled.div`
   font-weight: bold;
   /* margin-bottom: 5px; */
   cursor: pointer;
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+  }
 `;
 
 const StContent = styled.div`
   color: #555555;
   font-size: 12px;
+  @media screen and (max-width: 767px) {
+    font-size: 8px;
+  }
+`;
+
+const StReview = styled.div`
+  color: #000000;
+  font-size: 15px;
+  padding: 10px 0;
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+    padding: 5px 0;
+  }
 `;
 
 const StCardImg = styled.img`
@@ -85,8 +146,16 @@ const StCardImg = styled.img`
   border: 3px solid #ffd53f;
   border-radius: 10px;
   cursor: pointer;
-  overflow: hidden;
+  object-fit: cover;
   position: cover;
+  @media screen and (max-width: 767px) {
+    width: 110px;
+    height: 70px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 240px;
+    height: 140px;
+  }
 `;
 
 const StStarIcon = styled.div`
@@ -110,12 +179,31 @@ const DibCategoryBtn = styled.button`
     color: black;
     font-weight: bold;
   }
+  @media screen and (max-width: 767px) {
+    height: 18px;
+    font-size: 13px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    height: 30px;
+    margin-left: 10px;
+    font-size: 20px;
+  }
 `;
+
 const DibCategoryContainer = styled.div`
   width: 300px;
   height: 30px;
   margin: 58px 45px;
-  gap: 16px;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    height: 20px;
+    margin: 10px 10px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 500px;
+    height: 20px;
+    margin: 30px 30px;
+  }
 `;
 
 const StDibBtn = styled.button`
@@ -126,6 +214,12 @@ const StDibBtn = styled.button`
   z-index: 999;
   margin-left: 230px;
   margin-top: -2px;
+  @media screen and (max-width: 767px) {
+    margin-left: 18%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin-left: 25%;
+  }
 `;
 
 const StPagenationDiv = styled.div`
@@ -145,6 +239,12 @@ const PageBox = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 15px;
+    @media screen and (max-width: 767px) {
+      margin-top: 70px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      margin-top: 30px;
+    }
   }
   ul {
     list-style: none;
@@ -160,6 +260,10 @@ const PageBox = styled.div`
     align-items: center;
     font-size: 1rem;
     border: none;
+    @media screen and (max-width: 767px) {
+      width: 20px;
+      height: 20px;
+    }
   }
   ul.pagination li:first-child {
     border-radius: 5px 0 0 5px;
@@ -171,6 +275,12 @@ const PageBox = styled.div`
     text-decoration: none;
     color: #5e5e5e;
     font-size: 1rem;
+    @media screen and (max-width: 767px) {
+      font-size: 10px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      font-size: 15px;
+    }
   }
   ul.pagination li.active a {
     color: black;
@@ -182,6 +292,12 @@ const PageBox = styled.div`
   ul.pagination li a:hover,
   ul.pagination li a.active {
     color: black;
+  }
+  @media screen and (max-width: 767px) {
+    left: 18%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    left: 30%;
   }
 `;
 
@@ -201,4 +317,5 @@ export {
   StMypageLayout,
   StTabBtn,
   PageBox,
+  StReview,
 };
