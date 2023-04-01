@@ -3,7 +3,12 @@ import styled from "styled-components";
 import User from "./User";
 import DibsList from "./DibsList";
 import MyReviewList from "./MyReviewList";
-import { StMypageLayout, StTabBtn, StContentBox, StTabBtnContainer } from "./MypageStyle";
+import {
+  StMypageLayout,
+  StTabBtn,
+  StContentBox,
+  StTabBtnContainer,
+} from "./MypageStyle";
 
 function UserMypage() {
   const [checked, setChecked] = useState([true, false]);
@@ -27,7 +32,7 @@ function UserMypage() {
 
   return (
     <StMypageLayout>
-      {/* <User /> */}
+      <User />
       <StTabBtnContainer>
         {userTabList?.map((item, i) => (
           <StTabBtn
@@ -41,7 +46,13 @@ function UserMypage() {
         ))}
       </StTabBtnContainer>
       <StContentBox>
-        {tab === "reviewList" ? <MyReviewList /> : tab === "dibsList" ? <DibsList /> : <div></div>}
+        {tab === "reviewList" ? (
+          <MyReviewList />
+        ) : tab === "dibsList" ? (
+          <DibsList />
+        ) : (
+          <div></div>
+        )}
       </StContentBox>
     </StMypageLayout>
   );

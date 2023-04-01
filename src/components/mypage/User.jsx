@@ -331,14 +331,14 @@ const StImgDiv = styled.div`
   @media screen and (max-width: 767px) {
     width: 120px;
     height: 120px;
-    top: 20%;
+    top: -10%;
     left: -10px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 800px) {
     width: 200px;
     height: 200px;
-    top: 5%;
+    top: -10%;
   }
 `;
 
