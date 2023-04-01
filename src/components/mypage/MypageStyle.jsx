@@ -9,11 +9,11 @@ const StMypageLayout = styled.div`
   flex-direction: column;
   @media screen and (max-width: 767px) {
     width: 375px;
-    height: 667px;
+    height: 800px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 768px;
-    height: 1024px;
+    height: 1200px;
   }
 `;
 
@@ -32,11 +32,11 @@ const StContentBox = styled.div`
   margin: -2px auto 0 auto;
   @media screen and (max-width: 767px) {
     width: 300px;
-    height: 440px;
+    height: 600px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 660px;
-    height: 760px;
+    height: 900px;
   }
 `;
 
@@ -240,10 +240,10 @@ const PageBox = styled.div`
     justify-content: center;
     margin-top: 15px;
     @media screen and (max-width: 767px) {
-      margin-top: 70px;
+      margin-top: 220px;
     }
     @media screen and (min-width: 768px) and (max-width: 1023px) {
-      margin-top: 30px;
+      margin-top: 170px;
     }
   }
   ul {
