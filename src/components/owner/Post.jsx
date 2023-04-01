@@ -14,17 +14,21 @@ import {
   StImps,
   StRadioLabel,
   StLine,
+  StLines,
   StErrorMsg,
+  StErrorMsgs,
   StFormBox,
   StForm,
   StLabels,
   StRadio,
+  StTimeBox,
   StHoliday,
   StWeek,
   StInput,
   StText,
   StImgBox,
   StImgUpload,
+  StMent,
   StFakeBox,
   StFake,
   StRealBox,
@@ -329,16 +333,11 @@ function Post() {
                 중복확인
               </StBtn>
             </StLine>
-            <StErrorMsg
-              style={{
-                marginLeft: "180px",
-                marginTop: "-45px",
-              }}
-            >
+            <StErrorMsgs>
               {titleButtonClicked === false ? (
                 <p>업체명 중복확인을 해주세요</p>
               ) : null}
-            </StErrorMsg>
+            </StErrorMsgs>
             <StLine>
               <StContents>
                 <StTitle>
@@ -581,8 +580,8 @@ function Post() {
             )}
 
             <div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <StLine>
+              <StTimeBox>
+                <StLines>
                   <StTitle>
                     <StImp>*</StImp>영업시간
                   </StTitle>
@@ -622,8 +621,8 @@ function Post() {
                       </StHoliday>
                     )}
                   </div>
-                </StLine>
-              </div>
+                </StLines>
+              </StTimeBox>
               <StLine>
                 <StTitle>
                   <StImp>*</StImp>업체사진
@@ -632,7 +631,7 @@ function Post() {
                   <StBtn onClick={onImgButton} size="medium">
                     업로드
                   </StBtn>
-                  <p>최대 4장까지 업로드 가능합니다.</p>
+                  <StMent>최대 4장까지 업로드 가능합니다.</StMent>
                 </StImgBox>
               </StLine>
               <StInput

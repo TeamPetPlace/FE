@@ -18,11 +18,13 @@ import {
   StImps,
   StRadioLabel,
   StLine,
+  StLines,
   StErrorMsg,
   StFormBox,
   StForm,
   StLabels,
   StRadio,
+  StTimeBox,
   StHoliday,
   StWeek,
   StInput,
@@ -36,10 +38,10 @@ import {
   StBtns,
   StBtn,
   Stdiv,
+  StMent,
   StWrap,
 } from "./AllDetailFormStyle";
 import AllDetailList from "./AllDetailList";
-import Footer from "../../common/Footer";
 
 const AllDetailForm = () => {
   const [cookies] = useCookies(["access_token", "email"]);
@@ -620,7 +622,7 @@ const AllDetailForm = () => {
                 </div>
               )}
               <div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <StTimeBox>
                   <StLine>
                     <StTitle>
                       <StImp>*</StImp>영업시간
@@ -667,7 +669,7 @@ const AllDetailForm = () => {
                       )}
                     </div>
                   </StLine>
-                </div>
+                </StTimeBox>
                 <StLine>
                   <StTitle>
                     {" "}
@@ -677,7 +679,7 @@ const AllDetailForm = () => {
                     <StBtn onClick={onImgButton} size="medium">
                       업로드
                     </StBtn>
-                    <p>최대 4장까지 업로드 가능합니다.</p>
+                    <StMent>최대 4장까지 업로드 가능합니다.</StMent>
                   </StImgBox>
                 </StLine>
                 <StInput

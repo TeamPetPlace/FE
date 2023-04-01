@@ -6,6 +6,9 @@ const StBox = styled.div`
   height: 1850px;
   background-image: url(${ownerPost});
   margin: 0 auto;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const StPost = styled.div`
@@ -14,6 +17,9 @@ const StPost = styled.div`
   padding-top: 80px;
   font-weight: 900;
   font-size: 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const StTitle = styled.div`
@@ -21,12 +27,32 @@ const StTitle = styled.div`
   font-size: 26px;
   width: 180px;
   display: flex;
+
+  @media screen and (max-width: 767px) {
+    width: 100px;
+    font-size: 12px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 16px;
+    width: 100px;
+  }
 `;
 
 const StContents = styled.div`
   height: 230px;
   display: flex;
   line-height: 230px;
+  @media screen and (max-width: 767px) {
+    height: 110px;
+    line-height: 110px;
+    margin-bottom: 10px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    height: 160px;
+    line-height: 160px;
+  }
 `;
 
 const StImp = styled.div`
@@ -39,13 +65,32 @@ const StImps = styled.div`
   color: red;
   font-size: 15px;
   line-height: 210px;
+  @media screen and (max-width: 767px) {
+    line-height: 100px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    line-height: 150px;
+  }
 `;
 
 const StRadioLabel = styled.label`
   font-size: 18px;
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const StLine = styled.div`
+  display: flex;
+  line-height: 40px;
+  margin-bottom: 20px;
+  @media screen and (max-width: 768px) {
+    line-height: 30px;
+    margin-bottom: 12px;
+  }
+`;
+
+const StLines = styled.div`
   display: flex;
   line-height: 40px;
   margin-bottom: 20px;
@@ -56,6 +101,29 @@ const StErrorMsg = styled.div`
   line-height: 20px;
   font-size: 12px;
   color: red;
+  @media screen and (max-width: 767px) {
+    font-size: 12px;
+    width: 100px;
+    margin-top: -10px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+  }
+`;
+
+const StErrorMsgs = styled.div`
+  height: 40px;
+  line-height: 20px;
+  font-size: 12px;
+  color: red;
+  margin-left: 180px;
+  margin-top: -45px;
+  @media screen and (max-width: 767px) {
+    margin-left: 60px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+  }
 `;
 
 const StFormBox = styled.div`
@@ -68,6 +136,15 @@ const StFormBox = styled.div`
   padding: 0px 20px;
   padding-top: 80px;
   padding-bottom: 60px;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    height: 1050px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 670px;
+    height: 1200px;
+  }
 `;
 
 const StForm = styled.form`
@@ -76,16 +153,38 @@ const StForm = styled.form`
   gap: 18px;
   margin: 0 auto;
   width: 955px;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 650px;
+    margin: 0 auto;
+  }
 `;
 
 const StLabels = styled.div`
   margin-left: 10px;
   font-size: 18px;
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const StRadio = styled.input.attrs({ type: "radio" })`
   margin-right: 15px;
   cursor: pointer;
+`;
+
+const StTimeBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media screen and (max-width: 767px) {
+    width: 300px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+  }
 `;
 
 const StHoliday = styled.select`
@@ -120,10 +219,16 @@ const StInput = styled.input`
       case "large":
         return css`
           width: 400px;
+          @media screen and (max-width: 768px) {
+            width: 200px;
+          }
         `;
       case "medium":
         return css`
           width: 200px;
+          @media screen and (max-width: 768px) {
+            width: 200px;
+          }
         `;
       case "small":
         return css`
@@ -134,6 +239,15 @@ const StInput = styled.input`
         return css`
           width: 540px;
           height: 27px;
+          @media screen and (max-width: 767px) {
+            width: 120px;
+            height: 15px;
+          }
+
+          @media screen and (min-width: 768px) and (max-width: 1023px) {
+            width: 300px;
+            height: 20px;
+          }
         `;
     }
   }}
@@ -147,6 +261,15 @@ const StText = styled.textarea`
   width: 750px;
   height: 200px;
   margin-top: 10px;
+  @media screen and (max-width: 767px) {
+    width: 110px;
+    height: 100px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 300px;
+    height: 120px;
+  }
 `;
 
 const StImgBox = styled.div`
@@ -160,6 +283,16 @@ const StImgUpload = styled.div`
   border: 1px solid transparent;
 `;
 
+const StMent = styled.p`
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+    width: 90px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+  }
+`;
+
 const StFakeBox = styled.div`
   display: flex;
   margin-top: 10px;
@@ -171,6 +304,14 @@ const StFake = styled.div`
   margin-right: 10px;
   background-color: lightgray;
   border-radius: 5px;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 130px;
+    height: 130px;
+  }
 `;
 
 const StRealBox = styled.div`
@@ -180,6 +321,13 @@ const StRealBox = styled.div`
   left: 180px;
   overflow: hidden;
   height: 170px;
+  @media screen and (max-width: 767px) {
+    left: 40px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    left: 95px;
+  }
 `;
 
 const StImg = styled.img`
@@ -187,6 +335,15 @@ const StImg = styled.img`
   height: 170px;
   margin-right: 10px;
   border-radius: 5px;
+  @media screen and (max-width: 767px) {
+    height: 50px;
+    width: 50px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 130px;
+    height: 130px;
+  }
 `;
 
 const StBtns = styled.div`
@@ -207,6 +364,7 @@ const StBtn = styled.button`
     background-color: #999;
     color: white;
   }
+
   ${({ size }) => {
     switch (size) {
       case "large":
@@ -220,18 +378,48 @@ const StBtn = styled.button`
             border: none;
             color: black;
           }
+          @media screen and (max-width: 767px) {
+            width: 100px;
+            font-size: 15px;
+            height: 40px;
+          }
+
+          @media screen and (min-width: 768px) and (max-width: 1023px) {
+          }
         `;
       case "medium":
         return css`
           width: 164px;
           height: 45px;
           font-size: 20px;
+          @media screen and (max-width: 767px) {
+            width: 100px;
+            height: 30px;
+            font-size: 10px;
+          }
+
+          @media screen and (min-width: 768px) and (max-width: 1023px) {
+            width: 100px;
+            height: 40px;
+            font-size: 14px;
+          }
         `;
       case "small":
         return css`
           width: 160px;
           height: 45px;
           font-size: 20px;
+          @media screen and (max-width: 767px) {
+            width: 90px;
+            font-size: 10px;
+            height: 30px;
+          }
+
+          @media screen and (min-width: 768px) and (max-width: 1023px) {
+            width: 100px;
+            height: 40px;
+            font-size: 14px;
+          }
         `;
       default:
         return css`
@@ -250,17 +438,21 @@ export {
   StImps,
   StRadioLabel,
   StLine,
+  StLines,
   StErrorMsg,
+  StErrorMsgs,
   StFormBox,
   StForm,
   StLabels,
   StRadio,
   StHoliday,
+  StTimeBox,
   StWeek,
   StInput,
   StText,
   StImgBox,
   StImgUpload,
+  StMent,
   StFakeBox,
   StFake,
   StRealBox,
