@@ -131,60 +131,13 @@ function MyReviewList() {
                 <div>
                   {edit.reviewId === item.id && edit.isEdit === true ? (
                     <>
-                      {/* <form
-                        onSubmit={(event) =>
-                          onUpdateReviewHandler(event, item.id)
-                        }
-                        encType="multipart/form-data"
-                      >
-                        <input
-                          type="text"
-                          placeholder="후기를 작성해주세요"
-                          value={updateReview}
-                          onChange={(event) =>
-                            setUpdateReview(event.target.value)
-                          }
-                        />
-                        <button onClick={onImgButton}>이미지 업로드</button>
-                        <div>
-                          {imgView.map((item, index) => {
-                            return <StImg src={item} alt="img" key={index} />;
-                          })}
-                        </div>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          id="fileUpload"
-                          style={{ display: "none" }}
-                          ref={fileInput}
-                          onChange={onImgHandler}
-                        />
-                        <StStar>
-                          <p>평점</p>
-                          <div style={{ display: "flex" }}>
-                            {[1, 2, 3, 4, 5].map((el) => (
-                              <p
-                                key={el}
-                                onMouseEnter={() => setHovered(el)}
-                                onMouseLeave={() => setHovered(null)}
-                                onClick={() => setClicked(el)}
-                                value={clicked}
-                              >{`${
-                                (clicked >= el) | (hovered >= el) && "★"
-                              }`}</p>
-                            ))}
-                          </div>
-                        </StStar>
-                        <button>수정</button>
-                        <button onClick={() => onEditMode(item.id)}>
-                          취소
-                        </button>
-                      </form> */}
                       <StReviewBox>
                         <StBackGround>
                           <StFormBox>
                             <StForm
-                              onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
+                              onSubmit={(event) =>
+                                onUpdateReviewHandler(event, item.id)
+                              }
                               encType="multipart/form-data"
                             >
                               <StTopBox style={{ display: "flex" }}>
@@ -203,7 +156,11 @@ function MyReviewList() {
                                       onClick={() => setClicked(el)}
                                       value={clicked}
                                     >
-                                      {`${(clicked >= el) | (hovered >= el) ? "★" : "☆"}`}
+                                      {`${
+                                        (clicked >= el) | (hovered >= el)
+                                          ? "★"
+                                          : "☆"
+                                      }`}
                                     </p>
                                   ))}
                                 </div>
@@ -213,7 +170,9 @@ function MyReviewList() {
                                 <StInput
                                   type="text"
                                   value={updateReview}
-                                  onChange={(event) => setUpdateReview(event.target.value)}
+                                  onChange={(event) =>
+                                    setUpdateReview(event.target.value)
+                                  }
                                   minLength={10}
                                   placeholder={item.review}
                                 />
@@ -224,7 +183,13 @@ function MyReviewList() {
                                   <div>
                                     {imgView.length > 0 &&
                                       imgView.map((item, index) => {
-                                        return <StImgs src={item} alt="img" key={index} />;
+                                        return (
+                                          <StImgs
+                                            src={item}
+                                            alt="img"
+                                            key={index}
+                                          />
+                                        );
                                       })}
                                   </div>
                                   <input
@@ -239,7 +204,9 @@ function MyReviewList() {
                               </StInputBox>
                               <StBtns>
                                 <StBtnn>수정하기</StBtnn>
-                                <StBtnn onClick={() => onEditMode(item.id)}>취소하기</StBtnn>
+                                <StBtnn onClick={() => onEditMode(item.id)}>
+                                  취소하기
+                                </StBtnn>
                               </StBtns>
                             </StForm>
                           </StFormBox>
@@ -269,10 +236,18 @@ function MyReviewList() {
                       <div style={{ width: "580px" }}>
                         <StTitle>
                           {item.nickname}
-                          {(item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
-                            (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
-                            (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
-                            (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
+                          {(item.star === 1 && (
+                            <StStarIcon>★☆☆☆☆</StStarIcon>
+                          )) ||
+                            (item.star === 2 && (
+                              <StStarIcon>★★☆☆☆</StStarIcon>
+                            )) ||
+                            (item.star === 3 && (
+                              <StStarIcon>★★★☆☆</StStarIcon>
+                            )) ||
+                            (item.star === 4 && (
+                              <StStarIcon>★★★★☆</StStarIcon>
+                            )) ||
                             (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                         </StTitle>
                         <StReview>{item.review}</StReview>
@@ -283,7 +258,9 @@ function MyReviewList() {
                       </div>
                       <div style={{ margin: "35px 0" }}>
                         <StBtn onClick={() => onEditMode(item.id)}>수정</StBtn>
-                        <StBtn onClick={() => onDeletetReviewHandler(item.id)}>삭제</StBtn>
+                        <StBtn onClick={() => onDeletetReviewHandler(item.id)}>
+                          삭제
+                        </StBtn>
                       </div>
                     </StReviews>
                   )}
@@ -313,7 +290,6 @@ const StPageDiv = styled.div`
   width: 978px;
   height: 100px;
   position: relative;
-  /* background-color: blue; */
   @media screen and (max-width: 767px) {
     width: 300px;
     height: 50px;
@@ -445,7 +421,10 @@ const PageBox = styled.div`
     justify-content: center;
     margin-top: 15px;
     @media screen and (max-width: 767px) {
-      margin-top: 20px;
+      margin-top: 200px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      margin-top: 180px;
     }
   }
   ul {
