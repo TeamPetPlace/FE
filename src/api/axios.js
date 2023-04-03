@@ -16,7 +16,7 @@ export const kakaoURL = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_URL}`,
   headers: {
     "Access-Control-Allow-Origin": "*",
-    authorization: `${access_token}`,
+    Authorization: `${access_token}`,
     accept: "application/json",
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
   },
