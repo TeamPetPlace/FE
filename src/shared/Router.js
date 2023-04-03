@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Mypage from "../pages/Mypage";
+import Notification from "../pages/Notification";
 import Main from "../pages/Main";
 import Hospital from "../pages/Hospital";
 import Shop from "../pages/Shop";
@@ -20,6 +21,7 @@ const Router = () => {
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/notification" element={<Notification />} />
         <Route path="/main" element={<Main />} />
         <Route path="/hospital" element={<Hospital />} />
         <Route path="/hospital/:id" element={<HospitalDetail />} />
