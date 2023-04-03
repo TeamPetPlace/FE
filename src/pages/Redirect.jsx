@@ -11,11 +11,11 @@ const Redirect = () => {
     kakaoURL
       .get(`/kakao/callback?code=${code}`)
       .then((response) => {
-        if (response.headers.authorization !== undefined) {
-          const access_token = response.headers["authorization"];
+        if (response.headers.Authorization !== undefined) {
+          const access_token = response.headers["Authorization"];
           setCookie("access_token", access_token);
           setCookie("loginType", response.data.response.loginType);
-          console.log(response.headers["authorization"]);
+          console.log(response.headers["Authorization"]);
           window.location.href = "/main";
           return response;
         }

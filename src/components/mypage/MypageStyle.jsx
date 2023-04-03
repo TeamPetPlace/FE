@@ -9,11 +9,11 @@ const StMypageLayout = styled.div`
   flex-direction: column;
   @media screen and (max-width: 767px) {
     width: 375px;
-    height: 800px;
+    height: 900px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 768px;
-    height: 1200px;
+    height: 1400px;
   }
 `;
 
