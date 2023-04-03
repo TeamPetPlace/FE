@@ -3,12 +3,13 @@ import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { setCookie } from "../../api/cookie";
+import { getCookie, setCookie } from "../../api/cookie";
 import { KaKaoLogin, NomalLogin } from "../../api/user";
 import Layout from "../common/Layout";
 import animal_illust_back from "../../style/img/animal_illust_back.svg";
 import logo from "../../style/img/logo.svg";
 import KaKaoLoginBtn from "../../style/img/kakao_login_large_wide.png";
+import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -34,15 +35,21 @@ const LoginForm = () => {
       setCookie("AccessToken", response.headers.authorization);
       setCookie("RefreshToken", response.headers.refreshtoken);
       //로그인 타입이 사업자라면 sse 구독 시작
-      // if (response.data.response.loginType === "BUSINESS") {
-      //   const eventSource = new EventSource(
-      //     "http://7568-220-84-173-36.jp.ngrok.io/subscribe"
-      //   );
-      //   eventSource.onmessage = (event) => {
-      //     console.log("SSE message 받았다", event.data);
-      //   };
-      //   setEventSource(eventSource);
-      // }
+      if (response.data.response.loginType === "BUSINESS") {
+        const AccessToken = getCookie("AccessToken");
+        const eventSource = new EventSourcePolyfill(
+          "https://petplace.site/subscribe",
+          {
+            headers: {
+              Authorization: AccessToken,
+            },
+          }
+        );
+        eventSource.onmessage = (event) => {
+          console.log("SSE message 받았다", event.data);
+        };
+        setEventSource(eventSource);
+      }
       alert("환영합니다");
       // console.log(response);
       navigate("/main");
@@ -55,7 +62,7 @@ const LoginForm = () => {
   });
 
   //sse 구독 종료
-  // const [eventSource, setEventSource] = useState(null);
+  const [eventSource, setEventSource] = useState(null);
 
   // useEffect(() => {
   //   return () => {
