@@ -10,8 +10,8 @@ import styled from "styled-components";
 function CheckLogin() {
   const logoutmuation = useMutation(NomalLogin, {
     onSuccess: (response) => {
-      removeCookie("access_token");
-      removeCookie("refresh_token");
+      removeCookie("AccessToken");
+      removeCookie("RefreshToken");
       removeCookie("loginType");
       removeCookie("email");
       removeCookie("nickname");

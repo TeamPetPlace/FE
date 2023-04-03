@@ -16,7 +16,7 @@ import {
 } from "./ReviewsStyle";
 
 function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
-  const [cookies] = useCookies(["access_token", "email"]);
+  const [cookies] = useCookies(["AccessToken", "email"]);
 
   const handleImageClick = (src) => {
     window.open(src);
@@ -41,9 +41,7 @@ function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
               {cookies.email === item.email && (
                 <div>
                   <StBtn onClick={() => onEditMode(item.id)}>수정</StBtn>
-                  <StBtn onClick={() => onDeletetReviewHandler(item.id)}>
-                    삭제
-                  </StBtn>
+                  <StBtn onClick={() => onDeletetReviewHandler(item.id)}>삭제</StBtn>
                 </div>
               )}
             </StNickBox>
@@ -55,11 +53,7 @@ function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
           {item.image === null ? (
             <img style={{ display: "none" }} />
           ) : (
-            <StImg
-              src={item.image}
-              alt="img"
-              onClick={() => handleImageClick(item.image)}
-            />
+            <StImg src={item.image} alt="img" onClick={() => handleImageClick(item.image)} />
           )}
         </div>
       </StReviewBoxs>

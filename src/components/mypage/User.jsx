@@ -11,7 +11,7 @@ function User() {
   const { id } = useParams();
   const [mypage, setMypage] = useState();
 
-  const [cookies] = useCookies(["access_token", "loginType"]);
+  const [cookies] = useCookies(["AccessToken", "loginType"]);
 
   const queryClient = useQueryClient();
   const { data } = useQuery("getmypage", getMypage, {
