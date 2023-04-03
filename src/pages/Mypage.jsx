@@ -7,7 +7,7 @@ import BossMypage from "../components/mypage/BossMypage";
 import UserMypage from "../components/mypage/UserMypage";
 
 function Mypage() {
-  const [cookies] = useCookies(["access_token", "loginType"]);
+  const [cookies] = useCookies(["AccessToken", "loginType"]);
 
   return (
     <Layout>

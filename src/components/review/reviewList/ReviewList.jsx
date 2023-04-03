@@ -33,7 +33,7 @@ import {
 } from "./ReviewListStyle";
 
 function ReviewList({ id, detail }) {
-  const [cookies] = useCookies(["access_token", "loginType"]);
+  const [cookies] = useCookies(["AccessToken", "loginType"]);
   const [checked, setChecked] = useState([true, false, false]);
   const [tab, setTab] = useState("all");
 
@@ -176,9 +176,7 @@ function ReviewList({ id, detail }) {
         <div style={{ marginBottom: "30px" }}>
           <StTopReviewBox>
             <StCount>전체 리뷰수:{detail.reviewCount}</StCount>
-            {cookies.loginType === "USER" && (
-              <StReviewBtn onClick={onToggle}>작성하기</StReviewBtn>
-            )}
+            {cookies.loginType === "USER" && <StReviewBtn onClick={onToggle}>작성하기</StReviewBtn>}
           </StTopReviewBox>
           {open && <Review id={id} onToggle={onToggle} />}
           <div>
@@ -203,9 +201,7 @@ function ReviewList({ id, detail }) {
                     <StFormBox>
                       {cookies.loginType === "USER" && (
                         <StForm
-                          onSubmit={(event) =>
-                            onUpdateReviewHandler(event, item.id)
-                          }
+                          onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
                           encType="multipart/form-data"
                         >
                           <StTopBox style={{ display: "flex" }}>
@@ -224,11 +220,7 @@ function ReviewList({ id, detail }) {
                                   onClick={() => setClicked(el)}
                                   value={clicked}
                                 >
-                                  {`${
-                                    (clicked >= el) | (hovered >= el)
-                                      ? "★"
-                                      : "☆"
-                                  }`}
+                                  {`${(clicked >= el) | (hovered >= el) ? "★" : "☆"}`}
                                 </p>
                               ))}
                             </div>
@@ -238,9 +230,7 @@ function ReviewList({ id, detail }) {
                             <StInput
                               type="text"
                               value={updateReview}
-                              onChange={(event) =>
-                                setUpdateReview(event.target.value)
-                              }
+                              onChange={(event) => setUpdateReview(event.target.value)}
                               minLength={10}
                               placeholder={item.review}
                             />
@@ -251,9 +241,7 @@ function ReviewList({ id, detail }) {
                               <div>
                                 {imgView.length > 0 &&
                                   imgView.map((item, index) => {
-                                    return (
-                                      <StImg src={item} alt="img" key={index} />
-                                    );
+                                    return <StImg src={item} alt="img" key={index} />;
                                   })}
                               </div>
                               <input
@@ -268,9 +256,7 @@ function ReviewList({ id, detail }) {
                           </StInputBox>
                           <StBtns>
                             <StBtn>수정하기</StBtn>
-                            <StBtn onClick={() => onEditMode(item.id)}>
-                              취소하기
-                            </StBtn>
+                            <StBtn onClick={() => onEditMode(item.id)}>취소하기</StBtn>
                           </StBtns>
                         </StForm>
                       )}

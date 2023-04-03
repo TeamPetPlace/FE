@@ -29,8 +29,8 @@ function Header() {
 
   const logoutmuation = useMutation(NomalLogin, {
     onSuccess: (response) => {
-      removeCookie("access_token");
-      removeCookie("refresh_token");
+      removeCookie("AccessToken");
+      removeCookie("RefreshToken");
       removeCookie("loginType");
       removeCookie("email");
       removeCookie("nickname");
@@ -66,16 +66,11 @@ function Header() {
             )}
 
             <div>{nickname}</div>
-            <StUserBar
-              onMouseEnter={() => setDrop(!drop)}
-              onMouseLeave={() => setDrop(!drop)}
-            >
+            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
               ▼
               {drop && (
                 <StUserCategory>
-                  <StUserMenu onClick={() => navigate("/mypage")}>
-                    마이페이지
-                  </StUserMenu>
+                  <StUserMenu onClick={() => navigate("/mypage")}>마이페이지</StUserMenu>
                   <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
                 </StUserCategory>
               )}

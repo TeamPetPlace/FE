@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { baseURL, instance, kakaoURL } from "../api/axios";
+import { kakaoURL } from "../api/axios";
 import { getCookie, setCookie } from "../api/cookie";
 
 const Redirect = () => {
@@ -11,11 +11,13 @@ const Redirect = () => {
     kakaoURL
       .get(`/kakao/callback?code=${code}`)
       .then((response) => {
-        if (response.headers.Authorization !== undefined) {
-          const access_token = response.headers["Authorization"];
-          setCookie("access_token", access_token);
+        if (response.success === true || response.data.resonse.status === 200) {
+          const AccessToken = response.headers["Authorization"];
+          setCookie("AccessToken", AccessToken);
           setCookie("loginType", response.data.response.loginType);
-          console.log(response.headers["Authorization"]);
+          setCookie("email", response.data.response.email);
+          setCookie("nickname", response.data.response.nickname);
+          // setCookie("email", email)
           window.location.href = "/main";
           return response;
         }

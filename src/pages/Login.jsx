@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import CheckLogin from "../components/register/CheckLogin";
 
 function Login() {
-  const [cookies] = useCookies(["access_token", "loginType"]);
+  const [cookies] = useCookies(["AccessToken", "loginType"]);
   return (
     <div>
       {cookies.loginType === "USER" ||

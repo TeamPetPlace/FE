@@ -31,8 +31,8 @@ const LoginForm = () => {
       setCookie("loginType", response.data.response.loginType);
       setCookie("nickname", response.data.response.nickname);
       setCookie("email", email);
-      setCookie("access_token", response.headers.authorization);
-      setCookie("refresh_token", response.headers.refresh_token);
+      setCookie("AccessToken", response.headers.authorization);
+      setCookie("RefreshToken", response.headers.refreshtoken);
       //로그인 타입이 사업자라면 sse 구독 시작
       // if (response.data.response.loginType === "BUSINESS") {
       //   const eventSource = new EventSource(
@@ -44,12 +44,12 @@ const LoginForm = () => {
       //   setEventSource(eventSource);
       // }
       alert("환영합니다");
-      console.log(response);
+      // console.log(response);
       navigate("/main");
     },
     onError: (error) => {
       setValid(false);
-      console.log(error);
+      // console.log(error);
       alert("로그인 실패");
     },
   });

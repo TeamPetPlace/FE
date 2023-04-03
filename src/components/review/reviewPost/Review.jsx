@@ -22,7 +22,7 @@ import {
 } from "./ReviewStyle";
 
 function Review({ id, onToggle }) {
-  const [cookies] = useCookies(["access_token", "loginType"]);
+  const [cookies] = useCookies(["AccessToken", "loginType"]);
 
   //평점
   const [hovered, setHovered] = useState(null);
