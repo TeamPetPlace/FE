@@ -3,11 +3,19 @@ import styled from "styled-components";
 import User from "./User";
 import DibsList from "./DibsList";
 import PostList from "./PostList";
-import { StMypageLayout, StTabBtn, StContentBox, StTabBtnContainer } from "./MypageStyle";
+import {
+  StMypageLayout,
+  StTabBtn,
+  StContentBox,
+  StTabBtnContainer,
+} from "./MypageStyle";
+import { useNavigate } from "react-router-dom";
 
 function BossMypage() {
   const [checked, setChecked] = useState([true, false]);
   const [tab, setTab] = useState("postList");
+
+  const navigate = useNavigate();
 
   const bossTabList = [
     { id: 0, text: "업체정보", category: "postList" },
@@ -27,6 +35,7 @@ function BossMypage() {
 
   return (
     <StMypageLayout>
+      {/* <button onClick={() => navigate("/notification")}>알림</button> */}
       <User />
       <StTabBtnContainer>
         {bossTabList?.map((item, i) => (
@@ -41,7 +50,13 @@ function BossMypage() {
         ))}
       </StTabBtnContainer>
       <StContentBox>
-        {tab === "postList" ? <PostList /> : tab === "dibsList" ? <DibsList /> : <div></div>}
+        {tab === "postList" ? (
+          <PostList />
+        ) : tab === "dibsList" ? (
+          <DibsList />
+        ) : (
+          <div></div>
+        )}
       </StContentBox>
     </StMypageLayout>
   );

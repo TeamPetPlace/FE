@@ -19,6 +19,7 @@ const LoginForm = () => {
     visible: false,
   });
   const [valid, setValid] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onKaKaologin = () => {
     KaKaoLogin();
@@ -26,11 +27,22 @@ const LoginForm = () => {
 
   const loginMutation = useMutation(NomalLogin, {
     onSuccess: (response) => {
+      setIsLoggedIn(true);
       setCookie("loginType", response.data.response.loginType);
       setCookie("nickname", response.data.response.nickname);
       setCookie("email", email);
       setCookie("access_token", response.headers.authorization);
       setCookie("refresh_token", response.headers.refresh_token);
+      //로그인 타입이 사업자라면 sse 구독 시작
+      // if (response.data.response.loginType === "BUSINESS") {
+      //   const eventSource = new EventSource(
+      //     "http://7568-220-84-173-36.jp.ngrok.io/subscribe"
+      //   );
+      //   eventSource.onmessage = (event) => {
+      //     console.log("SSE message 받았다", event.data);
+      //   };
+      //   setEventSource(eventSource);
+      // }
       alert("환영합니다");
       console.log(response);
       navigate("/main");
@@ -38,9 +50,20 @@ const LoginForm = () => {
     onError: (error) => {
       setValid(false);
       console.log(error);
-      // alert("로그인 실패");
+      alert("로그인 실패");
     },
   });
+
+  //sse 구독 종료
+  // const [eventSource, setEventSource] = useState(null);
+
+  // useEffect(() => {
+  //   return () => {
+  //     if (eventSource) {
+  //       eventSource.close();
+  //     }
+  //   };
+  // }, [eventSource]);
 
   const onLoginSubmit = (event) => {
     event.preventDefault();
@@ -83,7 +106,9 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {valid ? null : (
-                  <StDescDiv style={{ color: "#ff6666" }}>ID/PW가 일치하지 않습니다.</StDescDiv>
+                  <StDescDiv style={{ color: "#ff6666" }}>
+                    ID/PW가 일치하지 않습니다.
+                  </StDescDiv>
                 )}
                 <StBtn Border="1px solid #fee500">로그인</StBtn>
               </div>
@@ -101,7 +126,11 @@ const LoginForm = () => {
                   cursor: "pointer",
                 }}
               /> */}
-              <StBtn style={{ color: "grey" }} Border="1px solid #fee500" onClick={onKaKaologin}>
+              <StBtn
+                style={{ color: "grey" }}
+                Border="1px solid #fee500"
+                onClick={onKaKaologin}
+              >
                 카카오 로그인 (구현중)
               </StBtn>
             </div>
@@ -113,6 +142,7 @@ const LoginForm = () => {
             >
               회원가입
             </StBtn>
+            {/* <div>{eventSource}</div> */}
           </>
         </StLoginDiv>
       </StLoginFormDiv>
