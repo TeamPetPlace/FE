@@ -10,17 +10,18 @@ const Redirect = () => {
       .get(`/kakao/callback?code=${code}`)
       .then((response) => {
         console.log(response);
-        // if (response.success === true) {
-        const AccessToken = response.headers["authorization"];
-        setCookie("AccessToken", AccessToken);
-        const token = response.config.headers.Authorization;
-        setCookie("token", token);
-        setCookie("loginType", response.config.headers.loginType);
-        setCookie("email", response.response.email);
-        setCookie("nickname", response.response.nickname);
-        window.location.href = "/main";
+        const AccessToken = response.headers.authorization;
+        const RefreshToken = response.headers.refreshtoken;
+
+        if (response.data.success === true) {
+          setCookie("AccessToken", AccessToken);
+          setCookie("RefreshToken", RefreshToken);
+          setCookie("loginType", response.data.loginType);
+          setCookie("email", response.data.email);
+          setCookie("nickname", response.data.nickname);
+          window.location.href = "/main";
+        }
         return response;
-        // }
       })
       .catch((error) => {
         console.log(error);
