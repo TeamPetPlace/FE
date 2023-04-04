@@ -34,18 +34,18 @@ const LoginForm = () => {
       setCookie("AccessToken", response.headers.authorization);
       setCookie("RefreshToken", response.headers.refreshtoken);
       //로그인 타입이 사업자라면 sse 구독 시작
-      if (response.data.response.loginType === "BUSINESS") {
-        const AccessToken = getCookie("AccessToken");
-        const eventSource = new EventSourcePolyfill("https://petplace.site/subscribe", {
-          headers: {
-            Authorization: AccessToken,
-          },
-        });
-        eventSource.onmessage = (event) => {
-          console.log("SSE message 받았다", event.data);
-        };
-        setEventSource(eventSource);
-      }
+      // if (response.data.response.loginType === "BUSINESS") {
+      //   const AccessToken = getCookie("AccessToken");
+      //   const eventSource = new EventSourcePolyfill("https://petplace.site/subscribe", {
+      //     headers: {
+      //       Authorization: AccessToken,
+      //     },
+      //   });
+      //   eventSource.onmessage = (event) => {
+      //     console.log("SSE message 받았다", event.data);
+      //   };
+      //   setEventSource(eventSource);
+      // }
       alert("환영합니다");
       // console.log(response);
       navigate("/main");
@@ -58,15 +58,15 @@ const LoginForm = () => {
   });
 
   //sse 구독 종료
-  const [eventSource, setEventSource] = useState(null);
+  // const [eventSource, setEventSource] = useState(null);
 
-  useEffect(() => {
-    return () => {
-      if (eventSource) {
-        eventSource.close();
-      }
-    };
-  }, [eventSource]);
+  // useEffect(() => {
+  //   return () => {
+  //     if (eventSource) {
+  //       eventSource.close();
+  //     }
+  //   };
+  // }, [eventSource]);
 
   const onLoginSubmit = (event) => {
     event.preventDefault();
@@ -109,7 +109,9 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {valid ? null : (
-                  <StDescDiv style={{ color: "#ff6666" }}>ID/PW가 일치하지 않습니다.</StDescDiv>
+                  <StDescDiv style={{ color: "#ff6666" }}>
+                    ID/PW가 일치하지 않습니다.
+                  </StDescDiv>
                 )}
                 <StBtn Border="1px solid #fee500">로그인</StBtn>
               </div>

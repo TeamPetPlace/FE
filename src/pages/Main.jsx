@@ -7,53 +7,100 @@ import Banner from "../components/main/Banner/Banner";
 import SecondBanner from "../components/main/Banner/SecondBanner";
 import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
 import { getCookie } from "../api/cookie";
+import { useQuery, useQueryClient } from "react-query";
+import { getNotification } from "../api/main";
 
 function Main() {
   const [listening, setListening] = useState(false);
-  const [data, setData] = useState({ value: 0, target: 100 });
-  const eventSource = undefined;
+  const [notification, setNotification] = useState([]);
+  let eventSource = undefined;
+
+  const [list, setList] = useState([]);
 
   useEffect(() => {
     if (!listening) {
       const AccessToken = getCookie("AccessToken");
-      const eventSource = new EventSourcePolyfill(
-        "https://petplace.site/subscribe",
-        {
-          headers: {
-            Authorization: AccessToken,
-          },
-        }
-      );
-      eventSource.onmessage = (event) => {
-        console.log("SSE 구독 성공", event.data);
-        setData(event.data);
+      eventSource = new EventSourcePolyfill("https://petplace.site/subscribe", {
+        headers: {
+          Authorization: AccessToken,
+        },
+      });
+
+      eventSource.onopen = (event) => {
+        console.log("sse 구독 성공");
       };
 
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const content = data.content;
+        console.log(content);
+        setNotification((old) => [...old, content]);
+        console.log(notification);
+      };
+
+      // eventSource.addEventListener("message", (event) => {
+      //   // const result = JSON.parse(event.data);
+      //   const result = event;
+      //   console.log("메세지 받았다", result);
+      //   setData(result);
+      // });
+
       eventSource.addEventListener("message", (event) => {
-        // const result = JSON.parse(event.data);
-        const result = event;
-        console.log("메세지 받았다", result);
-        setData(result);
+        const data = JSON.parse(event.data);
+        const content = data.content;
+        console.log(content);
+        setNotification(content);
       });
 
-      eventSource.addEventListener("error", (event) => {
-        if (event) {
-          console.log(event);
+      eventSource.onerror = (event) => {
+        console.log(event.target.readyState);
+        if (event.target.readyState === EventSource.CLOSED) {
+          console.log("SSE 연결 종료 (" + event.target.readyState + ")");
         }
         eventSource.close();
-      });
-      // setEventSource(eventSource);
+      };
+      setListening(true);
+      eventSource.onerror = (event) => {
+        console.log(event.target.readyState);
+        if (event.target.readyState === EventSource.CLOSED) {
+          console.log("SSE 연결 종료");
+        } else {
+          console.log("에러 발생", event);
+          eventSource.close();
+          setTimeout(() => {
+            console.log("재시도");
+            eventSource = new EventSourcePolyfill(
+              "https://petplace.site/subscribe",
+              {
+                headers: {
+                  Authorization: AccessToken,
+                },
+              }
+            );
+          }, 1000);
+        }
+      };
+      setListening(true);
     }
+    return () => {
+      eventSource.close();
+      console.log("닫혔다 !!!");
+    };
   }, []);
+
+  const { data } = useQuery("getnotification", getNotification, {
+    onSuccess: (response) => {
+      setList(response);
+      console.log(response);
+      console.log(list);
+    },
+  });
 
   return (
     <Layout>
       <Header />
       <Banner />
-      <div>
-        sse 메세지
-        <span></span>
-      </div>
+      <div>sse 메세지 :</div>
       <Tab />
       <SecondBanner />
       <Footer />
