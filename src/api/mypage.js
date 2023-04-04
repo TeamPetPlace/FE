@@ -42,4 +42,44 @@ const getMyDibs = async (payload) => {
   return response.data;
 };
 
-export { getMypage, updateUser, getMyPost, getMyReview, getMyDibs };
+const getNotification = async () => {
+  const response = await instance.get("/notifications");
+  return response.data;
+};
+
+const deleteNotification = async (id) => {
+  await instance
+    .delete(`/notifications/delete/${id}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      if (axios.isAxiosError(err)) {
+        return alert(`Error : ${err.message}`);
+      }
+    });
+};
+
+const deleteAllNotification = async () => {
+  await instance
+    .delete("/notifications/delete")
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      if (axios.isAxiosError(err)) {
+        return alert(`Error : ${err.message}`);
+      }
+    });
+};
+
+export {
+  getMypage,
+  updateUser,
+  getMyPost,
+  getMyReview,
+  getMyDibs,
+  getNotification,
+  deleteNotification,
+  deleteAllNotification,
+};

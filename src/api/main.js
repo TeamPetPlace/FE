@@ -38,9 +38,4 @@ const cancelDibs = async (payload) => {
     });
 };
 
-const getNotification = async () => {
-  const response = await instance.get("/notifications");
-  return response.data;
-};
-
-export { getPost, addDibs, cancelDibs, getNotification };
+export { getPost, addDibs, cancelDibs };

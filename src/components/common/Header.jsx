@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { NomalLogin } from "../../api/user";
-import { removeCookie } from "../../api/cookie";
+import { getCookie, removeCookie } from "../../api/cookie";
 import { getMypage } from "../../api/mypage";
 import { useCookies } from "react-cookie";
 import logo from "../../style/img/logo.svg";
 import profileOrigin from "../../style/img/profile.svg";
 import "../../style/fonts/font.css";
 import { StContainer } from "../main/Banner/BannerStyle";
+import { EventSourcePolyfill } from "event-source-polyfill";
+import { useEffect } from "react";
 
 function Header() {
   const navigate = useNavigate();
@@ -46,6 +48,128 @@ function Header() {
     logoutmuation.mutate();
   };
 
+  const [cookies] = useCookies(["AccessToken", "loginType"]);
+
+  //sse 알림
+  // const [listening, setListening] = useState(false);
+  // const [notification, setNotification] = useState([]);
+  // const EventSource = EventSourcePolyfill;
+
+  // useEffect(() => {
+  //   if (!listening) {
+  //     let eventSource;
+  //     const sse = async () => {
+  //       try {
+  //         eventSource = new EventSource("https://petplace.site/subscribe", {
+  //           headers: {
+  //             Authorization: getCookie("AccessToken"),
+  //           },
+  //         });
+
+  //         eventSource.onmessage = async (event) => {
+  //           const data = await JSON.parse(event.data);
+  //           const content = data.content;
+  //           console.log("sse 구독 성공 ", content);
+  //           if (!data.includes("EventStream Created.")) {
+  //             //알림 표시
+  //           }
+  //         };
+
+  //         eventSource.addEventListener("message", (event) => {
+  //           const data = JSON.parse(event.data);
+  //           const content = data.content;
+  //           console.log(content);
+  //         });
+
+  //         eventSource.onerror = async (event) => {
+  //           if (!event.error.message.includes("No activity"))
+  //             eventSource.close();
+  //         };
+  //       } catch (error) {}
+  //     };
+  //     sse();
+  //     return () => eventSource.close();
+  //   }
+  // });
+
+  const [listening, setListening] = useState(false);
+  const [notification, setNotification] = useState([]);
+  let eventSource = undefined;
+
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    if (!listening) {
+      const AccessToken = getCookie("AccessToken");
+      eventSource = new EventSourcePolyfill("https://petplace.site/subscribe", {
+        headers: {
+          Authorization: AccessToken,
+        },
+      });
+
+      eventSource.onopen = (event) => {
+        console.log("sse 구독 성공");
+      };
+
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const content = data.content;
+        console.log(content);
+        setNotification((old) => [...old, content]);
+        console.log(notification);
+      };
+
+      // eventSource.addEventListener("message", (event) => {
+      //   // const result = JSON.parse(event.data);
+      //   const result = event;
+      //   console.log("메세지 받았다", result);
+      //   setData(result);
+      // });
+
+      eventSource.addEventListener("message", (event) => {
+        const data = JSON.parse(event.data);
+        const content = data.content;
+        console.log(content);
+        alert(content);
+        setNotification(content);
+      });
+
+      eventSource.onerror = (event) => {
+        console.log(event.target.readyState);
+        if (event.target.readyState === EventSource.CLOSED) {
+          console.log("SSE 연결 종료 (" + event.target.readyState + ")");
+        }
+        eventSource.close();
+      };
+      setListening(true);
+      eventSource.onerror = (event) => {
+        console.log(event.target.readyState);
+        if (event.target.readyState === EventSource.CLOSED) {
+          console.log("SSE 연결 종료");
+        } else {
+          console.log("에러 발생", event);
+          eventSource.close();
+          setTimeout(() => {
+            console.log("재시도");
+            eventSource = new EventSourcePolyfill(
+              "https://petplace.site/subscribe",
+              {
+                headers: {
+                  Authorization: AccessToken,
+                },
+              }
+            );
+          }, 5000);
+        }
+      };
+      setListening(true);
+    }
+    return () => {
+      eventSource.close();
+      console.log("닫혔다 !!!");
+    };
+  }, []);
+
   return (
     <>
       <StHeader>
@@ -66,11 +190,22 @@ function Header() {
             )}
 
             <div>{nickname}</div>
-            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
+            <StUserBar
+              onMouseEnter={() => setDrop(!drop)}
+              onMouseLeave={() => setDrop(!drop)}
+            >
               ▼
               {drop && (
                 <StUserCategory>
-                  <StUserMenu onClick={() => navigate("/mypage")}>마이페이지</StUserMenu>
+                  <StUserMenu onClick={() => navigate("/mypage")}>
+                    마이페이지
+                  </StUserMenu>
+                  {cookies.loginType === "BUSINESS" && (
+                    <StUserMenu onClick={() => navigate("/notification")}>
+                      알림함
+                    </StUserMenu>
+                  )}
+
                   <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
                 </StUserCategory>
               )}
