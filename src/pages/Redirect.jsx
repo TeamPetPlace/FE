@@ -29,7 +29,7 @@ const Redirect = () => {
         console.log(error);
         return;
       });
-  }, [code]);
+  }, []);
 
   return;
 };
