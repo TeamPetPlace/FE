@@ -12,6 +12,7 @@ import "../../style/fonts/font.css";
 import { StContainer } from "../main/Banner/BannerStyle";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { useEffect } from "react";
+import Toast from "../../element/Toast";
 
 function Header() {
   const navigate = useNavigate();
@@ -98,6 +99,9 @@ function Header() {
 
   const [list, setList] = useState([]);
 
+  const [toastState, setToastState] = useState(false);
+  const [toastAnimation, setToastAnimation] = useState("toast-alert");
+
   useEffect(() => {
     if (!listening) {
       const AccessToken = getCookie("AccessToken");
@@ -130,8 +134,9 @@ function Header() {
         const data = JSON.parse(event.data);
         const content = data.content;
         console.log(content);
-        alert(content);
+        // alert(content);
         setNotification(content);
+        setToastState(true);
       });
 
       eventSource.onerror = (event) => {
@@ -214,6 +219,12 @@ function Header() {
         </StWrap>
       </StHeader>
       <StPlusDiv></StPlusDiv>
+      {toastState === true ? (
+        <Toast
+          setToastAnimation={setToastAnimation}
+          setToastState={setToastState}
+        />
+      ) : null}
     </>
   );
 }
