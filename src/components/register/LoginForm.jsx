@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getCookie, setCookie } from "../../api/cookie";
@@ -37,14 +36,11 @@ const LoginForm = () => {
       //로그인 타입이 사업자라면 sse 구독 시작
       if (response.data.response.loginType === "BUSINESS") {
         const AccessToken = getCookie("AccessToken");
-        const eventSource = new EventSourcePolyfill(
-          "https://petplace.site/subscribe",
-          {
-            headers: {
-              Authorization: AccessToken,
-            },
-          }
-        );
+        const eventSource = new EventSourcePolyfill("https://petplace.site/subscribe", {
+          headers: {
+            Authorization: AccessToken,
+          },
+        });
         eventSource.onmessage = (event) => {
           console.log("SSE message 받았다", event.data);
         };
