@@ -1,6 +1,4 @@
-import axios from "axios";
 import { instance, baseURL } from "./axios";
-import { getCookie } from "./cookie";
 
 export const UserSignup = async (payload) => {
   try {
