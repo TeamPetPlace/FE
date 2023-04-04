@@ -10,15 +10,17 @@ const Redirect = () => {
       .get(`/kakao/callback?code=${code}`)
       .then((response) => {
         console.log(response);
+        console.log(response.headers);
+        console.log(response.data);
         const AccessToken = response.headers.authorization;
         const RefreshToken = response.headers.refreshtoken;
 
         if (response.data.success === true) {
           setCookie("AccessToken", AccessToken);
           setCookie("RefreshToken", RefreshToken);
-          setCookie("loginType", response.data.loginType);
-          setCookie("email", response.data.email);
-          setCookie("nickname", response.data.nickname);
+          setCookie("loginType", response.data.response.loginType);
+          setCookie("email", response.data.response.email);
+          setCookie("nickname", response.data.response.nickname);
           window.location.href = "/main";
         }
         return response;
