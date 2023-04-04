@@ -52,7 +52,7 @@ function Notification() {
 
   return (
     <Layout>
-      <Header />
+      <Header list={list} />
       <div>
         Notification
         <button onClick={() => onDeleteAllHandler()}>전체삭제</button>
