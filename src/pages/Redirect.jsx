@@ -21,7 +21,7 @@ const Redirect = () => {
           setCookie("loginType", response.data.response.loginType);
           setCookie("email", response.data.response.email);
           setCookie("nickname", response.data.response.nickname);
-          // window.location.href = "/main";
+          window.location.href = "/main";
         }
         return response;
       })
