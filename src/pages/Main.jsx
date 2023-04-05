@@ -46,7 +46,7 @@ function Main() {
       // });
 
       eventSource.addEventListener("message", (event) => {
-        const data = JSON.parse(event.data);
+        const data = typeof JSON.parse(event.data);
         const content = data.content;
         console.log(content);
         setNotification(content);
@@ -69,14 +69,11 @@ function Main() {
           eventSource.close();
           setTimeout(() => {
             console.log("재시도");
-            eventSource = new EventSourcePolyfill(
-              "https://petplace.site/subscribe",
-              {
-                headers: {
-                  Authorization: AccessToken,
-                },
-              }
-            );
+            eventSource = new EventSourcePolyfill("https://petplace.site/subscribe", {
+              headers: {
+                Authorization: AccessToken,
+              },
+            });
           }, 1000);
         }
       };
