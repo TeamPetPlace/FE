@@ -50,9 +50,11 @@ function Notification() {
     }
   };
 
+  const count = list.length;
+
   return (
     <Layout>
-      <Header list={list} />
+      <Header count={count} />
       <div>
         Notification
         <button onClick={() => onDeleteAllHandler()}>전체삭제</button>
