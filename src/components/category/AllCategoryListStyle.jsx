@@ -158,6 +158,7 @@ const StListPage = styled.div`
 
 const StCards = styled.div`
   width: 1240px;
+  min-height: 800px;
   height: 100%;
   display: flex;
   gap: 11px;
