@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { NomalLogin } from "../../api/user";
 import { getCookie, removeCookie } from "../../api/cookie";
-import { getMypage } from "../../api/mypage";
+import { getMypage, getNotificationCount } from "../../api/mypage";
 import { useCookies } from "react-cookie";
 import logo from "../../style/img/logo.svg";
 import profileOrigin from "../../style/img/profile.svg";
@@ -14,7 +14,7 @@ import { EventSourcePolyfill } from "event-source-polyfill";
 import { useEffect } from "react";
 import Toast from "../../element/Toast";
 
-function Header({ count }) {
+function Header() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(
     "    https://us.123rf.com/450wm/sanek13744/sanek137441706/sanek13744170600240/80321806-%EB%B0%9C-%EC%9D%B8%EC%87%84-%EB%B2%A1%ED%84%B0-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EA%B0%95%EC%95%84%EC%A7%80-%EB%98%90%EB%8A%94-%EA%B3%A0%EC%96%91%EC%9D%B4-pawprint-%EA%B7%B8%EB%A6%BC-%EA%B8%B4-%EA%B7%B8%EB%A6%BC%EC%9E%90%EA%B0%80%EC%9E%88%EB%8A%94-%EB%8F%99%EB%AC%BC.jpg?ver=6"
@@ -51,49 +51,6 @@ function Header({ count }) {
 
   const [cookies] = useCookies(["AccessToken", "loginType"]);
 
-  //sse 알림
-  // const [listening, setListening] = useState(false);
-  // const [notification, setNotification] = useState([]);
-  // const EventSource = EventSourcePolyfill;
-
-  // useEffect(() => {
-  //   if (!listening) {
-  //     let eventSource;
-  //     const sse = async () => {
-  //       try {
-  //         eventSource = new EventSource("https://petplace.site/subscribe", {
-  //           headers: {
-  //             Authorization: getCookie("AccessToken"),
-  //           },
-  //         });
-
-  //         eventSource.onmessage = async (event) => {
-  //           const data = await JSON.parse(event.data);
-  //           const content = data.content;
-  //           console.log("sse 구독 성공 ", content);
-  //           if (!data.includes("EventStream Created.")) {
-  //             //알림 표시
-  //           }
-  //         };
-
-  //         eventSource.addEventListener("message", (event) => {
-  //           const data = JSON.parse(event.data);
-  //           const content = data.content;
-  //           console.log(content);
-  //         });
-
-  //         eventSource.onerror = async (event) => {
-  //           if (!event.error.message.includes("No activity"))
-  //             eventSource.close();
-  //         };
-  //       } catch (error) {}
-  //     };
-  //     sse();
-  //     return () => eventSource.close();
-  //   }
-  // });
-
-  const [listening, setListening] = useState(false);
   const [notification, setNotification] = useState([]);
   let eventSource = undefined;
 
@@ -101,50 +58,30 @@ function Header({ count }) {
   const [toastAnimation, setToastAnimation] = useState("toast-alert");
 
   useEffect(() => {
-    if (!listening) {
-      const AccessToken = getCookie("AccessToken");
+    const accessToken = getCookie("AccessToken");
+
+    const openEventSource = () => {
       eventSource = new EventSourcePolyfill("https://petplace.site/subscribe", {
         headers: {
-          Authorization: AccessToken,
+          Authorization: accessToken,
         },
+        withCredentials: true,
       });
 
       eventSource.onopen = (event) => {
         console.log("sse 구독 성공");
       };
 
-      eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        const content = data.content;
-        console.log(content);
-        setNotification((old) => [...old, content]);
-        console.log(notification);
-      };
-
-      // eventSource.addEventListener("message", (event) => {
-      //   // const result = JSON.parse(event.data);
-      //   const result = event;
-      //   console.log("메세지 받았다", result);
-      //   setData(result);
-      // });
-
       eventSource.addEventListener("message", (event) => {
-        const data = JSON.parse(event.data);
-        const content = data.content;
-        console.log(content);
-        // alert(content);
-        setNotification(content);
-        setToastState(true);
+        try {
+          const data = JSON.parse(event.data);
+          const content = data.content;
+          console.log(content);
+          setNotification(content);
+          setToastState(true);
+        } catch (error) {}
       });
 
-      eventSource.onerror = (event) => {
-        console.log(event.target.readyState);
-        if (event.target.readyState === EventSource.CLOSED) {
-          console.log("SSE 연결 종료 (" + event.target.readyState + ")");
-        }
-        eventSource.close();
-      };
-      setListening(true);
       eventSource.onerror = (event) => {
         console.log(event.target.readyState);
         if (event.target.readyState === EventSource.CLOSED) {
@@ -152,26 +89,34 @@ function Header({ count }) {
         } else {
           console.log("에러 발생", event);
           eventSource.close();
-          setTimeout(() => {
-            console.log("재시도");
-            eventSource = new EventSourcePolyfill(
-              "https://petplace.site/subscribe",
-              {
-                headers: {
-                  Authorization: AccessToken,
-                },
-              }
-            );
-          }, 5000);
+          setTimeout(openEventSource, 3000);
         }
       };
-      setListening(true);
+    };
+
+    if (cookies.loginType === "BUSINESS") {
+      openEventSource();
     }
+    // openEventSource();
+
     return () => {
-      eventSource.close();
-      console.log("닫혔다 !!!");
+      if (eventSource) eventSource.close();
     };
   }, []);
+
+  //알림 개수 불러오기
+
+  const [count, setCount] = useState();
+
+  const { data: countData } = useQuery(
+    "getnotificationcount",
+    getNotificationCount,
+    {
+      onSuccess: (response) => {
+        setCount(response.count);
+      },
+    }
+  );
 
   return (
     <>
@@ -186,7 +131,11 @@ function Header({ count }) {
             </StCateogry>
           </StMenu>
           <StUser>
-            {count > 0 ? <div>●</div> : <div>○</div>}
+            {cookies.loginType === "BUSINESS" && count > 0 ? (
+              <div style={{ color: "green" }}>●</div>
+            ) : cookies.loginType === "BUSINESS" && count == 0 ? (
+              <div style={{ color: "orange" }}>●</div>
+            ) : null}
             {profile === null ? (
               <StProfile src={profileOrigin} alt="origin" />
             ) : (
@@ -199,7 +148,7 @@ function Header({ count }) {
               onMouseLeave={() => setDrop(!drop)}
             >
               ▼
-              {drop && (
+              {drop && cookies.loginType === "BUSINESS" && (
                 <StUserCategory>
                   <StUserMenu onClick={() => navigate("/mypage")}>
                     마이페이지
@@ -212,6 +161,20 @@ function Header({ count }) {
 
                   <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
                 </StUserCategory>
+              )}
+              {drop && cookies.loginType === "USER" && (
+                <StUserCategorys>
+                  <StUserMenu onClick={() => navigate("/mypage")}>
+                    마이페이지
+                  </StUserMenu>
+                  {cookies.loginType === "BUSINESS" && (
+                    <StUserMenu onClick={() => navigate("/notification")}>
+                      알림함
+                    </StUserMenu>
+                  )}
+
+                  <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
+                </StUserCategorys>
               )}
             </StUserBar>
           </StUser>
@@ -350,6 +313,26 @@ const StUserBar = styled.ul`
 `;
 
 const StUserCategory = styled.div`
+  width: 100px;
+  height: 110px;
+  font-size: 14px;
+  color: #999;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  right: 5%;
+
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    font-size: 12px;
+    height: 50px;
+  }
+`;
+
+const StUserCategorys = styled.div`
   width: 100px;
   height: 75px;
   font-size: 14px;

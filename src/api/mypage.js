@@ -73,6 +73,11 @@ const deleteAllNotification = async () => {
     });
 };
 
+const getNotificationCount = async () => {
+  const response = await instance.get("/notifications/count");
+  return response.data;
+};
+
 export {
   getMypage,
   updateUser,
@@ -82,4 +87,5 @@ export {
   getNotification,
   deleteNotification,
   deleteAllNotification,
+  getNotificationCount,
 };
