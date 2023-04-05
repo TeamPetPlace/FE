@@ -109,15 +109,13 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {valid ? null : (
-                  <StDescDiv style={{ color: "#ff6666" }}>
-                    ID/PW가 일치하지 않습니다.
-                  </StDescDiv>
+                  <StDescDiv style={{ color: "#ff6666" }}>ID/PW가 일치하지 않습니다.</StDescDiv>
                 )}
                 <StBtn Border="1px solid #fee500">로그인</StBtn>
               </div>
             </form>
             <div>
-              <img
+              {/* <img
                 src={KaKaoLoginBtn}
                 onClick={onKaKaologin}
                 style={{
@@ -129,10 +127,10 @@ const LoginForm = () => {
                   borderRadius: "5px",
                   cursor: "pointer",
                 }}
-              />
-              {/* <StBtn style={{ color: "grey" }} Border="1px solid #fee500" onClick={onKaKaologin}>
+              /> */}
+              <StBtn style={{ color: "grey" }} Border="1px solid #fee500" onClick={onKaKaologin}>
                 카카오 로그인 (구현중)
-              </StBtn> */}
+              </StBtn>
             </div>
             <StBtn
               onClick={() => {
