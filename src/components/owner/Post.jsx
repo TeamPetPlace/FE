@@ -119,7 +119,7 @@ function Post() {
   const [imgBase64, setImgBase64] = useState([]);
   const [cost, setCostHandler] = useInput("");
   const [ceo, ceoHandler] = useInput("");
-  const [telNum, setTelNum] = useState("010");
+  const [telNum, setTelNum] = useState("");
   const [startTime, startTimeHandler] = useInput("");
   const [endTime, endTimeHandler] = useInput("");
   const [select, selectHandler] = useInput("");
@@ -239,6 +239,44 @@ function Post() {
     fileInput.current.click();
   };
 
+  //전화번호
+  // const telNumberHandler = (event) => {
+  //   const { value } = event.target;
+  //   const regex = /^[0-9\b -]{0,13}$/;
+  //   if (regex.test(event.target.value)) {
+  //     setTelNum(value);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (telNum.length === 10) {
+  //     setTelNum(telNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"));
+  //   }
+  //   if (telNum.length === 13) {
+  //     setTelNum(
+  //       telNum.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+  //     );
+  //   }
+  // }, [telNum]);
+
+  // const handleKeyDown = (e) => {
+  //   const key = e.key;
+  //   const selectionStart = e.target.selectionStart;
+  //   const selectionEnd = e.target.selectionEnd;
+
+  //   if (key === "Backspace" || key === "Delete") {
+  //     if (selectionStart === 3 && selectionEnd === 3) {
+  //       e.preventDefault();
+  //     }
+  //   }
+  // };
+
+  // const handleSelect = (e) => {
+  //   if (e.target.value.startsWith("010-")) {
+  //     e.target.setSelectionRange(12, e.target.value.length);
+  //   }
+  // };
+
   const telNumberHandler = (event) => {
     const { value } = event.target;
     const regex = /^[0-9\b -]{0,13}$/;
@@ -248,33 +286,30 @@ function Post() {
   };
 
   useEffect(() => {
+    let formattedNum = telNum;
     if (telNum.length === 10) {
-      setTelNum(telNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"));
+      formattedNum = telNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
     }
     if (telNum.length === 13) {
-      setTelNum(
-        telNum.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+      formattedNum = telNum
+        .replace(/-/g, "")
+        .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+    }
+
+    if (formattedNum.startsWith("02")) {
+      formattedNum = formattedNum.replace(
+        /(\d{2})(\d{3,4})(\d{4})/,
+        "$1-$2-$3"
+      );
+    } else {
+      formattedNum = formattedNum.replace(
+        /(\d{3})(\d{3,4})(\d{4})/,
+        "$1-$2-$3"
       );
     }
+
+    setTelNum(formattedNum);
   }, [telNum]);
-
-  const handleKeyDown = (e) => {
-    const key = e.key;
-    const selectionStart = e.target.selectionStart;
-    const selectionEnd = e.target.selectionEnd;
-
-    if (key === "Backspace" || key === "Delete") {
-      if (selectionStart === 3 && selectionEnd === 3) {
-        e.preventDefault();
-      }
-    }
-  };
-
-  const handleSelect = (e) => {
-    if (e.target.value.startsWith("010-")) {
-      e.target.setSelectionRange(12, e.target.value.length);
-    }
-  };
 
   return (
     <>
@@ -420,12 +455,9 @@ function Post() {
               </StTitle>
               <StInput
                 type="text"
-                placeholder="010-0000-0000"
+                placeholder="번호를 입력해주세요"
                 value={telNum}
                 onChange={telNumberHandler}
-                onKeyDown={handleKeyDown}
-                onSelect={handleSelect}
-                onDragStart={(event) => event.preventDefault()}
               />
             </StLine>
 

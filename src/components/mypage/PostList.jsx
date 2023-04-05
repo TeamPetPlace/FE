@@ -39,35 +39,50 @@ function PostList() {
   return (
     <div>
       <Stdiv>
-        {myList.length > 0 &&
+        {myList != [] &&
           myList?.map((item) => {
             return (
               <StListContainer key={item.id}>
                 <StImg src={item.reSizeImage} alt="img" />
                 <StContentContainer>
                   <StChatContent>
-                    <img src={chatbubble} style={{ marginRight: "5px" }} /> {item.reviewCount}
+                    <img src={chatbubble} style={{ marginRight: "5px" }} />{" "}
+                    {item.reviewCount}
                   </StChatContent>
                   <StTitle>{item.title}</StTitle>
                   <StContent>{item.contents}</StContent>
                   <StUnderDiv>
-                    <StSmallContent>{item.createdAt.split("T", 1)}</StSmallContent>
+                    <StSmallContent>
+                      {item.createdAt.split("T", 1)}
+                    </StSmallContent>
                     {item.category === "병원" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/hospital/${item.id}`)}>보러가기</StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
+                        <StBtn onClick={() => navigate(`/hospital/${item.id}`)}>
+                          보러가기
+                        </StBtn>
+                        <StBtn onClick={() => onDeleteHandler(item.id)}>
+                          삭제
+                        </StBtn>
                       </div>
                     )}
                     {item.category === "미용" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/shop/${item.id}`)}>보러가기</StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
+                        <StBtn onClick={() => navigate(`/shop/${item.id}`)}>
+                          보러가기
+                        </StBtn>
+                        <StBtn onClick={() => onDeleteHandler(item.id)}>
+                          삭제
+                        </StBtn>
                       </div>
                     )}
                     {item.category === "카페" && (
                       <StBtnDiv>
-                        <StBtn onClick={() => navigate(`/cafe/${item.id}`)}>보러가기</StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
+                        <StBtn onClick={() => navigate(`/cafe/${item.id}`)}>
+                          보러가기
+                        </StBtn>
+                        <StBtn onClick={() => onDeleteHandler(item.id)}>
+                          삭제
+                        </StBtn>
                       </StBtnDiv>
                     )}
                   </StUnderDiv>
