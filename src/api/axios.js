@@ -22,6 +22,18 @@ export const kakaoURL = axios.create({
   },
 });
 
+kakaoURL.interceptors.request.use(
+  (config) => {
+    if (config.headers === undefined) return;
+    const AccessToken = getCookie("AccessToken");
+    config.headers.Authorization = `${AccessToken}`;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 //instance with token
 export const instance = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_URL}`,
@@ -61,7 +73,7 @@ instance.interceptors.response.use(
         const RefreshToken = getCookie("RefreshToken");
         const refreshedResponse = await baseURL.get("/token", {
           headers: {
-            RefreshToken: RefreshToken,
+            Authorization: RefreshToken,
           },
         });
         /* CHANGE ACCESSTOKEN ------------------------------------------------------- */
