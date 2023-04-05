@@ -78,7 +78,8 @@ instance.interceptors.response.use(
         });
         /* CHANGE ACCESSTOKEN ------------------------------------------------------- */
         // console.log(refreshedResponse);
-        originalRequest.headers["Authorization"] = refreshedResponse.headers["authorization"];
+        originalRequest.headers["Authorization"] =
+          refreshedResponse.headers["authorization"];
         console.log("재발급 완료");
         removeCookie("AccessToken");
         setCookie("AccessToken", refreshedResponse.headers["authorization"]);
@@ -86,16 +87,16 @@ instance.interceptors.response.use(
       }
     } catch (error) {
       // 새로운 accessToken 발급에 실패한 경우 쿠키에 있던 기존 토큰을 모두 없애고 redirect
-      removeCookie("AccessToken");
-      removeCookie("RefreshToken");
-      removeCookie("loginType");
-      removeCookie("email");
-      removeCookie("nickname");
-      removeCookie("lat");
-      removeCookie("lng");
-      alert("세션이 만료되었습니다. 다시 로그인해주세요!");
+      // removeCookie("AccessToken");
+      // removeCookie("RefreshToken");
+      // removeCookie("loginType");
+      // removeCookie("email");
+      // removeCookie("nickname");
+      // removeCookie("lat");
+      // removeCookie("lng");
+      // alert("세션이 만료되었습니다. 다시 로그인해주세요!");
       console.log("로그인 만료");
-      window.location.replace("/");
+      // window.location.replace("/");
       // return false;
       return Promise.reject(error);
     }
