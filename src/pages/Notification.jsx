@@ -16,8 +16,10 @@ function Notification() {
   //알림 목록 불러오기
   const { data } = useQuery("getnotification", getNotification, {
     onSuccess: (response) => {
-      Object.entries(setList(response));
-      console.log(list);
+      if (response) {
+        setList(response);
+        console.log(list);
+      }
     },
   });
 
@@ -42,7 +44,7 @@ function Notification() {
   });
 
   const onDeleteAllHandler = () => {
-    const message = window.confirm("전체삭제?");
+    const message = window.confirm("전체 삭제하시겠습니까?");
     if (message) {
       deleteAllMutation.mutate();
     } else {
@@ -50,11 +52,9 @@ function Notification() {
     }
   };
 
-  const count = list.length;
-
   return (
     <Layout>
-      <Header count={count} />
+      <Header />
       <div>
         Notification
         <button onClick={() => onDeleteAllHandler()}>전체삭제</button>
