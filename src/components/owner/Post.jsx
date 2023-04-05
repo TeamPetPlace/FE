@@ -379,7 +379,7 @@ function Post() {
                   <StImps>*</StImps>소개
                 </StTitle>
                 <StText
-                  placeholder="소개글을 입력해주세요.(500자 이내)"
+                  placeholder="소개글을 입력해주세요.(250자 이내)"
                   maxLength={250}
                   value={contents}
                   onChange={contentsHandler}

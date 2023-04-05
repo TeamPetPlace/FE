@@ -10,7 +10,8 @@ const StContainer = styled.div`
 const StContents = styled.div`
   height: 230px;
   display: flex;
-  line-height: 230px;
+  padding-top: 40px;
+  /* line-height: 230px; */
   border-bottom: 1px solid #d9d9d9;
   @media screen and (max-width: 768px) {
     line-height: 150px;
@@ -81,7 +82,7 @@ const StShare = styled.button`
 
 const StFirst = styled.div`
   display: flex;
-  width: 500px;
+  width: 1000px;
   height: 50px;
   line-height: 50px;
   margin-top: 30px;
