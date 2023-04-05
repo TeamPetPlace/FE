@@ -22,7 +22,7 @@ export const StBannerContent = styled.div`
   color: #555555;
   font-weight: bold;
   padding-top: 10px;
-  width: 300px;
+  width: 400px;
   margin: 0 0 0 350px;
   @media screen and (max-width: 767px) {
     margin: 0 0 0 8%;
