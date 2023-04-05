@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { GoSearch } from "react-icons/go";
-import { AllPost, AddLikesPost, SearchPost, DeleteLikePost } from "../../api/category";
+import {
+  AllPost,
+  AddLikesPost,
+  SearchPost,
+  DeleteLikePost,
+} from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
@@ -88,52 +98,56 @@ function HospitalList() {
   );
 
   //무한스크롤
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useInfiniteQuery(
-    [
-      "searchPost",
-      {
-        category: "병원",
-        sort: sort,
-        keyword: searchkeyword,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        size: size,
-      },
-    ],
-    ({ pageParam = 0 }) =>
-      AllPost({
-        category: "병원",
-        sort: sort,
-        // keyword: searchkeyword,
-        lat: cookies.lat,
-        lng: cookies.lng,
-        page: pageParam,
-        size: size,
-      }),
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useInfiniteQuery(
+      [
+        "searchPost",
+        {
+          category: "병원",
+          sort: sort,
+          keyword: searchkeyword,
+          lat: cookies.lat,
+          lng: cookies.lng,
+          size: size,
+        },
+      ],
+      ({ pageParam = 0 }) =>
+        AllPost({
+          category: "병원",
+          sort: sort,
+          // keyword: searchkeyword,
+          lat: cookies.lat,
+          lng: cookies.lng,
+          page: pageParam,
+          size: size,
+        }),
 
-    {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.data.last) {
-          return null;
-        }
-        // return pages.length;
-        return pages.length;
-      },
-      onSuccess: (newData) => {
-        setCards((prevCards) => {
-          const newItems = newData.pages.flatMap((page) => page.data.content);
-          const uniqueItems = newItems.filter(
-            (item) => !prevCards.some((prevItem) => prevItem.id === item.id)
-          );
-          return [...prevCards, ...uniqueItems];
-        });
-      },
-    }
-  );
+      {
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.data.last) {
+            return null;
+          }
+          // return pages.length;
+          return pages.length;
+        },
+        onSuccess: (newData) => {
+          setCards((prevCards) => {
+            const newItems = newData.pages.flatMap((page) => page.data.content);
+            const uniqueItems = newItems.filter(
+              (item) => !prevCards.some((prevItem) => prevItem.id === item.id)
+            );
+            return [...prevCards, ...uniqueItems];
+          });
+        },
+      }
+    );
 
   useEffect(() => {
     function handleScroll() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage)
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        hasNextPage
+      )
         fetchNextPage();
     }
     window.addEventListener("scroll", handleScroll, true);
@@ -235,6 +249,8 @@ function HospitalList() {
     setPosition({ x: data.x, y: data.y });
   };
 
+  const nodeRef = React.useRef(null);
+
   return (
     <>
       <StPlace>
@@ -313,14 +329,18 @@ function HospitalList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StCardTitle>
-                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    <StContent>
+                      {item.address.split(" ", 2).join(" ")}
+                    </StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
                         {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
                         km남음
                       </StContent>
                     )}
-                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                    {parseInt(item.distance) < 999 && (
+                      <div>{parseInt(item.distance)}m남음</div>
+                    )}
                   </StCard>
                 </div>
               );
@@ -330,8 +350,8 @@ function HospitalList() {
               <Skeletons style={{ marginTop: "20px", color: "transparent" }} />
             ) : null}
           </StCards>
-          <Draggable onDrag={(e, data) => trackPos(data)}>
-            <StHistory>
+          <Draggable onDrag={(e, data) => trackPos(data)} nodeRef={nodeRef}>
+            <StHistory ref={nodeRef}>
               <div>
                 <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
                 {history.map((item, index) => {
@@ -396,19 +416,25 @@ function HospitalList() {
                           (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                           (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                       </StCardTitle>
-                      <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                      <StContent>
+                        {item.address.split(" ", 2).join(" ")}
+                      </StContent>
                       {parseInt(item.distance) > 999 && (
                         <StContent>
                           {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
                           km남음
                         </StContent>
                       )}
-                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
+                      {parseInt(item.distance) < 999 && (
+                        <div>{parseInt(item.distance)}m남음</div>
+                      )}
                     </StCard>
                   </div>
                 );
               })}
-            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
+            {isLoading || isFetching ? (
+              <Skeletons style={{ marginTop: "20px" }} />
+            ) : null}
           </StCards>
           <div>
             <Draggable onDrag={(e, data) => trackPos(data)}>
