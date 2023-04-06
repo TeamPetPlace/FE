@@ -192,7 +192,7 @@ function Tab() {
 
   const addDibsMutation = useMutation(addDibs, {
     onSuccess: () => {
-      alert("찜하기");
+      alert("찜하기 완료");
       queryClient.invalidateQueries("getPost");
     },
   });
@@ -244,9 +244,7 @@ function Tab() {
               <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
             </div>
             <StDivBox>
-              <StMyPlace onClick={() => navigate("/hospital")}>
-                내 위치 펫플레이스
-              </StMyPlace>
+              <StMyPlace onClick={() => navigate("/hospital")}>내 위치 펫플레이스</StMyPlace>
               <StPin src={footMap} onClick={onLocationHandler} />
             </StDivBox>
           </div>
@@ -266,9 +264,7 @@ function Tab() {
               <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
             </div>
             <StDivBox>
-              <StMyPlace onClick={() => navigate("/shop")}>
-                내 위치 펫플레이스
-              </StMyPlace>
+              <StMyPlace onClick={() => navigate("/shop")}>내 위치 펫플레이스</StMyPlace>
               <StPin src={footMap} onClick={onLocationHandler} />
             </StDivBox>
           </div>
@@ -288,9 +284,7 @@ function Tab() {
               <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
             </div>
             <StDivBox>
-              <StMyPlace onClick={() => navigate("/cafe")}>
-                내 위치 펫플레이스
-              </StMyPlace>
+              <StMyPlace onClick={() => navigate("/cafe")}>내 위치 펫플레이스</StMyPlace>
               <StPin src={footMap} onClick={onLocationHandler} />
             </StDivBox>
           </div>
@@ -303,17 +297,6 @@ function Tab() {
             data.map((item, i) => (
               <div key={i}>
                 <StCard key={i}>
-                  <div>
-                    {item.like === false ? (
-                      <StResizeImg src={item.reSizeImage} alt="mainImg" />
-                    ) : (
-                      <StResizeImg
-                        src={item.reSizeImage}
-                        style={{ border: "5px solid #FFD53F" }}
-                        alt="mainImg"
-                      />
-                    )}
-                  </div>
                   <StDibBtn onClick={() => onDibsHandler(item)}>
                     {item.like === false ? (
                       <>
@@ -323,6 +306,23 @@ function Tab() {
                       <img src={dibs} />
                     )}
                   </StDibBtn>
+                  <div>
+                    {item.like === false ? (
+                      <StResizeImg
+                        src={item.reSizeImage}
+                        alt="mainImg"
+                        onClick={() => navigate(`/hospital/${item.id}`)}
+                      />
+                    ) : (
+                      <StResizeImg
+                        src={item.reSizeImage}
+                        style={{ border: "5px solid #FFD53F" }}
+                        alt="mainImg"
+                        onClick={() => navigate(`/hospital/${item.id}`)}
+                      />
+                    )}
+                  </div>
+
                   <StTextBox onClick={() => navigate(`/hospital/${item.id}`)}>
                     <StTitle>{item.title}</StTitle>
                     <StText>{item.address.split(" ", 2).join(" ")}</StText>
@@ -333,9 +333,7 @@ function Tab() {
                           km남음
                         </div>
                       )}
-                      {parseInt(item.distance) < 999 && (
-                        <div>{parseInt(item.distance)}m남음</div>
-                      )}
+                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                     </StText>
                   </StTextBox>
                 </StCard>
@@ -347,17 +345,6 @@ function Tab() {
             data.map((item, i) => (
               <div key={i}>
                 <StCard key={i}>
-                  <div>
-                    {item.like === false ? (
-                      <StResizeImg src={item.reSizeImage} alt="mainImg" />
-                    ) : (
-                      <StResizeImg
-                        src={item.reSizeImage}
-                        style={{ border: "5px solid #FFD53F" }}
-                        alt="mainImg"
-                      />
-                    )}
-                  </div>
                   <StDibBtn onClick={() => onDibsHandler(item)}>
                     {item.like === false ? (
                       <>
@@ -367,6 +354,23 @@ function Tab() {
                       <img src={dibs} />
                     )}
                   </StDibBtn>
+                  <div>
+                    {item.like === false ? (
+                      <StResizeImg
+                        src={item.reSizeImage}
+                        alt="mainImg"
+                        onClick={() => navigate(`/shop/${item.id}`)}
+                      />
+                    ) : (
+                      <StResizeImg
+                        src={item.reSizeImage}
+                        style={{ border: "5px solid #FFD53F" }}
+                        alt="mainImg"
+                        onClick={() => navigate(`/shop/${item.id}`)}
+                      />
+                    )}
+                  </div>
+
                   <StTextBox onClick={() => navigate(`/shop/${item.id}`)}>
                     <StTitle>{item.title}</StTitle>
                     <StText>{item.address.split(" ", 2).join(" ")}</StText>
@@ -377,9 +381,7 @@ function Tab() {
                           km남음
                         </div>
                       )}
-                      {parseInt(item.distance) < 999 && (
-                        <div>{parseInt(item.distance)}m남음</div>
-                      )}
+                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                     </StText>
                   </StTextBox>
                 </StCard>
@@ -391,17 +393,6 @@ function Tab() {
             data.map((item, i) => (
               <div key={i}>
                 <StCard key={i}>
-                  <div>
-                    {item.like === false ? (
-                      <StResizeImg src={item.reSizeImage} alt="mainImg" />
-                    ) : (
-                      <StResizeImg
-                        src={item.reSizeImage}
-                        style={{ border: "5px solid #FFD53F" }}
-                        alt="mainImg"
-                      />
-                    )}
-                  </div>
                   <StDibBtn onClick={() => onDibsHandler(item)}>
                     {item.like === false ? (
                       <>
@@ -411,6 +402,23 @@ function Tab() {
                       <img src={dibs} />
                     )}
                   </StDibBtn>
+                  <div>
+                    {item.like === false ? (
+                      <StResizeImg
+                        src={item.reSizeImage}
+                        alt="mainImg"
+                        onClick={() => navigate(`/cafe/${item.id}`)}
+                      />
+                    ) : (
+                      <StResizeImg
+                        src={item.reSizeImage}
+                        style={{ border: "5px solid #FFD53F" }}
+                        alt="mainImg"
+                        onClick={() => navigate(`/cafe/${item.id}`)}
+                      />
+                    )}
+                  </div>
+
                   <StTextBox onClick={() => navigate(`/cafe/${item.id}`)}>
                     <StTitle>{item.title}</StTitle>
                     <StText>{item.address.split(" ", 2).join(" ")}</StText>
@@ -421,9 +429,7 @@ function Tab() {
                           km남음
                         </div>
                       )}
-                      {parseInt(item.distance) < 999 && (
-                        <div>{parseInt(item.distance)}m남음</div>
-                      )}
+                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                     </StText>
                   </StTextBox>
                 </StCard>

@@ -6,9 +6,9 @@ export const StBannerTitle = styled.div`
   font-weight: bold;
   width: 300px;
   z-index: 99;
-  margin: 200px 0 0 350px;
+  margin: 200px 0 20px 350px;
   @media screen and (max-width: 767px) {
-    margin: 13% 0 0 8%;
+    margin: 11% 0 0 8%;
     font-size: 15px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -22,14 +22,17 @@ export const StBannerContent = styled.div`
   color: #555555;
   font-weight: bold;
   padding-top: 10px;
-  width: 400px;
+  width: 800px;
   margin: 0 0 0 350px;
   @media screen and (max-width: 767px) {
     margin: 0 0 0 8%;
     font-size: 10px;
+    padding-top: 3px;
+    width: 150px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     margin: 0 0 0 10%;
+    width: 260px;
     font-size: 15px;
   }
 `;
@@ -208,12 +211,16 @@ const StHistory = styled.div`
   @media screen and (max-width: 767px) {
     width: auto;
     height: auto;
+    margin-left: 30px;
+    margin-top: 30px;
     background-size: 100px auto;
     background-repeat: no-repeat;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: auto;
     height: auto;
+    /* margin-left: 70px; */
+    margin-top: 50px;
     background-size: 180px auto;
     background-repeat: no-repeat;
   }
@@ -248,9 +255,9 @@ const StHistoryCard = styled.div`
   align-items: center;
   padding: 30px 0 0 45px;
   @media screen and (max-width: 767px) {
-    width: 80px;
+    width: 100px;
     height: 70px;
-    padding: 5px 0 0 0;
+    padding: 10px 0 0 0;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 180px;
@@ -262,19 +269,42 @@ const StHistoryCard = styled.div`
 const StHistoryTitle = styled.div`
   font-size: 22px;
   padding-left: 60px;
-  padding-top: 120px;
+  padding-top: 60px;
   font-weight: bold;
   @media screen and (max-width: 767px) {
     font-size: 10px;
-    padding-left: 10px;
-    padding-top: 30px;
+    padding-left: 20px;
+    padding-top: 20px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 15px;
     padding-left: 45px;
-    padding-top: 80px;
+    padding-top: 40px;
   }
 `;
+
+const StHistoryDragTitle = styled.div`
+  font-size: 20px;
+  width: 90px;
+  background-color: #ffd53f;
+  border-radius: 10px;
+  margin: 0px 70px 15px 70px;
+  padding: 0 10px;
+  font-weight: bold;
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+    margin: 0 30px 10px 20px;
+    padding: 0 5px;
+    width: 50px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 15px;
+    margin: 0px 15px 15px 50px;
+    width: 70px;
+    padding: 0 10px;
+  }
+`;
+
 const StHistoryContent = styled.div`
   font-size: 20px;
   font-weight: bold;
@@ -400,4 +430,5 @@ export {
   StSearchSortingDiv,
   StSelect,
   StOption,
+  StHistoryDragTitle,
 };
