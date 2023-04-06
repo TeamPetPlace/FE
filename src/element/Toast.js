@@ -67,8 +67,8 @@ const ToastBox = styled.div`
   align-items: center;
   justify-content: center;
   position: fixed;
-  bottom: 20px;
-  left: 20px;
+  top: 20px;
+  right: 20px;
 
   &.openAnimation {
     animation: ${slideIn} 0.5s ease-in-out 0s 1 normal forwards;
