@@ -32,15 +32,11 @@ function Header() {
 
   const logoutmuation = useMutation(NomalLogin, {
     onSuccess: (response) => {
-      removeCookie("AccessToken");
-      removeCookie("RefreshToken");
-      removeCookie("loginType");
-      removeCookie("email");
-      removeCookie("nickname");
-      removeCookie("lat");
-      removeCookie("lng");
+      ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
+        (cookie) => removeCookie(cookie)
+      );
       alert("로그아웃 되었습니다");
-      window.location.href = "/";
+      navigate("/");
     },
   });
 
@@ -108,15 +104,11 @@ function Header() {
 
   const [count, setCount] = useState();
 
-  const { data: countData } = useQuery(
-    "getnotificationcount",
-    getNotificationCount,
-    {
-      onSuccess: (response) => {
-        setCount(response.count);
-      },
-    }
-  );
+  const { data: countData } = useQuery("getnotificationcount", getNotificationCount, {
+    onSuccess: (response) => {
+      setCount(response.count);
+    },
+  });
 
   return (
     <>
@@ -143,20 +135,13 @@ function Header() {
             </StNotification>
 
             <div>{nickname}</div>
-            <StUserBar
-              onMouseEnter={() => setDrop(!drop)}
-              onMouseLeave={() => setDrop(!drop)}
-            >
+            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
               ▼
               {drop && cookies.loginType === "BUSINESS" && (
                 <StUserCategory>
-                  <StUserMenu onClick={() => navigate("/mypage")}>
-                    마이페이지
-                  </StUserMenu>
+                  <StUserMenu onClick={() => navigate("/mypage")}>마이페이지</StUserMenu>
                   {cookies.loginType === "BUSINESS" && (
-                    <StUserMenu onClick={() => navigate("/notification")}>
-                      알림함
-                    </StUserMenu>
+                    <StUserMenu onClick={() => navigate("/notification")}>알림함</StUserMenu>
                   )}
 
                   <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
@@ -164,13 +149,9 @@ function Header() {
               )}
               {drop && cookies.loginType === "USER" && (
                 <StUserCategorys>
-                  <StUserMenu onClick={() => navigate("/mypage")}>
-                    마이페이지
-                  </StUserMenu>
+                  <StUserMenu onClick={() => navigate("/mypage")}>마이페이지</StUserMenu>
                   {cookies.loginType === "BUSINESS" && (
-                    <StUserMenu onClick={() => navigate("/notification")}>
-                      알림함
-                    </StUserMenu>
+                    <StUserMenu onClick={() => navigate("/notification")}>알림함</StUserMenu>
                   )}
 
                   <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
@@ -182,10 +163,7 @@ function Header() {
       </StHeader>
       <StPlusDiv></StPlusDiv>
       {toastState === true ? (
-        <Toast
-          setToastAnimation={setToastAnimation}
-          setToastState={setToastState}
-        />
+        <Toast setToastAnimation={setToastAnimation} setToastState={setToastState} />
       ) : null}
     </>
   );
