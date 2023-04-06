@@ -4,7 +4,7 @@ import ShopList from "../components/category/ShopList";
 import Footer from "../components/common/Footer";
 import Header from "../components/common/Header";
 import Layout from "../components/common/Layout";
-import banner_shop from "/Users/eunjin/Desktop/PetPlace/src/style/img/banner_shop.png";
+import banner_shop from "../../src/style/img/banner_shop.png";
 import { StBannerTitle, StBannerContent } from "../components/category/AllCategoryListStyle";
 
 export default function Shop() {

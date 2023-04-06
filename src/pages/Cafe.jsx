@@ -4,7 +4,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import Layout from "../components/common/Layout";
 import CafeList from "../components/category/CafeList";
-import banner_cafe from "/Users/eunjin/Desktop/PetPlace/src/style/img/banner_cafe.png";
+import banner_cafe from "../../src/style/img/banner_cafe.png";
 import { StBannerContent, StBannerTitle } from "../components/category/AllCategoryListStyle";
 
 export default function Cafe() {
