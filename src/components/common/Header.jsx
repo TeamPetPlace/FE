@@ -131,16 +131,16 @@ function Header() {
             </StCateogry>
           </StMenu>
           <StUser>
-            {cookies.loginType === "BUSINESS" && count > 0 ? (
-              <div style={{ color: "green" }}>●</div>
-            ) : cookies.loginType === "BUSINESS" && count == 0 ? (
-              <div style={{ color: "orange" }}>●</div>
-            ) : null}
-            {profile === null ? (
-              <StProfile src={profileOrigin} alt="origin" />
-            ) : (
-              <StProfile src={profile} alt="img" />
-            )}
+            <StNotification>
+              {profile === null ? (
+                <StProfile src={profileOrigin} alt="origin" />
+              ) : (
+                <StProfile src={profile} alt="img" />
+              )}
+              {cookies.loginType === "BUSINESS" && count > 0 ? (
+                <StPoint>●</StPoint>
+              ) : cookies.loginType === "BUSINESS" && count == 0 ? null : null}
+            </StNotification>
 
             <div>{nickname}</div>
             <StUserBar
@@ -286,6 +286,17 @@ const StUser = styled.div`
     width: 100px;
     font-size: 12px;
   }
+`;
+
+const StNotification = styled.div`
+  display: flex;
+`;
+
+const StPoint = styled.div`
+  color: #ee4a16;
+  position: absolute;
+  top: 18px;
+  margin-left: 25px;
 `;
 
 const StProfile = styled.img`
