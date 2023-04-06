@@ -85,8 +85,7 @@ function Post() {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -199,11 +198,11 @@ function Post() {
     addPostMutation.mutate(formData);
     alert("작성 완료");
     if (category === "병원") {
-      navigate("/hospital");
+      window.location.href = "/hospital";
     } else if (category === "미용") {
-      navigate("/shop");
+      window.location.href = "/shop";
     } else {
-      navigate("/cafe");
+      window.location.href = "/cafe";
     }
   };
 
@@ -291,21 +290,13 @@ function Post() {
       formattedNum = telNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
     }
     if (telNum.length === 13) {
-      formattedNum = telNum
-        .replace(/-/g, "")
-        .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+      formattedNum = telNum.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
     }
 
     if (formattedNum.startsWith("02")) {
-      formattedNum = formattedNum.replace(
-        /(\d{2})(\d{3,4})(\d{4})/,
-        "$1-$2-$3"
-      );
+      formattedNum = formattedNum.replace(/(\d{2})(\d{3,4})(\d{4})/, "$1-$2-$3");
     } else {
-      formattedNum = formattedNum.replace(
-        /(\d{3})(\d{3,4})(\d{4})/,
-        "$1-$2-$3"
-      );
+      formattedNum = formattedNum.replace(/(\d{3})(\d{3,4})(\d{4})/, "$1-$2-$3");
     }
 
     setTelNum(formattedNum);
@@ -358,20 +349,13 @@ function Post() {
               <StTitle>
                 <StImp>*</StImp>업체명
               </StTitle>
-              <StInput
-                type="text"
-                placeholder="업체명"
-                value={title}
-                onChange={titleHandler}
-              />
+              <StInput type="text" placeholder="업체명" value={title} onChange={titleHandler} />
               <StBtn onClick={checkTitleHandler} value={title} size="medium">
                 중복확인
               </StBtn>
             </StLine>
             <StErrorMsgs>
-              {titleButtonClicked === false ? (
-                <p>업체명 중복확인을 해주세요</p>
-              ) : null}
+              {titleButtonClicked === false ? <p>업체명 중복확인을 해주세요</p> : null}
             </StErrorMsgs>
             <StLine>
               <StContents>
@@ -396,19 +380,14 @@ function Post() {
                     우편번호 검색
                   </StBtn>
                   <StErrorMsg>
-                    {buttonClicked === false ? (
-                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
-                    ) : null}
+                    {buttonClicked === false ? <p>주소 입력 후 확인을 꼭 클릭해주세요</p> : null}
                   </StErrorMsg>
                 </div>
                 <div id="popupDom">
                   {isPopupOpen && (
                     <PopupDom>
                       <div>
-                        <DaumPostcode
-                          style={postCodeStyle}
-                          onComplete={handlePostCode}
-                        />
+                        <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
                         <StInput value={address} disabled />
                         <StBtn size="medium" onClick={handleSearch}>
                           확인
@@ -419,11 +398,7 @@ function Post() {
                   {!isPopupOpen && (
                     <>
                       <StInput disabled style={{ marginTop: "10px" }} />
-                      <StBtn
-                        size="small"
-                        onClick={handleSearch}
-                        style={{ marginLeft: "10px" }}
-                      >
+                      <StBtn size="small" onClick={handleSearch} style={{ marginLeft: "10px" }}>
                         확인
                       </StBtn>
                     </>
@@ -442,12 +417,7 @@ function Post() {
                   <StImp>*</StImp>대표자
                 </StTitle>
               )}
-              <StInput
-                type="text"
-                placeholder="대표명"
-                value={ceo}
-                onChange={ceoHandler}
-              />
+              <StInput type="text" placeholder="대표명" value={ceo} onChange={ceoHandler} />
             </StLine>
             <StLine>
               <StTitle>
@@ -633,11 +603,7 @@ function Post() {
                     size="small"
                     style={{ marginLeft: "20px" }}
                   />
-                  <input
-                    type="checkbox"
-                    value={isChecked}
-                    onChange={onCheckHandler}
-                  />
+                  <input type="checkbox" value={isChecked} onChange={onCheckHandler} />
                   <label>휴무일</label>
                   <div>
                     {isChecked && (

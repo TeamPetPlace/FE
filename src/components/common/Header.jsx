@@ -172,7 +172,7 @@ function Header() {
 export default Header;
 
 const StHeader = styled.div`
-  width: 1920px;
+  width: 100%;
   height: 100px;
   background-color: #ffd53f;
   box-shadow: 0px 4px 8px 1px rgba(254, 215, 0, 0.15);

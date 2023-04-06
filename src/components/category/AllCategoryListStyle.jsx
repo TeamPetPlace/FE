@@ -5,8 +5,10 @@ export const StBannerTitle = styled.div`
   font-size: 36px;
   font-weight: bold;
   width: 300px;
-  z-index: 99;
-  margin: 200px 0 20px 350px;
+  /* z-index: 99; */
+  margin: 0 auto;
+  display: inline-block;
+  /* margin: 200px 0 20px 350px; */
   @media screen and (max-width: 767px) {
     margin: 11% 0 0 8%;
     font-size: 15px;
@@ -23,22 +25,24 @@ export const StBannerContent = styled.div`
   font-weight: bold;
   padding-top: 10px;
   width: 800px;
-  margin: 0 0 0 350px;
+  margin: 0 auto;
+  display: inline-block;
+  margin: 0 auto 0 350px;
   @media screen and (max-width: 767px) {
-    margin: 0 0 0 8%;
+    /* margin: 0 0 0 8%; */
     font-size: 10px;
     padding-top: 3px;
     width: 150px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    margin: 0 0 0 10%;
+    /* margin: 0 0 0 10%; */
     width: 260px;
     font-size: 15px;
   }
 `;
 
 const StPlace = styled.div`
-  width: 1240px;
+  width: 70%;
   height: 50px;
   margin: 68px auto 5px auto;
   display: flex;
@@ -47,19 +51,19 @@ const StPlace = styled.div`
   justify-content: space-between;
   gap: 10px;
   @media screen and (max-width: 767px) {
-    width: 300px;
+    /* width: 300px; */
     height: 20px;
     margin: 40px auto 5px auto;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 650px;
+    /* width: 650px; */
     height: 20px;
     margin: 50px auto 5px auto;
   }
 `;
 
 const StSearchInput = styled.input`
-  width: 365px;
+  width: 400px;
   height: 40px;
   border: none;
   outline: none;
@@ -146,11 +150,13 @@ const StSearchSortingDiv = styled.div`
 `;
 
 const StListPage = styled.div`
-  width: 85%;
+  width: 78%;
   height: 100%;
   display: flex;
   gap: 5px;
-  margin-left: 340px;
+  margin: auto;
+  /* background-color: pink; */
+  margin-left: 15%;
   @media screen and (max-width: 767px) {
     margin-left: 7.5%;
   }
@@ -160,7 +166,7 @@ const StListPage = styled.div`
 `;
 
 const StCards = styled.div`
-  width: 1240px;
+  width: 100%;
   min-height: 800px;
   height: 100%;
   display: flex;
@@ -199,18 +205,18 @@ const StCard = styled.div`
 
 const StHistory = styled.div`
   width: 250px;
-  max-height: 780px;
+  height: auto;
   background-image: url(${List_History});
+  background-repeat: no-repeat;
   margin-left: 50px;
   z-index: 999;
   /* position: -webkit-sticky;
   position: sticky; */
-  left: 82%;
-  top: 30%;
+  left: 70%;
+  top: 60%;
   cursor: pointer;
   @media screen and (max-width: 767px) {
     width: auto;
-    height: auto;
     margin-left: 30px;
     margin-top: 30px;
     background-size: 100px auto;
@@ -218,7 +224,6 @@ const StHistory = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: auto;
-    height: auto;
     /* margin-left: 70px; */
     margin-top: 50px;
     background-size: 180px auto;

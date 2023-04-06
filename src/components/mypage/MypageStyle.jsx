@@ -122,6 +122,7 @@ const StTitle = styled.div`
 
 const StContent = styled.div`
   color: #555555;
+  width: 100%;
   font-size: 12px;
   @media screen and (max-width: 767px) {
     font-size: 8px;

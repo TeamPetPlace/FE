@@ -58,7 +58,7 @@ instance.interceptors.response.use(
         originalRequest.headers["Authorization"] = refreshedResponse.headers["authorization"];
         console.log("재발급 완료");
         removeCookie("AccessToken");
-        setCookie("AccessToken", refreshedResponse.headers.Authorization);
+        setCookie("AccessToken", refreshedResponse.headers["authorization"]);
         return baseURL(originalRequest);
       }
     } catch (error) {

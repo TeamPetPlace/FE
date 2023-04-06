@@ -107,11 +107,11 @@ function DibsList() {
       </DibCategoryContainer>
       <div>
         <StCards>
-          {dibList?.map((item) => {
+          {dibList?.map((item, index) => {
             return (
               <>
                 {category === "병원" && item.category === "병원" ? (
-                  <StCard key={item.id}>
+                  <StCard key={index}>
                     <StDibBtn onClick={() => onDibsHandler(item)}>
                       <StDibimg src={dibs} />
                     </StDibBtn>
@@ -131,12 +131,10 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>
-                    <StContent>
-                      {item.address.split(" ", 2).join(" ")}
-                    </StContent>
+                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
                   </StCard>
                 ) : category === "미용" && item.category === "미용" ? (
-                  <StCard key={item.id}>
+                  <StCard key={index}>
                     <StDibBtn onClick={() => onDibsHandler(item)}>
                       <StDibimg src={dibs} />
                     </StDibBtn>
@@ -156,13 +154,11 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>{" "}
-                    <StContent>
-                      {item.address.split(" ", 2).join(" ")}
-                    </StContent>
+                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
                     {/* <div>{item.star}</div> */}
                   </StCard>
                 ) : category === "카페" && item.category === "카페" ? (
-                  <StCard key={item.id}>
+                  <StCard key={index}>
                     <StDibBtn onClick={() => onDibsHandler(item)}>
                       <StDibimg src={dibs} />
                     </StDibBtn>
@@ -182,9 +178,7 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>{" "}
-                    <StContent>
-                      {item.address.split(" ", 2).join(" ")}
-                    </StContent>
+                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
                   </StCard>
                 ) : null}
               </>
