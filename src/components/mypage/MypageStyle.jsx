@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StMypageLayout = styled.div`
-  width: 1920px;
+  width: 100%;
   height: 2116px;
   margin: auto;
   background-color: #fffcec;

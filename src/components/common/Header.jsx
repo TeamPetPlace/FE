@@ -32,9 +32,15 @@ function Header() {
 
   const logoutmuation = useMutation(NomalLogin, {
     onSuccess: (response) => {
-      ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
-        (cookie) => removeCookie(cookie)
-      );
+      [
+        "AccessToken",
+        "RefreshToken",
+        "loginType",
+        "email",
+        "nickname",
+        "lat",
+        "lng",
+      ].forEach((cookie) => removeCookie(cookie));
       alert("로그아웃 되었습니다");
       navigate("/");
     },
@@ -104,11 +110,15 @@ function Header() {
 
   const [count, setCount] = useState();
 
-  const { data: countData } = useQuery("getnotificationcount", getNotificationCount, {
-    onSuccess: (response) => {
-      setCount(response.count);
-    },
-  });
+  const { data: countData } = useQuery(
+    "getnotificationcount",
+    getNotificationCount,
+    {
+      onSuccess: (response) => {
+        setCount(response.count);
+      },
+    }
+  );
 
   return (
     <>
@@ -135,13 +145,20 @@ function Header() {
             </StNotification>
 
             <div>{nickname}</div>
-            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
+            <StUserBar
+              onMouseEnter={() => setDrop(!drop)}
+              onMouseLeave={() => setDrop(!drop)}
+            >
               ▼
               {drop && cookies.loginType === "BUSINESS" && (
                 <StUserCategory>
-                  <StUserMenu onClick={() => navigate("/mypage")}>마이페이지</StUserMenu>
+                  <StUserMenu onClick={() => navigate("/mypage")}>
+                    마이페이지
+                  </StUserMenu>
                   {cookies.loginType === "BUSINESS" && (
-                    <StUserMenu onClick={() => navigate("/notification")}>알림함</StUserMenu>
+                    <StUserMenu onClick={() => navigate("/notification")}>
+                      알림함
+                    </StUserMenu>
                   )}
 
                   <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
@@ -149,9 +166,13 @@ function Header() {
               )}
               {drop && cookies.loginType === "USER" && (
                 <StUserCategorys>
-                  <StUserMenu onClick={() => navigate("/mypage")}>마이페이지</StUserMenu>
+                  <StUserMenu onClick={() => navigate("/mypage")}>
+                    마이페이지
+                  </StUserMenu>
                   {cookies.loginType === "BUSINESS" && (
-                    <StUserMenu onClick={() => navigate("/notification")}>알림함</StUserMenu>
+                    <StUserMenu onClick={() => navigate("/notification")}>
+                      알림함
+                    </StUserMenu>
                   )}
 
                   <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
@@ -163,7 +184,10 @@ function Header() {
       </StHeader>
       <StPlusDiv></StPlusDiv>
       {toastState === true ? (
-        <Toast setToastAnimation={setToastAnimation} setToastState={setToastState} />
+        <Toast
+          setToastAnimation={setToastAnimation}
+          setToastState={setToastState}
+        />
       ) : null}
     </>
   );
@@ -172,14 +196,14 @@ function Header() {
 export default Header;
 
 const StHeader = styled.div`
-  width: 1920px;
-  height: 100px;
+  width: 100%;
+  height: 6.3em;
   background-color: #ffd53f;
   box-shadow: 0px 4px 8px 1px rgba(254, 215, 0, 0.15);
   display: flex;
   align-items: center;
   position: absolute;
-  z-index: 999;
+  z-index: 99;
   @media screen and (max-width: 768px) {
     width: 100%;
     margin: 0 auto;
@@ -256,7 +280,7 @@ const StTab = styled.div`
 
 const StUser = styled.div`
   display: flex;
-  width: 135px;
+  width: 200px;
   line-height: 37px;
   font-size: 15px;
   @media screen and (max-width: 768px) {

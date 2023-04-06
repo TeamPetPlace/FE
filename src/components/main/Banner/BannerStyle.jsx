@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StContainer = styled.div`
-  width: 1920px;
+  width: 100%;
   position: relative;
   overflow: hidden;
   @media screen and (max-width: 768px) {
@@ -12,7 +12,7 @@ const StContainer = styled.div`
 
 const StWrap = styled.div`
   display: flex;
-  width: 1920px;
+  width: 100%;
   font-size: 50px;
   height: 636px;
   @media screen and (max-width: 768px) {
@@ -55,6 +55,8 @@ const StClickBtn = styled.button`
 `;
 
 const StImg = styled.img`
+  width: 100%;
+  height: 100%;
   @media screen and (max-width: 768px) {
     width: 120%;
     margin: 0 auto;

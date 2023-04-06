@@ -3,8 +3,8 @@ import mainMid from "../../../style/img/mainMid.svg";
 
 const StWrap = styled.div`
   background-image: url(${mainMid});
-  background-size: 1900px 990px;
-  width: 1900px;
+  background-size: 100% 990px;
+  width: 100%;
   height: 800px;
   background-position: cover;
   background-repeat: no-repeat;
@@ -181,8 +181,9 @@ const StPin = styled.img`
 
 const StDivBox = styled.div`
   display: flex;
-  width: 500px;
+  width: 430px;
   margin: 0 auto;
+  position: relative;
   @media screen and (max-width: 768px) {
     width: 300px;
     margin: 0 auto;
