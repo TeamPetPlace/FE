@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import main1 from "../../../style/img/banner1.png";
 import main2 from "../../../style/img/banner2.png";
 import main3 from "../../../style/img/banner3.png";
+import main4 from "../../../style/img/banner4.png";
 import {
   StContainer,
   StWrap,
@@ -34,15 +35,24 @@ function Banner() {
           pagination={{ clickable: true }}
         >
           <SwiperSlide>
-            <StImg src={main1} style={{ marginTop: "-5px" }} />
-            {cookies.loginType === "BUSINESS" && (
+            {cookies.loginType === "BUSINESS" ? (
+              <StImg
+                src={main1}
+                style={{ marginTop: "-5px", cursor: "pointer" }}
+                onClick={() => navigate("/ownerpost")}
+              />
+            ) : (
+              <StImg src={main4} style={{ marginTop: "-5px" }} />
+            )}
+            {/* <StImg src={main1} style={{ marginTop: "-5px" }} /> */}
+            {/* {cookies.loginType === "BUSINESS" && (
               <StPostBtn>
                 <StClickBtn onClick={() => navigate("/ownerpost")}>
                   업체 등록하기
                   <div>{">"}</div>
                 </StClickBtn>
               </StPostBtn>
-            )}
+            )} */}
           </SwiperSlide>
           <SwiperSlide>
             <StImg src={main2} style={{ marginTop: "-5px" }} />

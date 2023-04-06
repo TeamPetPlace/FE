@@ -32,10 +32,16 @@ import {
   StMap,
   StTabBtn,
 } from "./AllDetailListStyle";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { BiArrowFromBottom } from "react-icons/bi";
+import { BiArrowFromRight } from "react-icons/bi";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 function AllDetailList({ id, detail, queryClient, setDetail, data }) {
+  const navigate = useNavigate();
+
   //복사하기
   const handleCopyClipBoard = async (text) => {
     try {
@@ -93,6 +99,12 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
       setTab("후기");
     }
   };
+
+  //맨 위로 버튼
+  const moveTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <StContainer>
       <StSlider>
@@ -305,8 +317,41 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           ></ReviewList>
         </div>
       )}
+      <StMoveTopBtn>
+        <StIconBtn onClick={() => navigate(-1)}>
+          <BiArrowFromRight />
+        </StIconBtn>
+        <StIconBtn onClick={moveTop}>
+          <BiArrowFromBottom />
+        </StIconBtn>
+      </StMoveTopBtn>
     </StContainer>
   );
 }
 
 export default AllDetailList;
+
+const StMoveTopBtn = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 999;
+  bottom: 25%;
+  right: 9%;
+  width: 70px;
+  height: 100px;
+  border-radius: 60px;
+  padding: 5px 0;
+  align-items: center;
+  background-color: #ffd53f;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+`;
+
+const StIconBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  cursor: pointer;
+`;

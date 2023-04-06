@@ -155,7 +155,7 @@ function MyNotification() {
 export default MyNotification;
 
 const StWrap = styled.div`
-  width: 1920px;
+  width: 100%;
   min-height: 2116px;
   height: 100%;
   margin: auto;
