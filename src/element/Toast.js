@@ -8,7 +8,7 @@ function Toast(props) {
       props.setToastAnimation("toast-alert closeAnimation");
       timer2 = setTimeout(() => {
         props.setToastState(false);
-      }, 1000);
+      }, 3000);
     }, 3000);
     return () => {
       clearTimeout(timer);
