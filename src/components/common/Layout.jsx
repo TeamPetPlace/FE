@@ -8,7 +8,7 @@ function Layout(props) {
 export default Layout;
 
 const LayoutBox = styled.div`
-  width: 1920px;
+  width: 100%;
   overflow: hidden;
   margin: 0 auto;
   @media screen and (max-width: 768px) {

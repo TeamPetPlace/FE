@@ -79,6 +79,7 @@ function MyReviewList() {
 
   const onUpdateReviewHandler = (event, reviewId) => {
     event.preventDefault();
+    if (!clicked) return alert("평점을 입력해주세요");
     const formData = new FormData();
     formData.append("review", updateReview);
     formData.append("image", image);

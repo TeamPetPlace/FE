@@ -76,14 +76,14 @@ function PostList() {
                       </div>
                     )}
                     {item.category === "카페" && (
-                      <StBtnDiv>
+                      <div>
                         <StBtn onClick={() => navigate(`/cafe/${item.id}`)}>
                           보러가기
                         </StBtn>
                         <StBtn onClick={() => onDeleteHandler(item.id)}>
                           삭제
                         </StBtn>
-                      </StBtnDiv>
+                      </div>
                     )}
                   </StUnderDiv>
                 </StContentContainer>
@@ -195,6 +195,7 @@ const StContent = styled.div`
 
 const StSmallContent = styled.div`
   font-size: 12px;
+  width: 100px;
   color: #999999;
   display: flex;
   margin-left: 35px;
@@ -250,10 +251,4 @@ const StUnderDiv = styled.div`
   @media screen and (max-width: 767px) {
     width: 150px;
   }
-`;
-
-const StBtnDiv = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
 `;
