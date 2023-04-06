@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import main1 from "../../../style/img/1.png";
-import main2 from "../../../style/img/2.png";
-import main3 from "../../../style/img/3.png";
-import { StContainer, StWrap, StPostBtn, StClickBtn, StImg } from "./BannerStyle";
+import main1 from "../../../style/img/banner1.png";
+import main2 from "../../../style/img/banner2.png";
+import main3 from "../../../style/img/banner3.png";
+import {
+  StContainer,
+  StWrap,
+  StPostBtn,
+  StClickBtn,
+  StImg,
+} from "./BannerStyle";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../../../../node_modules/swiper/swiper.scss";
@@ -29,6 +35,14 @@ function Banner() {
         >
           <SwiperSlide>
             <StImg src={main1} style={{ marginTop: "-5px" }} />
+            {cookies.loginType === "BUSINESS" && (
+              <StPostBtn>
+                <StClickBtn onClick={() => navigate("/ownerpost")}>
+                  업체 등록하기
+                  <div>{">"}</div>
+                </StClickBtn>
+              </StPostBtn>
+            )}
           </SwiperSlide>
           <SwiperSlide>
             <StImg src={main2} style={{ marginTop: "-5px" }} />
@@ -39,14 +53,14 @@ function Banner() {
         </Swiper>
       </StWrap>
 
-      {cookies.loginType === "BUSINESS" && (
+      {/* {cookies.loginType === "BUSINESS" && (
         <StPostBtn>
           <StClickBtn onClick={() => navigate("/ownerpost")}>
             업체 등록하기
             <div>{">"}</div>
           </StClickBtn>
         </StPostBtn>
-      )}
+      )} */}
     </StContainer>
   );
 }
