@@ -40,7 +40,8 @@ const StClickBtn = styled.button`
   border-radius: 10px;
   border: none;
   font-size: 22px;
-  background-color: #ffd53f;
+  color: #fff;
+  background-color: #764811;
   display: flex;
   justify-content: space-between;
   line-height: 45px;
