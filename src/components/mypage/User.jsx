@@ -110,6 +110,7 @@ function User() {
                     type="text"
                     name="nick"
                     value={updateNick}
+                    maxLength={10}
                     onChange={(event) => {
                       setUpdateNick(event.target.value);
                     }}
@@ -128,7 +129,7 @@ function User() {
                   {cookies.loginType === "USER" && (
                     <StInfoTextDiv
                       style={{
-                        padding: " 5px 15px",
+                        padding: " 5px 10px",
                         borderRadius: "10px",
                         backgroundColor: "#ffd53f",
                       }}
@@ -192,7 +193,7 @@ function User() {
                     {cookies.loginType === "USER" && (
                       <StInfoTextDiv
                         style={{
-                          padding: " 5px 15px",
+                          padding: " 5px 10px",
                           borderRadius: "10px",
                           backgroundColor: "#ffd53f",
                         }}
@@ -206,14 +207,7 @@ function User() {
                     <StInfoTextDiv>{mypage.email}</StInfoTextDiv>
                   </StInfo>
                 </StInfoContainer>
-                <StEditBtn
-                  style={{
-                    margin: "0 227px",
-                  }}
-                  onClick={onEditMode}
-                >
-                  수정
-                </StEditBtn>
+                <StEditBtn onClick={onEditMode}>수정</StEditBtn>
               </StUserBox>
             </>
           )}
@@ -230,8 +224,8 @@ const StForm = styled.form`
 `;
 
 const StUserBox = styled.div`
-  width: 883px;
-  height: 202px;
+  width: 900px;
+  height: 200px;
   border: none;
   margin: auto;
   font-size: 22px;
@@ -254,11 +248,12 @@ const StUserBox = styled.div`
 const StInfoTextDiv = styled.div`
   font-size: 22px;
   font-weight: bold;
-  margin: 5px;
+  margin: 0 5px 5px 5px;
   padding: 5px 0;
   /* font-size: ${(props) => props.fontSize}; */
   @media screen and (max-width: 767px) {
     font-size: 10px;
+    margin: 0 5px 0 0;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -268,23 +263,22 @@ const StInfoTextDiv = styled.div`
 
 const StInfo = styled.div`
   display: flex;
+  flex-direction: row;
+  width: 500px;
   @media screen and (max-width: 767px) {
-    width: 200px;
-    margin-left: -110px;
-    margin-top: -15px;
-    height: 35px;
-    margin-bottom: -20px;
-  }
-
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 300px;
-    margin-top: -15px;
+    width: 150px;
   }
 `;
 
 const StInfoContainer = styled.div`
   flex-direction: column;
-  margin: 35px 227px 5px 227px;
+  margin: 35px 0px 10px 300px;
+  @media screen and (max-width: 767px) {
+    margin: 15px 0px -8px 140px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin: 35px 0px 10px 200px;
+  }
 `;
 
 const StImg = styled.img`
@@ -298,7 +292,7 @@ const StImg = styled.img`
     height: 120px;
   }
 
-  @media screen and (min-width: 768px) and (max-width: 800px) {
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 200px;
     height: 200px;
   }
@@ -322,7 +316,7 @@ const StImgDiv = styled.div`
     left: -10px;
   }
 
-  @media screen and (min-width: 768px) and (max-width: 800px) {
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 200px;
     height: 200px;
     top: -10%;
@@ -342,7 +336,7 @@ const StUserInfoDiv = styled.div`
     margin: 50px auto 0px auto;
   }
 
-  @media screen and (min-width: 768px) and (max-width: 800px) {
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 700px;
     margin-left: 50px;
     height: 100px;
@@ -356,18 +350,18 @@ const StEditBtn = styled.button`
   background-color: white;
   font-size: 18px;
   width: 64px;
-  height: 34px;
+  height: 30px;
   color: #000000;
   cursor: pointer;
-  margin: 0 10px 0 227px;
+  margin: 0 0 0 300px;
   &:hover {
     background-color: #6d6d6d;
   }
   @media screen and (max-width: 767px) {
     font-size: 8px;
-    height: 20px;
+    height: auto;
     width: 40px;
-    margin: 0 10px 0 120px;
+    margin: 0 10px 0 140px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -384,7 +378,8 @@ const StCancelBtn = styled.button`
   background-color: white;
   font-size: 18px;
   width: 64px;
-  height: 34px;
+  height: 30px;
+  margin-left: 5px;
   color: #000000;
   cursor: pointer;
   &:hover {
@@ -407,9 +402,10 @@ const StNickInput = styled.input`
   border-radius: 5px;
   border: 1px solid #d9d9d9;
   background-color: white;
-  font-size: 22px;
-  width: 120px;
+  font-size: 20px;
+  width: 230px;
   text-indent: 5px;
+  margin-right: 5px;
   @media screen and (max-width: 767px) {
     font-size: 10px;
     width: 55px;
@@ -445,7 +441,7 @@ const StUploadBtn = styled.button`
     left: -80px;
   }
 
-  @media screen and (min-width: 768px) and (max-width: 800px) {
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     top: -50%;
     left: -10px;
   }

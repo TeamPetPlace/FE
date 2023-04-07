@@ -2,18 +2,18 @@ import styled from "styled-components";
 
 const StMypageLayout = styled.div`
   width: 100%;
-  height: 2116px;
+  height: 1900px;
   margin: auto;
   background-color: #fffcec;
   display: flex;
   flex-direction: column;
   @media screen and (max-width: 767px) {
-    width: 375px;
+    width: 100%;
     height: 900px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 768px;
-    height: 1400px;
+    width: 100%;
+    height: 1450px;
   }
 `;
 
@@ -36,7 +36,7 @@ const StContentBox = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 660px;
-    height: 900px;
+    height: 860px;
   }
 `;
 
@@ -124,8 +124,12 @@ const StContent = styled.div`
   color: #555555;
   width: 100%;
   font-size: 12px;
+  white-space: nowrap;
   @media screen and (max-width: 767px) {
-    font-size: 8px;
+    font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
   }
 `;
 

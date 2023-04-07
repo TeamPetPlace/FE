@@ -81,7 +81,7 @@ const StTabBtn = styled.button`
 `;
 
 const StSignupFormDiv = styled.div`
-  width: 1920px;
+  width: 100%;
   height: 1080px;
   margin: auto;
   background-color: #fffcec;

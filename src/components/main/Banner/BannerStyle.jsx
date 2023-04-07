@@ -14,7 +14,7 @@ const StWrap = styled.div`
   display: flex;
   width: 100%;
   font-size: 50px;
-  height: 636px;
+  height: auto;
   @media screen and (max-width: 768px) {
     width: 100%;
     margin: 0 auto;
@@ -57,7 +57,7 @@ const StClickBtn = styled.button`
 
 const StImg = styled.img`
   width: 100%;
-  height: 100%;
+  height: auto;
   @media screen and (max-width: 768px) {
     width: 120%;
     margin: 0 auto;
