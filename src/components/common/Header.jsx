@@ -248,6 +248,9 @@ const StLogo = styled.img`
     top: -25px;
     left: 53%;
   }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin-left: 40px;
+  }
 `;
 
 const StCateogry = styled.div`
