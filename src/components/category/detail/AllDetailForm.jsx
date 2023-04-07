@@ -154,7 +154,8 @@ const AllDetailForm = () => {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -275,40 +276,44 @@ const AllDetailForm = () => {
     alert("수정 완료!");
   };
 
+  //전화번호
   const telNumberHandler = (event) => {
     const { value } = event.target;
-    const regex = /^[0-9\b -]{0,13}$/;
+    const regex = /^[0-9\b -]{0,14}$/; // Update regex to allow for 14 characters
     if (regex.test(event.target.value)) {
       setUpTelNum(value);
     }
   };
 
   useEffect(() => {
+    let formattedNum = upTelNum;
     if (upTelNum.length === 10) {
-      setUpTelNum(upTelNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"));
+      formattedNum = upTelNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+    } else if (upTelNum.length === 13) {
+      formattedNum = upTelNum
+        .replace(/-/g, "")
+        .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+    } else if (upTelNum.length === 14) {
+      // Add condition for 14 characters
+      formattedNum = upTelNum
+        .replace(/-/g, "")
+        .replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3"); // Update regex and replace pattern for 4-4-4 format
     }
-    if (upTelNum.length === 13) {
-      setUpTelNum(upTelNum.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
+
+    if (formattedNum.startsWith("02")) {
+      formattedNum = formattedNum.replace(
+        /(\d{2})(\d{3,4})(\d{4})/,
+        "$1-$2-$3"
+      );
+    } else {
+      formattedNum = formattedNum.replace(
+        /(\d{3})(\d{3,4})(\d{4})/,
+        "$1-$2-$3"
+      );
     }
+
+    setUpTelNum(formattedNum);
   }, [upTelNum]);
-
-  const handleKeyDown = (e) => {
-    const key = e.key;
-    const selectionStart = e.target.selectionStart;
-    const selectionEnd = e.target.selectionEnd;
-
-    if (key === "Backspace" || key === "Delete") {
-      if (selectionStart === 3 && selectionEnd === 3) {
-        e.preventDefault();
-      }
-    }
-  };
-
-  const handleSelect = (e) => {
-    if (e.target.value.startsWith("010-")) {
-      e.target.setSelectionRange(12, e.target.value.length);
-    }
-  };
 
   return (
     <>
@@ -374,6 +379,7 @@ const AllDetailForm = () => {
                   onChange={(event) => {
                     setUpTitle(event.target.value);
                   }}
+                  maxLength={20}
                 />
               </StLine>
               <StLine>
@@ -382,8 +388,8 @@ const AllDetailForm = () => {
                     <StImps>*</StImps>소개
                   </StTitle>
                   <StText
-                    placeholder="소개글을 입력해주세요.(500자 이내)"
-                    maxLength={500}
+                    placeholder="소개글을 입력해주세요.(250자 이내)"
+                    maxLength={250}
                     value={upContents}
                     onChange={(event) => {
                       setUpContents(event.target.value);
@@ -401,14 +407,19 @@ const AllDetailForm = () => {
                       우편번호 검색
                     </StBtn>
                     <StErrorMsg>
-                      {buttonClicked === false ? <p>주소 입력 후 확인을 꼭 클릭해주세요</p> : null}
+                      {buttonClicked === false ? (
+                        <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
+                      ) : null}
                     </StErrorMsg>
                   </div>
                   <div id="popupDom">
                     {isPopupOpen && (
                       <PopupDom>
                         <div>
-                          <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
+                          <DaumPostcode
+                            style={postCodeStyle}
+                            onComplete={handlePostCode}
+                          />
                           <StInput value={address} disabled />
                           <StBtn size="medium" onClick={handleSearch}>
                             확인
@@ -419,7 +430,11 @@ const AllDetailForm = () => {
                     {!isPopupOpen && (
                       <>
                         <StInput disabled style={{ marginTop: "10px" }} />
-                        <StBtn size="small" onClick={handleSearch} style={{ marginLeft: "10px" }}>
+                        <StBtn
+                          size="small"
+                          onClick={handleSearch}
+                          style={{ marginLeft: "10px" }}
+                        >
                           확인
                         </StBtn>
                       </>
@@ -447,6 +462,7 @@ const AllDetailForm = () => {
                   onChange={(event) => {
                     setUpCeo(event.target.value);
                   }}
+                  maxLength={10}
                 />
               </StLine>
               <StLine>
@@ -456,12 +472,9 @@ const AllDetailForm = () => {
                 </StTitle>
                 <StInput
                   type="text"
-                  placeholder="000-0000-0000"
+                  placeholder="번호를 입력해주세요"
                   value={upTelNum}
                   onChange={telNumberHandler}
-                  onKeyDown={handleKeyDown}
-                  onSelect={handleSelect}
-                  onDragStart={(event) => event.preventDefault()}
                 />
               </StLine>
 
@@ -473,6 +486,7 @@ const AllDetailForm = () => {
                       type="text"
                       value={upCost}
                       onChange={(event) => setUpCost(event.target.value)}
+                      maxLength={30}
                     />
                   </StLine>
                   <StLine>
@@ -504,6 +518,7 @@ const AllDetailForm = () => {
                       type="text"
                       value={upFeature1}
                       onChange={(event) => setUpFeature1(event.target.value)}
+                      maxLength={30}
                     />
                   </StLine>
                 </div>
@@ -516,6 +531,7 @@ const AllDetailForm = () => {
                       type="text"
                       value={upCost}
                       onChange={(event) => setUpCost(event.target.value)}
+                      maxLength={30}
                     />
                   </StLine>
                   <StLine>
@@ -574,6 +590,7 @@ const AllDetailForm = () => {
                       type="text"
                       value={upCost}
                       onChange={(event) => setUpCost(event.target.value)}
+                      maxLength={30}
                     />
                   </StLine>
                   <StLine>
@@ -605,6 +622,7 @@ const AllDetailForm = () => {
                       type="text"
                       value={upFeature1}
                       onChange={(event) => setUpFeature1(event.target.value)}
+                      maxLength={30}
                     />
                   </StLine>
                 </div>
@@ -631,7 +649,11 @@ const AllDetailForm = () => {
                       size="small"
                       style={{ marginLeft: "20px" }}
                     />
-                    <input type="checkbox" value={isChecked} onChange={onCheckHandler} />
+                    <input
+                      type="checkbox"
+                      value={isChecked}
+                      onChange={onCheckHandler}
+                    />
                     <label>휴무일</label>
                     <div>
                       {isChecked && (
