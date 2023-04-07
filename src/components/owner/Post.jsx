@@ -68,47 +68,49 @@ function Post() {
   };
 
   //주소 팝업창
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const openPostCode = () => {
-    setIsPopupOpen(true);
-  };
-
-  const [address, setAddress] = useState("");
-
-  const handlePostCode = (data) => {
-    let fullAddress = data.address;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-    setAddress(fullAddress);
-  };
-
-  // const addrRef = useRef();
-
-  // const handlePostCode = () => {
-  //   new window.daum.Postcode({
-  //     oncomplete: (data) => {
-  //       var addr = "";
-  //       if (data.userSelectedType === "R") {
-  //         addr = data.roadAddress;
-  //       } else {
-  //         addr = data.jibunAddress;
-  //       }
-  //       addrRef.current.value = addr;
-  //       setAddress(addr);
-  //     },
-  //   }).open();
+  // const openPostCode = () => {
+  //   setIsPopupOpen(true);
   // };
+
+  // const [address, setAddress] = useState("");
+
+  // const handlePostCode = (data) => {
+  //   let fullAddress = data.address;
+  //   let extraAddress = "";
+
+  //   if (data.addressType === "R") {
+  //     if (data.bname !== "") {
+  //       extraAddress += data.bname;
+  //     }
+  //     if (data.buildingName !== "") {
+  //       extraAddress +=
+  //         extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+  //     }
+  //     fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+  //   }
+  //   setAddress(fullAddress);
+  // };
+
+  //주소 팝업창
+  const [address, setAddress] = useState("");
+  const addrRef = useRef();
+
+  const handlePostCode = () => {
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        var addr = "";
+        if (data.userSelectedType === "R") {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+        addrRef.current.value = addr;
+        setAddress(addr);
+      },
+    }).open();
+  };
 
   const postCodeStyle = {
     display: "block",
@@ -376,6 +378,22 @@ function Post() {
                 <StImp>*</StImp>주소
               </StTitle>
               <div>
+                <div>
+                  <StBtn type="button" onClick={handlePostCode} size="medium">
+                    우편번호 검색
+                  </StBtn>
+                  <StErrorMsg>
+                    {buttonClicked === false ? (
+                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
+                    ) : null}
+                  </StErrorMsg>
+                </div>
+                <StInput value={address} ref={addrRef} disabled />
+                <StBtn size="medium" onClick={handleSearch}>
+                  확인
+                </StBtn>
+              </div>
+              {/* <div>
                 <div style={{ display: "flex" }}>
                   <StBtn type="button" onClick={openPostCode} size="medium">
                     우편번호 검색
@@ -414,7 +432,7 @@ function Post() {
                     </>
                   )}
                 </div>
-              </div>
+              </div> */}
             </StLine>
             <StLine>
               {category === "병원" && (
