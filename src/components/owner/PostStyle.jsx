@@ -104,7 +104,7 @@ const StErrorMsg = styled.div`
   @media screen and (max-width: 767px) {
     font-size: 12px;
     width: 100px;
-    margin-top: -10px;
+    margin-top: -20px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -167,7 +167,17 @@ const StLabels = styled.div`
   margin-left: 10px;
   font-size: 18px;
   @media screen and (max-width: 768px) {
-    font-size: 16px;
+    font-size: 14px;
+    margin-left: -0px;
+  }
+`;
+
+const StTopLabels = styled.div`
+  margin-left: 10px;
+  font-size: 18px;
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+    margin-left: -30px;
   }
 `;
 
@@ -184,6 +194,15 @@ const StTimeBox = styled.div`
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
+  }
+`;
+
+const StColumn = styled.div`
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -20px;
   }
 `;
 
@@ -220,7 +239,8 @@ const StInput = styled.input`
         return css`
           width: 400px;
           @media screen and (max-width: 768px) {
-            width: 200px;
+            width: 120px;
+            margin-right: 4px;
           }
         `;
       case "medium":
@@ -240,7 +260,7 @@ const StInput = styled.input`
           width: 540px;
           height: 27px;
           @media screen and (max-width: 767px) {
-            width: 120px;
+            width: 160px;
             height: 15px;
           }
 
@@ -262,8 +282,9 @@ const StText = styled.textarea`
   height: 200px;
   margin-top: 10px;
   @media screen and (max-width: 767px) {
-    width: 110px;
+    width: 200px;
     height: 100px;
+    margin-left: -40px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -382,9 +403,11 @@ const StBtn = styled.button`
             width: 100px;
             font-size: 15px;
             height: 40px;
+            margin-top: -20px;
           }
 
           @media screen and (min-width: 768px) and (max-width: 1023px) {
+            margin-top: -0px;
           }
         `;
       case "medium":
@@ -444,9 +467,11 @@ export {
   StFormBox,
   StForm,
   StLabels,
+  StTopLabels,
   StRadio,
   StHoliday,
   StTimeBox,
+  StColumn,
   StWeek,
   StInput,
   StText,

@@ -59,6 +59,7 @@ const StContents = styled.div`
     height: 110px;
     line-height: 110px;
     margin-bottom: 10px;
+    margin-left: -5px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -107,6 +108,12 @@ const StLines = styled.div`
   margin-bottom: 20px;
 `;
 
+const StPostBox = styled.div`
+  @media screen and (max-width: 768px) {
+    margin-left: 20px;
+  }
+`;
+
 const StErrorMsg = styled.div`
   height: 40px;
   line-height: 20px;
@@ -115,7 +122,7 @@ const StErrorMsg = styled.div`
   @media screen and (max-width: 767px) {
     font-size: 12px;
     width: 100px;
-    margin-top: -10px;
+    margin-top: -20px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -163,7 +170,8 @@ const StLabels = styled.div`
   margin-left: 10px;
   font-size: 18px;
   @media screen and (max-width: 768px) {
-    font-size: 16px;
+    font-size: 14px;
+    margin-left: -0px;
   }
 `;
 
@@ -180,6 +188,15 @@ const StTimeBox = styled.div`
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
+  }
+`;
+
+const StColumn = styled.div`
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -20px;
   }
 `;
 
@@ -236,7 +253,7 @@ const StInput = styled.input`
           width: 540px;
           height: 27px;
           @media screen and (max-width: 767px) {
-            width: 120px;
+            width: 160px;
             height: 15px;
           }
 
@@ -258,7 +275,7 @@ const StText = styled.textarea`
   height: 200px;
   margin-top: 10px;
   @media screen and (max-width: 767px) {
-    width: 110px;
+    width: 160px;
     height: 100px;
   }
 
@@ -465,12 +482,14 @@ export {
   StRadioLabel,
   StLine,
   StLines,
+  StPostBox,
   StErrorMsg,
   StFormBox,
   StForm,
   StLabels,
   StRadio,
   StTimeBox,
+  StColumn,
   StHoliday,
   StWeek,
   StInput,

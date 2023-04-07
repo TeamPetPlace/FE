@@ -19,12 +19,14 @@ import {
   StRadioLabel,
   StLine,
   StLines,
+  StPostBox,
   StErrorMsg,
   StFormBox,
   StForm,
   StLabels,
   StRadio,
   StTimeBox,
+  StColumn,
   StHoliday,
   StWeek,
   StInput,
@@ -424,7 +426,7 @@ const AllDetailForm = () => {
                 <StTitle>
                   <StImp>*</StImp>주소
                 </StTitle>
-                <div>
+                <StPostBox>
                   <div style={{ display: "flex" }}>
                     <StBtn type="button" onClick={handlePostCode} size="medium">
                       우편번호 검색
@@ -439,7 +441,7 @@ const AllDetailForm = () => {
                   <StBtn size="medium" onClick={handleSearch}>
                     확인
                   </StBtn>
-                </div>
+                </StPostBox>
                 {/* <div>
                   <div style={{ display: "flex" }}>
                     <StBtn type="button" onClick={openPostCode} size="medium">
@@ -672,47 +674,49 @@ const AllDetailForm = () => {
                     <StTitle>
                       <StImp>*</StImp>영업시간
                     </StTitle>
-                    <StInput
-                      type="time"
-                      placeholder="시작시간"
-                      value={upStartTime}
-                      onChange={(event) => setUpStartTime(event.target.value)}
-                      size="small"
-                    />
-                    :
-                    <StInput
-                      type="time"
-                      placeholder="종료시간"
-                      value={upEndTime}
-                      onChange={(event) => setUpEndTime(event.target.value)}
-                      size="small"
-                      style={{ marginLeft: "20px" }}
-                    />
-                    <input
-                      type="checkbox"
-                      value={isChecked}
-                      onChange={onCheckHandler}
-                    />
-                    <label>휴무일</label>
-                    <div>
-                      {isChecked && (
-                        <StHoliday
-                          value={upSelect}
-                          onChange={(event) => {
-                            setUpSelect(event.target.value);
-                          }}
-                        >
-                          요일 ▼<StWeek>월요일</StWeek>
-                          <StWeek>화요일</StWeek>
-                          <StWeek>수요일</StWeek>
-                          <StWeek>목요일</StWeek>
-                          <StWeek>금요일</StWeek>
-                          <StWeek>토요일</StWeek>
-                          <StWeek>일요일</StWeek>
-                          <StWeek>주말(토/일)</StWeek>
-                        </StHoliday>
-                      )}
-                    </div>
+                    <StColumn>
+                      <StInput
+                        type="time"
+                        placeholder="시작시간"
+                        value={upStartTime}
+                        onChange={(event) => setUpStartTime(event.target.value)}
+                        size="small"
+                      />
+                      :
+                      <StInput
+                        type="time"
+                        placeholder="종료시간"
+                        value={upEndTime}
+                        onChange={(event) => setUpEndTime(event.target.value)}
+                        size="small"
+                        style={{ marginLeft: "20px" }}
+                      />
+                      <input
+                        type="checkbox"
+                        value={isChecked}
+                        onChange={onCheckHandler}
+                      />
+                      <label>휴무일</label>
+                      <div>
+                        {isChecked && (
+                          <StHoliday
+                            value={upSelect}
+                            onChange={(event) => {
+                              setUpSelect(event.target.value);
+                            }}
+                          >
+                            요일 ▼<StWeek>월요일</StWeek>
+                            <StWeek>화요일</StWeek>
+                            <StWeek>수요일</StWeek>
+                            <StWeek>목요일</StWeek>
+                            <StWeek>금요일</StWeek>
+                            <StWeek>토요일</StWeek>
+                            <StWeek>일요일</StWeek>
+                            <StWeek>주말(토/일)</StWeek>
+                          </StHoliday>
+                        )}
+                      </div>
+                    </StColumn>
                   </StLine>
                 </StTimeBox>
                 <StLine>

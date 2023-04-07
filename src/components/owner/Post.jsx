@@ -19,9 +19,11 @@ import {
   StErrorMsgs,
   StFormBox,
   StForm,
+  StTopLabels,
   StLabels,
   StRadio,
   StTimeBox,
+  StColumn,
   StHoliday,
   StWeek,
   StInput,
@@ -310,7 +312,7 @@ function Post() {
               <StTitle>
                 <StImp>*</StImp>업종
               </StTitle>
-              <StLabels>
+              <StTopLabels>
                 <StRadioLabel>
                   병원
                   <StRadio
@@ -341,7 +343,7 @@ function Post() {
                     onChange={(event) => setCategory(event.target.value)}
                   />
                 </StRadioLabel>
-              </StLabels>
+              </StTopLabels>
             </StLine>
             <StLine>
               <StTitle>
@@ -353,6 +355,7 @@ function Post() {
                 value={title}
                 onChange={titleHandler}
                 maxLength={20}
+                size="large"
               />
               <StBtn onClick={checkTitleHandler} value={title} size="medium">
                 중복확인
@@ -629,42 +632,44 @@ function Post() {
                   <StTitle>
                     <StImp>*</StImp>영업시간
                   </StTitle>
-                  <StInput
-                    type="time"
-                    placeholder="시작시간"
-                    value={startTime}
-                    onChange={startTimeHandler}
-                    size="small"
-                  />
-                  ㅡ
-                  <StInput
-                    type="time"
-                    placeholder="종료시간"
-                    value={endTime}
-                    onChange={endTimeHandler}
-                    size="small"
-                    style={{ marginLeft: "20px" }}
-                  />
-                  <input
-                    type="checkbox"
-                    value={isChecked}
-                    onChange={onCheckHandler}
-                  />
-                  <label>휴무일</label>
-                  <div>
-                    {isChecked && (
-                      <StHoliday value={select} onChange={selectHandler}>
-                        요일 ▼<StWeek>월요일</StWeek>
-                        <StWeek>화요일</StWeek>
-                        <StWeek>수요일</StWeek>
-                        <StWeek>목요일</StWeek>
-                        <StWeek>금요일</StWeek>
-                        <StWeek>토요일</StWeek>
-                        <StWeek>일요일</StWeek>
-                        <StWeek>주말(토/일)</StWeek>
-                      </StHoliday>
-                    )}
-                  </div>
+                  <StColumn>
+                    <StInput
+                      type="time"
+                      placeholder="시작시간"
+                      value={startTime}
+                      onChange={startTimeHandler}
+                      size="small"
+                    />
+                    ㅡ
+                    <StInput
+                      type="time"
+                      placeholder="종료시간"
+                      value={endTime}
+                      onChange={endTimeHandler}
+                      size="small"
+                      style={{ marginLeft: "20px" }}
+                    />
+                    <input
+                      type="checkbox"
+                      value={isChecked}
+                      onChange={onCheckHandler}
+                    />
+                    <label>휴무일</label>
+                    <div>
+                      {isChecked && (
+                        <StHoliday value={select} onChange={selectHandler}>
+                          요일 ▼<StWeek>월요일</StWeek>
+                          <StWeek>화요일</StWeek>
+                          <StWeek>수요일</StWeek>
+                          <StWeek>목요일</StWeek>
+                          <StWeek>금요일</StWeek>
+                          <StWeek>토요일</StWeek>
+                          <StWeek>일요일</StWeek>
+                          <StWeek>주말(토/일)</StWeek>
+                        </StHoliday>
+                      )}
+                    </div>
+                  </StColumn>
                 </StLines>
               </StTimeBox>
               <StLine>
