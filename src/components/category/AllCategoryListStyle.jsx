@@ -42,13 +42,16 @@ export const StBannerContent = styled.div`
 `;
 
 const StPlace = styled.div`
-  width: 70%;
+  width: 80%;
+  min-width: 300px;
+  max-width: 1240px;
   height: 50px;
   margin: 68px auto 5px auto;
   display: flex;
   flex-direction: center;
   align-items: center;
   justify-content: space-between;
+  /* background-color: blue; */
   gap: 10px;
   @media screen and (max-width: 767px) {
     /* width: 300px; */
@@ -93,7 +96,7 @@ const StSearchDiv = styled.div`
   align-items: center;
   background-color: #ffffff;
   /* background-color: #000000; */
-  border: 1px solid #d9d9d9;
+  border: 1px solid #555555;
   @media screen and (max-width: 767px) {
     width: 110px;
   }
@@ -109,7 +112,7 @@ const StSelect = styled.select`
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #555555;
   border-radius: 0px;
   padding: 5px;
   outline: none;
@@ -150,18 +153,21 @@ const StSearchSortingDiv = styled.div`
 `;
 
 const StListPage = styled.div`
-  width: 78%;
+  width: 80%;
+  min-width: 300px;
+  max-width: 1240px;
   height: 100%;
   display: flex;
+  flex-direction: row;
   gap: 5px;
   margin: auto;
   /* background-color: pink; */
-  margin-left: 15%;
+  /* margin-left: 15%; */
   @media screen and (max-width: 767px) {
-    margin-left: 7.5%;
+    /* margin-left: 7.5%; */
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    margin-left: 7.5%;
+    /* margin-left: 7.5%; */
   }
 `;
 
@@ -170,17 +176,17 @@ const StCards = styled.div`
   min-height: 800px;
   height: 100%;
   display: flex;
-  gap: 11px;
   flex-flow: row wrap;
   align-items: space-evenly;
+  gap: 11px;
   /* background-color: #f7f7de; */
   padding: 30px 0px 30px 0px;
-  @media screen and (max-width: 767px) {
-    width: 300px;
+  @media screen and (max-width: 513px) {
+    /* width: 300px; */
     height: 100%;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 760px;
+    /* width: 760px; */
     height: 100%;
   }
 `;
@@ -195,11 +201,13 @@ const StCard = styled.div`
     width: 200px;
     height: 220px;
     margin-bottom: 0px;
+    position: relative;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 200px;
     height: 230px;
     margin-bottom: 0px;
+    position: relative;
   }
 `;
 
@@ -208,24 +216,23 @@ const StHistory = styled.div`
   height: auto;
   background-image: url(${List_History});
   background-repeat: no-repeat;
-  margin-left: 50px;
-  z-index: 999;
-  /* position: -webkit-sticky;
-  position: sticky; */
-  left: 70%;
-  top: 60%;
+  z-index: 100;
+  /* position: -webkit-sticky; */
+  position: fixed;
+  right: 0%;
+  top: 20%;
   cursor: pointer;
   @media screen and (max-width: 767px) {
     width: auto;
-    margin-left: 30px;
-    margin-top: 30px;
+    right: 0%;
+    top: 45%;
     background-size: 100px auto;
     background-repeat: no-repeat;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: auto;
-    /* margin-left: 70px; */
-    margin-top: 50px;
+    right: 5%;
+    top: 45%;
     background-size: 180px auto;
     background-repeat: no-repeat;
   }
@@ -233,7 +240,7 @@ const StHistory = styled.div`
 
 const StHistoryImg = styled.img`
   width: 160px;
-  height: 140px;
+  height: 120px;
   justify-content: center;
   flex-direction: column;
   border-radius: 15px;
@@ -242,12 +249,12 @@ const StHistoryImg = styled.img`
   position: cover;
   @media screen and (max-width: 767px) {
     width: 60px;
-    height: 40px;
+    height: 50px;
     border-radius: 5px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 140px;
-    height: 100px;
+    height: 90px;
   }
 `;
 
@@ -258,33 +265,37 @@ const StHistoryCard = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  padding: 30px 0 0 45px;
+  padding: 15px 0 0 45px;
   @media screen and (max-width: 767px) {
     width: 100px;
-    height: 70px;
-    padding: 10px 0 0 0;
+    height: 60px;
+    padding: 5px 0 0 0;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 180px;
-    height: 150px;
-    padding: 10px 0 0 0;
+    height: 130px;
+    padding: 5px 0 0 0;
   }
 `;
 
 const StHistoryTitle = styled.div`
-  font-size: 22px;
-  padding-left: 60px;
-  padding-top: 60px;
+  font-size: 20px;
+  width: 160px;
+  text-align: center;
+  margin: 0 40px;
+  padding-top: 40px;
   font-weight: bold;
   @media screen and (max-width: 767px) {
     font-size: 10px;
-    padding-left: 20px;
+    margin: 0 5px;
+    width: 90px;
     padding-top: 20px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 15px;
-    padding-left: 45px;
-    padding-top: 40px;
+    margin: 0 10px;
+    width: 160px;
+    padding-top: 20px;
   }
 `;
 
@@ -292,8 +303,9 @@ const StHistoryDragTitle = styled.div`
   font-size: 20px;
   width: 90px;
   background-color: #ffd53f;
+  text-align: center;
   border-radius: 10px;
-  margin: 0px 70px 15px 70px;
+  margin: 0px auto 15px 70px;
   padding: 0 10px;
   font-weight: bold;
   @media screen and (max-width: 767px) {
@@ -313,6 +325,7 @@ const StHistoryDragTitle = styled.div`
 const StHistoryContent = styled.div`
   font-size: 20px;
   font-weight: bold;
+  margin-bottom: 15px;
   @media screen and (max-width: 767px) {
     font-size: 10px;
   }
@@ -383,16 +396,13 @@ const StDibBtn = styled.button`
   background-color: transparent;
   cursor: pointer;
   position: absolute;
-  z-index: 999;
-  margin-left: 350px;
+  z-index: 99;
   margin-top: -2px;
   @media screen and (max-width: 767px) {
-    margin-left: 40%;
-    margin-top: -2px;
+    left: 75%;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    margin-left: 20%;
-    margin-top: -2px;
+    left: 70%;
   }
 `;
 
