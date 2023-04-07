@@ -101,10 +101,12 @@ const StCard = styled.div`
   @media screen and (max-width: 767px) {
     width: 120px;
     height: 120px;
+    position: relative;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 280px;
     height: 200px;
+    position: relative;
   }
 `;
 
@@ -220,10 +222,10 @@ const StDibBtn = styled.button`
   margin-left: 230px;
   margin-top: -2px;
   @media screen and (max-width: 767px) {
-    margin-left: 18%;
+    margin-left: 60%;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    margin-left: 25%;
+    margin-left: 65%;
   }
 `;
 

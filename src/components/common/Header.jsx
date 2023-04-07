@@ -248,6 +248,9 @@ const StLogo = styled.img`
     top: -25px;
     left: 53%;
   }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin-left: 40px;
+  }
 `;
 
 const StCateogry = styled.div`
@@ -299,6 +302,10 @@ const StPoint = styled.div`
   position: absolute;
   top: 18px;
   margin-left: 25px;
+  @media screen and (max-width: 768px) {
+    top: 15px;
+    right: 50px;
+  }
 `;
 
 const StProfile = styled.img`
@@ -341,7 +348,7 @@ const StUserCategory = styled.div`
   @media screen and (max-width: 768px) {
     width: 80px;
     font-size: 12px;
-    height: 50px;
+    height: 80px;
   }
 `;
 

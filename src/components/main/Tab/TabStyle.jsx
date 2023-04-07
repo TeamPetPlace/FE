@@ -13,6 +13,7 @@ const StWrap = styled.div`
   @media screen and (max-width: 767px) {
     width: 100%;
     height: 900px;
+    margin-bottom: 50px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 100%;
@@ -50,7 +51,12 @@ const StMyPlace = styled.div`
   margin-bottom: 30px;
   font-weight: 900;
   cursor: pointer;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    font-size: 20px;
+    width: 180px;
+    margin: 0 auto;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 20px;
     width: 180px;
     margin: 0 auto;
@@ -62,7 +68,12 @@ const StTabBox = styled.div`
   gap: 170px;
   margin: 68px auto;
   width: 485px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    gap: 60px;
+    margin: 40px auto;
+    width: 200px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     gap: 60px;
     margin: 40px auto;
     width: 200px;
@@ -75,14 +86,20 @@ const StTabs = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    text-align: center;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     text-align: center;
   }
 `;
 
 const StTabText = styled.p`
   font-size: 20px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    font-size: 12px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 12px;
   }
 `;
@@ -91,7 +108,12 @@ const StTabImg = styled.img`
   width: 44.58px;
   height: 44.58px;
   cursor: pointer;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 30px;
     height: 30px;
     margin: 0 auto;
@@ -102,7 +124,13 @@ const StCard = styled.div`
   width: 400px;
   cursor: pointer;
   position: relative;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    width: 200px;
+    margin: 0 auto;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 200px;
     margin: 0 auto;
     position: relative;
@@ -115,7 +143,14 @@ const StResizeImg = styled.img`
   height: 300px;
   overflow: hidden;
   border-radius: 10px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    width: 200px;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+    margin-bottom: 0px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 200px;
     height: 150px;
     margin: 0 auto;
@@ -129,7 +164,10 @@ const StTextBox = styled.div`
   flex-direction: column;
   margin-top: 5px;
   margin-left: 10px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    margin-top: 0px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     margin-top: 0px;
   }
 `;
@@ -139,7 +177,10 @@ const StTitle = styled.div`
   font-weight: 900;
   margin-bottom: 5px;
   color: #0d0d0d;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    font-size: 15px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 15px;
   }
 `;
@@ -147,7 +188,10 @@ const StTitle = styled.div`
 const StText = styled.div`
   font-size: 13px;
   color: #725334;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    font-size: 8px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 8px;
   }
 `;
@@ -169,7 +213,15 @@ const StPin = styled.img`
   cursor: pointer;
   width: 50px;
   height: 50px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    width: 30px;
+    height: 30px;
+    margin-left: -50px;
+    margin-top: 0px;
+    position: absolute;
+    left: 90%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 30px;
     height: 30px;
     margin-left: -50px;
@@ -184,7 +236,13 @@ const StDivBox = styled.div`
   width: 430px;
   margin: 0 auto;
   position: relative;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    width: 300px;
+    margin: 0 auto;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 300px;
     margin: 0 auto;
     position: relative;

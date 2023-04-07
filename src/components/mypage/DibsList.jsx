@@ -131,7 +131,9 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>
-                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    <StContent>
+                      {item.address.split(" ", 2).join(" ")}
+                    </StContent>
                   </StCard>
                 ) : category === "미용" && item.category === "미용" ? (
                   <StCard key={index}>
@@ -154,7 +156,9 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>{" "}
-                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    <StContent>
+                      {item.address.split(" ", 2).join(" ")}
+                    </StContent>
                     {/* <div>{item.star}</div> */}
                   </StCard>
                 ) : category === "카페" && item.category === "카페" ? (
@@ -178,7 +182,9 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>{" "}
-                    <StContent>{item.address.split(" ", 2).join(" ")}</StContent>
+                    <StContent>
+                      {item.address.split(" ", 2).join(" ")}
+                    </StContent>
                   </StCard>
                 ) : null}
               </>

@@ -14,7 +14,7 @@ const StReviewBoxs = styled.div`
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 700px;
+    width: 840px;
     height: 100px;
   }
 `;

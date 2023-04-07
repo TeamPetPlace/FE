@@ -26,13 +26,13 @@ const StContentsBox = styled.div`
   border: 1px solid #d9d9d9;
   padding: 30px;
   @media screen and (max-width: 767px) {
-    width: 300px;
+    width: 290px;
     height: 800px;
   }
 
-  @media screen and (min-width: 768px) and (max-width: 800px) {
-    width: 700px;
-    height: 900px;
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 840px;
+    height: 95%;
   }
 `;
 
@@ -106,8 +106,8 @@ const PageBox = styled.div`
     left: 4%;
   }
 
-  @media screen and (min-width: 768px) and (max-width: 800px) {
-    left: 20%;
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    left: 30%;
   }
 `;
 
@@ -305,7 +305,7 @@ const StTopReviewBox = styled.div`
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 700px;
+    width: 840px;
   }
 `;
 
