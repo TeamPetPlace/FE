@@ -454,7 +454,7 @@ function Post() {
                       onChange={aboolean1Handler}
                     />
                   </StLabels>
-                  <tLabels>
+                  <StLabels>
                     불가능
                     <input
                       type="radio"
@@ -463,7 +463,7 @@ function Post() {
                       checked={aboolean1 === "false"}
                       onChange={aboolean1Handler}
                     />
-                  </tLabels>
+                  </StLabels>
                 </StLine>
                 <StLine>
                   <StTitle>진료항목</StTitle>

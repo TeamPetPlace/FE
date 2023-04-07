@@ -136,9 +136,7 @@ function MyReviewList() {
                         <StBackGround>
                           <StFormBox>
                             <StForm
-                              onSubmit={(event) =>
-                                onUpdateReviewHandler(event, item.id)
-                              }
+                              onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
                               encType="multipart/form-data"
                             >
                               <StTopBox style={{ display: "flex" }}>
@@ -157,11 +155,7 @@ function MyReviewList() {
                                       onClick={() => setClicked(el)}
                                       value={clicked}
                                     >
-                                      {`${
-                                        (clicked >= el) | (hovered >= el)
-                                          ? "★"
-                                          : "☆"
-                                      }`}
+                                      {`${(clicked >= el) | (hovered >= el) ? "★" : "☆"}`}
                                     </p>
                                   ))}
                                 </div>
@@ -171,9 +165,7 @@ function MyReviewList() {
                                 <StInput
                                   type="text"
                                   value={updateReview}
-                                  onChange={(event) =>
-                                    setUpdateReview(event.target.value)
-                                  }
+                                  onChange={(event) => setUpdateReview(event.target.value)}
                                   minLength={10}
                                   placeholder={item.review}
                                 />
@@ -184,13 +176,7 @@ function MyReviewList() {
                                   <div>
                                     {imgView.length > 0 &&
                                       imgView.map((item, index) => {
-                                        return (
-                                          <StImgs
-                                            src={item}
-                                            alt="img"
-                                            key={index}
-                                          />
-                                        );
+                                        return <StImgs src={item} alt="img" key={index} />;
                                       })}
                                   </div>
                                   <input
@@ -205,9 +191,7 @@ function MyReviewList() {
                               </StInputBox>
                               <StBtns>
                                 <StBtnn>수정하기</StBtnn>
-                                <StBtnn onClick={() => onEditMode(item.id)}>
-                                  취소하기
-                                </StBtnn>
+                                <StBtnn onClick={() => onEditMode(item.id)}>취소하기</StBtnn>
                               </StBtns>
                             </StForm>
                           </StFormBox>
@@ -217,38 +201,36 @@ function MyReviewList() {
                   ) : (
                     <StReviews key={item.id}>
                       {item.category === "병원" && (
-                        <StReviewImg
-                          onClick={() => navigate(`/hospital/${item.postId}`)}
-                          src={item.image}
-                        />
+                        <StReviewImgDiv>
+                          <StReviewImg
+                            onClick={() => navigate(`/hospital/${item.postId}`)}
+                            src={item.image}
+                          />
+                        </StReviewImgDiv>
                       )}
                       {item.category === "미용" && (
-                        <StReviewImg
-                          onClick={() => navigate(`/cafe/${item.postId}`)}
-                          src={item.image}
-                        />
+                        <StReviewImgDiv>
+                          <StReviewImg
+                            onClick={() => navigate(`/cafe/${item.postId}`)}
+                            src={item.image}
+                          />
+                        </StReviewImgDiv>
                       )}
                       {item.category === "카페" && (
-                        <StReviewImg
-                          onClick={() => navigate(`/cafe/${item.postId}`)}
-                          src={item.image}
-                        />
+                        <StReviewImgDiv>
+                          <StReviewImg
+                            onClick={() => navigate(`/cafe/${item.postId}`)}
+                            src={item.image}
+                          />
+                        </StReviewImgDiv>
                       )}
                       <div style={{ width: "580px" }}>
                         <StTitle>
                           {item.nickname}
-                          {(item.star === 1 && (
-                            <StStarIcon>★☆☆☆☆</StStarIcon>
-                          )) ||
-                            (item.star === 2 && (
-                              <StStarIcon>★★☆☆☆</StStarIcon>
-                            )) ||
-                            (item.star === 3 && (
-                              <StStarIcon>★★★☆☆</StStarIcon>
-                            )) ||
-                            (item.star === 4 && (
-                              <StStarIcon>★★★★☆</StStarIcon>
-                            )) ||
+                          {(item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
+                            (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
+                            (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
+                            (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                             (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                         </StTitle>
                         <StReview>{item.review}</StReview>
@@ -259,9 +241,7 @@ function MyReviewList() {
                       </div>
                       <div style={{ margin: "35px 0" }}>
                         <StBtn onClick={() => onEditMode(item.id)}>수정</StBtn>
-                        <StBtn onClick={() => onDeletetReviewHandler(item.id)}>
-                          삭제
-                        </StBtn>
+                        <StBtn onClick={() => onDeletetReviewHandler(item.id)}>삭제</StBtn>
                       </div>
                     </StReviews>
                   )}
@@ -464,10 +444,10 @@ const PageBox = styled.div`
     justify-content: center;
     margin-top: 15px;
     @media screen and (max-width: 767px) {
-      margin-top: 200px;
+      margin-top: 250px;
     }
     @media screen and (min-width: 768px) and (max-width: 1023px) {
-      margin-top: 180px;
+      margin-top: 190px;
     }
   }
   ul {
@@ -531,7 +511,7 @@ const StReviews = styled.div`
 `;
 
 const StContainer = styled.div`
-  width: 200px;
+  width: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -569,12 +549,12 @@ const StAllReviewList = styled.div`
   @media screen and (max-width: 767px) {
     width: 240px;
     height: 320px;
-    margin: 20px 30px;
+    margin: 0 30px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 600px;
     height: 560px;
-    margin: 50px 30px;
+    margin: 0px 30px;
   }
 `;
 
@@ -590,7 +570,25 @@ const StReviewDiv = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 600px;
-    height: 300px;
+    height: 150px;
+  }
+`;
+
+const StReviewImgDiv = styled.div`
+  width: 100px;
+  height: 100px;
+  border: 1px solid transparent;
+  margin: 10px 20px 10px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  @media screen and (max-width: 767px) {
+    width: 50px;
+    height: 50px;
+    margin: 13px 10px 10px 5px;
+    border-radius: 5px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin: 0px 20px 10px 5px;
   }
 `;
 
@@ -604,8 +602,11 @@ const StReviewImg = styled.img`
   @media screen and (max-width: 767px) {
     width: 50px;
     height: 50px;
-    margin: 30px 10px 10px 5px;
+    margin: 13px 10px 10px 5px;
     border-radius: 5px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin: 20px 20px 10px 5px;
   }
 `;
 
@@ -625,7 +626,7 @@ const StBtn = styled.button`
   @media screen and (max-width: 767px) {
     font-size: 8px;
     width: 40px;
-    height: 25px;
+    height: 22px;
     margin-left: 5px;
     margin-top: 5px;
   }
@@ -647,5 +648,8 @@ const StTitle = styled.div`
   @media screen and (max-width: 767px) {
     font-size: 13px;
     margin-top: 20px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin-top: 30px;
   }
 `;
