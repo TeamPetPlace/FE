@@ -68,28 +68,48 @@ function Post() {
   };
 
   //주소 팝업창
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const openPostCode = () => {
-    setIsPopupOpen(true);
-  };
+  // const openPostCode = () => {
+  //   setIsPopupOpen(true);
+  // };
 
+  // const [address, setAddress] = useState("");
+
+  // const handlePostCode = (data) => {
+  //   let fullAddress = data.address;
+  //   let extraAddress = "";
+
+  //   if (data.addressType === "R") {
+  //     if (data.bname !== "") {
+  //       extraAddress += data.bname;
+  //     }
+  //     if (data.buildingName !== "") {
+  //       extraAddress +=
+  //         extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+  //     }
+  //     fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+  //   }
+  //   setAddress(fullAddress);
+  // };
+
+  //주소 팝업창
   const [address, setAddress] = useState("");
+  const addrRef = useRef();
 
-  const handlePostCode = (data) => {
-    let fullAddress = data.address;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-    setAddress(fullAddress);
+  const handlePostCode = () => {
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        var addr = "";
+        if (data.userSelectedType === "R") {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+        addrRef.current.value = addr;
+        setAddress(addr);
+      },
+    }).open();
   };
 
   const postCodeStyle = {
@@ -239,46 +259,9 @@ function Post() {
   };
 
   //전화번호
-  // const telNumberHandler = (event) => {
-  //   const { value } = event.target;
-  //   const regex = /^[0-9\b -]{0,13}$/;
-  //   if (regex.test(event.target.value)) {
-  //     setTelNum(value);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (telNum.length === 10) {
-  //     setTelNum(telNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"));
-  //   }
-  //   if (telNum.length === 13) {
-  //     setTelNum(
-  //       telNum.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
-  //     );
-  //   }
-  // }, [telNum]);
-
-  // const handleKeyDown = (e) => {
-  //   const key = e.key;
-  //   const selectionStart = e.target.selectionStart;
-  //   const selectionEnd = e.target.selectionEnd;
-
-  //   if (key === "Backspace" || key === "Delete") {
-  //     if (selectionStart === 3 && selectionEnd === 3) {
-  //       e.preventDefault();
-  //     }
-  //   }
-  // };
-
-  // const handleSelect = (e) => {
-  //   if (e.target.value.startsWith("010-")) {
-  //     e.target.setSelectionRange(12, e.target.value.length);
-  //   }
-  // };
-
   const telNumberHandler = (event) => {
     const { value } = event.target;
-    const regex = /^[0-9\b -]{0,13}$/;
+    const regex = /^[0-9\b -]{0,14}$/; // Update regex to allow for 14 characters
     if (regex.test(event.target.value)) {
       setTelNum(value);
     }
@@ -288,15 +271,27 @@ function Post() {
     let formattedNum = telNum;
     if (telNum.length === 10) {
       formattedNum = telNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-    }
-    if (telNum.length === 13) {
-      formattedNum = telNum.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+    } else if (telNum.length === 13) {
+      formattedNum = telNum
+        .replace(/-/g, "")
+        .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+    } else if (telNum.length === 14) {
+      // Add condition for 14 characters
+      formattedNum = telNum
+        .replace(/-/g, "")
+        .replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3"); // Update regex and replace pattern for 4-4-4 format
     }
 
     if (formattedNum.startsWith("02")) {
-      formattedNum = formattedNum.replace(/(\d{2})(\d{3,4})(\d{4})/, "$1-$2-$3");
+      formattedNum = formattedNum.replace(
+        /(\d{2})(\d{3,4})(\d{4})/,
+        "$1-$2-$3"
+      );
     } else {
-      formattedNum = formattedNum.replace(/(\d{3})(\d{3,4})(\d{4})/, "$1-$2-$3");
+      formattedNum = formattedNum.replace(
+        /(\d{3})(\d{3,4})(\d{4})/,
+        "$1-$2-$3"
+      );
     }
 
     setTelNum(formattedNum);
@@ -349,13 +344,21 @@ function Post() {
               <StTitle>
                 <StImp>*</StImp>업체명
               </StTitle>
-              <StInput type="text" placeholder="업체명" value={title} onChange={titleHandler} />
+              <StInput
+                type="text"
+                placeholder="업체명"
+                value={title}
+                onChange={titleHandler}
+                maxLength={20}
+              />
               <StBtn onClick={checkTitleHandler} value={title} size="medium">
                 중복확인
               </StBtn>
             </StLine>
             <StErrorMsgs>
-              {titleButtonClicked === false ? <p>업체명 중복확인을 해주세요</p> : null}
+              {titleButtonClicked === false ? (
+                <p>업체명 중복확인을 해주세요</p>
+              ) : null}
             </StErrorMsgs>
             <StLine>
               <StContents>
@@ -375,19 +378,40 @@ function Post() {
                 <StImp>*</StImp>주소
               </StTitle>
               <div>
+                <div>
+                  <StBtn type="button" onClick={handlePostCode} size="medium">
+                    우편번호 검색
+                  </StBtn>
+                  <StErrorMsg>
+                    {buttonClicked === false ? (
+                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
+                    ) : null}
+                  </StErrorMsg>
+                </div>
+                <StInput value={address} ref={addrRef} disabled />
+                <StBtn size="medium" onClick={handleSearch}>
+                  확인
+                </StBtn>
+              </div>
+              {/* <div>
                 <div style={{ display: "flex" }}>
                   <StBtn type="button" onClick={openPostCode} size="medium">
                     우편번호 검색
                   </StBtn>
                   <StErrorMsg>
-                    {buttonClicked === false ? <p>주소 입력 후 확인을 꼭 클릭해주세요</p> : null}
+                    {buttonClicked === false ? (
+                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
+                    ) : null}
                   </StErrorMsg>
                 </div>
                 <div id="popupDom">
                   {isPopupOpen && (
                     <PopupDom>
                       <div>
-                        <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
+                        <DaumPostcode
+                          style={postCodeStyle}
+                          onComplete={handlePostCode}
+                        />
                         <StInput value={address} disabled />
                         <StBtn size="medium" onClick={handleSearch}>
                           확인
@@ -398,13 +422,17 @@ function Post() {
                   {!isPopupOpen && (
                     <>
                       <StInput disabled style={{ marginTop: "10px" }} />
-                      <StBtn size="small" onClick={handleSearch} style={{ marginLeft: "10px" }}>
+                      <StBtn
+                        size="small"
+                        onClick={handleSearch}
+                        style={{ marginLeft: "10px" }}
+                      >
                         확인
                       </StBtn>
                     </>
                   )}
                 </div>
-              </div>
+              </div> */}
             </StLine>
             <StLine>
               {category === "병원" && (
@@ -417,7 +445,13 @@ function Post() {
                   <StImp>*</StImp>대표자
                 </StTitle>
               )}
-              <StInput type="text" placeholder="대표명" value={ceo} onChange={ceoHandler} />
+              <StInput
+                type="text"
+                placeholder="대표명"
+                value={ceo}
+                onChange={ceoHandler}
+                maxLength={10}
+              />
             </StLine>
             <StLine>
               <StTitle>
@@ -437,9 +471,10 @@ function Post() {
                   <StTitle>기본 진료비</StTitle>
                   <StInput
                     type="text"
-                    placeholder="3-10만원"
+                    placeholder="3-10만원 (30자 이내)"
                     value={cost}
                     onChange={setCostHandler}
+                    maxLength={30}
                   />
                 </StLine>
                 <StLine>
@@ -454,7 +489,7 @@ function Post() {
                       onChange={aboolean1Handler}
                     />
                   </StLabels>
-                  <tLabels>
+                  <StLabels>
                     불가능
                     <input
                       type="radio"
@@ -463,15 +498,16 @@ function Post() {
                       checked={aboolean1 === "false"}
                       onChange={aboolean1Handler}
                     />
-                  </tLabels>
+                  </StLabels>
                 </StLine>
                 <StLine>
                   <StTitle>진료항목</StTitle>
                   <StInput
                     type="text"
-                    placeholder="중성화, 슬개골 수술…"
+                    placeholder="중성화, 슬개골 수술…(30자 이내)"
                     value={feature1}
                     onChange={feature1Handler}
+                    maxLength={30}
                   />
                 </StLine>
               </div>
@@ -482,9 +518,10 @@ function Post() {
                   <StTitle>기본 미용비</StTitle>
                   <StInput
                     type="text"
-                    placeholder="3-10만원"
+                    placeholder="3-10만원 (30자 이내)"
                     value={cost}
                     onChange={setCostHandler}
+                    maxLength={30}
                   />
                 </StLine>
                 <StLine>
@@ -541,9 +578,10 @@ function Post() {
                   <StTitle>입장료</StTitle>
                   <StInput
                     type="text"
-                    placeholder="3-10만원"
+                    placeholder="3-10만원 (30자 이내)"
                     value={cost}
                     onChange={setCostHandler}
+                    maxLength={30}
                   />
                 </StLine>
                 <StLine>
@@ -573,9 +611,10 @@ function Post() {
                   <StTitle>부대시설</StTitle>
                   <StInput
                     type="text"
-                    placeholder="수영장, 운동장…"
+                    placeholder="수영장, 운동장…(30자 이내)"
                     value={feature1}
                     onChange={feature1Handler}
+                    maxLength={30}
                   />
                 </StLine>
               </div>
@@ -603,7 +642,11 @@ function Post() {
                     size="small"
                     style={{ marginLeft: "20px" }}
                   />
-                  <input type="checkbox" value={isChecked} onChange={onCheckHandler} />
+                  <input
+                    type="checkbox"
+                    value={isChecked}
+                    onChange={onCheckHandler}
+                  />
                   <label>휴무일</label>
                   <div>
                     {isChecked && (

@@ -116,10 +116,10 @@ function Review({ id, onToggle }) {
               <StInputBox>
                 <StInput
                   type="text"
-                  placeholder="최소 10자 이상 작성해주세요"
+                  placeholder="50자 이내로 작성해주세요."
                   value={review}
                   onChange={(event) => setReview(event.target.value)}
-                  minLength={10}
+                  maxLength={50}
                 />
                 <div>
                   <StImgBtn onClick={onImgButton}>

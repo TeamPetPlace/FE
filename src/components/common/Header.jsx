@@ -10,7 +10,7 @@ import logo from "../../style/img/logo.svg";
 import profileOrigin from "../../style/img/profile.svg";
 import "../../style/fonts/font.css";
 import { StContainer } from "../main/Banner/BannerStyle";
-import { EventSourcePolyfill } from "event-source-polyfill";
+import { EventSourcePolyfill } from "event-source-polyfill/src/eventsource.min.js";
 import { useEffect } from "react";
 import Toast from "../../element/Toast";
 

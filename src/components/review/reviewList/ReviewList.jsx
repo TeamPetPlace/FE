@@ -241,8 +241,9 @@ function ReviewList({ id, detail }) {
                               onChange={(event) =>
                                 setUpdateReview(event.target.value)
                               }
-                              minLength={10}
+                              minLength={50}
                               placeholder={item.review}
+                              maxLength={50}
                             />
                             <div>
                               <StImgBtn onClick={onImgButton}>
