@@ -88,7 +88,6 @@ const LoginForm = () => {
   return (
     <Layout>
       <StLoginFormDiv>
-        {/* <img></img> */}
         <StLoginDiv>
           <>
             <form onSubmit={onLoginSubmit}>
@@ -154,24 +153,23 @@ export default LoginForm;
 const StLoginFormDiv = styled.div`
   width: 100%;
   height: auto;
-  min-height: 1920px;
+  ailgn-item: center;
+  min-height: 1100px;
   margin: auto;
   display: flex;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-color: #fffcec;
   background-image: url(${animal_illust_back});
   @media screen and (max-width: 767px) {
-    /* width: 390px;
-    height: 844px; */
     background-size: 500px 900px;
     background-position: center top 30px;
-    background-repeat: no-repeat;
     background-color: #fffcec;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    /* width: 768px;
-    height: 1024px; */
     background-size: 1000px 1000px;
     background-position: center top 80px;
-    background-repeat: no-repeat;
     background-color: #fffcec;
   }
 `;

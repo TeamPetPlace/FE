@@ -67,12 +67,12 @@ instance.interceptors.response.use(
       ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
         (cookie) => removeCookie(cookie)
       );
-      if (isLoggedInExpiredShown) {
+      if (isLoggedInExpiredShown === false) {
         alert("세션이 만료되었습니다. 다시 로그인해주세요!");
         isLoggedInExpiredShown = true;
       }
       console.log("로그인 만료");
-      // window.location.replace("/");
+      window.location.replace("/");
       return false;
     }
     return Promise.reject(error);
@@ -126,7 +126,7 @@ kakaoURL.interceptors.response.use(
         originalRequest.headers["Authorization"] = refreshedResponse.headers["authorization"];
         console.log("재발급 완료");
         removeCookie("AccessToken");
-        setCookie("AccessToken", refreshedResponse.headers.Authorization);
+        setCookie("AccessToken", refreshedResponse.headers["authorization"]);
         return baseURL(originalRequest);
       }
     } catch (error) {
