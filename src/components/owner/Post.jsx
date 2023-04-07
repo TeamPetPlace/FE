@@ -198,6 +198,9 @@ function Post() {
     if (isTitle === false) {
       return alert("이미 존재하는 업체명입니다");
     }
+    if (image.length === 0) {
+      return alert("이미지를 업로드해주세요");
+    }
     const formData = new FormData();
     image.forEach((image, index) => formData.append("image", image));
     formData.append("title", title);
@@ -378,7 +381,7 @@ function Post() {
                 <StImp>*</StImp>주소
               </StTitle>
               <div>
-                <div>
+                <div style={{ display: "flex" }}>
                   <StBtn type="button" onClick={handlePostCode} size="medium">
                     우편번호 검색
                   </StBtn>

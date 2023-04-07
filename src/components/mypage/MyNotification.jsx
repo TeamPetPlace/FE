@@ -86,10 +86,10 @@ function MyNotification() {
                         {item.content}
                       </StMove>
                       <StRight>
-                        <div>
+                        <StDate>
                           {item.createdAt.split("T", 1)}{" "}
                           {item.createdAt.slice(11, 16)}
-                        </div>
+                        </StDate>
 
                         <StDeleteBtn
                           onClick={() => onDeleteNotificationHandler(item.id)}
@@ -108,10 +108,10 @@ function MyNotification() {
                         {item.content}
                       </StMove>
                       <StRight>
-                        <div>
+                        <StDate>
                           {item.createdAt.split("T", 1)}{" "}
                           {item.createdAt.slice(11, 16)}
-                        </div>
+                        </StDate>
 
                         <StDeleteBtn
                           onClick={() => onDeleteNotificationHandler(item.id)}
@@ -130,10 +130,10 @@ function MyNotification() {
                         {item.content}
                       </StMove>
                       <StRight>
-                        <div>
+                        <StDate>
                           {item.createdAt.split("T", 1)}{" "}
                           {item.createdAt.slice(11, 16)}
-                        </div>
+                        </StDate>
 
                         <StDeleteBtn
                           onClick={() => onDeleteNotificationHandler(item.id)}
@@ -177,6 +177,10 @@ const StTop = styled.div`
   margin: 0 auto;
   justify-content: space-between;
   margin-bottom: 60px;
+  @media screen and (max-width: 768px) {
+    width: 340px;
+    margin: 0 auto;
+  }
 `;
 
 const StLeft = styled.div`
@@ -201,6 +205,9 @@ const StMsg = styled.div`
 
 const StTitle = styled.div`
   font-size: 32px;
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const StCount = styled.div`
@@ -213,6 +220,11 @@ const StCount = styled.div`
   margin: auto 0;
   margin-left: 10px;
   line-height: 30px;
+  @media screen and (max-width: 768px) {
+    width: 30px;
+    height: 20px;
+    line-height: 20px;
+  }
 `;
 
 const StAllDeleteBtn = styled.button`
@@ -221,11 +233,24 @@ const StAllDeleteBtn = styled.button`
   border: 1px solid #d9d9d9;
   background-color: #fff;
   margin: auto 0;
+  cursor: pointer;
+  &:hover {
+    background-color: #d9d9d9;
+  }
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    height: 20px;
+    font-size: 12px;
+  }
 `;
 
 const StNotificationBox = styled.div`
   width: 980px;
   margin: 0 auto;
+  @media screen and (max-width: 768px) {
+    width: 350px;
+    margin: 0 auto;
+  }
 `;
 
 const StNotification = styled.div`
@@ -238,15 +263,38 @@ const StNotification = styled.div`
   padding: 25px;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    width: 320px;
+    margin: 0 auto;
+    height: 20px;
+    margin-bottom: 12px;
+    padding: 12px;
+  }
 `;
 
 const StMove = styled.div`
   cursor: pointer;
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+    width: 290px;
+  }
 `;
 
 const StRight = styled.div`
   display: flex;
   gap: 10px;
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+    line-height: 10px;
+    gap: 0px;
+  }
+`;
+
+const StDate = styled.div`
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+    text-align: center;
+  }
 `;
 
 const StDeleteBtn = styled.button`
@@ -254,4 +302,7 @@ const StDeleteBtn = styled.button`
   border: none;
   cursor: pointer;
   font-size: 20px;
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;

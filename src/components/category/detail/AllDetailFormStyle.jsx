@@ -429,9 +429,29 @@ const Stdiv = styled.div`
 `;
 
 const StWrap = styled.div`
-  width: 1240px;
+  width: 100%;
   margin: 60px auto;
   margin-bottom: 100px;
+`;
+
+const StBtnBoxs = styled.div`
+  display: flex;
+
+  width: 1240px;
+  justify-content: flex-end;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  @media screen and (max-width: 767px) {
+    width: 350px;
+    margin: 0 auto;
+    margin-bottom: -30px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 900px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+  }
 `;
 
 export {
@@ -466,4 +486,5 @@ export {
   StBtn,
   Stdiv,
   StWrap,
+  StBtnBoxs,
 };

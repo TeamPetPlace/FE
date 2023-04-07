@@ -67,7 +67,11 @@ const StContents = styled.div`
 const StTitle = styled.div`
   font-size: 34px;
   font-weight: 900;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 10px;
     margin-bottom: 10px;
   }
@@ -76,7 +80,10 @@ const StTitle = styled.div`
 const StText = styled.p`
   font-size: 20px;
   color: #555;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    font-size: 5px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 5px;
   }
 `;

@@ -50,7 +50,8 @@ const StDiv = styled.div`
     height: 400px;
   }
 
-  @media screen and (min-width: 768px) and (max-width: 800px) {
-    width: 700px;
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 840px;
+    margin: 0 auto;
   }
 `;

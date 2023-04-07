@@ -37,9 +37,9 @@ import {
   StImg,
   StBtns,
   StBtn,
-  Stdiv,
   StMent,
   StWrap,
+  StBtnBoxs,
 } from "./AllDetailFormStyle";
 import AllDetailList from "./AllDetailList";
 
@@ -112,6 +112,7 @@ const AllDetailForm = () => {
       setUpEndTime(detail.endTime);
       setUpSelect(detail.closedDay);
       setUpFeature1(detail.feature1);
+      setAddress(detail.address);
     }
   };
 
@@ -137,29 +138,48 @@ const AllDetailForm = () => {
   };
 
   //주소 팝업창
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const openPostCode = () => {
-    setIsPopupOpen(true);
-  };
+  // const openPostCode = () => {
+  //   setIsPopupOpen(true);
+  // };
 
+  // const [address, setAddress] = useState("");
+
+  // const handlePostCode = (data) => {
+  //   let fullAddress = data.address;
+  //   let extraAddress = "";
+
+  //   if (data.addressType === "R") {
+  //     if (data.bname !== "") {
+  //       extraAddress += data.bname;
+  //     }
+  //     if (data.buildingName !== "") {
+  //       extraAddress +=
+  //         extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+  //     }
+  //     fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+  //   }
+  //   setAddress(fullAddress);
+  // };
+
+  //주소 팝업창
   const [address, setAddress] = useState("");
+  const addrRef = useRef();
 
-  const handlePostCode = (data) => {
-    let fullAddress = data.address;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-    setAddress(fullAddress);
+  const handlePostCode = () => {
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        var addr = "";
+        if (data.userSelectedType === "R") {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+        addrRef.current.value = addr;
+        setAddress(addr);
+      },
+    }).open();
   };
 
   const postCodeStyle = {
@@ -234,6 +254,9 @@ const AllDetailForm = () => {
       return alert("빈칸을 모두 채워주세요");
     if (buttonClicked === false) {
       return alert("주소 확인을 해주세요");
+    }
+    if (upImage.length === 0) {
+      return alert("이미지를 업로드해주세요");
     }
     const formData = new FormData();
     upImage.forEach((upImage, index) => formData.append("image", upImage));
@@ -403,6 +426,22 @@ const AllDetailForm = () => {
                 </StTitle>
                 <div>
                   <div style={{ display: "flex" }}>
+                    <StBtn type="button" onClick={handlePostCode} size="medium">
+                      우편번호 검색
+                    </StBtn>
+                    <StErrorMsg>
+                      {buttonClicked === false ? (
+                        <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
+                      ) : null}
+                    </StErrorMsg>
+                  </div>
+                  <StInput value={address} ref={addrRef} disabled />
+                  <StBtn size="medium" onClick={handleSearch}>
+                    확인
+                  </StBtn>
+                </div>
+                {/* <div>
+                  <div style={{ display: "flex" }}>
                     <StBtn type="button" onClick={openPostCode} size="medium">
                       우편번호 검색
                     </StBtn>
@@ -440,7 +479,7 @@ const AllDetailForm = () => {
                       </>
                     )}
                   </div>
-                </div>
+                </div> */}
               </StLine>
               <StLine>
                 {upCategory === "병원" && (
@@ -728,17 +767,10 @@ const AllDetailForm = () => {
             // 수정 전 모드
             <StWrap>
               {detail && detail.email === cookies.email && (
-                <div
-                  style={{
-                    display: "flex",
-                    marginBottom: "10px",
-                    width: "1240px",
-                    justifyContent: "flex-end",
-                  }}
-                >
+                <StBtnBoxs>
                   <StDelBtn onClick={onEditMode}>수정</StDelBtn>
                   <StDelBtn onClick={() => onDeleteHandler(id)}>삭제</StDelBtn>
-                </div>
+                </StBtnBoxs>
               )}
               <AllDetailList
                 id={id}

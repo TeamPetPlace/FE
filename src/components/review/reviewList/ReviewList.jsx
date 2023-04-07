@@ -171,7 +171,7 @@ function ReviewList({ id, detail }) {
   };
 
   return (
-    <div>
+    <div style={{ height: "930px" }}>
       <StContentsBox>
         <div style={{ marginBottom: "30px" }}>
           <StTopReviewBox>
