@@ -118,7 +118,7 @@ function User() {
                   {cookies.loginType === "BUSINESS" && (
                     <StInfoTextDiv
                       style={{
-                        padding: " 5px 15px",
+                        padding: " 5px 10px",
                         borderRadius: "10px",
                         backgroundColor: "#ffd53f",
                       }}
@@ -159,15 +159,16 @@ function User() {
                 <StImgDiv>
                   {mypage.image === null ? (
                     <StImg
-                      src={profileOrigin}
-                      alt="origin"
-                      style={{
-                        width: "330px",
-                        height: "330px",
-                        position: "absolute",
-                        top: "-6%",
-                        left: "-23px",
-                      }}
+                    // src={profileOrigin}
+                    // alt="origin"
+                    // style={{
+                    //   width: "280px",
+                    //   height: "280px",
+                    //   position: "absolute",
+
+                    //   top: "-6%",
+                    //   left: "-23px",
+                    // }}
                     />
                   ) : (
                     <StImg src={mypage.image} alt="img" />
@@ -182,7 +183,7 @@ function User() {
                     {cookies.loginType === "BUSINESS" && (
                       <StInfoTextDiv
                         style={{
-                          padding: "5px 15px",
+                          padding: "5px 10px",
                           borderRadius: "10px",
                           backgroundColor: "#ffd53f",
                         }}
@@ -291,7 +292,6 @@ const StImg = styled.img`
     width: 120px;
     height: 120px;
   }
-
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 200px;
     height: 200px;
@@ -305,7 +305,7 @@ const StImgDiv = styled.div`
   height: 280px;
   background-color: #fff;
   overflow: hidden;
-  border-radius: 280px;
+  border-radius: 100%;
   top: -10%;
   box-shadow: 3px 3px 3px 0px #d9d9d9;
 
@@ -315,7 +315,6 @@ const StImgDiv = styled.div`
     top: -10%;
     left: -10px;
   }
-
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 200px;
     height: 200px;
@@ -335,7 +334,6 @@ const StUserInfoDiv = styled.div`
     height: 50px;
     margin: 50px auto 0px auto;
   }
-
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 700px;
     margin-left: 50px;
@@ -363,7 +361,6 @@ const StEditBtn = styled.button`
     width: 40px;
     margin: 0 10px 0 140px;
   }
-
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 14px;
     height: 30px;
@@ -390,7 +387,6 @@ const StCancelBtn = styled.button`
     height: 20px;
     width: 40px;
   }
-
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 14px;
     height: 30px;

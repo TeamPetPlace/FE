@@ -46,43 +46,28 @@ function PostList() {
                 <StImg src={item.reSizeImage} alt="img" />
                 <StContentContainer>
                   <StChatContent>
-                    <img src={chatbubble} style={{ marginRight: "5px" }} />{" "}
-                    {item.reviewCount}
+                    <img src={chatbubble} style={{ marginRight: "5px" }} /> {item.reviewCount}
                   </StChatContent>
                   <StTitle>{item.title}</StTitle>
                   <StContent>{item.contents}</StContent>
                   <StUnderDiv>
-                    <StSmallContent>
-                      {item.createdAt.split("T", 1)}
-                    </StSmallContent>
+                    <StSmallContent>{item.createdAt.split("T", 1)}</StSmallContent>
                     {item.category === "병원" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/hospital/${item.id}`)}>
-                          보러가기
-                        </StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>
-                          삭제
-                        </StBtn>
+                        <StBtn onClick={() => navigate(`/hospital/${item.id}`)}>보러가기</StBtn>
+                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
                       </div>
                     )}
                     {item.category === "미용" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/shop/${item.id}`)}>
-                          보러가기
-                        </StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>
-                          삭제
-                        </StBtn>
+                        <StBtn onClick={() => navigate(`/shop/${item.id}`)}>보러가기</StBtn>
+                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
                       </div>
                     )}
                     {item.category === "카페" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/cafe/${item.id}`)}>
-                          보러가기
-                        </StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>
-                          삭제
-                        </StBtn>
+                        <StBtn onClick={() => navigate(`/cafe/${item.id}`)}>보러가기</StBtn>
+                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
                       </div>
                     )}
                   </StUnderDiv>
@@ -133,6 +118,7 @@ const StImg = styled.img`
   height: 232px;
   margin-top: 44px;
   border-radius: 5px;
+  object-fit: cover;
   @media screen and (max-width: 767px) {
     width: 120px;
     height: 90px;
@@ -173,7 +159,7 @@ const StTitle = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 20px;
-    height: 28px;
+    height: 30px;
     margin-left: 15px;
   }
 `;
@@ -182,14 +168,21 @@ const StContent = styled.div`
   font-size: 14px;
   height: 130px;
   margin-left: 35px;
+
   @media screen and (max-width: 767px) {
-    height: 60px;
+    height: 50px;
     margin-left: 10px;
     font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    height: 100px;
+    height: 90px;
     margin-left: 15px;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
@@ -200,7 +193,7 @@ const StSmallContent = styled.div`
   display: flex;
   margin-left: 35px;
   @media screen and (max-width: 767px) {
-    margin-left: 0px;
+    margin-left: 5px;
     font-size: 8px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -237,8 +230,8 @@ const StBtn = styled.button`
     background-color: #eee;
   }
   @media screen and (max-width: 767px) {
-    font-size: 7px;
-    width: 44px;
+    font-size: 10px;
+    width: 60px;
     height: 18px;
   }
 `;
@@ -248,7 +241,9 @@ const StUnderDiv = styled.div`
   justify-content: space-between;
   text-align: center;
   align-items: center;
+  margin-top: 5px;
   @media screen and (max-width: 767px) {
     width: 150px;
+    margin-top: -10px;
   }
 `;

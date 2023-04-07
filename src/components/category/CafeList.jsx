@@ -36,6 +36,7 @@ import {
 import dibs from "../../style/img/dibs.svg";
 import noDibs from "../../style/img/noDibs.svg";
 import Draggable from "react-draggable";
+import styled from "styled-components";
 
 function CafeList() {
   const [cards, setCards] = useState([]);
@@ -268,6 +269,23 @@ function CafeList() {
           </StSelect>
         </StSearchSortingDiv>
       </StPlace>
+      <Draggable onDrag={(e, data) => trackPos(data)} nodeRef={nodeRef}>
+        <StHistory ref={nodeRef}>
+          <div>
+            <StHistoryDragTitle>Drag me!</StHistoryDragTitle>
+            <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
+            {history.map((item, index) => {
+              return (
+                <StHistoryCard key={index}>
+                  <StHistoryImg src={item.reSizeImage} alt="historyImg" />
+                  <StHistoryContent>{item.title}</StHistoryContent>
+                </StHistoryCard>
+              );
+            })}
+          </div>
+        </StHistory>
+      </Draggable>
+
       {!isSearchMode ? (
         <StListPage>
           <StCards>
@@ -331,22 +349,6 @@ function CafeList() {
             })}
             {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
           </StCards>
-          <Draggable onDrag={(e, data) => trackPos(data)} nodeRef={nodeRef}>
-            <StHistory ref={nodeRef}>
-              <div>
-                <StHistoryDragTitle>Drag me!</StHistoryDragTitle>
-                <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
-                {history.map((item, index) => {
-                  return (
-                    <StHistoryCard key={index}>
-                      <StHistoryImg src={item.reSizeImage} alt="historyImg" />
-                      <StHistoryContent>{item.title}</StHistoryContent>
-                    </StHistoryCard>
-                  );
-                })}
-              </div>
-            </StHistory>
-          </Draggable>
         </StListPage>
       ) : (
         <StListPage>
@@ -412,24 +414,6 @@ function CafeList() {
               })}
             {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
           </StCards>
-          <div>
-            <Draggable onDrag={(e, data) => trackPos(data)}>
-              <StHistory>
-                <div>
-                  <StHistoryDragTitle>Drag me!</StHistoryDragTitle>
-                  <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
-                  {history.map((item, index) => {
-                    return (
-                      <StHistoryCard key={index}>
-                        <StHistoryImg src={item.reSizeImage} alt="historyImg" />
-                        <StHistoryContent>{item.title}</StHistoryContent>
-                      </StHistoryCard>
-                    );
-                  })}
-                </div>
-              </StHistory>
-            </Draggable>
-          </div>
         </StListPage>
       )}
     </>
