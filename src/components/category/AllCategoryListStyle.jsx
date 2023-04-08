@@ -398,12 +398,15 @@ const StDibBtn = styled.button`
   position: absolute;
   z-index: 99;
   margin-top: -2px;
-  margin-left: 340px;
+  /* margin-left: 340px; */
   @media screen and (max-width: 767px) {
     left: 75%;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     left: 70%;
+  }
+  @media screen and (min-width: 1024px) {
+    margin-left: 340px;
   }
 `;
 

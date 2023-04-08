@@ -81,7 +81,6 @@ function HospitalList() {
     }
   );
 
-  console.log(cards);
   //무한스크롤
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     useInfiniteQuery(
@@ -239,7 +238,7 @@ function HospitalList() {
           <StSearchDiv>
             <StSearchInput
               type="text"
-              placeholder="검색할 명칭을 입력해주세요"
+              placeholder="검색할 키워드를 입력해주세요"
               value={searchkeyword || ""}
               onChange={(e) => {
                 setSearchKeyword(e.target.value);
@@ -262,6 +261,19 @@ function HospitalList() {
         <StListPage>
           <StCards>
             {cards?.map((item, index) => {
+              const title = item.title.replace(
+                new RegExp(searchkeyword, "gi"),
+                (match) =>
+                  `<mark style="background-color: #FFD53F">${match}</mark>` // 검색어 글자색 변경
+              );
+              const address = item.address
+                .split(" ", 2)
+                .join(" ")
+                .replace(
+                  new RegExp(searchkeyword, "gi"),
+                  (match) =>
+                    `<mark style="background-color: #FFD53F">${match}</mark>`
+                );
               return (
                 <div key={index}>
                   <StCard key={index}>
@@ -299,7 +311,8 @@ function HospitalList() {
                         navigate(`/hospital/${item.id}`);
                       }}
                     >
-                      {item.title}
+                      <span dangerouslySetInnerHTML={{ __html: title }} />
+
                       {(item.star === 0 && <StStarIcon>☆☆☆☆☆</StStarIcon>) ||
                         (item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
                         (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
@@ -308,7 +321,7 @@ function HospitalList() {
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StCardTitle>
                     <StContent>
-                      {item.address.split(" ", 2).join(" ")}
+                      <span dangerouslySetInnerHTML={{ __html: address }} />
                     </StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
@@ -323,9 +336,8 @@ function HospitalList() {
                 </div>
               );
             })}
-
             {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px", color: "transparent" }} />
+              <Skeletons style={{ color: "transparent" }} />
             ) : null}
           </StCards>
         </StListPage>
@@ -334,6 +346,19 @@ function HospitalList() {
           <StCards>
             {searchData !== [] &&
               searchData?.map((item, index) => {
+                const title = item.title.replace(
+                  new RegExp(searchkeyword, "gi"),
+                  (match) =>
+                    `<mark style="background-color: #FFD53F">${match}</mark>` // 검색어 글자색 변경
+                );
+                const address = item.address
+                  .split(" ", 2)
+                  .join(" ")
+                  .replace(
+                    new RegExp(searchkeyword, "gi"),
+                    (match) =>
+                      `<mark style="background-color: #FFD53F">${match}</mark>`
+                  );
                 return (
                   <div key={index}>
                     <StCard key={index}>
@@ -362,7 +387,6 @@ function HospitalList() {
                             }}
                             src={item.reSizeImage}
                             alt="IMG"
-                            style={{ border: "3px solid #FFD53F" }}
                           />
                         )}
                       </div>
@@ -371,7 +395,8 @@ function HospitalList() {
                           navigate(`/hospital/${item.id}`);
                         }}
                       >
-                        {item.title}
+                        <span dangerouslySetInnerHTML={{ __html: title }} />
+
                         {(item.star === 0 && <StStarIcon>☆☆☆☆☆</StStarIcon>) ||
                           (item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
                           (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
@@ -380,7 +405,7 @@ function HospitalList() {
                           (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                       </StCardTitle>
                       <StContent>
-                        {item.address.split(" ", 2).join(" ")}
+                        <span dangerouslySetInnerHTML={{ __html: address }} />
                       </StContent>
                       {parseInt(item.distance) > 999 && (
                         <StContent>
