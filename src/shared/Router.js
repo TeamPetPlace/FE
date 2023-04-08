@@ -14,6 +14,7 @@ import OwnerPost from "../pages/OwnerPost";
 import OwnerPage from "../pages/OwnerPage";
 import Redirect from "../pages/Redirect";
 import NotFound from "../pages/NotFound";
+import ErrorPage from "../pages/ErrorPage";
 
 const Router = () => {
   return (
@@ -35,6 +36,8 @@ const Router = () => {
         <Route path="/kakao/callback" element={<Redirect />} />
 
         <Route path="/*" element={<NotFound />} />
+
+        <Route path="/error" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );
