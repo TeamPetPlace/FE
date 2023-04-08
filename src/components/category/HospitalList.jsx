@@ -336,9 +336,8 @@ function HospitalList() {
                 </div>
               );
             })}
-
             {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px", color: "transparent" }} />
+              <Skeletons style={{ color: "transparent" }} />
             ) : null}
           </StCards>
         </StListPage>

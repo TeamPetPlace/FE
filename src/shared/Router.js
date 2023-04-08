@@ -13,6 +13,7 @@ import CafeDetail from "../pages/CafeDetail";
 import OwnerPost from "../pages/OwnerPost";
 import OwnerPage from "../pages/OwnerPage";
 import Redirect from "../pages/Redirect";
+import NotFound from "../pages/NotFound";
 
 const Router = () => {
   return (
@@ -32,6 +33,8 @@ const Router = () => {
         <Route path="/ownerpost" element={<OwnerPost />} />
         <Route path="/ownerpage" element={<OwnerPage />} />
         <Route path="/kakao/callback" element={<Redirect />} />
+
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
