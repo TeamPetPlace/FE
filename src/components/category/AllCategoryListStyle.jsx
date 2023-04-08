@@ -274,7 +274,7 @@ const StHistoryCard = styled.div`
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 180px;
     height: 130px;
-    padding: 5px 0 0 0;
+    padding: 3px 0 0 0;
   }
 `;
 
@@ -289,7 +289,7 @@ const StHistoryTitle = styled.div`
     font-size: 10px;
     margin: 0 5px;
     width: 90px;
-    padding-top: 20px;
+    padding-top: 15px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 15px;
@@ -325,9 +325,14 @@ const StHistoryDragTitle = styled.div`
 const StHistoryContent = styled.div`
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  text-align: center;
   @media screen and (max-width: 767px) {
     font-size: 10px;
+    height: 20px;
+    width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 15px;

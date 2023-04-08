@@ -67,7 +67,7 @@ instance.interceptors.response.use(
       ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
         (cookie) => removeCookie(cookie)
       );
-      if (isLoggedInExpiredShown === false) {
+      if (!isLoggedInExpiredShown) {
         alert("세션이 만료되었습니다. 다시 로그인해주세요!");
         isLoggedInExpiredShown = true;
       }

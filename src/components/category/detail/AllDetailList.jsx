@@ -37,6 +37,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { BiArrowFromBottom } from "react-icons/bi";
 import { BiArrowFromRight } from "react-icons/bi";
+import Swal from "sweetalert2";
 import styled from "styled-components";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
@@ -107,6 +108,14 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const onImageViewHandler = (image) => {
+    // index.preventDefault();
+    Swal.fire({
+      imageUrl: image,
+      imageAlt: "Original Image",
+    });
+  };
+
   return (
     <StContainer>
       <StSlider>
@@ -123,12 +132,14 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
               <StSliderImg
                 src={image}
                 alt={`Image ${index}`}
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: "cover", cursor: "pointer" }}
+                onClick={() => onImageViewHandler(image)}
               />
             </SwiperSlide>
           ))}
         </Swiper>
       </StSlider>
+      <StDIV>※사진을 클릭하시면 원본 사진을 확인하실 수 있습니다!</StDIV>
       <StShare onClick={sharePage}>
         <IoShareOutline />
       </StShare>
@@ -215,12 +226,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map
-              id={id}
-              queryClient={queryClient}
-              detail={detail}
-              setDetail={setDetail}
-            />
+            <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
           </div>
         </StContentsBox>
       )}
@@ -261,12 +267,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map
-              id={id}
-              queryClient={queryClient}
-              detail={detail}
-              setDetail={setDetail}
-            />
+            <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
           </div>
         </StContentsBox>
       )}
@@ -300,23 +301,13 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map
-              id={id}
-              queryClient={queryClient}
-              detail={detail}
-              setDetail={setDetail}
-            />
+            <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
           </div>
         </StContentsBox>
       )}
       {tab === "후기" && (
         <div>
-          <ReviewList
-            id={id}
-            queryClient={queryClient}
-            detail={detail}
-            data={data}
-          ></ReviewList>
+          <ReviewList id={id} queryClient={queryClient} detail={detail} data={data}></ReviewList>
         </div>
       )}
       <StMoveTopBtn>
@@ -332,3 +323,8 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
 }
 
 export default AllDetailList;
+
+const StDIV = styled.div`
+  font-size: 10px;
+  margin-top: 10px;
+`;
