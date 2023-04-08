@@ -241,7 +241,6 @@ function ReviewList({ id, detail }) {
                               onChange={(event) =>
                                 setUpdateReview(event.target.value)
                               }
-                              minLength={50}
                               placeholder={item.review}
                               maxLength={50}
                             />

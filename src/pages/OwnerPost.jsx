@@ -3,12 +3,16 @@ import Layout from "../components/common/Layout";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import Post from "../components/owner/Post";
+import { Cookies, useCookies } from "react-cookie";
+import OwnerPage from "./OwnerPage";
 
 function OwnerPost() {
+  const [cookies] = useCookies(["AccessToken", "loginType"]);
   return (
     <Layout>
       <Header />
-      <Post />
+      {cookies.loginType === "BUSINESS" ? <Post /> : <OwnerPage />}
+
       <Footer />
     </Layout>
   );

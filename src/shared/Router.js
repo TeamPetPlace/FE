@@ -11,10 +11,10 @@ import HospitalDetail from "../pages/HospitalDetail";
 import ShopDetail from "../pages/ShopDetail";
 import CafeDetail from "../pages/CafeDetail";
 import OwnerPost from "../pages/OwnerPost";
-import OwnerPage from "../pages/OwnerPage";
 import Redirect from "../pages/Redirect";
 import NotFound from "../pages/NotFound";
 import ErrorPage from "../pages/ErrorPage";
+import OwnerPage from "../pages/OwnerPage";
 
 const Router = () => {
   return (
@@ -32,10 +32,9 @@ const Router = () => {
         <Route path="/cafe" element={<Cafe />} />
         <Route path="/cafe/:id" element={<CafeDetail />} />
         <Route path="/ownerpost" element={<OwnerPost />} />
-        <Route path="/ownerpage" element={<OwnerPage />} />
         <Route path="/kakao/callback" element={<Redirect />} />
-
         <Route path="/*" element={<NotFound />} />
+        <Route path="/ownerpage" element={<OwnerPage />} />
 
         <Route path="/error" element={<ErrorPage />} />
       </Routes>

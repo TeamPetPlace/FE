@@ -33,6 +33,7 @@ function Banner() {
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
+          autoplay={{ delay: 2500, disableOnInteraction: false }}
         >
           <SwiperSlide>
             {cookies.loginType === "BUSINESS" ? (
@@ -55,10 +56,18 @@ function Banner() {
             )} */}
           </SwiperSlide>
           <SwiperSlide>
-            <StImg src={main2} style={{ marginTop: "-5px" }} />
+            <StImg
+              src={main2}
+              style={{ marginTop: "-5px", cursor: "pointer" }}
+              onClick={() => navigate("/cafe")}
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <StImg src={main3} style={{ marginTop: "-5px" }} />
+            <StImg
+              src={main3}
+              style={{ marginTop: "-5px", cursor: "pointer" }}
+              onClick={() => navigate("/ownerpost")}
+            />
           </SwiperSlide>
         </Swiper>
       </StWrap>
