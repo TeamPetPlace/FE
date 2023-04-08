@@ -13,19 +13,14 @@ import {
   DeleteLikePost,
 } from "../../api/category";
 import { useNavigate } from "react-router-dom";
-import { getHistory } from "../../api/detail";
 import { useCookies } from "react-cookie";
 import Skeletons from "../../element/Skeletons";
 import hospital_icon from "../../style/img/clickedHospital.svg";
 import {
-  StHistoryTitle,
-  StHistoryCard,
-  StHistoryImg,
   StCardImg,
   StPlace,
   StCards,
   StCard,
-  StHistory,
   StTitle,
   StContent,
   StListPage,
@@ -39,13 +34,10 @@ import {
   StIconimg,
   StStarIcon,
   StCardTitle,
-  StHistoryContent,
-  StHistoryDragTitle,
 } from "./AllCategoryListStyle";
 import dibs from "../../style/img/dibs.svg";
 import noDibs from "../../style/img/noDibs.svg";
-import Draggable from "react-draggable";
-import _ from "lodash";
+import History from "../../element/History";
 
 function HospitalList() {
   const [cards, setCards] = useState([]);
@@ -58,15 +50,6 @@ function HospitalList() {
   const page = 0;
   const navigate = useNavigate();
   const queryclient = useQueryClient();
-
-  //봤던 게시글 조회
-  const [history, setHistory] = useState([]);
-
-  const response = useQuery("getHistory", getHistory, {
-    onSuccess: (response) => {
-      setHistory(response);
-    },
-  });
 
   const { data: alldata } = useQuery(
     [
@@ -245,14 +228,6 @@ function HospitalList() {
     }
   };
 
-  //내가 봤던 기록 드래그
-  const [position, setPosition] = useState({ x: 500, y: 500 });
-  const trackPos = (data) => {
-    setPosition({ x: data.x, y: data.y });
-  };
-
-  const nodeRef = React.useRef(null);
-
   return (
     <>
       <StPlace>
@@ -282,22 +257,7 @@ function HospitalList() {
           </StSelect>
         </StSearchSortingDiv>
       </StPlace>
-      <Draggable onDrag={(e, data) => trackPos(data)} nodeRef={nodeRef}>
-        <StHistory ref={nodeRef}>
-          <div>
-            <StHistoryDragTitle>Drag me!</StHistoryDragTitle>
-            <StHistoryTitle>내가 봤던 기록</StHistoryTitle>
-            {history.map((item, index) => {
-              return (
-                <StHistoryCard key={index}>
-                  <StHistoryImg src={item.reSizeImage} alt="historyImg" />
-                  <StHistoryContent>{item.title}</StHistoryContent>
-                </StHistoryCard>
-              );
-            })}
-          </div>
-        </StHistory>
-      </Draggable>
+      <History />
       {!isSearchMode ? (
         <StListPage>
           <StCards>
