@@ -263,6 +263,19 @@ function CafeList() {
         <StListPage>
           <StCards>
             {cards?.map((item, index) => {
+              const title = item.title.replace(
+                new RegExp(searchkeyword, "gi"),
+                (match) =>
+                  `<mark style="background-color: #FFD53F">${match}</mark>` // 검색어 글자색 변경
+              );
+              const address = item.address
+                .split(" ", 2)
+                .join(" ")
+                .replace(
+                  new RegExp(searchkeyword, "gi"),
+                  (match) =>
+                    `<mark style="background-color: #FFD53F">${match}</mark>`
+                );
               return (
                 <div key={index}>
                   <StCard key={index}>
@@ -300,7 +313,7 @@ function CafeList() {
                         navigate(`/cafe/${item.id}`);
                       }}
                     >
-                      {item.title}
+                      <span dangerouslySetInnerHTML={{ __html: title }} />
                       {(item.star === 0 && <StStarIcon>☆☆☆☆☆</StStarIcon>) ||
                         (item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
                         (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
@@ -309,7 +322,7 @@ function CafeList() {
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StCardTitle>
                     <StContent>
-                      {item.address.split(" ", 2).join(" ")}
+                      <span dangerouslySetInnerHTML={{ __html: address }} />
                     </StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
@@ -334,6 +347,19 @@ function CafeList() {
           <StCards>
             {searchData !== [] &&
               searchData?.map((item, index) => {
+                const title = item.title.replace(
+                  new RegExp(searchkeyword, "gi"),
+                  (match) =>
+                    `<mark style="background-color: #FFD53F">${match}</mark>` // 검색어 글자색 변경
+                );
+                const address = item.address
+                  .split(" ", 2)
+                  .join(" ")
+                  .replace(
+                    new RegExp(searchkeyword, "gi"),
+                    (match) =>
+                      `<mark style="background-color: #FFD53F">${match}</mark>`
+                  );
                 return (
                   <div key={index}>
                     <StCard key={index}>
@@ -371,7 +397,7 @@ function CafeList() {
                           navigate(`/cafe/${item.id}`);
                         }}
                       >
-                        {item.title}
+                        <span dangerouslySetInnerHTML={{ __html: title }} />
                         {(item.star === 0 && <StStarIcon>☆☆☆☆☆</StStarIcon>) ||
                           (item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
                           (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
@@ -380,7 +406,7 @@ function CafeList() {
                           (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                       </StCardTitle>
                       <StContent>
-                        {item.address.split(" ", 2).join(" ")}
+                        <span dangerouslySetInnerHTML={{ __html: address }} />
                       </StContent>
                       {parseInt(item.distance) > 999 && (
                         <StContent>
