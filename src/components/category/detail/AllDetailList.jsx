@@ -113,6 +113,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
     Swal.fire({
       imageUrl: image,
       imageAlt: "Original Image",
+      confirmButtonColor: "#FFD53F",
     });
   };
 

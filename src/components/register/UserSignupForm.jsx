@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CheckEmail, UserSignup } from "../../api/user";
 import {
   StSignupFormDiv,
@@ -11,6 +11,7 @@ import {
   StCheckBtn,
   StDescDiv,
   StInputDiv,
+  StLoginMove,
 } from "./SignupStyle";
 
 const UserSignupForm = () => {
@@ -33,7 +34,7 @@ const UserSignupForm = () => {
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
-  const nickRegex = /^[a-zA-Z0-9가-힣_-]{2,20}$/;
+  const nickRegex = /^[a-zA-Z0-9가-힣_-]{2,10}$/;
 
   const checkEmailMutation = useMutation(CheckEmail, {
     onSuccess: (response) => {
@@ -143,7 +144,7 @@ const UserSignupForm = () => {
             <StDescDiv style={{ color: "#008000" }}>사용가능한 닉네임입니다.</StDescDiv>
           ) : (
             <StDescDiv style={{ color: "#ff6666" }}>
-              특수문자를 제외하고 2자 이상 20자 이하여야 합니다.
+              특수문자를 제외하고 2자 이상 10자 이하여야 합니다.
             </StDescDiv>
           )}
           <StInput
@@ -178,21 +179,16 @@ const UserSignupForm = () => {
           )}
         </StInputDiv>
         <StSignupBtn
-          // BackColor="#ffd53f"
-          disabled={!(passwordcheck && isValidPassword && isValidEmail)}
+          style={{ backgroundColor: "#ffd53f" }}
+          disabled={!(passwordcheck && isValidPassword && isValidEmail && isVaildNickName)}
         >
           회원가입
         </StSignupBtn>
       </form>
       <div>
-        <StSignupBtn
-          // BackColor="white"
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          로그인
-        </StSignupBtn>
+        <StLoginMove>
+          이미 가입하셨다면? <Link to="/">로그인하기</Link>
+        </StLoginMove>
       </div>
     </StSignupDiv>
   );

@@ -43,28 +43,19 @@ function History() {
             return (
               <>
                 {item.category === "병원" && (
-                  <StHistoryCard
-                    key={index}
-                    onClick={() => navigate(`/hospital/${item.id}`)}
-                  >
+                  <StHistoryCard key={index} onClick={() => navigate(`/hospital/${item.id}`)}>
                     <StHistoryImg src={item.reSizeImage} alt="historyImg" />
                     <StHistoryContent>{item.title}</StHistoryContent>
                   </StHistoryCard>
                 )}
                 {item.category === "미용" && (
-                  <StHistoryCard
-                    key={index}
-                    onClick={() => navigate(`/shop/${item.id}`)}
-                  >
+                  <StHistoryCard key={index} onClick={() => navigate(`/shop/${item.id}`)}>
                     <StHistoryImg src={item.reSizeImage} alt="historyImg" />
                     <StHistoryContent>{item.title}</StHistoryContent>
                   </StHistoryCard>
                 )}
                 {item.category === "카페" && (
-                  <StHistoryCard
-                    key={index}
-                    onClick={() => navigate(`/cafe/${item.id}`)}
-                  >
+                  <StHistoryCard key={index} onClick={() => navigate(`/cafe/${item.id}`)}>
                     <StHistoryImg src={item.reSizeImage} alt="historyImg" />
                     <StHistoryContent>{item.title}</StHistoryContent>
                   </StHistoryCard>
