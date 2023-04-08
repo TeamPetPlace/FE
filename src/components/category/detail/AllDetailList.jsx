@@ -35,8 +35,8 @@ import {
   StIconBtn,
 } from "./AllDetailListStyle";
 import { useNavigate } from "react-router-dom";
-import { BiArrowFromBottom } from "react-icons/bi";
-import { BiArrowFromRight } from "react-icons/bi";
+import { BiDownArrowAlt } from "react-icons/bi";
+import { BiUpArrowAlt } from "react-icons/bi";
 import Swal from "sweetalert2";
 import styled from "styled-components";
 
@@ -69,12 +69,12 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
       navigator
         .share(shareObject)
         .then(() => {
-          alert("공유하기 성공");
+          console.log("공유 성공");
         })
         .catch((error) => {});
     } else {
       // navigator.share()를 지원하지 않는 경우
-      alert("페이지 공유를 지원하지 않습니다.");
+      alert("지원하지 않는 브라우저입니다.");
     }
   };
 
@@ -106,6 +106,14 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
   //맨 위로 버튼
   const moveTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  //맨 아래로 버튼
+  const moveBottom = () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const maxScroll = documentHeight - windowHeight;
+    window.scrollTo({ top: maxScroll, behavior: "smooth" });
   };
 
   const onImageViewHandler = (image) => {
@@ -226,7 +234,12 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+            <Map
+              id={id}
+              queryClient={queryClient}
+              detail={detail}
+              setDetail={setDetail}
+            />
           </div>
         </StContentsBox>
       )}
@@ -267,7 +280,12 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+            <Map
+              id={id}
+              queryClient={queryClient}
+              detail={detail}
+              setDetail={setDetail}
+            />
           </div>
         </StContentsBox>
       )}
@@ -301,21 +319,31 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+            <Map
+              id={id}
+              queryClient={queryClient}
+              detail={detail}
+              setDetail={setDetail}
+            />
           </div>
         </StContentsBox>
       )}
       {tab === "후기" && (
         <div>
-          <ReviewList id={id} queryClient={queryClient} detail={detail} data={data}></ReviewList>
+          <ReviewList
+            id={id}
+            queryClient={queryClient}
+            detail={detail}
+            data={data}
+          ></ReviewList>
         </div>
       )}
       <StMoveTopBtn>
-        <StIconBtn onClick={() => navigate(-1)}>
-          <BiArrowFromRight />
-        </StIconBtn>
         <StIconBtn onClick={moveTop}>
-          <BiArrowFromBottom />
+          <BiUpArrowAlt />
+        </StIconBtn>
+        <StIconBtn onClick={moveBottom}>
+          <BiDownArrowAlt />
         </StIconBtn>
       </StMoveTopBtn>
     </StContainer>

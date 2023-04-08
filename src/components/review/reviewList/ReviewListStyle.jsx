@@ -185,6 +185,7 @@ const StInputBox = styled.div`
   margin-top: 10px;
   @media screen and (max-width: 767px) {
     width: 320px;
+    height: 0px;
   }
 `;
 
@@ -197,7 +198,7 @@ const StInput = styled.textarea`
   outline: none;
   padding: 10px;
   @media screen and (max-width: 767px) {
-    width: 300px;
+    /* width: 300px; */
     height: 80px;
   }
 `;
@@ -243,7 +244,8 @@ const StBtns = styled.div`
   @media screen and (max-width: 767px) {
     width: 220px;
     margin: 0 auto;
-    margin-top: -50px;
+    margin-top: 50px;
+    padding-top: 80px;
   }
 `;
 

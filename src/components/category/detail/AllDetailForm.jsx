@@ -57,6 +57,7 @@ const AllDetailForm = () => {
     onSuccess: (response) => {
       setDetail(response);
       setSlideImg(response.image);
+      queryClient.invalidateQueries("getdetail");
     },
   });
 

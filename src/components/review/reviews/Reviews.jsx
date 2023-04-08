@@ -14,13 +14,19 @@ import {
   StImg,
   StBtn,
 } from "./ReviewsStyle";
+import Swal from "sweetalert2";
 
 function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
   const [cookies] = useCookies(["AccessToken", "email"]);
 
-  const handleImageClick = (src) => {
-    window.open(src);
+  const onImageViewHandler = (image) => {
+    Swal.fire({
+      imageUrl: image,
+      imageAlt: "Original Image",
+      confirmButtonColor: "#FFD53F",
+    });
   };
+
   return (
     <div>
       <StReviewBoxs>
@@ -58,7 +64,7 @@ function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
             <StImg
               src={item.image}
               alt="img"
-              onClick={() => handleImageClick(item.image)}
+              onClick={() => onImageViewHandler(item.image)}
             />
           )}
         </div>
