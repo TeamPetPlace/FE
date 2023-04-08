@@ -122,7 +122,11 @@ function DibsList() {
                       src={item.reSizeImage}
                       alt="image"
                     />
-                    <StTitle>
+                    <StTitle
+                      onClick={() => {
+                        navigate(`/hospital/${item.id}`);
+                      }}
+                    >
                       {item.title}{" "}
                       {(item.star === 0 && <StStarIcon>☆☆☆☆☆</StStarIcon>) ||
                         (item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
@@ -131,7 +135,11 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>
-                    <StContent>
+                    <StContent
+                      onClick={() => {
+                        navigate(`/hospital/${item.id}`);
+                      }}
+                    >
                       {item.address.split(" ", 2).join(" ")}
                     </StContent>
                   </StCard>
@@ -147,7 +155,11 @@ function DibsList() {
                       src={item.reSizeImage}
                       alt="image"
                     />
-                    <StTitle>
+                    <StTitle
+                      onClick={() => {
+                        navigate(`/shop/${item.id}`);
+                      }}
+                    >
                       {item.title}{" "}
                       {(item.star === 0 && <StStarIcon>☆☆☆☆☆</StStarIcon>) ||
                         (item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
@@ -156,7 +168,11 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>{" "}
-                    <StContent>
+                    <StContent
+                      onClick={() => {
+                        navigate(`/shop/${item.id}`);
+                      }}
+                    >
                       {item.address.split(" ", 2).join(" ")}
                     </StContent>
                     {/* <div>{item.star}</div> */}
@@ -173,7 +189,11 @@ function DibsList() {
                       src={item.reSizeImage}
                       alt="image"
                     />
-                    <StTitle>
+                    <StTitle
+                      onClick={() => {
+                        navigate(`/cafe/${item.id}`);
+                      }}
+                    >
                       {item.title}{" "}
                       {(item.star === 0 && <StStarIcon>☆☆☆☆☆</StStarIcon>) ||
                         (item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
@@ -182,7 +202,11 @@ function DibsList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StTitle>{" "}
-                    <StContent>
+                    <StContent
+                      onClick={() => {
+                        navigate(`/cafe/${item.id}`);
+                      }}
+                    >
                       {item.address.split(" ", 2).join(" ")}
                     </StContent>
                   </StCard>
