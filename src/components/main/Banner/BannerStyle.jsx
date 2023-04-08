@@ -4,6 +4,8 @@ const StContainer = styled.div`
   width: 100%;
   position: relative;
   overflow: hidden;
+  height: auto;
+  height: auto;
   @media screen and (max-width: 768px) {
     width: 100%;
     margin: 0 auto;
@@ -19,7 +21,6 @@ const StWrap = styled.div`
     width: 100%;
     margin: 0 auto;
     /* overflow: hidden; */
-    height: 300px;
   }
 `;
 
@@ -61,7 +62,7 @@ const StImg = styled.img`
   @media screen and (max-width: 768px) {
     width: 120%;
     margin: 0 auto;
-    height: 300px;
+    height: auto;
   }
 `;
 

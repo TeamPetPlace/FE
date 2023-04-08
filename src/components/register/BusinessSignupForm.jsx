@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BusinessSignup, CheckBizNum, CheckEmail } from "../../api/user";
 import {
   StSignupFormDiv,
@@ -10,6 +10,7 @@ import {
   StInput,
   StCheckBtn,
   StDescDiv,
+  StLoginMove,
 } from "./SignupStyle";
 
 const BusinessSignupForm = () => {
@@ -38,7 +39,7 @@ const BusinessSignupForm = () => {
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
-  const nickRegex = /^[a-zA-Z0-9가-힣_-]{2,20}$/;
+  const nickRegex = /^[a-zA-Z0-9가-힣_-]{2,10}$/;
   const biznumberRegex = /^\d{3}-\d{2}-\d{5}$/;
 
   // 이메일 확인
@@ -201,7 +202,7 @@ const BusinessSignupForm = () => {
           <StDescDiv style={{ color: "#008000" }}>사용가능한 닉네임입니다.</StDescDiv>
         ) : (
           <StDescDiv style={{ color: "#ff6666" }}>
-            특수문자를 제외하고 2자 이상 20자 이하여야 합니다.
+            특수문자를 제외하고 2자 이상 10자 이하여야 합니다.
           </StDescDiv>
         )}
         <StInput
@@ -253,22 +254,18 @@ const BusinessSignupForm = () => {
           <StDescDiv style={{ color: "#ff6666" }}>비밀번호가 일치하지 않습니다.</StDescDiv>
         )}
         <div>
-          {/* <button disabled={!(passwordcheck && isValidPassword && isValidEmail)}> */}
           <StSignupBtn
-            disabled={!(isValidBiznum && passwordcheck && isValidPassword && isValidEmail)}
+            style={{ backgroundColor: "#ffd53f" }}
+            disabled={!(passwordcheck && isValidPassword && isValidEmail && isVaildNickName)}
           >
             회원가입
           </StSignupBtn>
         </div>
       </form>
       <div>
-        <StSignupBtn
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          로그인
-        </StSignupBtn>
+        <StLoginMove>
+          이미 가입하셨다면? <Link to="/">로그인하기</Link>
+        </StLoginMove>
       </div>
     </StSignupDiv>
   );

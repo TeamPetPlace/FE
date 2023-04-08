@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import animal_illust_back from "../../style/img/animal_illust_back.svg";
 
-export { StSignupDiv, StSignupBtn, StCheckBtn, StInput, StDescDiv, StInputDiv };
+export { StSignupDiv, StSignupBtn, StCheckBtn, StInput, StDescDiv, StInputDiv, StLoginMove };
 
 const StSignupDiv = styled.div`
   width: 660px;
-  height: 570px;
+  height: 550px;
   margin: -1px auto;
   display: flex;
   padding-top: 50px;
@@ -115,4 +115,27 @@ const StInput = styled.input`
 
 const StInputDiv = styled.div`
   margin-bottom: ${(props) => props.Margin_B};
+`;
+
+const StLoginMove = styled.div`
+  display: inline-block;
+  color: #000;
+  width: 300px;
+  height: 40px;
+  text-align: center;
+  margin: 40px 180px;
+  /* background-color: pink; */
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+    width: 120px;
+    height: 20px;
+    text-align: center;
+    margin: 20px 90px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 200px;
+    height: 30px;
+    text-align: center;
+    margin: 30px 150px;
+  }
 `;

@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
 import { GoSearch } from "react-icons/go";
-import {
-  SearchPost,
-  AllPost,
-  AddLikesPost,
-  DeleteLikePost,
-} from "../../api/category";
+import { SearchPost, AllPost, AddLikesPost, DeleteLikePost } from "../../api/category";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Skeletons from "../../element/Skeletons";
@@ -34,10 +24,13 @@ import {
   StDibBtn,
   StStarIcon,
   StCardTitle,
+  StMoveTopBtn,
+  StIconBtn,
 } from "./AllCategoryListStyle";
 import dibs from "../../style/img/dibs.svg";
 import noDibs from "../../style/img/noDibs.svg";
 import History from "../../element/History";
+import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 
 function CafeList() {
   const [cards, setCards] = useState([]);
@@ -82,54 +75,50 @@ function CafeList() {
   );
 
   //무한스크롤
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useInfiniteQuery(
-      [
-        "searchPost",
-        {
-          category: "카페",
-          sort: sort,
-          keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          size: size,
-        },
-      ],
-      ({ pageParam = 0 }) =>
-        AllPost({
-          category: "카페",
-          sort: sort,
-          // keyword: searchkeyword,
-          lat: cookies.lat,
-          lng: cookies.lng,
-          page: pageParam,
-          size: size,
-        }),
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useInfiniteQuery(
+    [
+      "searchPost",
       {
-        getNextPageParam: (lastPage, pages) => {
-          if (lastPage.data.last) {
-            return null;
-          }
-          return pages.length;
-        },
-        onSuccess: (newData) => {
-          setCards((prevCards) => {
-            const newItems = newData.pages.flatMap((page) => page.data.content);
-            const uniqueItems = newItems.filter(
-              (item) => !prevCards.some((prevItem) => prevItem.id === item.id)
-            );
-            return [...prevCards, ...uniqueItems];
-          });
-        },
-      }
-    );
+        category: "카페",
+        sort: sort,
+        keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        size: size,
+      },
+    ],
+    ({ pageParam = 0 }) =>
+      AllPost({
+        category: "카페",
+        sort: sort,
+        // keyword: searchkeyword,
+        lat: cookies.lat,
+        lng: cookies.lng,
+        page: pageParam,
+        size: size,
+      }),
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.data.last) {
+          return null;
+        }
+        return pages.length;
+      },
+      onSuccess: (newData) => {
+        setCards((prevCards) => {
+          const newItems = newData.pages.flatMap((page) => page.data.content);
+          const uniqueItems = newItems.filter(
+            (item) => !prevCards.some((prevItem) => prevItem.id === item.id)
+          );
+          return [...prevCards, ...uniqueItems];
+        });
+      },
+    }
+  );
 
   useEffect(() => {
     function handleScroll() {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        hasNextPage
-      )
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasNextPage)
         fetchNextPage();
     }
     window.addEventListener("scroll", handleScroll, true);
@@ -224,7 +213,18 @@ function CafeList() {
     } else if (item.like === true) {
       DeleteMutation.mutate(payload);
     }
-    // console.log(item.id);
+  };
+
+  const moveTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  //맨 아래로 버튼
+  const moveBottom = () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const maxScroll = documentHeight - windowHeight;
+    window.scrollTo({ top: maxScroll, behavior: "smooth" });
   };
 
   return (
@@ -263,16 +263,14 @@ function CafeList() {
             {cards?.map((item, index) => {
               const title = item.title.replace(
                 new RegExp(searchkeyword, "gi"),
-                (match) =>
-                  `<mark style="background-color: #FFD53F">${match}</mark>` // 검색어 글자색 변경
+                (match) => `<mark style="background-color: #FFD53F">${match}</mark>` // 검색어 글자색 변경
               );
               const address = item.address
-                .split(" ", 2)
+                .split(" ", 3)
                 .join(" ")
                 .replace(
                   new RegExp(searchkeyword, "gi"),
-                  (match) =>
-                    `<mark style="background-color: #FFD53F">${match}</mark>`
+                  (match) => `<mark style="background-color: #FFD53F">${match}</mark>`
                 );
 
               return (
@@ -330,16 +328,12 @@ function CafeList() {
                         km남음
                       </StContent>
                     )}
-                    {parseInt(item.distance) < 999 && (
-                      <div>{parseInt(item.distance)}m남음</div>
-                    )}
+                    {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                   </StCard>
                 </div>
               );
             })}
-            {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px" }} />
-            ) : null}
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
           </StCards>
         </StListPage>
       ) : (
@@ -349,16 +343,14 @@ function CafeList() {
               searchData?.map((item, index) => {
                 const title = item.title.replace(
                   new RegExp(searchkeyword, "gi"),
-                  (match) =>
-                    `<mark style="background-color: #FFD53F">${match}</mark>` // 검색어 글자색 변경
+                  (match) => `<mark style="background-color: #FFD53F">${match}</mark>` // 검색어 글자색 변경
                 );
                 const address = item.address
-                  .split(" ", 2)
+                  .split(" ", 3)
                   .join(" ")
                   .replace(
                     new RegExp(searchkeyword, "gi"),
-                    (match) =>
-                      `<mark style="background-color: #FFD53F">${match}</mark>`
+                    (match) => `<mark style="background-color: #FFD53F">${match}</mark>`
                   );
                 const content = item.contents;
                 const contentIndex = content
@@ -450,19 +442,23 @@ function CafeList() {
                           km남음
                         </StContent>
                       )}
-                      {parseInt(item.distance) < 999 && (
-                        <div>{parseInt(item.distance)}m남음</div>
-                      )}
+                      {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                     </StCard>
                   </div>
                 );
               })}
-            {isLoading || isFetching ? (
-              <Skeletons style={{ marginTop: "20px" }} />
-            ) : null}
+            {isLoading || isFetching ? <Skeletons style={{ marginTop: "20px" }} /> : null}
           </StCards>
         </StListPage>
       )}
+      <StMoveTopBtn>
+        <StIconBtn onClick={moveTop}>
+          <BiUpArrowAlt />
+        </StIconBtn>
+        <StIconBtn onClick={moveBottom}>
+          <BiDownArrowAlt />
+        </StIconBtn>
+      </StMoveTopBtn>
     </>
   );
 }
