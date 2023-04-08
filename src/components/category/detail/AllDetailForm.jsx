@@ -53,7 +53,7 @@ const AllDetailForm = () => {
   const { id } = useParams();
   const [detail, setDetail] = useState("");
   const [slideImg, setSlideImg] = useState([]);
-  const { data } = useQuery("getdetail", () => getDetail(`${id}`), {
+  const { data, refetch } = useQuery("getdetail", () => getDetail(`${id}`), {
     onSuccess: (response) => {
       setDetail(response);
       setSlideImg(response.image);

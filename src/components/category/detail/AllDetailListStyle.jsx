@@ -324,11 +324,11 @@ const StMoveTopBtn = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  z-index: 999;
+  z-index: 99;
   bottom: 25%;
   right: 9%;
-  width: 70px;
-  height: 100px;
+  width: 55px;
+  height: 90px;
   border-radius: 60px;
   padding: 5px 0;
   align-items: center;

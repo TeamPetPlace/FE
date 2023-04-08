@@ -45,7 +45,7 @@ const StPlace = styled.div`
 
 const StMyPlace = styled.div`
   display: flex;
-  width: 470px;
+  width: 430px;
   margin: 0 auto;
   font-size: 46px;
   margin-bottom: 30px;
@@ -124,6 +124,7 @@ const StCard = styled.div`
   width: 400px;
   cursor: pointer;
   position: relative;
+
   @media screen and (max-width: 767px) {
     width: 200px;
     margin: 0 auto;
@@ -143,6 +144,9 @@ const StResizeImg = styled.img`
   height: 300px;
   overflow: hidden;
   border-radius: 10px;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
   @media screen and (max-width: 767px) {
     width: 200px;
     height: 150px;

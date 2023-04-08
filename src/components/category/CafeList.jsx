@@ -274,6 +274,7 @@ function CafeList() {
                   (match) =>
                     `<mark style="background-color: #FFD53F">${match}</mark>`
                 );
+
               return (
                 <div key={index}>
                   <StCard key={index}>
@@ -319,6 +320,7 @@ function CafeList() {
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                     </StCardTitle>
+
                     <StContent>
                       <span dangerouslySetInnerHTML={{ __html: address }} />
                     </StContent>
@@ -358,6 +360,29 @@ function CafeList() {
                     (match) =>
                       `<mark style="background-color: #FFD53F">${match}</mark>`
                   );
+                const content = item.contents;
+                const contentIndex = content
+                  .toLowerCase()
+                  .indexOf(searchkeyword.toLowerCase());
+                let contentDisplay = "";
+                if (contentIndex !== -1) {
+                  contentDisplay = `...${content.slice(
+                    contentIndex,
+                    contentIndex + searchkeyword.length
+                  )}...`;
+                }
+
+                const feature1 = item.feature1;
+                const feature1Index = feature1
+                  .toLowerCase()
+                  .indexOf(searchkeyword.toLowerCase());
+                let feature1Display = "";
+                if (feature1Index !== -1) {
+                  feature1Display = `...${feature1.slice(
+                    feature1Index,
+                    feature1Index + searchkeyword.length
+                  )}...`;
+                }
                 return (
                   <div key={index}>
                     <StCard key={index}>
@@ -403,6 +428,19 @@ function CafeList() {
                           (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                           (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
                       </StCardTitle>
+                      <div style={{ display: "none" }}>{item.contents}</div>
+                      {contentDisplay && (
+                        <span
+                          dangerouslySetInnerHTML={{ __html: contentDisplay }}
+                          style={{ backgroundColor: "#FFD53F" }}
+                        />
+                      )}
+                      {feature1Display && (
+                        <span
+                          dangerouslySetInnerHTML={{ __html: feature1Display }}
+                          style={{ backgroundColor: "#FFD53F" }}
+                        />
+                      )}
                       <StContent>
                         <span dangerouslySetInnerHTML={{ __html: address }} />
                       </StContent>

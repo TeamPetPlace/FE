@@ -138,7 +138,7 @@ const StFormBox = styled.div`
   padding-bottom: 60px;
   @media screen and (max-width: 767px) {
     width: 300px;
-    height: 1050px;
+    height: 1100px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -344,6 +344,7 @@ const StRealBox = styled.div`
   height: 170px;
   @media screen and (max-width: 767px) {
     left: 40px;
+    height: 50px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -371,6 +372,9 @@ const StBtns = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  @media screen and (max-width: 767px) {
+    margin-top: 70px;
+  }
 `;
 
 const StBtn = styled.button`

@@ -171,7 +171,7 @@ function ReviewList({ id, detail }) {
   };
 
   return (
-    <div style={{ height: "930px" }}>
+    <div style={{ height: "1080px", paddingBottom: "80px" }}>
       <StContentsBox>
         <div style={{ marginBottom: "30px" }}>
           <StTopReviewBox>
@@ -241,7 +241,6 @@ function ReviewList({ id, detail }) {
                               onChange={(event) =>
                                 setUpdateReview(event.target.value)
                               }
-                              minLength={50}
                               placeholder={item.review}
                               maxLength={50}
                             />
