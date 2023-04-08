@@ -28,7 +28,7 @@ const StSlider = styled.div`
   position: relative;
   @media screen and (max-width: 767px) {
     width: 350px;
-    height: 400px;
+    height: 300px;
     display: flex;
     margin: 0 auto;
     align-items: center;
@@ -67,7 +67,7 @@ const StShare = styled.button`
     width: 30px;
     height: 30px;
     margin-right: 5px;
-    margin-top: -40px;
+    margin-top: -20px;
     float: right;
     font-size: 15px;
   }

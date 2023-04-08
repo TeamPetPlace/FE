@@ -162,12 +162,11 @@ function User() {
                     // src={profileOrigin}
                     // alt="origin"
                     // style={{
-                    //   width: "280px",
-                    //   height: "280px",
+                    //   width: "330px",
+                    //   height: "330px",
                     //   position: "absolute",
-
                     //   top: "-6%",
-                    //   left: "-23px",
+                    //   left: "-25px",
                     // }}
                     />
                   ) : (
@@ -278,7 +277,7 @@ const StInfoContainer = styled.div`
     margin: 15px 0px -8px 140px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    margin: 35px 0px 10px 200px;
+    margin: 30px 0px 0px 200px;
   }
 `;
 
@@ -300,15 +299,17 @@ const StImg = styled.img`
 
 const StImgDiv = styled.div`
   position: absolute;
-  z-index: 99;
+  z-index: 90;
   width: 280px;
   height: 280px;
-  background-color: #fff;
   overflow: hidden;
   border-radius: 100%;
   top: -10%;
   box-shadow: 3px 3px 3px 0px #d9d9d9;
-
+  background-repeat: no-repeat;
+  background-size: 130%;
+  background-position: center;
+  background-image: url(${profileOrigin});
   @media screen and (max-width: 767px) {
     width: 120px;
     height: 120px;
@@ -365,7 +366,7 @@ const StEditBtn = styled.button`
     font-size: 14px;
     height: 30px;
     width: 60px;
-    margin: 0 10px 0 230px;
+    margin: 0 10px 0 200px;
   }
 `;
 
