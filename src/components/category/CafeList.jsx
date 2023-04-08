@@ -81,8 +81,6 @@ function CafeList() {
     }
   );
 
-  console.log(cards);
-
   //무한스크롤
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     useInfiniteQuery(

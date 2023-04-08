@@ -225,7 +225,6 @@ function ShopList() {
     } else if (item.like === true) {
       DeleteMutation.mutate(payload);
     }
-    // console.log(item.id);
   };
 
   return (
