@@ -124,6 +124,13 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
     });
   };
 
+  // const [currentSlide, setCurrentSlide] = useState(0); // 현재 메인 슬라이드의 이미지 인덱스
+
+  // // 썸네일 클릭 시 메인 슬라이드 이미지 변경 로직
+  // const handleThumbnailClick = (index) => {
+  //   setCurrentSlide(index); // 현재 메인 슬라이드의 이미지 인덱스 변경
+  // };
+
   return (
     <StContainer>
       <StSlider>
@@ -147,6 +154,16 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           ))}
         </Swiper>
       </StSlider>
+      {/* <div className="thumbnail-slider">
+        {detail?.image?.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Thumbnail ${index + 1}`}
+            onClick={() => handleThumbnailClick(index)}
+          />
+        ))}
+      </div> */}
       <StDIV>※사진을 클릭하시면 원본 사진을 확인하실 수 있습니다!</StDIV>
       <StShare onClick={sharePage}>
         <IoShareOutline />
