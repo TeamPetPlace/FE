@@ -109,6 +109,10 @@ const StImg = styled.img`
   border: none;
   position: absolute;
   top: 0%;
+  @media screen and (max-width: 767px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const StStar = styled.div`

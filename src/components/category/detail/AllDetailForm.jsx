@@ -233,6 +233,19 @@ const AllDetailForm = () => {
     fileInput.current.click();
   };
 
+  //사진 재등록
+  const handleReset = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setUpImage([]);
+    if (fileInput.current) {
+      fileInput.current.value = "";
+    }
+
+    // imgBase64 배열 초기화
+    setUpImgBase64([]);
+  };
+
   //수정 핸들러
   const updatePostMutation = useMutation(updatePost, {
     onSuccess: () => {
@@ -725,9 +738,14 @@ const AllDetailForm = () => {
                     <StImp>*</StImp>업체사진
                   </StTitle>
                   <StImgBox>
-                    <StBtn onClick={onImgButton} size="medium">
-                      업로드
-                    </StBtn>
+                    <div style={{ display: "flex" }}>
+                      <StBtn onClick={onImgButton} size="medium">
+                        업로드
+                      </StBtn>
+                      <StBtn onClick={handleReset} size="medium">
+                        사진 재등록
+                      </StBtn>
+                    </div>
                     <StMent>최대 4장까지 업로드 가능합니다.</StMent>
                   </StImgBox>
                 </StLine>
@@ -758,7 +776,11 @@ const AllDetailForm = () => {
               </div>
               <StBtns>
                 <StBtn size="large">수정</StBtn>
-                <StBtn onClick={() => navigate(`/hospital/${id}`)} size="large">
+                <StBtn
+                  onClick={() => navigate(`/hospital/${id}`)}
+                  size="large"
+                  style={{ marginLeft: "20px" }}
+                >
                   취소
                 </StBtn>
               </StBtns>

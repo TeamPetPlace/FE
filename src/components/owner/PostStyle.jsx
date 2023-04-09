@@ -297,6 +297,10 @@ const StImgBox = styled.div`
   display: flex;
   height: 40px;
   line-height: 10px;
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const StImgUpload = styled.div`
