@@ -39,7 +39,6 @@ import { BiDownArrowAlt } from "react-icons/bi";
 import { BiUpArrowAlt } from "react-icons/bi";
 import Swal from "sweetalert2";
 import styled from "styled-components";
-import { useRef } from "react";
 import Button from "../../../element/Button";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
