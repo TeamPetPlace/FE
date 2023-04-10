@@ -173,18 +173,8 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
               onClick={() => handleThumbnailClick(index)}
             />
           ))}
-        </Swiper>
-      </StSlider>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        {detail?.image?.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Thumbnail ${index + 1}`}
-            onClick={() => handleThumbnailClick(index)}
-          />
-        ))}
-      </div>
+          <div>
+        </div>
       <StDscContainer>
         <StDisc>※사진을 클릭하시면 원본 사진을 확인하실 수 있습니다.</StDisc>
         <StShare onClick={sharePage}>
