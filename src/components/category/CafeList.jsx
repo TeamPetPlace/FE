@@ -24,7 +24,7 @@ import {
   StDibBtn,
   StStarIcon,
   StCardTitle,
-  StMoveTopBtn,
+  StPageMoveBtn,
   StIconBtn,
 } from "./AllCategoryListStyle";
 import dibs from "../../style/img/dibs.svg";
@@ -69,7 +69,6 @@ function CafeList() {
     {
       onSuccess: (item) => {
         setCards(item.data.content);
-        queryclient.invalidateQueries("");
       },
     }
   );
@@ -177,8 +176,6 @@ function CafeList() {
       setSearchData(data.response);
     } catch (error) {
       console.log(error);
-      // alert("검색결과가 없습니다!");
-      // window.location.replace("/cafe");
     }
   };
 
@@ -353,9 +350,7 @@ function CafeList() {
                     (match) => `<mark style="background-color: #FFD53F">${match}</mark>`
                   );
                 const content = item.contents;
-                const contentIndex = content
-                  .toLowerCase()
-                  .indexOf(searchkeyword.toLowerCase());
+                const contentIndex = content.toLowerCase().indexOf(searchkeyword.toLowerCase());
                 let contentDisplay = "";
                 if (contentIndex !== -1) {
                   contentDisplay = `...${content.slice(
@@ -365,9 +360,7 @@ function CafeList() {
                 }
 
                 const feature1 = item.feature1;
-                const feature1Index = feature1
-                  .toLowerCase()
-                  .indexOf(searchkeyword.toLowerCase());
+                const feature1Index = feature1.toLowerCase().indexOf(searchkeyword.toLowerCase());
                 let feature1Display = "";
                 if (feature1Index !== -1) {
                   feature1Display = `...${feature1.slice(
@@ -451,14 +444,14 @@ function CafeList() {
           </StCards>
         </StListPage>
       )}
-      <StMoveTopBtn>
+      <StPageMoveBtn>
         <StIconBtn onClick={moveTop}>
           <BiUpArrowAlt />
         </StIconBtn>
         <StIconBtn onClick={moveBottom}>
           <BiDownArrowAlt />
         </StIconBtn>
-      </StMoveTopBtn>
+      </StPageMoveBtn>
     </>
   );
 }

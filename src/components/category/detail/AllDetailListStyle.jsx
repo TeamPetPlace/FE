@@ -60,24 +60,15 @@ const StShare = styled.button`
   width: 60px;
   height: 60px;
   font-size: 30px;
-  float: right;
-  margin-top: 30px;
-
+  color: #000;
   @media screen and (max-width: 767px) {
     width: 30px;
     height: 30px;
-    margin-right: 5px;
-    margin-top: -20px;
-    float: right;
     font-size: 15px;
   }
-
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 45px;
     height: 45px;
-    margin-right: 5px;
-    margin-top: 10px;
-    float: right;
   }
 `;
 
@@ -86,10 +77,7 @@ const StFirst = styled.div`
   width: 1000px;
   height: 50px;
   line-height: 50px;
-  margin-top: 30px;
   @media screen and (max-width: 767px) {
-    margin-top: -50px;
-    margin-bottom: -5px;
     width: 350px;
     height: 100px;
     gap: -40px;
@@ -97,8 +85,6 @@ const StFirst = styled.div`
     flex-direction: column;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    margin-top: -30px;
-    margin-bottom: -5px;
   }
 `;
 
