@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import ReviewList from "../../review/reviewList/ReviewList";
 import { IoCopyOutline, IoShareOutline } from "react-icons/io5";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
@@ -125,12 +125,16 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
     });
   };
 
-  // const [currentSlide, setCurrentSlide] = useState(0); // 현재 메인 슬라이드의 이미지 인덱스
+  // 썸네일 클릭 시 메인 슬라이드 이미지 변경
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // // 썸네일 클릭 시 메인 슬라이드 이미지 변경 로직
-  // const handleThumbnailClick = (index) => {
-  //   setCurrentSlide(index); // 현재 메인 슬라이드의 이미지 인덱스 변경
-  // };
+  const handleThumbnailClick = (index) => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideTo(index);
+    }
+  };
+
+  const swiperRef = useRef(null);
 
   return (
     <StContainer>
@@ -155,7 +159,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           ))}
         </Swiper>
       </StSlider>
-      {/* <div className="thumbnail-slider">
+      <div style={{ display: "flex", flexDirection: "column" }}>
         {detail?.image?.map((image, index) => (
           <img
             key={index}
@@ -164,7 +168,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
             onClick={() => handleThumbnailClick(index)}
           />
         ))}
-      </div> */}
+      </div>
       <StDscContainer>
         <StDisc>※사진을 클릭하시면 원본 사진을 확인하실 수 있습니다.</StDisc>
         <StShare onClick={sharePage}>
