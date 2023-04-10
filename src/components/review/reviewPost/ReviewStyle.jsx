@@ -89,11 +89,12 @@ const StInput = styled.textarea`
   }
 `;
 
-const StImgBtn = styled.button`
+const StImgBtn = styled.div`
   width: 150px;
   height: 150px;
   border-radius: 10px;
   border: none;
+  background-color: #d9d9d9;
   cursor: pointer;
   @media screen and (max-width: 767px) {
     width: 100px;
@@ -108,6 +109,10 @@ const StImg = styled.img`
   border: none;
   position: absolute;
   top: 0%;
+  @media screen and (max-width: 767px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const StStar = styled.div`
@@ -146,10 +151,17 @@ const StBtn = styled.button`
   &:hover {
     background-color: #ffd53f;
   }
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 768px) {
     width: 100px;
     font-size: 12px;
     height: 30px;
+  }
+`;
+
+const StPhotoBtn = styled.button`
+  margin-right: 30px;
+  @media screen and (max-width: 768px) {
+    margin-right: 0px;
   }
 `;
 
@@ -168,4 +180,5 @@ export {
   StStar,
   StBtns,
   StBtn,
+  StPhotoBtn,
 };

@@ -63,11 +63,15 @@ function Banner() {
             />
           </SwiperSlide>
           <SwiperSlide>
-            <StImg
-              src={main3}
-              style={{ marginTop: "-5px", cursor: "pointer" }}
-              onClick={() => navigate("/ownerpost")}
-            />
+            {cookies.loginType === "BUSINESS" ? (
+              <StImg
+                src={main3}
+                style={{ marginTop: "-5px", cursor: "pointer" }}
+                onClick={() => navigate("/ownerpost")}
+              />
+            ) : (
+              <StImg src={main3} style={{ marginTop: "-5px" }} />
+            )}
           </SwiperSlide>
         </Swiper>
       </StWrap>

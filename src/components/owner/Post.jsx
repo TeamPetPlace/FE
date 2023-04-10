@@ -263,6 +263,19 @@ function Post() {
     fileInput.current.click();
   };
 
+  //사진 재등록
+  const handleReset = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setImage([]);
+    if (fileInput.current) {
+      fileInput.current.value = "";
+    }
+
+    // imgBase64 배열 초기화
+    setImgBase64([]);
+  };
+
   //전화번호
   const telNumberHandler = (event) => {
     const { value } = event.target;
@@ -677,9 +690,14 @@ function Post() {
                   <StImp>*</StImp>업체사진
                 </StTitle>
                 <StImgBox>
-                  <StBtn onClick={onImgButton} size="medium">
-                    업로드
-                  </StBtn>
+                  <div style={{ display: "flex" }}>
+                    <StBtn onClick={onImgButton} size="medium">
+                      업로드
+                    </StBtn>
+                    <StBtn onClick={handleReset} size="medium">
+                      사진 재등록
+                    </StBtn>
+                  </div>
                   <StMent>최대 4장까지 업로드 가능합니다.</StMent>
                 </StImgBox>
               </StLine>

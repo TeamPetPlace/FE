@@ -19,6 +19,7 @@ import {
   StStar,
   StBtns,
   StBtn,
+  StPhotoBtn,
 } from "./ReviewStyle";
 
 function Review({ id, onToggle }) {
@@ -112,7 +113,11 @@ function Review({ id, onToggle }) {
                   ))}
                 </div>
               </StStar>
-              <div>업체에 대한 후기를 작성해주세요</div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>업체에 대한 후기를 작성해주세요</div>
+                <StPhotoBtn onClick={onImgButton}>사진 추가하기</StPhotoBtn>
+              </div>
+
               <StInputBox>
                 <StInput
                   type="text"
@@ -122,9 +127,7 @@ function Review({ id, onToggle }) {
                   maxLength={50}
                 />
                 <div>
-                  <StImgBtn onClick={onImgButton}>
-                    <img src={plus} />
-                  </StImgBtn>
+                  <StImgBtn></StImgBtn>
                   <div>
                     {imgView.length > 0 &&
                       imgView.map((item, index) => {

@@ -30,6 +30,7 @@ import {
   StCount,
   StTopReviewBox,
   StPageBox,
+  StPhotoBtn,
 } from "./ReviewListStyle";
 
 function ReviewList({ id, detail }) {
@@ -233,7 +234,18 @@ function ReviewList({ id, detail }) {
                               ))}
                             </div>
                           </StStar>
-                          <div>업체에 대한 후기를 수정할 수 있습니다</div>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <div>후기를 수정할 수 있습니다.</div>
+                            <StPhotoBtn onClick={onImgButton}>
+                              사진 추가하기
+                            </StPhotoBtn>
+                          </div>
+
                           <StInputBox>
                             <StInput
                               type="text"
@@ -245,9 +257,7 @@ function ReviewList({ id, detail }) {
                               maxLength={50}
                             />
                             <div>
-                              <StImgBtn onClick={onImgButton}>
-                                <img src={plus} />
-                              </StImgBtn>
+                              <StImgBtn></StImgBtn>
                               <div>
                                 {imgView.length > 0 &&
                                   imgView.map((item, index) => {

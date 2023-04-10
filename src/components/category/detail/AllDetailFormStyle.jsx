@@ -289,6 +289,10 @@ const StImgBox = styled.div`
   display: flex;
   height: 40px;
   line-height: 10px;
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const StImgUpload = styled.div`
@@ -465,13 +469,15 @@ const StBtnBoxs = styled.div`
   @media screen and (max-width: 767px) {
     width: 350px;
     margin: 0 auto;
-    margin-bottom: -30px;
+    margin-bottom: 50px;
+    margin-top: -20px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 900px;
+    width: 700px;
     margin: 0 auto;
     margin-bottom: 30px;
+    margin: 0 auto;
   }
 `;
 
