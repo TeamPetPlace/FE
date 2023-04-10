@@ -15,6 +15,7 @@ import Redirect from "../pages/Redirect";
 import NotFound from "../pages/NotFound";
 import ErrorPage from "../pages/ErrorPage";
 import OwnerPage from "../pages/OwnerPage";
+import ChatRoom from "../pages/ChatRoom";
 
 const Router = () => {
   return (
@@ -37,6 +38,8 @@ const Router = () => {
         <Route path="/ownerpage" element={<OwnerPage />} />
 
         <Route path="/error" element={<ErrorPage />} />
+
+        <Route path="/chat" element={<ChatRoom />} />
       </Routes>
     </BrowserRouter>
   );
