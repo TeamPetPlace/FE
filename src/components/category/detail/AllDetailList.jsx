@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import ReviewList from "../../review/reviewList/ReviewList";
 import { IoCopyOutline, IoShareOutline } from "react-icons/io5";
 import SwiperCore, { Navigation, Pagination, Autoplay, Thumbs } from "swiper";
@@ -176,7 +176,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           ))}
         </Swiper>
       </StSlider>
-      {/* <div className="thumbnail-slider">
+      <div style={{ display: "flex", flexDirection: "column" }}>
         {detail?.image?.map((image, index) => (
           <img
             key={index}
@@ -185,7 +185,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
             onClick={() => handleThumbnailClick(index)}
           />
         ))}
-      </div> */}
+      </div>
       <StDscContainer>
         <StDisc>※사진을 클릭하시면 원본 사진을 확인하실 수 있습니다.</StDisc>
         <StShare onClick={sharePage}>
