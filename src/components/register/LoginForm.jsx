@@ -134,11 +134,10 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-
 const StLoginFormDiv = styled.div`
   width: 100%;
   height: auto;
-  align-items: center;
+  ailgn-item: center;
   min-height: 1100px;
   margin: auto;
   display: flex;
@@ -197,6 +196,34 @@ const StTitle = styled.div`
     height: 40px;
     background-size: 150px;
     margin: 30px auto;
+  }
+`;
+
+const StBtn = styled.button`
+  border: ${(props) => props.Border};
+  background-color: #fff;
+  width: 414px;
+  height: 52px;
+  margin: 20px 124px 0px 124px;
+  font-size: 22px;
+  border-radius: 5px;
+  color: #000000;
+  &:hover {
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid #6d6d6d;
+  }
+  @media screen and (max-width: 767px) {
+    width: 200px;
+    height: 40px;
+    margin: 10px 50px 10px 50px;
+    font-size: 10px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 300px;
+    height: 45px;
+    margin: 10px 100px 10px 100px;
+    font-size: 13px;
   }
 `;
 
