@@ -31,7 +31,6 @@ import {
   StPlus,
   StCopy,
   StMap,
-  StTabBtn,
   StMoveTopBtn,
   StIconBtn,
 } from "./AllDetailListStyle";
@@ -41,6 +40,7 @@ import { BiUpArrowAlt } from "react-icons/bi";
 import Swal from "sweetalert2";
 import styled from "styled-components";
 import { useRef } from "react";
+import Button from "../../../element/Button";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -224,13 +224,14 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
       </div>
       <div>
         {TabList?.map((item, i) => (
-          <StTabBtn
+          <Button
+            size="tab"
             key={item.id}
             onClick={() => onClickHandler(i)}
             className={checked[i] ? "selected" : ""}
           >
             {item.text}
-          </StTabBtn>
+          </Button>
         ))}
       </div>
       {tab === "상세정보" && detail.category === "병원" && (

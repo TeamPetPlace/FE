@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getMypage, updateUser } from "../../api/mypage";
 import profileOrigin from "../../style/img/profile.svg";
-// import { StUserInfoDiv } from "./MypageStyle";
+import Button from "../../element/Button";
 
 function User() {
   const { id } = useParams();
@@ -98,7 +98,14 @@ function User() {
               <StImgDiv>
                 {imgView.length > 0 &&
                   imgView?.map((item, index) => {
-                    return <StImg src={item} alt="img" key={index} style={{ zIndex: "999" }} />;
+                    return (
+                      <StImg
+                        src={item}
+                        alt="img"
+                        key={index}
+                        style={{ zIndex: "999" }}
+                      />
+                    );
                   })}
               </StImgDiv>
             </div>
@@ -145,7 +152,7 @@ function User() {
                   </StInfo>
                 )}
               </StInfoContainer>
-              <StEditBtn>수정</StEditBtn>
+              <Button size="user">수정</Button>
               <StCancelBtn onClick={onEditMode}>취소</StCancelBtn>
             </StUserBox>
           </StUserInfoDiv>
@@ -207,7 +214,9 @@ function User() {
                     <StInfoTextDiv>{mypage.email}</StInfoTextDiv>
                   </StInfo>
                 </StInfoContainer>
-                <StEditBtn onClick={onEditMode}>수정</StEditBtn>
+                <Button size="user" onClick={onEditMode}>
+                  수정
+                </Button>
               </StUserBox>
             </>
           )}
@@ -340,33 +349,6 @@ const StUserInfoDiv = styled.div`
     margin-left: 50px;
     height: 100px;
     margin: 80px auto 30px auto;
-  }
-`;
-
-const StEditBtn = styled.button`
-  border-radius: 5px;
-  border: 1px solid #6d6d6d;
-  background-color: white;
-  font-size: 18px;
-  width: 64px;
-  height: 30px;
-  color: #000000;
-  cursor: pointer;
-  margin: 0 0 0 300px;
-  &:hover {
-    background-color: #6d6d6d;
-  }
-  @media screen and (max-width: 767px) {
-    font-size: 8px;
-    height: auto;
-    width: 40px;
-    margin: 0 10px 0 140px;
-  }
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
-    font-size: 14px;
-    height: 30px;
-    width: 60px;
-    margin: 0 10px 0 200px;
   }
 `;
 

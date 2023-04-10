@@ -3,13 +3,9 @@ import styled from "styled-components";
 import User from "./User";
 import DibsList from "./DibsList";
 import PostList from "./PostList";
-import {
-  StMypageLayout,
-  StTabBtn,
-  StContentBox,
-  StTabBtnContainer,
-} from "./MypageStyle";
+import { StMypageLayout, StContentBox, StTabBtnContainer } from "./MypageStyle";
 import { useNavigate } from "react-router-dom";
+import Button from "../../element/Button";
 
 function BossMypage() {
   const [checked, setChecked] = useState([true, false]);
@@ -39,14 +35,15 @@ function BossMypage() {
       <User />
       <StTabBtnContainer>
         {bossTabList?.map((item, i) => (
-          <StTabBtn
+          <Button
             key={i}
             checked={checked[i]}
             onClick={() => bossClickHandler(i)}
             className={checked[i] ? "selected" : ""}
+            size="mypageTab"
           >
             {item.text}
-          </StTabBtn>
+          </Button>
         ))}
       </StTabBtnContainer>
       <StContentBox>

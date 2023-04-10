@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import React, { useState } from "react";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getCookie, setCookie } from "../../api/cookie";
+import { setCookie } from "../../api/cookie";
 import { KaKaoLogin, NomalLogin } from "../../api/user";
 import Layout from "../common/Layout";
 import animal_illust_back from "../../style/img/animal_illust_back.svg";
 import logo from "../../style/img/logo.svg";
 import KaKaoLoginBtn from "../../style/img/kakao_login_large_wide.png";
-import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
+import Button from "../../element/Button";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -33,19 +33,6 @@ const LoginForm = () => {
       setCookie("email", email);
       setCookie("AccessToken", response.headers.authorization);
       setCookie("RefreshToken", response.headers.refreshtoken);
-      //로그인 타입이 사업자라면 sse 구독 시작
-      // if (response.data.response.loginType === "BUSINESS") {
-      //   const AccessToken = getCookie("AccessToken");
-      //   const eventSource = new EventSourcePolyfill("https://petplace.site/subscribe", {
-      //     headers: {
-      //       Authorization: AccessToken,
-      //     },
-      //   });
-      //   eventSource.onmessage = (event) => {
-      //     console.log("SSE message 받았다", event.data);
-      //   };
-      //   setEventSource(eventSource);
-      // }
       alert("환영합니다");
       // console.log(response);
       navigate("/main");
@@ -56,17 +43,6 @@ const LoginForm = () => {
       alert("로그인 실패");
     },
   });
-
-  //sse 구독 종료
-  // const [eventSource, setEventSource] = useState(null);
-
-  // useEffect(() => {
-  //   return () => {
-  //     if (eventSource) {
-  //       eventSource.close();
-  //     }
-  //   };
-  // }, [eventSource]);
 
   const onLoginSubmit = (event) => {
     event.preventDefault();
@@ -109,9 +85,13 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {valid ? null : (
-                  <StDescDiv style={{ color: "#ff6666" }}>ID/PW가 일치하지 않습니다.</StDescDiv>
+                  <StDescDiv style={{ color: "#ff6666" }}>
+                    ID/PW가 일치하지 않습니다.
+                  </StDescDiv>
                 )}
-                <StBtn Border="1px solid #fee500">로그인</StBtn>
+                <Button size="login" Border="1px solid #fee500">
+                  로그인
+                </Button>
               </div>
             </form>
             <div>
@@ -128,19 +108,24 @@ const LoginForm = () => {
                   cursor: "pointer",
                 }}
               /> */}
-              <StBtn style={{ color: "grey" }} Border="1px solid #fee500" onClick={onKaKaologin}>
+              <Button
+                size="login"
+                style={{ color: "grey" }}
+                Border="1px solid #fee500"
+                onClick={onKaKaologin}
+              >
                 카카오 로그인 (구현중)
-              </StBtn>
+              </Button>
             </div>
-            <StBtn
+            <Button
+              size="login"
               onClick={() => {
                 navigate("/signup");
               }}
               Border="1px solid #d9d9d9"
             >
               회원가입
-            </StBtn>
-            {/* <div>{eventSource}</div> */}
+            </Button>
           </>
         </StLoginDiv>
       </StLoginFormDiv>
@@ -153,7 +138,7 @@ export default LoginForm;
 const StLoginFormDiv = styled.div`
   width: 100%;
   height: auto;
-  ailgn-item: center;
+  align-items: center;
   min-height: 1100px;
   margin: auto;
   display: flex;
@@ -212,34 +197,6 @@ const StTitle = styled.div`
     height: 40px;
     background-size: 150px;
     margin: 30px auto;
-  }
-`;
-
-const StBtn = styled.button`
-  border: ${(props) => props.Border};
-  background-color: #fff;
-  width: 414px;
-  height: 52px;
-  margin: 20px 124px 0px 124px;
-  font-size: 22px;
-  border-radius: 5px;
-  color: #000000;
-  &:hover {
-    cursor: pointer;
-    font-weight: bold;
-    border: 1px solid #6d6d6d;
-  }
-  @media screen and (max-width: 767px) {
-    width: 200px;
-    height: 40px;
-    margin: 10px 50px 10px 50px;
-    font-size: 10px;
-  }
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 300px;
-    height: 45px;
-    margin: 10px 100px 10px 100px;
-    font-size: 13px;
   }
 `;
 

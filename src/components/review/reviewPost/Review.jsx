@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "react-query";
 import { addReview } from "../../../api/detail";
 import { useCookies } from "react-cookie";
 import foot from "../../../style/img/foot.svg";
-import plus from "../../../style/img/plus.svg";
 import {
   StReviewBox,
   StBackGround,
@@ -18,9 +17,9 @@ import {
   StImg,
   StStar,
   StBtns,
-  StBtn,
   StPhotoBtn,
 } from "./ReviewStyle";
+import Button from "../../../element/Button";
 
 function Review({ id, onToggle }) {
   const [cookies] = useCookies(["AccessToken", "loginType"]);
@@ -145,8 +144,10 @@ function Review({ id, onToggle }) {
                 </div>
               </StInputBox>
               <StBtns>
-                <StBtn>등록하기</StBtn>
-                <StBtn onClick={onToggle}>취소하기</StBtn>
+                <Button size="reviewPost">등록하기</Button>
+                <Button size="reviewPost" onClick={onToggle}>
+                  취소하기
+                </Button>
               </StBtns>
             </StForm>
           )}

@@ -3,9 +3,9 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { getMyPost } from "../../api/mypage";
 import { deletePost } from "../../api/owner";
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import styled from "styled-components";
 import chatbubble from "../../style/img/chatbubble.svg";
+import Button from "../../element/Button";
 
 function PostList() {
   const [myList, setMyList] = useState([]);
@@ -46,28 +46,61 @@ function PostList() {
                 <StImg src={item.reSizeImage} alt="img" />
                 <StContentContainer>
                   <StChatContent>
-                    <img src={chatbubble} style={{ marginRight: "5px" }} /> {item.reviewCount}
+                    <img src={chatbubble} style={{ marginRight: "5px" }} />{" "}
+                    {item.reviewCount}
                   </StChatContent>
                   <StTitle>{item.title}</StTitle>
                   <StContent>{item.contents}</StContent>
                   <StUnderDiv>
-                    <StSmallContent>{item.createdAt.split("T", 1)}</StSmallContent>
+                    <StSmallContent>
+                      {item.createdAt.split("T", 1)}
+                    </StSmallContent>
                     {item.category === "병원" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/hospital/${item.id}`)}>보러가기</StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
+                        <Button
+                          size="postList"
+                          onClick={() => navigate(`/hospital/${item.id}`)}
+                        >
+                          보러가기
+                        </Button>
+                        <Button
+                          size="postList"
+                          onClick={() => onDeleteHandler(item.id)}
+                        >
+                          삭제
+                        </Button>
                       </div>
                     )}
                     {item.category === "미용" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/shop/${item.id}`)}>보러가기</StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
+                        <Button
+                          size="postList"
+                          onClick={() => navigate(`/shop/${item.id}`)}
+                        >
+                          보러가기
+                        </Button>
+                        <Button
+                          size="postList"
+                          onClick={() => onDeleteHandler(item.id)}
+                        >
+                          삭제
+                        </Button>
                       </div>
                     )}
                     {item.category === "카페" && (
                       <div>
-                        <StBtn onClick={() => navigate(`/cafe/${item.id}`)}>보러가기</StBtn>
-                        <StBtn onClick={() => onDeleteHandler(item.id)}>삭제</StBtn>
+                        <Button
+                          size="postList"
+                          onClick={() => navigate(`/cafe/${item.id}`)}
+                        >
+                          보러가기
+                        </Button>
+                        <Button
+                          size="postList"
+                          onClick={() => onDeleteHandler(item.id)}
+                        >
+                          삭제
+                        </Button>
                       </div>
                     )}
                   </StUnderDiv>
@@ -212,27 +245,6 @@ const StChatContent = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     margin-left: 320px;
-  }
-`;
-
-const StBtn = styled.button`
-  font-size: 12px;
-  width: 75px;
-  height: 30px;
-  text-align: center;
-  background-color: #ffff;
-  border: 1px solid #cccccc;
-  margin-left: 5px;
-  color: #000000;
-  cursor: pointer;
-  &:hover {
-    font-weight: bold;
-    background-color: #eee;
-  }
-  @media screen and (max-width: 767px) {
-    font-size: 10px;
-    width: 60px;
-    height: 18px;
   }
 `;
 

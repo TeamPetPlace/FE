@@ -5,12 +5,10 @@ import {
   deleteNotification,
   getNotification,
 } from "../../api/mypage";
-import Layout from "../common/Layout";
-import Header from "../common/Header";
-import Footer from "../common/Footer";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
+import Button from "../../element/Button";
 
 function MyNotification() {
   const [list, setList] = useState([]);
@@ -61,9 +59,9 @@ function MyNotification() {
             <StTitle>알림</StTitle>
             <StCount>{list.length}</StCount>
           </StLeft>
-          <StAllDeleteBtn onClick={() => onDeleteAllHandler()}>
+          <Button onClick={() => onDeleteAllHandler()} size="notification">
             전체삭제
-          </StAllDeleteBtn>
+          </Button>
         </StTop>
         {list.length == 0 && (
           <StNoNotification>
@@ -224,23 +222,6 @@ const StCount = styled.div`
     width: 30px;
     height: 20px;
     line-height: 20px;
-  }
-`;
-
-const StAllDeleteBtn = styled.button`
-  width: 90px;
-  height: 28px;
-  border: 1px solid #d9d9d9;
-  background-color: #fff;
-  margin: auto 0;
-  cursor: pointer;
-  &:hover {
-    background-color: #d9d9d9;
-  }
-  @media screen and (max-width: 768px) {
-    width: 80px;
-    height: 20px;
-    font-size: 12px;
   }
 `;
 

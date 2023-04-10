@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import User from "./User";
 import DibsList from "./DibsList";
 import MyReviewList from "./MyReviewList";
-import { StMypageLayout, StTabBtn, StContentBox, StTabBtnContainer } from "./MypageStyle";
+import { StMypageLayout, StContentBox, StTabBtnContainer } from "./MypageStyle";
+import Button from "../../element/Button";
 
 function UserMypage() {
   const [checked, setChecked] = useState([true, false]);
@@ -30,18 +30,25 @@ function UserMypage() {
       <User />
       <StTabBtnContainer>
         {userTabList?.map((item, i) => (
-          <StTabBtn
+          <Button
             key={i}
             checked={checked[i]}
             onClick={() => userClickHandler(i)}
             className={checked[i] ? "selected" : ""}
+            size="mypageTab"
           >
             {item.text}
-          </StTabBtn>
+          </Button>
         ))}
       </StTabBtnContainer>
       <StContentBox>
-        {tab === "reviewList" ? <MyReviewList /> : tab === "dibsList" ? <DibsList /> : <div></div>}
+        {tab === "reviewList" ? (
+          <MyReviewList />
+        ) : tab === "dibsList" ? (
+          <DibsList />
+        ) : (
+          <div></div>
+        )}
       </StContentBox>
     </StMypageLayout>
   );

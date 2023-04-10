@@ -31,7 +31,6 @@ import {
   StSelect,
   StOption,
   StIconimg,
-  StDibBtn,
   StStarIcon,
   StCardTitle,
   StMoveTopBtn,
@@ -41,6 +40,7 @@ import dibs from "../../style/img/dibs.svg";
 import noDibs from "../../style/img/noDibs.svg";
 import History from "../../element/History";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
+import Button from "../../element/Button";
 
 function ShopList() {
   const [cards, setCards] = useState([]);
@@ -293,7 +293,7 @@ function ShopList() {
                 <div key={index}>
                   <StCard key={index}>
                     <div>
-                      <StDibBtn onClick={() => LikeBtn(item)}>
+                      <Button onClick={() => LikeBtn(item)} size="dib">
                         {item.like === false ? (
                           <>
                             <img src={noDibs} />
@@ -301,7 +301,7 @@ function ShopList() {
                         ) : (
                           <img src={dibs} />
                         )}
-                      </StDibBtn>
+                      </Button>
                       {item.like === false ? (
                         <StCardImg
                           onClick={() => {
@@ -389,7 +389,7 @@ function ShopList() {
                   <div key={index}>
                     <StCard key={index}>
                       <div>
-                        <StDibBtn onClick={() => LikeBtn(item)}>
+                        <Button onClick={() => LikeBtn(item)} size="dib">
                           {item.like === false ? (
                             <>
                               <img src={noDibs} />
@@ -397,7 +397,7 @@ function ShopList() {
                           ) : (
                             <img src={dibs} />
                           )}
-                        </StDibBtn>
+                        </Button>
                         {item.like === false ? (
                           <StCardImg
                             onClick={() => {

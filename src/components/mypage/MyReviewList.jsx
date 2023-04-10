@@ -8,6 +8,7 @@ import { StContent, StReview, StStarIcon } from "./MypageStyle";
 import Pagination from "react-js-pagination";
 import foot from "../../style/img/foot.svg";
 import plus from "../../style/img/plus.svg";
+import Button from "../../element/Button";
 
 function MyReviewList() {
   const [reviewList, setReviewList] = useState([]);
@@ -208,10 +209,13 @@ function MyReviewList() {
                                 </div>
                               </StInputBox>
                               <StBtns>
-                                <StBtnn>수정하기</StBtnn>
-                                <StBtnn onClick={() => onEditMode(item.id)}>
+                                <Button size="review">수정하기</Button>
+                                <Button
+                                  size="review"
+                                  onClick={() => onEditMode(item.id)}
+                                >
                                   취소하기
-                                </StBtnn>
+                                </Button>
                               </StBtns>
                             </StForm>
                           </StFormBox>
@@ -366,10 +370,18 @@ function MyReviewList() {
                         </StContainer>
                       </div> */}
                       <div style={{ margin: "35px 0" }}>
-                        <StBtn onClick={() => onEditMode(item.id)}>수정</StBtn>
-                        <StBtn onClick={() => onDeletetReviewHandler(item.id)}>
+                        <Button
+                          size="reviewGray"
+                          onClick={() => onEditMode(item.id)}
+                        >
+                          수정
+                        </Button>
+                        <Button
+                          size="reviewGray"
+                          onClick={() => onDeletetReviewHandler(item.id)}
+                        >
                           삭제
-                        </StBtn>
+                        </Button>
                       </div>
                     </StReviews>
                   )}
@@ -545,24 +557,6 @@ const StBtns = styled.div`
   }
 `;
 
-const StBtnn = styled.button`
-  width: 200px;
-  height: 50px;
-  border: 1px solid #d9d9d9;
-  background-color: transparent;
-  margin-right: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  &:hover {
-    background-color: #ffd53f;
-  }
-  @media screen and (max-width: 767px) {
-    width: 100px;
-    font-size: 12px;
-    height: 30px;
-  }
-`;
-
 const PageBox = styled.div`
   position: absolute;
   left: 35%;
@@ -648,25 +642,6 @@ const StContainer = styled.div`
   }
 `;
 
-const StStar = styled.div`
-  font-size: 20px;
-  cursor: pointer;
-  display: flex;
-  font-size: 20px;
-
-  i {
-    margin: 20px 10px 20px 0;
-    opacity: 0.1;
-    cursor: pointer;
-    font-size: 50px;
-  }
-
-  .yellowStar {
-    color: orange;
-    opacity: 1;
-  }
-`;
-
 const StAllReviewList = styled.div`
   width: 918px;
   height: 880px;
@@ -735,34 +710,6 @@ const StReviewImg = styled.img`
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     margin: 20px 20px 10px 5px;
-  }
-`;
-
-const StBtn = styled.button`
-  font-size: 14px;
-  width: 68px;
-  height: 30px;
-  border: 1px solid #cccccc;
-  background-color: #ffffff;
-  margin-right: 10px;
-  margin-left: 10px;
-  color: #000000;
-  cursor: pointer;
-  &:hover {
-    background-color: #ccc;
-  }
-  @media screen and (max-width: 767px) {
-    font-size: 8px;
-    width: 40px;
-    height: 22px;
-    margin-left: 5px;
-    margin-top: 5px;
-  }
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
-    font-size: 14px;
-    width: 60px;
-    margin-top: 10px;
-    margin-left: 10px;
   }
 `;
 

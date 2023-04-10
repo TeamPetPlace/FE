@@ -6,17 +6,16 @@ import { getMyDibs } from "../../api/mypage";
 import dibs from "../../style/img/dibs.svg";
 import Pagination from "react-js-pagination";
 import {
-  DibCategoryBtn,
   DibCategoryContainer,
   StCard,
   StCardImg,
   StCards,
   StContent,
-  StDibBtn,
   StStarIcon,
   PageBox,
 } from "./MypageStyle";
 import styled from "styled-components";
+import Button from "../../element/Button";
 
 function DibsList() {
   const [dibList, setDibList] = useState([]);
@@ -98,15 +97,16 @@ function DibsList() {
     <div>
       <DibCategoryContainer>
         {mainTabList?.map((item, i) => (
-          <DibCategoryBtn
+          <Button
             key={i}
             checked={checked[i]}
             onClick={() => onClickHandler(i)}
             value={category}
             className={checked[i] ? "selected" : ""}
+            size="dibTab"
           >
             {item.text}
-          </DibCategoryBtn>
+          </Button>
         ))}
       </DibCategoryContainer>
       <div>
@@ -116,9 +116,12 @@ function DibsList() {
               <>
                 {category === "병원" && item.category === "병원" ? (
                   <StCard key={index}>
-                    <StDibBtn onClick={() => onDibsHandler(item)}>
+                    <Button
+                      onClick={() => onDibsHandler(item)}
+                      size="mypageDib"
+                    >
                       <StDibimg src={dibs} />
-                    </StDibBtn>
+                    </Button>
                     <StCardImg
                       onClick={() => {
                         navigate(`/hospital/${item.id}`);
@@ -149,9 +152,12 @@ function DibsList() {
                   </StCard>
                 ) : category === "미용" && item.category === "미용" ? (
                   <StCard key={index}>
-                    <StDibBtn onClick={() => onDibsHandler(item)}>
+                    <Button
+                      onClick={() => onDibsHandler(item)}
+                      size="mypageDib"
+                    >
                       <StDibimg src={dibs} />
-                    </StDibBtn>
+                    </Button>
                     <StCardImg
                       onClick={() => {
                         navigate(`/shop/${item.id}`);
@@ -183,9 +189,12 @@ function DibsList() {
                   </StCard>
                 ) : category === "카페" && item.category === "카페" ? (
                   <StCard key={index}>
-                    <StDibBtn onClick={() => onDibsHandler(item)}>
+                    <Button
+                      onClick={() => onDibsHandler(item)}
+                      size="mypageDib"
+                    >
                       <StDibimg src={dibs} />
-                    </StDibBtn>
+                    </Button>
                     <StCardImg
                       onClick={() => {
                         navigate(`/cafe/${item.id}`);
