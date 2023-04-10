@@ -173,7 +173,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
               onClick={() => handleThumbnailClick(index)}
             />
           ))}
-          <div>
+          </div>
         </div>
       <StDscContainer>
         <StDisc>※사진을 클릭하시면 원본 사진을 확인하실 수 있습니다.</StDisc>
@@ -370,7 +370,6 @@ const StDisc = styled.div`
   @media screen and (max-width: 767px) {
     font-size: 10px;
   }
-
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 15px;
   }
@@ -384,6 +383,6 @@ const StDscContainer = styled.div`
   justify-content: space-between;
   margin: 10px auto;
   @media screen and (max-width: 767px) {
-  }
   margin: 5px auto;
+  }
 `;
