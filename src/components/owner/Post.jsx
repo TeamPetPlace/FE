@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
+import PopupDom from "./Popup";
+import DaumPostcode from "react-daum-postcode";
 import { useMutation, useQueryClient } from "react-query";
 import { addPost, checkTitle } from "../../api/owner";
 import {
@@ -34,6 +36,7 @@ import {
   StRealBox,
   StImg,
   StBtns,
+  StBtn,
 } from "./PostStyle";
 import Button from "../../element/Button";
 
@@ -66,6 +69,32 @@ function Post() {
       }
     });
   };
+
+  //주소 팝업창
+  // const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  // const openPostCode = () => {
+  //   setIsPopupOpen(true);
+  // };
+
+  // const [address, setAddress] = useState("");
+
+  // const handlePostCode = (data) => {
+  //   let fullAddress = data.address;
+  //   let extraAddress = "";
+
+  //   if (data.addressType === "R") {
+  //     if (data.bname !== "") {
+  //       extraAddress += data.bname;
+  //     }
+  //     if (data.buildingName !== "") {
+  //       extraAddress +=
+  //         extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+  //     }
+  //     fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+  //   }
+  //   setAddress(fullAddress);
+  // };
 
   //주소 팝업창
   const [address, setAddress] = useState("");
@@ -342,8 +371,8 @@ function Post() {
                 maxLength={20}
                 size="large"
               />
-              <Button onClick={checkTitleHandler} value={title} size="postGray">
-                중복확인
+              <Button onClick={checkTitleHandler} size="postGray" value={title}>
+                중복 확인
               </Button>
             </StLine>
             <StErrorMsgs>
@@ -385,10 +414,50 @@ function Post() {
                   </StErrorMsg>
                 </div>
                 <StInput value={address} ref={addrRef} disabled />
-                <Button size="postGray" onClick={handleSearch}>
+                <StBtn size="medium" onClick={handleSearch}>
                   확인
-                </Button>
+                </StBtn>
               </div>
+              {/* <div>
+                <div style={{ display: "flex" }}>
+                  <StBtn type="button" onClick={openPostCode} size="medium">
+                    우편번호 검색
+                  </StBtn>
+                  <StErrorMsg>
+                    {buttonClicked === false ? (
+                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
+                    ) : null}
+                  </StErrorMsg>
+                </div>
+                <div id="popupDom">
+                  {isPopupOpen && (
+                    <PopupDom>
+                      <div>
+                        <DaumPostcode
+                          style={postCodeStyle}
+                          onComplete={handlePostCode}
+                        />
+                        <StInput value={address} disabled />
+                        <StBtn size="medium" onClick={handleSearch}>
+                          확인
+                        </StBtn>
+                      </div>
+                    </PopupDom>
+                  )}
+                  {!isPopupOpen && (
+                    <>
+                      <StInput disabled style={{ marginTop: "10px" }} />
+                      <StBtn
+                        size="small"
+                        onClick={handleSearch}
+                        style={{ marginLeft: "10px" }}
+                      >
+                        확인
+                      </StBtn>
+                    </>
+                  )}
+                </div>
+              </div> */}
             </StLine>
             <StLine>
               {category === "병원" && (
@@ -628,12 +697,12 @@ function Post() {
                 </StTitle>
                 <StImgBox>
                   <div style={{ display: "flex" }}>
-                    <Button onClick={onImgButton} size="postGray">
+                    <StBtn onClick={onImgButton} size="medium">
                       업로드
-                    </Button>
-                    <Button onClick={handleReset} size="postGray">
+                    </StBtn>
+                    <StBtn onClick={handleReset} size="medium">
                       사진 재등록
-                    </Button>
+                    </StBtn>
                   </div>
                   <StMent>최대 4장까지 업로드 가능합니다.</StMent>
                 </StImgBox>
@@ -665,10 +734,10 @@ function Post() {
               </StImgUpload>
             </div>
             <StBtns>
-              <Button size="postYellow">등록</Button>
-              <Button onClick={() => navigate("/main")} size="postYellow">
+              <StBtn size="large">등록</StBtn>
+              <StBtn onClick={() => navigate("/main")} size="large">
                 취소
-              </Button>
+              </StBtn>
             </StBtns>
           </StForm>
         </StFormBox>
