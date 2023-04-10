@@ -127,15 +127,16 @@ const StLoginMove = styled.div`
   /* background-color: pink; */
   @media screen and (max-width: 767px) {
     font-size: 10px;
-    width: 120px;
+    width: 130px;
     height: 20px;
     text-align: center;
-    margin: 20px 90px;
+    margin: 20px 85px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 200px;
     height: 30px;
     text-align: center;
     margin: 30px 150px;
+    font-size: 15px;
   }
 `;

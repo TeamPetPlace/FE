@@ -219,35 +219,32 @@ const StCard = styled.div`
 
 const StHistory = styled.div`
   width: 250px;
-  height: auto;
+  height: 100%;
   background-image: url(${List_History});
   background-repeat: no-repeat;
   z-index: 100;
   /* position: -webkit-sticky; */
   position: fixed;
-  /* left: -2%; */
-  top: 20%;
+  top: 88%;
   cursor: pointer;
   @media screen and (max-width: 767px) {
     width: auto;
-    right: 2%;
+    right: 0%;
     top: 45%;
     background-size: 100px auto;
     background-repeat: no-repeat;
   }
   @media screen and (min-width: 768px) and (max-width: 914px) {
     width: auto;
-    /* right: 5%; */
-    top: 45%;
-    left: -2%;
+    top: 92%;
+    left: 0%;
     background-size: 180px auto;
     background-repeat: no-repeat;
   }
   @media screen and (min-width: 915px) and (max-width: 1023px) {
     width: auto;
     right: 2%;
-    top: 40%;
-    /* left: -2%; */
+    top: 92%;
     background-size: 180px auto;
     background-repeat: no-repeat;
   }
@@ -283,16 +280,16 @@ const StHistoryCard = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  padding: 15px 0 0 45px;
+  padding: 0 0 5px 45px;
   @media screen and (max-width: 767px) {
     width: 100px;
     height: 60px;
-    padding: 5px 0 0 0;
+    padding: 0;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 180px;
     height: 130px;
-    padding: 3px 0 0 0;
+    padding: 0;
   }
 `;
 
@@ -300,7 +297,7 @@ const StHistoryTitle = styled.div`
   font-size: 20px;
   width: 160px;
   text-align: center;
-  margin: 0 40px;
+  margin: 5px 40px;
   padding-top: 40px;
   font-weight: bold;
   @media screen and (max-width: 767px) {
@@ -334,17 +331,22 @@ const StHistoryDragTitle = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     font-size: 15px;
-    margin: 0px 15px 15px 50px;
-    width: 70px;
+    margin: 0px 15px 15px 48px;
+    width: 72px;
     padding: 0 10px;
   }
 `;
 
 const StHistoryContent = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 170px;
+  height: 30px;
+  /* background-color: pink; */
   @media screen and (max-width: 767px) {
     font-size: 10px;
     height: 20px;
@@ -467,14 +469,14 @@ const StIconBtn = styled.button`
   }
 `;
 
-const StMoveTopBtn = styled.div`
+const StPageMoveBtn = styled.div`
   display: flex;
   flex-direction: row;
   position: fixed;
   z-index: 999;
   bottom: 10%;
-  right: 10%;
-  width: 100px;
+  right: 5%;
+  width: auto;
   height: 50px;
   border-radius: 60px;
   padding: 5px 0;
@@ -483,19 +485,18 @@ const StMoveTopBtn = styled.div`
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   @media screen and (max-width: 767px) {
     bottom: 25%;
-    right: 5%;
     width: 80px;
     height: 40px;
   }
   @media screen and (min-width: 768px) and (max-width: 914px) {
-    bottom: 5%;
-    left: 3%;
+    /* bottom: 5%;
+    left: 3%; */
     width: 100px;
     height: 50px;
   }
   @media screen and (min-width: 915px) and (max-width: 1023px) {
-    bottom: 10%;
-    right: 8%;
+    /* bottom: 10%;
+    right: 8%; */
     width: 100px;
     height: 50px;
   }
@@ -503,7 +504,7 @@ const StMoveTopBtn = styled.div`
 
 export {
   StIconBtn,
-  StMoveTopBtn,
+  StPageMoveBtn,
   StHistoryContent,
   StCardTitle,
   StStarIcon,

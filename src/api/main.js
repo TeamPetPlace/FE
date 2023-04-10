@@ -1,6 +1,16 @@
 import { instance } from "./axios";
 import axios from "axios";
 
+export const postChatting = async (postId) => {
+  try {
+    const response = await instance.post(`/chat/${postId}`);
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getPost = async (payload) => {
   const response = await instance.get("/topPosts", {
     params: {
