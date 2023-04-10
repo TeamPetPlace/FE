@@ -43,6 +43,8 @@ function ReviewList({ id, detail }) {
   //페이지네이션
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
+  const [totalElement, setTotalElement] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const response = useQuery(
     [
@@ -62,6 +64,8 @@ function ReviewList({ id, detail }) {
     {
       onSuccess: (response) => {
         setReview(response.content);
+        setTotalElement(response.totalElements);
+        setTotalPages(response.totalPages);
       },
     }
   );
@@ -319,8 +323,8 @@ function ReviewList({ id, detail }) {
           <Pagination
             activePage={page}
             itemsCountPerPage={size}
-            totalItemsCount={40}
-            pageRangeDisplayed={5}
+            totalItemsCount={totalElement}
+            pageRangeDisplayed={totalPages}
             onChange={handlerPageChange}
           />
         </PageBox>
