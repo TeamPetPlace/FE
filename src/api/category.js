@@ -34,9 +34,6 @@ export const SearchPost = async (payload) => {
         size: payload.size,
       },
     });
-    if (response.data === "" || null) {
-      alert("검색결과가 없습니다.");
-    }
     return response;
   } catch (error) {
     console.log(error);

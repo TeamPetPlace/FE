@@ -7,6 +7,7 @@ export const UserSignup = async (payload) => {
       password: payload.password,
       nickname: payload.nickname,
     });
+    // console.log(data);
     return data;
   } catch (error) {
     return error.data;
@@ -21,6 +22,7 @@ export const BusinessSignup = async (payload) => {
       nickname: payload.nickname,
       business: payload.business,
     });
+    // console.log(data);
     return data;
   } catch (error) {
     return error.data;
@@ -33,10 +35,19 @@ export const NomalLogin = async (payload) => {
       email: payload.email,
       password: payload.password,
     });
+    console.log(response.data);
+
     return response;
   } catch (error) {
+    // console.log(error.toJSON());
     return error;
   }
+};
+
+export const KaKaoLogin = () => {
+  const { REACT_APP_KAKAO_REST_API_KEY, REACT_APP_KAKAO_REDIRECT_URI } = process.env;
+  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
+  window.location.href = link;
 };
 
 export const CheckEmail = async (payload) => {

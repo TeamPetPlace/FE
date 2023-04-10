@@ -64,15 +64,15 @@ instance.interceptors.response.use(
     } catch (error) {
       // let isLoggedInExpiredShown = false;
       // 새로운 accessToken 발급에 실패한 경우 쿠키에 있던 기존 토큰을 모두 없애고 redirect
-      // ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
-      //   (cookie) => removeCookie(cookie)
-      // );
+      ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
+        (cookie) => removeCookie(cookie)
+      );
       // if (!isLoggedInExpiredShown) {
       //   alert("세션이 만료되었습니다. 다시 로그인해주세요!");
       //   isLoggedInExpiredShown = true;
       // }
       console.log("로그인 만료");
-      // window.location.replace("/");
+      window.location.replace("/");
       return false;
     }
     return Promise.reject(error);
@@ -92,7 +92,6 @@ export const kakaoURL = axios.create({
 
 kakaoURL.interceptors.request.use(
   (config) => {
-    console.log(config);
     if (config.headers === undefined) return;
     const AccessToken = getCookie("AccessToken");
     config.headers.Authorization = `${AccessToken}`;
@@ -131,8 +130,17 @@ kakaoURL.interceptors.response.use(
         return baseURL(originalRequest);
       }
     } catch (error) {
+      let isLoggedInExpiredShown = false;
+      // 새로운 accessToken 발급에 실패한 경우 쿠키에 있던 기존 토큰을 모두 없애고 redirect
+      ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
+        (cookie) => removeCookie(cookie)
+      );
+      if (!isLoggedInExpiredShown) {
+        alert("세션이 만료되었습니다. 다시 로그인해주세요!");
+        isLoggedInExpiredShown = true;
+      }
       console.log("로그인 만료");
-      // window.location.replace("/");
+      window.location.replace("/");
       return false;
     }
     return Promise.reject(error);

@@ -33,7 +33,7 @@ import {
   StIconimg,
   StStarIcon,
   StCardTitle,
-  StPageMoveBtn,
+  StMoveTopBtn,
   StIconBtn,
 } from "./AllCategoryListStyle";
 import dibs from "../../style/img/dibs.svg";
@@ -79,6 +79,7 @@ function ShopList() {
     {
       onSuccess: (item) => {
         setCards(item.data.content);
+        queryclient.invalidateQueries("");
       },
     }
   );
@@ -168,6 +169,7 @@ function ShopList() {
       setSearchData(data.response);
     } catch (error) {
       // console.log(error);
+      alert("검색결과가 없습니다!");
       setSearchData([]);
       window.location.replace("/shop");
     }
@@ -190,6 +192,8 @@ function ShopList() {
       setSearchData(data.response);
     } catch (error) {
       console.log(error);
+      // alert("검색결과가 없습니다!");
+      // window.location.replace("/shop");
     }
   };
 
@@ -370,7 +374,9 @@ function ShopList() {
                       `<mark style="background-color: #FFD53F">${match}</mark>`
                   );
                 const content = item.contents;
-                const contentIndex = content.toLowerCase().indexOf(searchkeyword.toLowerCase());
+                const contentIndex = content
+                  .toLowerCase()
+                  .indexOf(searchkeyword.toLowerCase());
                 let contentDisplay = "";
                 if (contentIndex !== -1) {
                   contentDisplay = `...${content.slice(
@@ -454,14 +460,14 @@ function ShopList() {
           </StCards>
         </StListPage>
       )}
-      <StPageMoveBtn>
+      <StMoveTopBtn>
         <StIconBtn onClick={moveTop}>
           <BiUpArrowAlt />
         </StIconBtn>
         <StIconBtn onClick={moveBottom}>
           <BiDownArrowAlt />
         </StIconBtn>
-      </StPageMoveBtn>
+      </StMoveTopBtn>
     </>
   );
 }

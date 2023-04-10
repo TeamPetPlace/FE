@@ -17,9 +17,7 @@ import Redirect from "../pages/Redirect";
 import NotFound from "../pages/NotFound";
 import ErrorPage from "../pages/ErrorPage";
 import OwnerPage from "../pages/OwnerPage";
-import ChatRoom from "../pages/ChatRoom";
 import Loading from "../element/Loading";
-
 const Login = lazy(() => import("../pages/Login"));
 const Signup = lazy(() => import("../pages/Signup"));
 const Mypage = lazy(() => import("../pages/Mypage"));
@@ -131,8 +129,7 @@ const Router = () => {
           {/* <Route path="/cafe" element={<Cafe />} /> */}
           {/* <Route path="/cafe/:id" element={<CafeDetail />} /> */}
           {/* <Route path="/ownerpost" element={<OwnerPost />} /> */}
-          
-          <Route path="/chat" element={<ChatRoom />} />
+
           <Route path="/*" element={<NotFound />} />
           <Route path="/ownerpage" element={<OwnerPage />} />
           <Route path="/error" element={<ErrorPage />} />
