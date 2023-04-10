@@ -72,7 +72,7 @@ instance.interceptors.response.use(
       //   isLoggedInExpiredShown = true;
       // }
       console.log("로그인 만료");
-      // window.location.replace("/");
+      window.location.replace("/");
       return false;
     }
     return Promise.reject(error);
