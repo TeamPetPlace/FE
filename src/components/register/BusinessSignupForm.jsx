@@ -246,7 +246,7 @@ const BusinessSignupForm = () => {
           onChange={onPasswordChange}
         />
         {isValidPassword ? (
-          <StDescDiv style={{ color: "Black" }}>
+          <StDescDiv style={{ color: "#008000" }}>
             사용가능한 비밀번호 입니다.
           </StDescDiv>
         ) : (
@@ -258,7 +258,6 @@ const BusinessSignupForm = () => {
           <StInput
             Width="500px"
             type="password"
-            // type="text"
             placeholder="비밀번호 확인"
             value={uservalpassword || ""}
             onChange={handleConfirmPasswordChange}

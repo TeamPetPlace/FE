@@ -5,17 +5,19 @@ import { cancelDibs } from "../../api/main";
 import { getMyDibs } from "../../api/mypage";
 import dibs from "../../style/img/dibs.svg";
 import Pagination from "react-js-pagination";
+import Button from "../../element/Button";
 import {
   DibCategoryContainer,
-  StCard,
-  StCardImg,
   StCards,
-  StContent,
+  StCard,
+  StContents,
+  StCardImg,
   StStarIcon,
-  PageBox,
-} from "./MypageStyle";
-import styled from "styled-components";
-import Button from "../../element/Button";
+  PageBoxs,
+  StPageDivs,
+  StDibimg,
+  StTitleList,
+} from "./MyListStyle";
 
 function DibsList() {
   const [dibList, setDibList] = useState([]);
@@ -129,7 +131,7 @@ function DibsList() {
                       src={item.reSizeImage}
                       alt="image"
                     />
-                    <StTitle
+                    <StTitleList
                       onClick={() => {
                         navigate(`/hospital/${item.id}`);
                       }}
@@ -141,14 +143,14 @@ function DibsList() {
                         (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
-                    </StTitle>
-                    <StContent
+                    </StTitleList>
+                    <StContents
                       onClick={() => {
                         navigate(`/hospital/${item.id}`);
                       }}
                     >
                       {item.address.split(" ", 2).join(" ")}
-                    </StContent>
+                    </StContents>
                   </StCard>
                 ) : category === "미용" && item.category === "미용" ? (
                   <StCard key={index}>
@@ -165,7 +167,7 @@ function DibsList() {
                       src={item.reSizeImage}
                       alt="image"
                     />
-                    <StTitle
+                    <StTitleList
                       onClick={() => {
                         navigate(`/shop/${item.id}`);
                       }}
@@ -177,14 +179,14 @@ function DibsList() {
                         (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
-                    </StTitle>{" "}
-                    <StContent
+                    </StTitleList>{" "}
+                    <StContents
                       onClick={() => {
                         navigate(`/shop/${item.id}`);
                       }}
                     >
                       {item.address.split(" ", 2).join(" ")}
-                    </StContent>
+                    </StContents>
                     {/* <div>{item.star}</div> */}
                   </StCard>
                 ) : category === "카페" && item.category === "카페" ? (
@@ -202,7 +204,7 @@ function DibsList() {
                       src={item.reSizeImage}
                       alt="image"
                     />
-                    <StTitle
+                    <StTitleList
                       onClick={() => {
                         navigate(`/cafe/${item.id}`);
                       }}
@@ -214,22 +216,22 @@ function DibsList() {
                         (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
                         (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
                         (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
-                    </StTitle>{" "}
-                    <StContent
+                    </StTitleList>{" "}
+                    <StContents
                       onClick={() => {
                         navigate(`/cafe/${item.id}`);
                       }}
                     >
                       {item.address.split(" ", 2).join(" ")}
-                    </StContent>
+                    </StContents>
                   </StCard>
                 ) : null}
               </>
             );
           })}
         </StCards>
-        <StPageDiv>
-          <PageBox>
+        <StPageDivs>
+          <PageBoxs>
             <Pagination
               activePage={page}
               itemsCountPerPage={size}
@@ -237,45 +239,11 @@ function DibsList() {
               pageRangeDisplayed={totalPages}
               onChange={handlerPageChange}
             />
-          </PageBox>
-        </StPageDiv>
+          </PageBoxs>
+        </StPageDivs>
       </div>
     </div>
   );
 }
 
 export default DibsList;
-
-const StTitle = styled.div`
-  color: #0d0d0d;
-  display: flex;
-  font-size: ${(props) => props.fontSize};
-  font-weight: bold;
-  /* margin-bottom: 5px; */
-  cursor: pointer;
-  @media screen and (max-width: 767px) {
-    font-size: 10px;
-  }
-`;
-
-const StPageDiv = styled.div`
-  width: 978px;
-  height: 100px;
-  position: relative;
-  /* background-color: blue; */
-  @media screen and (max-width: 767px) {
-    width: 300px;
-    height: 50px;
-  }
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 660px;
-    height: 80px;
-  }
-`;
-
-const StDibimg = styled.img`
-  @media screen and (max-width: 767px) {
-    width: 30px;
-    height: 30px;
-  }
-`;

@@ -1,19 +1,8 @@
 import React from "react";
-import styled from "styled-components";
+import { StLayoutBox } from "./CommonStyle";
 
 function Layout(props) {
-  return <LayoutBox>{props.children}</LayoutBox>;
+  return <StLayoutBox>{props.children}</StLayoutBox>;
 }
 
 export default Layout;
-
-const LayoutBox = styled.div`
-  width: 100%;
-  overflow: hidden;
-  margin: 0 auto;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-`;

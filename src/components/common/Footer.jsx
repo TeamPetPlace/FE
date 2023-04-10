@@ -1,12 +1,12 @@
 import React from "react";
-import styled from "styled-components";
 import Layout from "./Layout";
+import { StTop, StFooter, StWraps, StUl, StLi } from "./CommonStyle";
 
 function Footer() {
   return (
     <Layout>
       <StFooter>
-        <StWrap>
+        <StWraps>
           <StUl>
             Project Name
             <StLi>펫 플레이스 (P.P)</StLi>
@@ -26,7 +26,7 @@ function Footer() {
             Designer
             <StLi>김은정</StLi>
           </StUl>
-        </StWrap>
+        </StWraps>
         <StTop>(C) 2023. Design by Pet place</StTop>
       </StFooter>
     </Layout>
@@ -34,57 +34,3 @@ function Footer() {
 }
 
 export default Footer;
-
-const StTop = styled.div`
-  width: 300px;
-  color: #98886b;
-  margin: 0 auto;
-  font-size: 10px;
-  text-align: center;
-  background-color: transparent;
-  padding-top: 150px;
-`;
-
-const StFooter = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: #0d0d0d;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
-`;
-
-const StWrap = styled.div`
-  width: 450px;
-  height: 119px;
-  display: flex;
-  float: right;
-  margin-top: 20px;
-  margin-right: 300px;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    margin: 0 auto;
-    margin-top: 20px;
-    float: center;
-    margin-right: 15px;
-  }
-`;
-
-const StUl = styled.ul`
-  color: rgb(127, 132, 135);
-  font-weight: 900;
-  font-size: 12px;
-  @media screen and (max-width: 768px) {
-    font-size: 8px;
-    float: center;
-    margin: 0 auto;
-  }
-`;
-
-const StLi = styled.li`
-  color: rgb(127, 132, 135);
-  list-style: none;
-  font-weight: 300;
-  text-align: center;
-  margin-top: 5px;
-`;

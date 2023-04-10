@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import User from "./User";
 import DibsList from "./DibsList";
 import PostList from "./PostList";
@@ -31,7 +30,6 @@ function BossMypage() {
 
   return (
     <StMypageLayout>
-      {/* <button onClick={() => navigate("/notification")}>알림</button> */}
       <User />
       <StTabBtnContainer>
         {bossTabList?.map((item, i) => (
