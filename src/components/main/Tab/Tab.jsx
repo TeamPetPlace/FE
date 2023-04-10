@@ -27,11 +27,11 @@ import {
   StTextBox,
   StTitle,
   StText,
-  StDibBtn,
   StPin,
   StDivBox,
 } from "./TabStyle";
 import styled from "styled-components";
+import Button from "../../../element/Button";
 
 function Tab() {
   const [category, setCategory] = useState("병원");
@@ -303,7 +303,7 @@ function Tab() {
             data.map((item, i) => (
               <div key={i}>
                 <StCard key={i}>
-                  <StDibBtn onClick={() => onDibsHandler(item)}>
+                  <Button onClick={() => onDibsHandler(item)} size="mainDib">
                     {item.like === false ? (
                       <>
                         <img src={noDibs} />
@@ -311,7 +311,7 @@ function Tab() {
                     ) : (
                       <img src={dibs} />
                     )}
-                  </StDibBtn>
+                  </Button>
                   <div>
                     {item.like === false ? (
                       <StResizeImg
@@ -353,7 +353,7 @@ function Tab() {
             data.map((item, i) => (
               <div key={i}>
                 <StCard key={i}>
-                  <StDibBtn onClick={() => onDibsHandler(item)}>
+                  <Button onClick={() => onDibsHandler(item)} size="mainDib">
                     {item.like === false ? (
                       <>
                         <img src={noDibs} />
@@ -361,7 +361,7 @@ function Tab() {
                     ) : (
                       <img src={dibs} />
                     )}
-                  </StDibBtn>
+                  </Button>
                   <div>
                     {item.like === false ? (
                       <StResizeImg
@@ -403,7 +403,7 @@ function Tab() {
             data.map((item, i) => (
               <div key={i}>
                 <StCard key={i}>
-                  <StDibBtn onClick={() => onDibsHandler(item)}>
+                  <Button onClick={() => onDibsHandler(item)} size="mainDib">
                     {item.like === false ? (
                       <>
                         <img src={noDibs} />
@@ -411,7 +411,7 @@ function Tab() {
                     ) : (
                       <img src={dibs} />
                     )}
-                  </StDibBtn>
+                  </Button>
                   <div>
                     {item.like === false ? (
                       <StResizeImg

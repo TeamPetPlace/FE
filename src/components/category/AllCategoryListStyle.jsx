@@ -427,7 +427,6 @@ const StDibBtn = styled.button`
   position: absolute;
   z-index: 99;
   margin-top: -2px;
-  /* margin-left: 340px; */
   @media screen and (max-width: 767px) {
     left: 75%;
   }

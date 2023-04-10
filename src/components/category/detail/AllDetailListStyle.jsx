@@ -22,8 +22,8 @@ const StContents = styled.div`
 `;
 
 const StSlider = styled.div`
-  width: 1240px;
-  height: 545px;
+  width: 1040px;
+  height: 560px;
   overflow: hidden;
   position: relative;
   @media screen and (max-width: 767px) {
@@ -44,12 +44,27 @@ const StSlider = styled.div`
 `;
 
 const StSliderImg = styled.img`
-  width: 1240px;
-  height: 545px;
+  width: 1040px;
+  height: 560px;
   @media screen and (max-width: 768px) {
     width: 100%;
     margin: 0 auto;
     height: 300px;
+  }
+`;
+
+const StThumbnail = styled.img`
+  width: 200px;
+  height: 140px;
+  cursor: pointer;
+  @media screen and (max-width: 767px) {
+    width: 100px;
+    height: 75px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 100px;
+    height: 100px;
   }
 `;
 
@@ -352,6 +367,7 @@ export {
   StContents,
   StSlider,
   StSliderImg,
+  StThumbnail,
   StShare,
   StFirst,
   StAddressBox,

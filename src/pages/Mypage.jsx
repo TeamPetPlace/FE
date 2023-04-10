@@ -3,8 +3,8 @@ import Layout from "../components/common/Layout";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import { useCookies } from "react-cookie";
-import BossMypage from "../components/mypage/BossMypage";
-import UserMypage from "../components/mypage/UserMypage";
+import BossMypage from "../components/mypage/Mypage/BossMypage";
+import UserMypage from "../components/mypage/Mypage/UserMypage";
 
 function Mypage() {
   const [cookies] = useCookies(["AccessToken", "loginType"]);

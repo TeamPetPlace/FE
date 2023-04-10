@@ -38,6 +38,7 @@ import {
   StBtns,
   StBtn,
 } from "./PostStyle";
+import Button from "../../element/Button";
 
 function Post() {
   const navigate = useNavigate();
@@ -363,9 +364,9 @@ function Post() {
                 maxLength={20}
                 size="large"
               />
-              <StBtn onClick={checkTitleHandler} value={title} size="medium">
-                중복확인
-              </StBtn>
+              <Button onClick={checkTitleHandler} size="postGray" value={title}>
+                중복 확인
+              </Button>
             </StLine>
             <StErrorMsgs>
               {titleButtonClicked === false ? <p>업체명 중복확인을 해주세요</p> : null}
@@ -389,9 +390,14 @@ function Post() {
               </StTitle>
               <div>
                 <div style={{ display: "flex" }}>
-                  <StBtn type="button" onClick={handlePostCode} size="medium">
+                  <Button
+                    type="button"
+                    onClick={handlePostCode}
+                    size="postGray"
+                  >
                     우편번호 검색
-                  </StBtn>
+                  </Button>
+
                   <StErrorMsg>
                     {buttonClicked === false ? <p>주소 입력 후 확인을 꼭 클릭해주세요</p> : null}
                   </StErrorMsg>

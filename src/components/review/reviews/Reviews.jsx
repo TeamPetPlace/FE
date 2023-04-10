@@ -12,9 +12,9 @@ import {
   StNick,
   StStar,
   StImg,
-  StBtn,
 } from "./ReviewsStyle";
 import Swal from "sweetalert2";
+import Button from "../../../element/Button";
 
 function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
   const [cookies] = useCookies(["AccessToken", "email"]);
@@ -46,10 +46,15 @@ function Reviews({ item, onEditMode, onDeletetReviewHandler }) {
                 (item.star === 5 && <StStar>★★★★★</StStar>)}
               {cookies.email === item.email && (
                 <div>
-                  <StBtn onClick={() => onEditMode(item.id)}>수정</StBtn>
-                  <StBtn onClick={() => onDeletetReviewHandler(item.id)}>
+                  <Button size="smallGray" onClick={() => onEditMode(item.id)}>
+                    수정
+                  </Button>
+                  <Button
+                    size="smallGray"
+                    onClick={() => onDeletetReviewHandler(item.id)}
+                  >
                     삭제
-                  </StBtn>
+                  </Button>
                 </div>
               )}
             </StNickBox>

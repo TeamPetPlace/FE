@@ -5,10 +5,8 @@ import Pagination from "react-js-pagination";
 import Reviews from "../reviews/Reviews";
 import Review from "../reviewPost/Review";
 import foot from "../../../style/img/foot.svg";
-import plus from "../../../style/img/plus.svg";
 import { useCookies } from "react-cookie";
 import {
-  StPostBtn,
   StContentsBox,
   StReview,
   PageBox,
@@ -25,13 +23,12 @@ import {
   StImg,
   StStar,
   StBtns,
-  StBtn,
-  StReviewBtn,
   StCount,
   StTopReviewBox,
   StPageBox,
   StPhotoBtn,
 } from "./ReviewListStyle";
+import Button from "../../../element/Button";
 
 function ReviewList({ id, detail }) {
   const [cookies] = useCookies(["AccessToken", "loginType"]);
@@ -43,6 +40,8 @@ function ReviewList({ id, detail }) {
   //페이지네이션
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
+  const [totalElement, setTotalElement] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const response = useQuery(
     [
@@ -62,6 +61,8 @@ function ReviewList({ id, detail }) {
     {
       onSuccess: (response) => {
         setReview(response.content);
+        setTotalElement(response.totalElements);
+        setTotalPages(response.totalPages);
       },
     }
   );
@@ -178,20 +179,23 @@ function ReviewList({ id, detail }) {
           <StTopReviewBox>
             <StCount>전체 리뷰수:{detail.reviewCount}</StCount>
             {cookies.loginType === "USER" && (
-              <StReviewBtn onClick={onToggle}>작성하기</StReviewBtn>
+              <Button size="postYellow" onClick={onToggle}>
+                작성하기
+              </Button>
             )}
           </StTopReviewBox>
           {open && <Review id={id} onToggle={onToggle} />}
           <div>
             {reviewTabList?.map((item, i) => (
-              <StPostBtn
+              <Button
+                size="dibTab"
                 key={i}
                 checked={checked[i]}
                 onClick={() => reviewClickHandler(i)}
                 className={checked[i] ? "selected" : ""}
               >
                 {item.text}
-              </StPostBtn>
+              </Button>
             ))}
           </div>
         </div>
@@ -277,10 +281,13 @@ function ReviewList({ id, detail }) {
                             </div>
                           </StInputBox>
                           <StBtns>
-                            <StBtn>수정하기</StBtn>
-                            <StBtn onClick={() => onEditMode(item.id)}>
+                            <Button size="reviewPost">수정하기</Button>
+                            <Button
+                              size="reviewPost"
+                              onClick={() => onEditMode(item.id)}
+                            >
                               취소하기
-                            </StBtn>
+                            </Button>
                           </StBtns>
                         </StForm>
                       )}
@@ -319,8 +326,8 @@ function ReviewList({ id, detail }) {
           <Pagination
             activePage={page}
             itemsCountPerPage={size}
-            totalItemsCount={40}
-            pageRangeDisplayed={5}
+            totalItemsCount={totalElement}
+            pageRangeDisplayed={totalPages}
             onChange={handlerPageChange}
           />
         </PageBox>

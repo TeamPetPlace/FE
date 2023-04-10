@@ -208,7 +208,6 @@ const StImgBtn = styled.div`
   height: 150px;
   border-radius: 10px;
   border: none;
-  cursor: pointer;
   background-color: #d9d9d9;
   @media screen and (max-width: 767px) {
     width: 100px;
