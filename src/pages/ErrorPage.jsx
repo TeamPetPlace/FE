@@ -9,17 +9,8 @@ function ErrorPage() {
   return (
     <StWrap>
       <StBox>
-        <StTitle>에러가 발생했습니다.</StTitle>
-        {/* <StContent>
-        링크를 잘못 입력하셨거나, 페이지가 삭제/이동되었을 수 있습니다.
-      </StContent> */}
-        {cookies.loginType === "USER" ||
-        cookies.loginType === "BUSINESS" ||
-        cookies.loginType === "KAKAO_USER" ? (
-          <StMain onClick={() => navigate("/main")}>메인으로 가기</StMain>
-        ) : (
-          <StMain onClick={() => navigate("/")}>메인으로 가기</StMain>
-        )}
+        <StTitle>로그인이 필요한 사이트입니다.</StTitle>
+        <StMain onClick={() => navigate("/")}>로그인/회원가입 하기</StMain>
       </StBox>
     </StWrap>
   );
@@ -35,7 +26,7 @@ const StWrap = styled.div`
 `;
 
 const StBox = styled.div`
-  width: 600px;
+  width: 800px;
   margin: 0 auto;
   text-align: center;
   gap: 20px;

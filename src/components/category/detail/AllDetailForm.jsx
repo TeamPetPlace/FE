@@ -1,15 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createPortal } from "react-dom";
-import styled from "styled-components";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getDetail } from "../../../api/detail";
 import { useCookies } from "react-cookie";
 import { deletePost, updatePost } from "../../../api/owner";
-import PopupDom from "../../owner/Popup";
-import DaumPostcode from "react-daum-postcode";
 import {
-  StDelBtn,
   StBox,
   StPost,
   StTitle,
@@ -18,7 +13,6 @@ import {
   StImps,
   StRadioLabel,
   StLine,
-  StLines,
   StPostBox,
   StErrorMsg,
   StFormBox,
@@ -38,12 +32,12 @@ import {
   StRealBox,
   StImg,
   StBtns,
-  StBtn,
   StMent,
   StWrap,
   StBtnBoxs,
 } from "./AllDetailFormStyle";
 import AllDetailList from "./AllDetailList";
+import Button from "../../../element/Button";
 
 const AllDetailForm = () => {
   const [cookies] = useCookies(["AccessToken", "email"]);
@@ -138,32 +132,6 @@ const AllDetailForm = () => {
       }
     });
   };
-
-  //주소 팝업창
-  // const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  // const openPostCode = () => {
-  //   setIsPopupOpen(true);
-  // };
-
-  // const [address, setAddress] = useState("");
-
-  // const handlePostCode = (data) => {
-  //   let fullAddress = data.address;
-  //   let extraAddress = "";
-
-  //   if (data.addressType === "R") {
-  //     if (data.bname !== "") {
-  //       extraAddress += data.bname;
-  //     }
-  //     if (data.buildingName !== "") {
-  //       extraAddress +=
-  //         extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-  //     }
-  //     fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-  //   }
-  //   setAddress(fullAddress);
-  // };
 
   //주소 팝업창
   const [address, setAddress] = useState("");
@@ -441,9 +409,13 @@ const AllDetailForm = () => {
                 </StTitle>
                 <StPostBox>
                   <div style={{ display: "flex" }}>
-                    <StBtn type="button" onClick={handlePostCode} size="medium">
+                    <Button
+                      type="button"
+                      onClick={handlePostCode}
+                      size="postGray"
+                    >
                       우편번호 검색
-                    </StBtn>
+                    </Button>
                     <StErrorMsg>
                       {buttonClicked === false ? (
                         <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
@@ -451,50 +423,10 @@ const AllDetailForm = () => {
                     </StErrorMsg>
                   </div>
                   <StInput value={address} ref={addrRef} disabled />
-                  <StBtn size="medium" onClick={handleSearch}>
+                  <Button size="postGray" onClick={handleSearch}>
                     확인
-                  </StBtn>
+                  </Button>
                 </StPostBox>
-                {/* <div>
-                  <div style={{ display: "flex" }}>
-                    <StBtn type="button" onClick={openPostCode} size="medium">
-                      우편번호 검색
-                    </StBtn>
-                    <StErrorMsg>
-                      {buttonClicked === false ? (
-                        <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
-                      ) : null}
-                    </StErrorMsg>
-                  </div>
-                  <div id="popupDom">
-                    {isPopupOpen && (
-                      <PopupDom>
-                        <div>
-                          <DaumPostcode
-                            style={postCodeStyle}
-                            onComplete={handlePostCode}
-                          />
-                          <StInput value={address} disabled />
-                          <StBtn size="medium" onClick={handleSearch}>
-                            확인
-                          </StBtn>
-                        </div>
-                      </PopupDom>
-                    )}
-                    {!isPopupOpen && (
-                      <>
-                        <StInput disabled style={{ marginTop: "10px" }} />
-                        <StBtn
-                          size="small"
-                          onClick={handleSearch}
-                          style={{ marginLeft: "10px" }}
-                        >
-                          확인
-                        </StBtn>
-                      </>
-                    )}
-                  </div>
-                </div> */}
               </StLine>
               <StLine>
                 {upCategory === "병원" && (
@@ -739,12 +671,12 @@ const AllDetailForm = () => {
                   </StTitle>
                   <StImgBox>
                     <div style={{ display: "flex" }}>
-                      <StBtn onClick={onImgButton} size="medium">
+                      <Button onClick={onImgButton} size="postGray">
                         업로드
-                      </StBtn>
-                      <StBtn onClick={handleReset} size="medium">
+                      </Button>
+                      <Button onClick={handleReset} size="postGray">
                         사진 재등록
-                      </StBtn>
+                      </Button>
                     </div>
                     <StMent>최대 4장까지 업로드 가능합니다.</StMent>
                   </StImgBox>
@@ -775,14 +707,14 @@ const AllDetailForm = () => {
                 </StImgUpload>
               </div>
               <StBtns>
-                <StBtn size="large">수정</StBtn>
-                <StBtn
+                <Button size="postYellow">수정</Button>
+                <Button
                   onClick={() => navigate(`/hospital/${id}`)}
-                  size="large"
+                  size="postYellow"
                   style={{ marginLeft: "20px" }}
                 >
                   취소
-                </StBtn>
+                </Button>
               </StBtns>
             </StForm>
           </StFormBox>
@@ -794,8 +726,12 @@ const AllDetailForm = () => {
             <StWrap>
               {detail && detail.email === cookies.email && (
                 <StBtnBoxs>
-                  <StDelBtn onClick={onEditMode}>수정</StDelBtn>
-                  <StDelBtn onClick={() => onDeleteHandler(id)}>삭제</StDelBtn>
+                  <Button size="smallGray" onClick={onEditMode}>
+                    수정
+                  </Button>
+                  <Button size="smallGray" onClick={() => onDeleteHandler(id)}>
+                    삭제
+                  </Button>
                 </StBtnBoxs>
               )}
               <AllDetailList

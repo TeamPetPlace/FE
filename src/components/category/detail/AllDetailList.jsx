@@ -1,7 +1,7 @@
 import React from "react";
 import ReviewList from "../../review/reviewList/ReviewList";
 import { IoCopyOutline, IoShareOutline } from "react-icons/io5";
-import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
+import SwiperCore, { Navigation, Pagination, Autoplay, Thumbs } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../../../../node_modules/swiper/swiper.scss";
 import "../../../../node_modules/swiper/modules/navigation/navigation.scss";
@@ -13,6 +13,7 @@ import {
   StContents,
   StSlider,
   StSliderImg,
+  StThumbnail,
   StShare,
   StFirst,
   StAddressBox,
@@ -30,7 +31,6 @@ import {
   StPlus,
   StCopy,
   StMap,
-  StTabBtn,
   StMoveTopBtn,
   StIconBtn,
 } from "./AllDetailListStyle";
@@ -39,6 +39,8 @@ import { BiDownArrowAlt } from "react-icons/bi";
 import { BiUpArrowAlt } from "react-icons/bi";
 import Swal from "sweetalert2";
 import styled from "styled-components";
+import { useRef } from "react";
+import Button from "../../../element/Button";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -125,46 +127,55 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
     });
   };
 
-  // const [currentSlide, setCurrentSlide] = useState(0); // 현재 메인 슬라이드의 이미지 인덱스
+  // 썸네일 클릭 시 메인 슬라이드 이미지 변경
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // // 썸네일 클릭 시 메인 슬라이드 이미지 변경 로직
-  // const handleThumbnailClick = (index) => {
-  //   setCurrentSlide(index); // 현재 메인 슬라이드의 이미지 인덱스 변경
-  // };
+  const handleThumbnailClick = (index) => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideTo(index);
+    }
+  };
+
+  const swiperRef = useRef(null);
 
   return (
     <StContainer>
-      <StSlider>
-        <Swiper
-          className="banner"
-          spaceBetween={50}
-          slidesPerView={1}
-          navigation
-          pagination={{ clickable: true }}
-          autoplay={{ delay: 2000, disableOnInteraction: false }}
-        >
+      <div style={{ display: "flex" }}>
+        <StSlider>
+          <Swiper
+            ref={swiperRef}
+            className="banner"
+            spaceBetween={50}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            onSlideChange={(swiper) => {
+              setCurrentSlide(swiper.activeIndex);
+            }}
+          >
+            {detail?.image?.map((image, index) => (
+              <SwiperSlide key={index}>
+                <StSliderImg
+                  src={image}
+                  alt={`Image ${index}`}
+                  style={{ objectFit: "cover", cursor: "pointer" }}
+                  onClick={() => onImageViewHandler(image)}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </StSlider>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {detail?.image?.map((image, index) => (
-            <SwiperSlide key={index}>
-              <StSliderImg
-                src={image}
-                alt={`Image ${index}`}
-                style={{ objectFit: "cover", cursor: "pointer" }}
-                onClick={() => onImageViewHandler(image)}
-              />
-            </SwiperSlide>
+            <StThumbnail
+              key={index}
+              src={image}
+              alt={`Thumbnail ${index + 1}`}
+              onClick={() => handleThumbnailClick(index)}
+            />
           ))}
-        </Swiper>
-      </StSlider>
-      {/* <div className="thumbnail-slider">
-        {detail?.image?.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Thumbnail ${index + 1}`}
-            onClick={() => handleThumbnailClick(index)}
-          />
-        ))}
-      </div> */}
+        </div>
+      </div>
       <StDIV>※사진을 클릭하시면 원본 사진을 확인하실 수 있습니다!</StDIV>
       <StShare onClick={sharePage}>
         <IoShareOutline />
@@ -213,13 +224,14 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
       </div>
       <div>
         {TabList?.map((item, i) => (
-          <StTabBtn
+          <Button
+            size="tab"
             key={item.id}
             onClick={() => onClickHandler(i)}
             className={checked[i] ? "selected" : ""}
           >
             {item.text}
-          </StTabBtn>
+          </Button>
         ))}
       </div>
       {tab === "상세정보" && detail.category === "병원" && (

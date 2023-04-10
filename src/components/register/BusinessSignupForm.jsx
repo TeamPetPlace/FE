@@ -2,16 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { BusinessSignup, CheckBizNum, CheckEmail } from "../../api/user";
-import {
-  StSignupFormDiv,
-  StSignupDiv,
-  StTitle,
-  StSignupBtn,
-  StInput,
-  StCheckBtn,
-  StDescDiv,
-  StLoginMove,
-} from "./SignupStyle";
+import { StSignupDiv, StInput, StDescDiv, StLoginMove } from "./SignupStyle";
+import Button from "../../element/Button";
 
 const BusinessSignupForm = () => {
   const [useremail, setUserEmail] = useState();
@@ -38,7 +30,8 @@ const BusinessSignupForm = () => {
   const navigate = useNavigate();
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+  const passwordRegex =
+    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
   const nickRegex = /^[a-zA-Z0-9가-힣_-]{2,10}$/;
   const biznumberRegex = /^\d{3}-\d{2}-\d{5}$/;
 
@@ -73,7 +66,9 @@ const BusinessSignupForm = () => {
     const value = e.target.value;
     setUserNickName(value);
     value === uservalnick ? setNickNameCheck(true) : setNickNameCheck(false);
-    nickRegex.test(value) ? setIsVaildNickName(true) : setIsVaildNickName(false);
+    nickRegex.test(value)
+      ? setIsVaildNickName(true)
+      : setIsVaildNickName(false);
   };
 
   //사업자번호 확인
@@ -100,11 +95,17 @@ const BusinessSignupForm = () => {
     const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 10);
 
     if (value.length >= 10) {
-      const newValue = `${value.slice(0, 3)}-${value.slice(3, 5)}-${value.slice(5)}`;
+      const newValue = `${value.slice(0, 3)}-${value.slice(3, 5)}-${value.slice(
+        5
+      )}`;
       setBizNumber(newValue);
-      biznumberRegex.test(value) ? setIsValidBizNum(false) : setIsValidBizNum(true);
+      biznumberRegex.test(value)
+        ? setIsValidBizNum(false)
+        : setIsValidBizNum(true);
     } else if (value.length >= 5) {
-      const newValue = `${value.slice(0, 3)}-${value.slice(3, 5)}-${value.slice(5)}`;
+      const newValue = `${value.slice(0, 3)}-${value.slice(3, 5)}-${value.slice(
+        5
+      )}`;
       setBizNumber(newValue);
       setIsValidBizNum(false);
     } else if (value.length >= 2) {
@@ -121,8 +122,12 @@ const BusinessSignupForm = () => {
   const onPasswordChange = (e) => {
     const value = e.target.value;
     setUserpassword(value);
-    value === uservalpassword ? setPasswordCheck(true) : setPasswordCheck(false);
-    passwordRegex.test(value) ? setIsValidPassword(true) : setIsValidPassword(false);
+    value === uservalpassword
+      ? setPasswordCheck(true)
+      : setPasswordCheck(false);
+    passwordRegex.test(value)
+      ? setIsValidPassword(true)
+      : setIsValidPassword(false);
   };
 
   // 가입
@@ -186,9 +191,15 @@ const BusinessSignupForm = () => {
             placeholder="이메일"
             onChange={onEmailChangeHandler}
           />
-          <StCheckBtn type="button" disabled={!isValidEmail} value={useremail} onClick={checkEmail}>
+          <Button
+            size="signup"
+            type="button"
+            disabled={!isValidEmail}
+            value={useremail}
+            onClick={checkEmail}
+          >
             중복확인
-          </StCheckBtn>
+          </Button>
         </div>
         <StInput
           Width="500px"
@@ -199,7 +210,9 @@ const BusinessSignupForm = () => {
           onChange={handleNicknameChange}
         />
         {isVaildNickName ? (
-          <StDescDiv style={{ color: "#008000" }}>사용가능한 닉네임입니다.</StDescDiv>
+          <StDescDiv style={{ color: "#008000" }}>
+            사용가능한 닉네임입니다.
+          </StDescDiv>
         ) : (
           <StDescDiv style={{ color: "#ff6666" }}>
             특수문자를 제외하고 2자 이상 10자 이하여야 합니다.
@@ -214,14 +227,15 @@ const BusinessSignupForm = () => {
           onKeyPress={onBizNumPress}
           onChange={onBizNumChangeHandler}
         />
-        <StCheckBtn
+        <Button
+          size="signup"
           type="button"
           disabled={!isValidBiznum}
           value={biznumber}
           onClick={checkBizNumber}
         >
           사업자번호확인
-        </StCheckBtn>{" "}
+        </Button>{" "}
         <StInput
           Width="500px"
           // type={userpassword}
@@ -232,7 +246,9 @@ const BusinessSignupForm = () => {
           onChange={onPasswordChange}
         />
         {isValidPassword ? (
-          <StDescDiv style={{ color: "Black" }}>사용가능한 비밀번호 입니다.</StDescDiv>
+          <StDescDiv style={{ color: "#008000" }}>
+            사용가능한 비밀번호 입니다.
+          </StDescDiv>
         ) : (
           <StDescDiv style={{ color: "#ff6666" }}>
             영어,숫자,특수문자를 포함한 8자이상이여야 합니다.
@@ -242,24 +258,35 @@ const BusinessSignupForm = () => {
           <StInput
             Width="500px"
             type="password"
-            // type="text"
             placeholder="비밀번호 확인"
             value={uservalpassword || ""}
             onChange={handleConfirmPasswordChange}
           />
         </div>
         {passwordcheck ? (
-          <StDescDiv style={{ color: "#008000" }}>비밀번호가 일치합니다.</StDescDiv>
+          <StDescDiv style={{ color: "#008000" }}>
+            비밀번호가 일치합니다.
+          </StDescDiv>
         ) : (
-          <StDescDiv style={{ color: "#ff6666" }}>비밀번호가 일치하지 않습니다.</StDescDiv>
+          <StDescDiv style={{ color: "#ff6666" }}>
+            비밀번호가 일치하지 않습니다.
+          </StDescDiv>
         )}
         <div>
-          <StSignupBtn
+          <Button
+            size="login"
             style={{ backgroundColor: "#ffd53f" }}
-            disabled={!(passwordcheck && isValidPassword && isValidEmail && isVaildNickName)}
+            disabled={
+              !(
+                passwordcheck &&
+                isValidPassword &&
+                isValidEmail &&
+                isVaildNickName
+              )
+            }
           >
             회원가입
-          </StSignupBtn>
+          </Button>
         </div>
       </form>
       <div>
