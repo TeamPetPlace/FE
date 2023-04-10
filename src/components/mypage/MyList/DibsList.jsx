@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { cancelDibs } from "../../api/main";
-import { getMyDibs } from "../../api/mypage";
-import dibs from "../../style/img/dibs.svg";
+import { cancelDibs } from "../../../api/main";
+import { getMyDibs } from "../../../api/mypage";
+import dibs from "../../../style/img/dibs.svg";
 import Pagination from "react-js-pagination";
-import Button from "../../element/Button";
+import Button from "../../../element/Button";
 import {
   DibCategoryContainer,
   StCards,

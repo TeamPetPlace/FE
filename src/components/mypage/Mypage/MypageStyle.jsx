@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import profileOrigin from "../../style/img/profile.svg";
+import profileOrigin from "../../../style/img/profile.svg";
 
 const StMypageLayout = styled.div`
   width: 100%;

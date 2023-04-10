@@ -2,8 +2,8 @@ import React, { useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { getMypage, updateUser } from "../../api/mypage";
-import Button from "../../element/Button";
+import { getMypage, updateUser } from "../../../api/mypage";
+import Button from "../../../element/Button";
 import {
   StForm,
   StUserBox,

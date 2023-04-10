@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import User from "./User";
-import DibsList from "./DibsList";
-import PostList from "./PostList";
+import DibsList from "../MyList/DibsList";
+import PostList from "../MyList/PostList";
 import { StMypageLayout, StContentBox, StTabBtnContainer } from "./MypageStyle";
 import { useNavigate } from "react-router-dom";
-import Button from "../../element/Button";
+import Button from "../../../element/Button";
 
 function BossMypage() {
   const [checked, setChecked] = useState([true, false]);

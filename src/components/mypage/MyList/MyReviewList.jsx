@@ -1,12 +1,12 @@
 import React, { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { deleteReview, updateReviews } from "../../api/detail";
-import { getMyReview } from "../../api/mypage";
+import { deleteReview, updateReviews } from "../../../api/detail";
+import { getMyReview } from "../../../api/mypage";
 import Pagination from "react-js-pagination";
-import foot from "../../style/img/foot.svg";
-import plus from "../../style/img/plus.svg";
-import Button from "../../element/Button";
+import foot from "../../../style/img/foot.svg";
+import plus from "../../../style/img/plus.svg";
+import Button from "../../../element/Button";
 import {
   StContents,
   StReview,

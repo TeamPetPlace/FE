@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { getMyPost } from "../../api/mypage";
-import { deletePost } from "../../api/owner";
-import chatbubble from "../../style/img/chatbubble.svg";
-import Button from "../../element/Button";
+import { getMyPost } from "../../../api/mypage";
+import { deletePost } from "../../../api/owner";
+import chatbubble from "../../../style/img/chatbubble.svg";
+import Button from "../../../element/Button";
 import {
   Stdiv,
   StListContainer,

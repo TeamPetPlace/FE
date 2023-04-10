@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import User from "./User";
-import DibsList from "./DibsList";
-import MyReviewList from "./MyReviewList";
+import DibsList from "../MyList/DibsList";
+import MyReviewList from "../MyList/MyReviewList";
 import { StMypageLayout, StContentBox, StTabBtnContainer } from "./MypageStyle";
-import Button from "../../element/Button";
+import Button from "../../../element/Button";
 
 function UserMypage() {
   const [checked, setChecked] = useState([true, false]);
