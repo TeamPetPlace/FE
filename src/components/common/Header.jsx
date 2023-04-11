@@ -166,12 +166,7 @@ function Header() {
               ) : cookies.loginType === "BUSINESS" && count == 0 ? null : null}
             </StNotification>
 
-            <StNickdiv
-              onMouseEnter={() => setDrop(!drop)}
-              onMouseLeave={() => setDrop(!drop)}
-            >
-              {nickname}
-            </StNickdiv>
+            <StNickdiv>{nickname}</StNickdiv>
             <StUserBar
               onMouseEnter={() => setDrop(!drop)}
               onMouseLeave={() => setDrop(!drop)}
