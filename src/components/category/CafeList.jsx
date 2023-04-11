@@ -41,6 +41,7 @@ import noDibs from "../../style/img/noDibs.svg";
 import History from "../../element/History";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import Button from "../../element/Button";
+import Swal from "sweetalert2";
 
 function CafeList() {
   const [cards, setCards] = useState([]);
@@ -168,7 +169,13 @@ function CafeList() {
       setSearchData(data.response);
     } catch (error) {
       // console.log(error);
-      alert("검색결과가 없습니다!");
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "검색 결과가 없습니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       window.location.replace("/cafe");
     }
   };
@@ -196,7 +203,14 @@ function CafeList() {
   const LikeMutation = useMutation(AddLikesPost, {
     onSuccess: () => {
       queryclient.invalidateQueries("AllPost");
-      alert("찜하기 완료");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "찜하기",
+        text: "마이페이지 '찜목록'에서 확인이 가능합니다!",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     },
     onError: (error) => {
       queryclient.invalidateQueries("AllPost");
@@ -207,7 +221,13 @@ function CafeList() {
   const DeleteMutation = useMutation(DeleteLikePost, {
     onSuccess: () => {
       queryclient.invalidateQueries("AllPost");
-      alert("찜하기 취소");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "찜하기 취소",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     },
     onError: (error) => {
       queryclient.invalidateQueries("AllPost");
@@ -372,7 +392,9 @@ function CafeList() {
                       `<mark style="background-color: #FFD53F">${match}</mark>`
                   );
                 const content = item.contents;
-                const contentIndex = content.toLowerCase().indexOf(searchkeyword.toLowerCase());
+                const contentIndex = content
+                  .toLowerCase()
+                  .indexOf(searchkeyword.toLowerCase());
                 let contentDisplay = "";
                 if (contentIndex !== -1) {
                   contentDisplay = `...${content.slice(
@@ -382,7 +404,9 @@ function CafeList() {
                 }
 
                 const feature1 = item.feature1;
-                const feature1Index = feature1.toLowerCase().indexOf(searchkeyword.toLowerCase());
+                const feature1Index = feature1
+                  .toLowerCase()
+                  .indexOf(searchkeyword.toLowerCase());
                 let feature1Display = "";
                 if (feature1Index !== -1) {
                   feature1Display = `...${feature1.slice(

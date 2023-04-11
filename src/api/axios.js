@@ -46,7 +46,7 @@ instance.interceptors.response.use(
       console.log("재발급중...");
       console.log(error);
       console.log(response.status);
-      if (error.code === "ERR_BAD_REQUEST" || response.status === 401) {
+      if (response.status === 401) {
         const RefreshToken = getCookie("RefreshToken");
         const refreshedResponse = await baseURL.get("/token", {
           headers: {
@@ -55,7 +55,8 @@ instance.interceptors.response.use(
         });
         /* CHANGE ACCESSTOKEN*/
         console.log(refreshedResponse);
-        originalRequest.headers["Authorization"] = refreshedResponse.headers["authorization"];
+        originalRequest.headers["Authorization"] =
+          refreshedResponse.headers["authorization"];
         console.log("재발급 완료");
         removeCookie("AccessToken");
         setCookie("AccessToken", refreshedResponse.headers["authorization"]);
@@ -124,7 +125,8 @@ kakaoURL.interceptors.response.use(
         });
         /* CHANGE ACCESSTOKEN ------------------------------------------------------- */
         console.log(refreshedResponse);
-        originalRequest.headers["Authorization"] = refreshedResponse.headers["authorization"];
+        originalRequest.headers["Authorization"] =
+          refreshedResponse.headers["authorization"];
         console.log("재발급 완료");
         removeCookie("AccessToken");
         setCookie("AccessToken", refreshedResponse.headers["authorization"]);

@@ -7,13 +7,11 @@ function Login() {
   const [cookies] = useCookies(["AccessToken", "loginType"]);
   return (
     <div>
-      {cookies.loginType === "USER" ||
-      cookies.loginType === "BUSINESS" ||
-      cookies.loginType === "KAKAO_USER" ? (
-        <CheckLogin />
-      ) : (
-        <LoginForm />
-      )}
+      {/* {cookies.AccessToken !== undefined ?
+       <CheckLogin /> 
+       :  */}
+      <LoginForm />
+      {/* } */}
     </div>
   );
 }

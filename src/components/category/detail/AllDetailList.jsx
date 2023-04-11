@@ -50,9 +50,21 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
   const handleCopyClipBoard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert("클립보드에 복사되었습니다.");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "클립보드에 복사되었습니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     } catch (e) {
-      alert("복사에 실패하였습니다");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "복사에 실패하였습니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     }
   };
 
@@ -75,7 +87,13 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
         .catch((error) => {});
     } else {
       // navigator.share()를 지원하지 않는 경우
-      alert("지원하지 않는 브라우저입니다.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "공유기능을 지원하지 않는 브라우저입니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     }
   };
 
@@ -173,8 +191,8 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
               onClick={() => handleThumbnailClick(index)}
             />
           ))}
-          </div>
         </div>
+      </div>
       <StDscContainer>
         <StDisc>※사진을 클릭하시면 원본 사진을 확인하실 수 있습니다.</StDisc>
         <StShare onClick={sharePage}>
@@ -265,7 +283,12 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+            <Map
+              id={id}
+              queryClient={queryClient}
+              detail={detail}
+              setDetail={setDetail}
+            />
           </div>
         </StContentsBox>
       )}
@@ -306,7 +329,12 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+            <Map
+              id={id}
+              queryClient={queryClient}
+              detail={detail}
+              setDetail={setDetail}
+            />
           </div>
         </StContentsBox>
       )}
@@ -340,13 +368,23 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map id={id} queryClient={queryClient} detail={detail} setDetail={setDetail} />
+            <Map
+              id={id}
+              queryClient={queryClient}
+              detail={detail}
+              setDetail={setDetail}
+            />
           </div>
         </StContentsBox>
       )}
       {tab === "후기" && (
         <div>
-          <ReviewList id={id} queryClient={queryClient} detail={detail} data={data}></ReviewList>
+          <ReviewList
+            id={id}
+            queryClient={queryClient}
+            detail={detail}
+            data={data}
+          ></ReviewList>
         </div>
       )}
       <StMoveTopBtn>
@@ -383,6 +421,6 @@ const StDscContainer = styled.div`
   justify-content: space-between;
   margin: 10px auto;
   @media screen and (max-width: 767px) {
-  margin: 5px auto;
+    margin: 5px auto;
   }
 `;

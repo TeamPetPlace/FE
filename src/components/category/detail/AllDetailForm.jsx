@@ -38,6 +38,7 @@ import {
 } from "./AllDetailFormStyle";
 import AllDetailList from "./AllDetailList";
 import Button from "../../../element/Button";
+import Swal from "sweetalert2";
 
 const AllDetailForm = () => {
   const [cookies] = useCookies(["AccessToken", "email"]);
@@ -126,9 +127,22 @@ const AllDetailForm = () => {
       if (status === kakao.maps.services.Status.OK) {
         setLat(result[0].y);
         setLng(result[0].x);
-        alert("주소가 확인 되었습니다.");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "주소가 확인 되었습니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       } else {
-        alert("주소 검색에 실패했습니다. 도로명을 선택해주세요.");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "주소 검색에 실패했습니다.",
+          text: "우편번호 검색 후 도로명을 선택해주세요!",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
   };
@@ -174,7 +188,13 @@ const AllDetailForm = () => {
     const files = Array.from(event.target.files);
 
     if (files.length > maxImage) {
-      alert(`최대 ${maxImage}개의 이미지만 선택 가능합니다.`);
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: `최대 ${maxImage}개의 이미지만 선택 가능합니다.`,
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       return;
     }
     setUpImage((prevImage) => [...prevImage, ...files]);
@@ -234,12 +254,30 @@ const AllDetailForm = () => {
       upEndTime.trim() === "" ||
       !upImage
     )
-      return alert("빈칸을 모두 채워주세요");
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "필수항목을 입력해주세요.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     if (buttonClicked === false) {
-      return alert("주소 확인을 해주세요");
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "주소 확인 후 확인 버튼을 눌러주세요.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     }
     if (upImage.length === 0) {
-      return alert("이미지를 업로드해주세요");
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "이미지를 업로드해주세요.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     }
     const formData = new FormData();
     upImage.forEach((upImage, index) => formData.append("image", upImage));
@@ -279,7 +317,13 @@ const AllDetailForm = () => {
     };
     updatePostMutation.mutate(payload);
     onEditMode();
-    alert("수정 완료!");
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "수정이 완료되었습니다.",
+      confirmButtonColor: "#FFD53F",
+      timer: 3000,
+    });
   };
 
   //전화번호
