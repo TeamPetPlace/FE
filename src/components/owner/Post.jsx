@@ -194,7 +194,7 @@ function Post() {
       endTime.trim() === "" ||
       !image
     )
-      return alert("빈칸을 모두 채워주세요");
+      return alert("필수항목을 입력해주세요");
     if (buttonClicked === false) {
       return alert("주소 확인을 해주세요");
     }
@@ -294,16 +294,26 @@ function Post() {
     if (telNum.length === 10) {
       formattedNum = telNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
     } else if (telNum.length === 13) {
-      formattedNum = telNum.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+      formattedNum = telNum
+        .replace(/-/g, "")
+        .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
     } else if (telNum.length === 14) {
       // Add condition for 14 characters
-      formattedNum = telNum.replace(/-/g, "").replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3"); // Update regex and replace pattern for 4-4-4 format
+      formattedNum = telNum
+        .replace(/-/g, "")
+        .replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3"); // Update regex and replace pattern for 4-4-4 format
     }
 
     if (formattedNum.startsWith("02")) {
-      formattedNum = formattedNum.replace(/(\d{2})(\d{3,4})(\d{4})/, "$1-$2-$3");
+      formattedNum = formattedNum.replace(
+        /(\d{2})(\d{3,4})(\d{4})/,
+        "$1-$2-$3"
+      );
     } else {
-      formattedNum = formattedNum.replace(/(\d{3})(\d{3,4})(\d{4})/, "$1-$2-$3");
+      formattedNum = formattedNum.replace(
+        /(\d{3})(\d{3,4})(\d{4})/,
+        "$1-$2-$3"
+      );
     }
 
     setTelNum(formattedNum);
@@ -369,7 +379,9 @@ function Post() {
               </Button>
             </StLine>
             <StErrorMsgs>
-              {titleButtonClicked === false ? <p>업체명 중복확인을 해주세요</p> : null}
+              {titleButtonClicked === false ? (
+                <p>업체명 중복확인을 해주세요</p>
+              ) : null}
             </StErrorMsgs>
             <StLine>
               <StContents>
@@ -399,7 +411,9 @@ function Post() {
                   </Button>
 
                   <StErrorMsg>
-                    {buttonClicked === false ? <p>주소 입력 후 확인을 꼭 클릭해주세요</p> : null}
+                    {buttonClicked === false ? (
+                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
+                    ) : null}
                   </StErrorMsg>
                 </div>
                 <StInput value={address} ref={addrRef} disabled />
@@ -657,7 +671,11 @@ function Post() {
                       size="small"
                       style={{ marginLeft: "20px" }}
                     />
-                    <input type="checkbox" value={isChecked} onChange={onCheckHandler} />
+                    <input
+                      type="checkbox"
+                      value={isChecked}
+                      onChange={onCheckHandler}
+                    />
                     <label>휴무일</label>
                     <div>
                       {isChecked && (

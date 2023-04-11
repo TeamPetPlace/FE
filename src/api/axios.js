@@ -55,7 +55,8 @@ instance.interceptors.response.use(
         });
         /* CHANGE ACCESSTOKEN*/
         console.log(refreshedResponse);
-        originalRequest.headers["Authorization"] = refreshedResponse.headers["authorization"];
+        originalRequest.headers["Authorization"] =
+          refreshedResponse.headers["authorization"];
         console.log("재발급 완료");
         removeCookie("AccessToken");
         setCookie("AccessToken", refreshedResponse.headers["authorization"]);
@@ -124,7 +125,8 @@ kakaoURL.interceptors.response.use(
         });
         /* CHANGE ACCESSTOKEN ------------------------------------------------------- */
         console.log(refreshedResponse);
-        originalRequest.headers["Authorization"] = refreshedResponse.headers["authorization"];
+        originalRequest.headers["Authorization"] =
+          refreshedResponse.headers["authorization"];
         console.log("재발급 완료");
         removeCookie("AccessToken");
         setCookie("AccessToken", refreshedResponse.headers["authorization"]);

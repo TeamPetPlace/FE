@@ -65,71 +65,6 @@ function Tab() {
     );
   };
 
-  //2번째
-  // const [permissionDenied, setPermissionDenied] = useState(false);
-  // useEffect(() => {
-  //   const requestLocationPermission = async () => {
-  //     try {
-  //       await navigator.permissions.query({ name: "geolocation" });
-  //     } catch (e) {
-  //       setPermissionDenied(true);
-  //     }
-  //   };
-  //   requestLocationPermission();
-  // }, []);
-
-  // const onLocationHandler = () => {
-  //   navigator.geolocation.getCurrentPosition(
-  //     (position) => {
-  //       const lat = position.coords.latitude;
-  //       const lng = position.coords.longitude;
-  //       setLat(lat);
-  //       setLng(lng);
-  //       console.log(`latitue:${lat}, longitude:${lng}`);
-  //     },
-  //     (error) => {
-  //       if (error.code === error.PERMISSION_DENIED) {
-  //         setPermissionDenied(true);
-  //       }
-  //     },
-  //     { enableHighAccuracy: true }
-  //   );
-  // };
-
-  //3번째
-  // const [permission, setPermission] = useState(true);
-  // const onLocationHandler = () => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         const lat = position.coords.latitude;
-  //         const lng = position.coords.longitude;
-  //         setLat(lat);
-  //         setLng(lng);
-  //       },
-  //       (error) => {
-  //         if (error.code === error.PERMISSION_DENIED) {
-  //           const watchId = navigator.geolocation.watchPosition(
-  //             () => {},
-  //             () => {},
-  //             { enableHighAccuracy: false, maximumAge: 0, timeout: Infinity }
-  //           );
-  //           navigator.permissions
-  //             .query({ name: "geolocation" })
-  //             .then((PermissionStatus) => {
-  //               PermissionStatus.onchange = () => {
-  //                 if (PermissionStatus.state === "granted") {
-  //                   setPermission(true);
-  //                   navigator.geolocation.clearWatch(watchId);
-  //                 }
-  //               };
-  //             });
-  //         }
-  //       }
-  //     );
-  //   }
-  // };
-
   const { data } = useQuery(
     [
       "getPost",
@@ -241,7 +176,7 @@ function Tab() {
                 bottom: "95px",
               }}
             >
-              <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
+              {/* <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg> */}
             </div>
             <StDivBox>
               <StMyPlace onClick={() => navigate("/hospital")}>

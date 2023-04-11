@@ -234,7 +234,7 @@ const AllDetailForm = () => {
       upEndTime.trim() === "" ||
       !upImage
     )
-      return alert("빈칸을 모두 채워주세요");
+      return alert("필수항목을 입력해주세요");
     if (buttonClicked === false) {
       return alert("주소 확인을 해주세요");
     }
