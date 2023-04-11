@@ -16,6 +16,7 @@ import {
   StChatContent,
   StUnderDiv,
 } from "./MyListStyle";
+import Swal from "sweetalert2";
 
 function PostList() {
   const [myList, setMyList] = useState([]);
@@ -38,12 +39,22 @@ function PostList() {
   });
 
   const onDeleteHandler = (id) => {
-    const message = window.confirm("삭제하시겠습니까?");
-    if (message) {
-      deletPostMutation.mutate(id);
-    } else {
-      return;
-    }
+    Swal.fire({
+      position: "center",
+      icon: "question",
+      title: "삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#FFD53F",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletPostMutation.mutate(id);
+      } else {
+        return;
+      }
+    });
   };
 
   return (

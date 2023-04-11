@@ -36,7 +36,7 @@ import {
   StTitleContainer,
   StStar,
 } from "./MyListStyle";
-import styled from "styled-components";
+import Swal from "sweetalert2";
 
 function MyReviewList() {
   const [reviewList, setReviewList] = useState([]);
@@ -82,13 +82,23 @@ function MyReviewList() {
   });
 
   const onDeletetReviewHandler = (reviewId) => {
-    const message = window.confirm("후기를 삭제하시겠습니까?");
-    if (message) {
-      deleteReviewMutation.mutate(reviewId);
-      setReviewList([...reviewList]);
-    } else {
-      return;
-    }
+    Swal.fire({
+      position: "center",
+      icon: "question",
+      title: "후기를 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#FFD53F",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteReviewMutation.mutate(reviewId);
+        setReviewList([...reviewList]);
+      } else {
+        return;
+      }
+    });
   };
 
   //후기 수정
@@ -112,7 +122,14 @@ function MyReviewList() {
 
   const onUpdateReviewHandler = (event, reviewId) => {
     event.preventDefault();
-    if (!clicked) return alert("평점을 입력해주세요");
+    if (!clicked)
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "평점을 입력해주세요.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     const formData = new FormData();
     formData.append("review", updateReview);
     formData.append("image", image);
@@ -124,7 +141,13 @@ function MyReviewList() {
     };
     console.log(reviewId);
     updateReviewMutation.mutate(payload);
-    alert("수정 완료");
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "수정이 완료되었습니다.",
+      confirmButtonColor: "#FFD53F",
+      timer: 3000,
+    });
     // setDetail([...detail, updateReview]);
     onEditMode(reviewId);
   };
@@ -169,7 +192,9 @@ function MyReviewList() {
                         <StBackGround>
                           <StFormBox>
                             <StForm
-                              onSubmit={(event) => onUpdateReviewHandler(event, item.id)}
+                              onSubmit={(event) =>
+                                onUpdateReviewHandler(event, item.id)
+                              }
                               encType="multipart/form-data"
                             >
                               <StTopBox style={{ display: "flex" }}>
@@ -188,7 +213,11 @@ function MyReviewList() {
                                       onClick={() => setClicked(el)}
                                       value={clicked}
                                     >
-                                      {`${(clicked >= el) | (hovered >= el) ? "★" : "☆"}`}
+                                      {`${
+                                        (clicked >= el) | (hovered >= el)
+                                          ? "★"
+                                          : "☆"
+                                      }`}
                                     </p>
                                   ))}
                                 </div>
@@ -198,7 +227,9 @@ function MyReviewList() {
                                 <StInput
                                   type="text"
                                   value={updateReview}
-                                  onChange={(event) => setUpdateReview(event.target.value)}
+                                  onChange={(event) =>
+                                    setUpdateReview(event.target.value)
+                                  }
                                   minLength={10}
                                   placeholder={item.review}
                                 />
@@ -209,7 +240,13 @@ function MyReviewList() {
                                   <div>
                                     {imgView.length > 0 &&
                                       imgView.map((item, index) => {
-                                        return <StImgs src={item} alt="img" key={index} />;
+                                        return (
+                                          <StImgs
+                                            src={item}
+                                            alt="img"
+                                            key={index}
+                                          />
+                                        );
                                       })}
                                   </div>
                                   <input
@@ -224,7 +261,10 @@ function MyReviewList() {
                               </StInputBox>
                               <StBtns>
                                 <Button size="review">수정하기</Button>
-                                <Button size="review" onClick={() => onEditMode(item.id)}>
+                                <Button
+                                  size="review"
+                                  onClick={() => onEditMode(item.id)}
+                                >
                                   취소하기
                                 </Button>
                               </StBtns>
@@ -239,7 +279,9 @@ function MyReviewList() {
                         <>
                           <StReviewImgDiv>
                             <StReviewImg
-                              onClick={() => navigate(`/hospital/${item.postId}`)}
+                              onClick={() =>
+                                navigate(`/hospital/${item.postId}`)
+                              }
                               src={item.image}
                             />
                           </StReviewImgDiv>
@@ -250,16 +292,28 @@ function MyReviewList() {
                             <StTitleContainer>
                               <StTitle>{item.nickname}</StTitle>
                               <StStar>
-                                {(item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
-                                  (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
-                                  (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
-                                  (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
-                                  (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
+                                {(item.star === 1 && (
+                                  <StStarIcon>★☆☆☆☆</StStarIcon>
+                                )) ||
+                                  (item.star === 2 && (
+                                    <StStarIcon>★★☆☆☆</StStarIcon>
+                                  )) ||
+                                  (item.star === 3 && (
+                                    <StStarIcon>★★★☆☆</StStarIcon>
+                                  )) ||
+                                  (item.star === 4 && (
+                                    <StStarIcon>★★★★☆</StStarIcon>
+                                  )) ||
+                                  (item.star === 5 && (
+                                    <StStarIcon>★★★★★</StStarIcon>
+                                  ))}
                               </StStar>
                             </StTitleContainer>
                             <StReview>{item.review}</StReview>
                             <StContainer>
-                              <StContents>{item.modifiedAt.split("T", 1)}</StContents>
+                              <StContents>
+                                {item.modifiedAt.split("T", 1)}
+                              </StContents>
                               <StContents>{item.title}</StContents>
                             </StContainer>
                           </div>
@@ -280,16 +334,28 @@ function MyReviewList() {
                             <StTitleContainer>
                               <StTitle>{item.nickname}</StTitle>
                               <StStar>
-                                {(item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
-                                  (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
-                                  (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
-                                  (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
-                                  (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
+                                {(item.star === 1 && (
+                                  <StStarIcon>★☆☆☆☆</StStarIcon>
+                                )) ||
+                                  (item.star === 2 && (
+                                    <StStarIcon>★★☆☆☆</StStarIcon>
+                                  )) ||
+                                  (item.star === 3 && (
+                                    <StStarIcon>★★★☆☆</StStarIcon>
+                                  )) ||
+                                  (item.star === 4 && (
+                                    <StStarIcon>★★★★☆</StStarIcon>
+                                  )) ||
+                                  (item.star === 5 && (
+                                    <StStarIcon>★★★★★</StStarIcon>
+                                  ))}
                               </StStar>
                             </StTitleContainer>
                             <StReview>{item.review}</StReview>
                             <StContainer>
-                              <StContents>{item.modifiedAt.split("T", 1)}</StContents>
+                              <StContents>
+                                {item.modifiedAt.split("T", 1)}
+                              </StContents>
                               <StContents>{item.title}</StContents>
                             </StContainer>
                           </div>
@@ -310,26 +376,44 @@ function MyReviewList() {
                             <StTitleContainer>
                               <StTitle>{item.nickname}</StTitle>
                               <StStar>
-                                {(item.star === 1 && <StStarIcon>★☆☆☆☆</StStarIcon>) ||
-                                  (item.star === 2 && <StStarIcon>★★☆☆☆</StStarIcon>) ||
-                                  (item.star === 3 && <StStarIcon>★★★☆☆</StStarIcon>) ||
-                                  (item.star === 4 && <StStarIcon>★★★★☆</StStarIcon>) ||
-                                  (item.star === 5 && <StStarIcon>★★★★★</StStarIcon>)}
+                                {(item.star === 1 && (
+                                  <StStarIcon>★☆☆☆☆</StStarIcon>
+                                )) ||
+                                  (item.star === 2 && (
+                                    <StStarIcon>★★☆☆☆</StStarIcon>
+                                  )) ||
+                                  (item.star === 3 && (
+                                    <StStarIcon>★★★☆☆</StStarIcon>
+                                  )) ||
+                                  (item.star === 4 && (
+                                    <StStarIcon>★★★★☆</StStarIcon>
+                                  )) ||
+                                  (item.star === 5 && (
+                                    <StStarIcon>★★★★★</StStarIcon>
+                                  ))}
                               </StStar>
                             </StTitleContainer>
                             <StReview>{item.review}</StReview>
                             <StContainer>
-                              <StContents>{item.modifiedAt.split("T", 1)}</StContents>
+                              <StContents>
+                                {item.modifiedAt.split("T", 1)}
+                              </StContents>
                               <StContents>{item.title}</StContents>
                             </StContainer>
                           </div>
                         </>
                       )}
                       <div style={{ margin: "35px 0" }}>
-                        <Button size="reviewGray" onClick={() => onEditMode(item.id)}>
+                        <Button
+                          size="reviewGray"
+                          onClick={() => onEditMode(item.id)}
+                        >
                           수정
                         </Button>
-                        <Button size="reviewGray" onClick={() => onDeletetReviewHandler(item.id)}>
+                        <Button
+                          size="reviewGray"
+                          onClick={() => onDeletetReviewHandler(item.id)}
+                        >
                           삭제
                         </Button>
                       </div>

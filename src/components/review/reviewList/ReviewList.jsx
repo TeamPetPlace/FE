@@ -29,6 +29,7 @@ import {
   StPhotoBtn,
 } from "./ReviewListStyle";
 import Button from "../../../element/Button";
+import Swal from "sweetalert2";
 
 function ReviewList({ id, detail }) {
   const [cookies] = useCookies(["AccessToken", "loginType"]);
@@ -95,12 +96,22 @@ function ReviewList({ id, detail }) {
   });
 
   const onDeletetReviewHandler = (reviewId) => {
-    const message = window.confirm("후기를 삭제하시겠습니까?");
-    if (message) {
-      deleteReviewMutation.mutate(reviewId);
-    } else {
-      return;
-    }
+    Swal.fire({
+      position: "center",
+      icon: "question",
+      title: "후기를 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#FFD53F",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteReviewMutation.mutate(reviewId);
+      } else {
+        return;
+      }
+    });
   };
 
   //후기 수정
@@ -124,7 +135,14 @@ function ReviewList({ id, detail }) {
 
   const onUpdateReviewHandler = (event, reviewId) => {
     event.preventDefault();
-    if (!clicked) return alert("평점을 입력해주세요");
+    if (!clicked) return;
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "평점을 입력해주세요.",
+      confirmButtonColor: "#FFD53F",
+      timer: 3000,
+    });
     const formData = new FormData();
     formData.append("review", updateReview);
     formData.append("image", image);
@@ -136,7 +154,13 @@ function ReviewList({ id, detail }) {
     };
     console.log(reviewId);
     updateReviewMutation.mutate(payload);
-    alert("수정 완료");
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "수정이 완료되었습니다.",
+      confirmButtonColor: "#FFD53F",
+      timer: 3000,
+    });
     onEditMode(reviewId);
   };
 

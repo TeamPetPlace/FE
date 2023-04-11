@@ -64,13 +64,23 @@ const AllDetailForm = () => {
   });
 
   const onDeleteHandler = () => {
-    const message = window.confirm("삭제하시겠습니까?");
-    if (message) {
-      deletPostMutation.mutate(id);
-      navigate("/main");
-    } else {
-      return;
-    }
+    Swal.fire({
+      position: "center",
+      icon: "question",
+      title: "삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#FFD53F",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletPostMutation.mutate(id);
+        navigate("/main");
+      } else {
+        return;
+      }
+    });
   };
 
   //게시글 수정
