@@ -1,11 +1,13 @@
 import axios from "axios";
 import { instance } from "./axios";
+import Swal from "sweetalert2";
 
 const addPost = async (formData) => {
   await instance
     .post("/write", formData, {
       headers: {
-        "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
+        "Content-Type":
+          "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
       },
     })
     .then((response) => {
@@ -13,7 +15,14 @@ const addPost = async (formData) => {
     })
     .catch((err) => {
       if (axios.isAxiosError(err)) {
-        return alert(`Error : ${err.message}`);
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "에러가 발생하였습니다.",
+          text: "다시 시도해주시기 바랍니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
 };
@@ -26,7 +35,14 @@ const deletePost = async (id) => {
     })
     .catch((err) => {
       if (axios.isAxiosError(err)) {
-        return alert(`Error : ${err.message}`);
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "에러가 발생하였습니다.",
+          text: "다시 시도해주시기 바랍니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
 };
@@ -55,7 +71,8 @@ const updatePost = async (payload) => {
       },
       {
         headers: {
-          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
+          "Content-Type":
+            "multipart/form-data; boundary=----WebKitFormBoundaryfApYSlK1ODwmeKW3",
         },
       }
     )
@@ -64,7 +81,14 @@ const updatePost = async (payload) => {
     })
     .catch((err) => {
       if (axios.isAxiosError(err)) {
-        return alert(`Error : ${err.message}`);
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "에러가 발생하였습니다.",
+          text: "다시 시도해주시기 바랍니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
 };

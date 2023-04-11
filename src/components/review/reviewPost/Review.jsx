@@ -20,6 +20,7 @@ import {
   StPhotoBtn,
 } from "./ReviewStyle";
 import Button from "../../../element/Button";
+import Swal from "sweetalert2";
 
 function Review({ id, onToggle }) {
   const [cookies] = useCookies(["AccessToken", "loginType"]);
@@ -40,8 +41,22 @@ function Review({ id, onToggle }) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    if (review.trim() === "") return alert("내용을 입력해주세요");
-    if (!clicked) return alert("평점을 입력해주세요");
+    if (review.trim() === "")
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "후기를 작성해주세요.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
+    if (!clicked)
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "평점을 입력해주세요.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     const formData = new FormData();
     formData.append("review", review);
     formData.append("image", image);

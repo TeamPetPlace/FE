@@ -17,6 +17,7 @@ import {
   StNickInput,
   StUploadBtn,
 } from "./MypageStyle";
+import Swal from "sweetalert2";
 
 function User() {
   const { id } = useParams();
@@ -86,7 +87,13 @@ function User() {
     };
     updateMutation.mutate(payload);
     onEditMode();
-    alert("수정 완료");
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "수정이 완료되었습니다.",
+      confirmButtonColor: "#FFD53F",
+      timer: 3000,
+    });
   };
 
   return (
@@ -109,7 +116,14 @@ function User() {
               <StImgDiv>
                 {imgView.length > 0 &&
                   imgView?.map((item, index) => {
-                    return <StImg src={item} alt="img" key={index} style={{ zIndex: "999" }} />;
+                    return (
+                      <StImg
+                        src={item}
+                        alt="img"
+                        key={index}
+                        style={{ zIndex: "999" }}
+                      />
+                    );
                   })}
               </StImgDiv>
             </div>

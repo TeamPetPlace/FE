@@ -24,6 +24,7 @@ import {
   StDate,
   StDeleteBtn,
 } from "./NotificationStyle";
+import Swal from "sweetalert2";
 
 function MyNotification() {
   const [list, setList] = useState([]);
@@ -45,12 +46,22 @@ function MyNotification() {
   });
 
   const onDeleteNotificationHandler = (notificationId) => {
-    const message = window.confirm("알림을 삭제하시겠습니까?");
-    if (message) {
-      deleteNotificationMutaion.mutate(notificationId);
-    } else {
-      return;
-    }
+    Swal.fire({
+      position: "center",
+      icon: "question",
+      title: "알림을 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#FFD53F",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteNotificationMutaion.mutate(notificationId);
+      } else {
+        return;
+      }
+    });
   };
 
   //알림 전체 삭제
@@ -59,12 +70,22 @@ function MyNotification() {
   });
 
   const onDeleteAllHandler = () => {
-    const message = window.confirm("전체 삭제하시겠습니까?");
-    if (message) {
-      deleteAllMutation.mutate();
-    } else {
-      return;
-    }
+    Swal.fire({
+      position: "center",
+      icon: "question",
+      title: "전체 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#FFD53F",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteAllMutation.mutate();
+      } else {
+        return;
+      }
+    });
   };
   return (
     <StWrap>

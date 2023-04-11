@@ -9,6 +9,7 @@ import animal_illust_back from "../../style/img/animal_illust_back.svg";
 import logo from "../../style/img/logo.svg";
 import KaKaoLoginBtn from "../../style/img/kakao_login_large_wide.png";
 import Button from "../../element/Button";
+import Swal from "sweetalert2";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -36,14 +37,27 @@ const LoginForm = () => {
       setCookie("email", email);
       setCookie("AccessToken", response.headers.authorization);
       setCookie("RefreshToken", response.headers.refreshtoken);
-      alert("환영합니다");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "환영합니다! ˘◡˘",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       // console.log(response);
       navigate("/main");
     },
     onError: (error) => {
       setValid(false);
       // console.log(error);
-      alert("로그인 실패");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "로그인에 실패하였습니다.",
+        text: "ID와 PW를 정확히 입력했는지 확인 바랍니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     },
   });
 

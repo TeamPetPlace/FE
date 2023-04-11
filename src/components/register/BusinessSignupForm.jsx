@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BusinessSignup, CheckBizNum, CheckEmail } from "../../api/user";
 import { StSignupDiv, StInput, StDescDiv, StLoginMove } from "./SignupStyle";
 import Button from "../../element/Button";
+import Swal from "sweetalert2";
 
 const BusinessSignupForm = () => {
   const [useremail, setUserEmail] = useState();
@@ -41,10 +42,23 @@ const BusinessSignupForm = () => {
       response ? setIsEmail(true) : setIsEmail(false);
       if (response) {
         setIsEmail(true);
-        alert("사용가능한 이메일입니다.");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "사용가능한 이메일입니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       } else {
         setIsEmail(false);
-        alert("이미 사용중인 이메일입니다.");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "이미 사용중인 이메일입니다.",
+          text: "다른 이메일을 입력해주세요",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     },
   });
@@ -77,10 +91,23 @@ const BusinessSignupForm = () => {
       response ? setIsBizNum(true) : setIsBizNum(false);
       if (response) {
         setIsBizNum(true);
-        alert("확인되었습니다.");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "사업자 번호가 확인되었습니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       } else {
         setIsBizNum(false);
-        alert("이미 등록된 사업자번호입니다.");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "이미 등록된 사업자 번호입니다.",
+          text: "다른 사업자 번호를 입력해주세요.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     },
   });
@@ -134,13 +161,25 @@ const BusinessSignupForm = () => {
   const signUpMutation = useMutation(BusinessSignup, {
     onSuccess: (response) => {
       // console.log(response.data);
-      alert("회원가입 성공!");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "회원가입에 성공하였습니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       navigate("/");
       return response.data;
     },
     onError: (response) => {
       // console.log(response.data);
-      alert("다시시도해주십시오!");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "다시 시도해주시기 바랍니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       return response.data;
     },
   });

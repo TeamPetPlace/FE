@@ -1,5 +1,6 @@
 import axios from "axios";
 import { instance } from "./axios";
+import Swal from "sweetalert2";
 
 const getDetail = async (id) => {
   const response = await instance.get(`${id}`);
@@ -36,7 +37,13 @@ const addReview = async (payload) => {
     .catch((error) => {
       console.log(error.toJSON().status);
       if (error.toJSON().status === 400) {
-        return alert(`후기는 1주일에 한 번만 작성할 수 있습니다`);
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "후기는 1주일에 한 번만 작성이 가능합니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
 };
@@ -49,7 +56,14 @@ const deleteReview = async (id) => {
     })
     .catch((err) => {
       if (axios.isAxiosError(err)) {
-        return alert(`Error : ${err.message}`);
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "에러가 발생하였습니다.",
+          text: "다시 시도해주시기 바랍니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
 };
@@ -67,7 +81,14 @@ const updateReviews = async (payload) => {
     })
     .catch((err) => {
       if (axios.isAxiosError(err)) {
-        return alert(`Error : ${err.message}`);
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "에러가 발생하였습니다.",
+          text: "다시 시도해주시기 바랍니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
 };

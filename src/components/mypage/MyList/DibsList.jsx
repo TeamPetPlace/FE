@@ -18,6 +18,7 @@ import {
   StDibimg,
   StTitleList,
 } from "./MyListStyle";
+import Swal from "sweetalert2";
 
 function DibsList() {
   const [dibList, setDibList] = useState([]);
@@ -59,7 +60,13 @@ function DibsList() {
 
   const cancelDibsMutation = useMutation(cancelDibs, {
     onSuccess: () => {
-      alert("찜하기 취소");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "찜하기 취소",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       queryClient.invalidateQueries("getmydibs");
     },
   });

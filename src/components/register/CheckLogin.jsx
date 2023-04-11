@@ -6,6 +6,7 @@ import { removeCookie } from "../../api/cookie";
 import Layout from "../common/Layout";
 import animal_illust_back from "../../style/img/animal_illust_back.svg";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 function CheckLogin() {
   const logoutmuation = useMutation(NomalLogin, {
@@ -17,7 +18,13 @@ function CheckLogin() {
       removeCookie("nickname");
       removeCookie("lat");
       removeCookie("lng");
-      alert("로그아웃 되었습니다");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "로그아웃 되었습니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       window.location.href = "/";
     },
   });

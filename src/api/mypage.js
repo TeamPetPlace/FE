@@ -1,5 +1,6 @@
 import { instance } from "./axios";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const getMypage = async () => {
   const response = await instance.get("/mypage");
@@ -18,7 +19,14 @@ const updateUser = async (payload) => {
     })
     .catch((err) => {
       if (axios.isAxiosError(err)) {
-        return alert(`Error : ${err.message}`);
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "에러가 발생하였습니다.",
+          text: "다시 시도해주시기 바랍니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
 };
@@ -55,7 +63,14 @@ const deleteNotification = async (id) => {
     })
     .catch((err) => {
       if (axios.isAxiosError(err)) {
-        return alert(`Error : ${err.message}`);
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "에러가 발생하였습니다.",
+          text: "다시 시도해주시기 바랍니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
 };
@@ -68,7 +83,14 @@ const deleteAllNotification = async () => {
     })
     .catch((err) => {
       if (axios.isAxiosError(err)) {
-        return alert(`Error : ${err.message}`);
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "에러가 발생하였습니다.",
+          text: "다시 시도해주시기 바랍니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
 };

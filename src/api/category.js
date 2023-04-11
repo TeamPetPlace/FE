@@ -1,4 +1,5 @@
 import { baseURL, instance } from "./axios";
+import Swal from "sweetalert2";
 
 export const getCards = async ({ page, size }) => {
   const response = await instance.get(
@@ -35,7 +36,13 @@ export const SearchPost = async (payload) => {
       },
     });
     if (response.data === "" || null) {
-      alert("검색결과가 없습니다.");
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "검색 결과가 없습니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     }
     return response;
   } catch (error) {
