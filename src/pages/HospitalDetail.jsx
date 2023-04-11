@@ -21,9 +21,9 @@ const HospitalDetail = () => {
   return (
     <Layout>
       <Header />
-      {/* <button onClick={onEnterHandler}> 채팅</button>
+      <button onClick={onEnterHandler}> 채팅</button>
       <button onClick={onExitHandler}> 닫기</button>
-      {chatmode ? <ChatRoom id={id} /> : null} */}
+      {chatmode ? <ChatRoom id={id} /> : null}
       <AllDetailForm />
       <Footer />
     </Layout>

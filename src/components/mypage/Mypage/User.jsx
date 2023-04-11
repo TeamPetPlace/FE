@@ -109,14 +109,7 @@ function User() {
               <StImgDiv>
                 {imgView.length > 0 &&
                   imgView?.map((item, index) => {
-                    return (
-                      <StImg
-                        src={item}
-                        alt="img"
-                        key={index}
-                        style={{ zIndex: "999" }}
-                      />
-                    );
+                    return <StImg src={item} alt="img" key={index} style={{ zIndex: "999" }} />;
                   })}
               </StImgDiv>
             </div>

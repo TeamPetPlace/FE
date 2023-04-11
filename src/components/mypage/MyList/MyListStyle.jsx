@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import BasicReviewImg from "../../../../src/style/img/basic_review_img.svg";
 
 const StPageDiv = styled.div`
   width: 978px;
@@ -257,7 +258,6 @@ const StAllReviewList = styled.div`
 const StReviewDiv = styled.div`
   width: 918px;
   height: 190px;
-  /* background-color: skyblue; */
   margin: 0;
   border-bottom: 3px solid #f0f0f0;
   @media screen and (max-width: 767px) {
@@ -274,31 +274,20 @@ const StReviewImgDiv = styled.div`
   width: 100px;
   height: 100px;
   border: 1px solid transparent;
-  margin: 10px 20px 10px 5px;
-  border-radius: 10px;
-  cursor: pointer;
-  @media screen and (max-width: 767px) {
-    width: 50px;
-    height: 50px;
-    margin: 13px 10px 10px 5px;
-    border-radius: 5px;
-  }
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
-    margin: 0px 20px 10px 5px;
-  }
-`;
-
-const StReviewImg = styled.img`
-  width: 100px;
-  height: 100px;
-  border: 1px solid transparent;
   margin: 30px 20px 10px 5px;
   border-radius: 10px;
+
+  background-color: #d9d9d9;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  background-image: url(${BasicReviewImg});
+
   cursor: pointer;
   @media screen and (max-width: 767px) {
     width: 50px;
     height: 50px;
-    margin: 13px 10px 10px 5px;
+    margin: 25px 10px 10px 5px;
     border-radius: 5px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -306,7 +295,20 @@ const StReviewImg = styled.img`
   }
 `;
 
-const StTitle = styled.div`
+const StReviewImg = styled.img`
+  width: 100px;
+  height: 100px;
+  border: 1px solid transparent;
+  margin: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  @media screen and (max-width: 767px) {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+  }
+`;
+export const StStar = styled.div`
   color: #0d0d0d;
   display: flex;
   font-size: 20px;
@@ -320,6 +322,31 @@ const StTitle = styled.div`
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     margin-top: 30px;
   }
+`;
+
+const StTitle = styled.div`
+  color: #0d0d0d;
+  display: flex;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 35px;
+  cursor: pointer;
+  @media screen and (max-width: 767px) {
+    font-size: 13px;
+    margin-top: 20px;
+    height: 20px;
+    width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin-top: 30px;
+  }
+`;
+
+export const StTitleContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
 `;
 
 // --------------MyReviewList--------------
