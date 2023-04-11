@@ -10,12 +10,8 @@ function NotFound() {
     <StWrap>
       <StBox>
         <StTitle>페이지가 존재하지 않습니다</StTitle>
-        <StContent>
-          링크를 잘못 입력하셨거나, 페이지가 삭제/이동되었을 수 있습니다.
-        </StContent>
-        {cookies.loginType === "USER" ||
-        cookies.loginType === "BUSINESS" ||
-        cookies.loginType === "KAKAO_USER" ? (
+        <StContent>링크를 잘못 입력하셨거나, 페이지가 삭제/이동되었을 수 있습니다.</StContent>
+        {cookies.loginType === "USER" || cookies.loginType === "BUSINESS" ? (
           <StMain onClick={() => navigate("/main")}>메인으로 가기</StMain>
         ) : (
           <StMain onClick={() => navigate("/")}>메인으로 가기</StMain>

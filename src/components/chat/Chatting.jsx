@@ -17,7 +17,7 @@ export function Chatting({ roomId }) {
   const [sendMsg, setSendMsg] = useState(false);
   const [items, setItems] = useState([]);
 
-  const wsURL = new SockJS(`https://petplace.site/ws/place`);
+  const wsURL = new SockJS(`wss://petplace.site/ws/place`);
   const websocket = StompJs.over(wsURL);
 
   let ws = useRef(null);

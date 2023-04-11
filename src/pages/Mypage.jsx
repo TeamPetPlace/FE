@@ -13,7 +13,6 @@ function Mypage() {
     <Layout>
       <Header />
       {cookies.loginType === "USER" && <UserMypage />}
-      {cookies.loginType === "KAKAO_USER" && <UserMypage />}
       {cookies.loginType === "BUSINESS" && <BossMypage />}
       <Footer />
     </Layout>
