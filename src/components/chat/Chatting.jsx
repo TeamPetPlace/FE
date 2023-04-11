@@ -17,7 +17,7 @@ export function Chatting({ roomId }) {
   const [sendMsg, setSendMsg] = useState(false);
   const [items, setItems] = useState([]);
 
-  const wsURL = new SockJS(`wss://petplace.site/ws/place`);
+  const wsURL = new WebSocket(`wss://petplace.site/ws/place`);
   const websocket = StompJs.over(wsURL);
 
   let ws = useRef(null);
@@ -49,7 +49,7 @@ export function Chatting({ roomId }) {
       websocket.connect(userinfo.AccessToken, () => {
         console.log("confirm : web socket connected");
         websocket.subscribe(
-          `/ws/place`,
+         '/sub/chat/room/' + roomId,
           (data) => {
             const newMessage = JSON.parse(data.body);
             //데이터 파싱
