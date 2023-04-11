@@ -280,6 +280,7 @@ const StNickdiv = styled.div`
   width: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
   @media screen and (max-width: 767px) {
     width: 50px;
   }
