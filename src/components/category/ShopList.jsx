@@ -42,6 +42,7 @@ import History from "../../element/History";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import Button from "../../element/Button";
 import Swal from "sweetalert2";
+import styled from "styled-components";
 
 function ShopList() {
   const [cards, setCards] = useState([]);
@@ -320,22 +321,28 @@ function ShopList() {
                         )}
                       </Button>
                       {item.like === false ? (
-                        <StCardImg
-                          onClick={() => {
-                            navigate(`/shop/${item.id}`);
-                          }}
-                          src={item.reSizeImage}
-                          alt="IMG"
-                        />
+                        <StContainer>
+                          <StCardImg
+                            onClick={() => {
+                              navigate(`/shop/${item.id}`);
+                            }}
+                            src={item.reSizeImage}
+                            alt="IMG"
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
                       ) : (
-                        <StCardImg
-                          onClick={() => {
-                            navigate(`/shop/${item.id}`);
-                          }}
-                          src={item.reSizeImage}
-                          alt="IMG"
-                          style={{ border: "3px solid #FFD53F" }}
-                        />
+                        <StContainer>
+                          <StCardImg
+                            onClick={() => {
+                              navigate(`/shop/${item.id}`);
+                            }}
+                            src={item.reSizeImage}
+                            alt="IMG"
+                            style={{ border: "3px solid #FFD53F" }}
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
                       )}
                     </div>
                     <StCardTitle
@@ -416,22 +423,28 @@ function ShopList() {
                           )}
                         </Button>
                         {item.like === false ? (
-                          <StCardImg
-                            onClick={() => {
-                              navigate(`/shop/${item.id}`);
-                            }}
-                            src={item.reSizeImage}
-                            alt="IMG"
-                          />
+                          <StContainer>
+                            <StCardImg
+                              onClick={() => {
+                                navigate(`/shop/${item.id}`);
+                              }}
+                              src={item.reSizeImage}
+                              alt="IMG"
+                            />
+                            <StCaption>보러가기</StCaption>
+                          </StContainer>
                         ) : (
-                          <StCardImg
-                            onClick={() => {
-                              navigate(`/shop/${item.id}`);
-                            }}
-                            src={item.reSizeImage}
-                            alt="IMG"
-                            style={{ border: "3px solid #FFD53F" }}
-                          />
+                          <StContainer>
+                            <StCardImg
+                              onClick={() => {
+                                navigate(`/shop/${item.id}`);
+                              }}
+                              src={item.reSizeImage}
+                              alt="IMG"
+                              style={{ border: "3px solid #FFD53F" }}
+                            />
+                            <StCaption>보러가기</StCaption>
+                          </StContainer>
                         )}
                       </div>
                       <StCardTitle
@@ -490,3 +503,28 @@ function ShopList() {
 }
 
 export default ShopList;
+
+const StCaption = styled.div`
+  position: absolute;
+  bottom: 50%;
+  left: 0%;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  opacity: 0;
+  z-index: 999;
+  /* transition: opacity 0.3s ease; */
+`;
+
+const StContainer = styled.div`
+  position: relative;
+  width: 100%;
+  &:hover {
+    ${StCardImg} {
+      filter: brightness(50%);
+    }
+    ${StCaption} {
+      opacity: 1;
+    }
+  }
+`;

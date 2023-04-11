@@ -408,6 +408,10 @@ const StCardImg = styled.img`
   cursor: pointer;
   object-fit: cover;
   position: cover;
+  transition: filter 0.3s ease;
+  &:hover {
+    filter: brightness(60%);
+  }
   @media screen and (max-width: 767px) {
     width: 100%;
     height: 120px;
