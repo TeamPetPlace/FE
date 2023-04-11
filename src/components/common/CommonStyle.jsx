@@ -189,6 +189,7 @@ const StUserBar = styled.ul`
   position: relative;
   margin: 0px;
   height: 37px;
+  padding-left: 0;
   &:hover {
     cursor: pointer;
     transition: all ease 2s 0s;
@@ -196,6 +197,7 @@ const StUserBar = styled.ul`
   @media screen and (max-width: 768px) {
     margin-left: -10px;
     width: 10px;
+    padding-left: 10px;
   }
 `;
 
@@ -274,7 +276,17 @@ const StLayoutBox = styled.div`
   }
 `;
 
+const StNickdiv = styled.div`
+  width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  @media screen and (max-width: 767px) {
+    width: 50px;
+  }
+`;
+
 export {
+  StNickdiv,
   StTop,
   StFooter,
   StWraps,

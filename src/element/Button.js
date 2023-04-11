@@ -257,7 +257,7 @@ const AllBtn = styled.button`
             font-size: 8px;
             height: auto;
             width: 40px;
-            margin: 0 10px 0 140px;
+            margin: 0 10px 0 130px;
           }
           @media screen and (min-width: 768px) and (max-width: 1023px) {
             font-size: 14px;

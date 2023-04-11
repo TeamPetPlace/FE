@@ -42,11 +42,11 @@ const Redirect = () => {
       const response = axios.get(`/kakao/callback?code=${code}`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
-          Authorization: `${AccessToken}`,
           accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
         },
       });
+      console.log(response);
       const AccessToken = response.config.headers.Authorization;
 
       // if (response.data.success === true) {

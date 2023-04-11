@@ -174,6 +174,7 @@ const StInfoTextDiv = styled.div`
   @media screen and (max-width: 767px) {
     font-size: 10px;
     margin: 0 5px 0 0;
+    padding: 2px 0;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -194,7 +195,7 @@ const StInfoContainer = styled.div`
   flex-direction: column;
   margin: 35px 0px 10px 300px;
   @media screen and (max-width: 767px) {
-    margin: 15px 0px -8px 140px;
+    margin: 13px 0px -8px 130px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     margin: 30px 0px 0px 200px;
