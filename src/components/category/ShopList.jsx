@@ -283,7 +283,7 @@ function ShopList() {
           <StSearchDiv>
             <StSearchInput
               type="text"
-              placeholder="검색할 명칭을 입력해주세요"
+              placeholder="검색할 키워드를 입력해주세요"
               value={searchkeyword || ""}
               onChange={(e) => {
                 setSearchKeyword(e.target.value);
