@@ -1,8 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
-import PopupDom from "./Popup";
-import DaumPostcode from "react-daum-postcode";
 import { useMutation, useQueryClient } from "react-query";
 import { addPost, checkTitle } from "../../api/owner";
 import {
@@ -39,6 +37,7 @@ import {
   StBtn,
 } from "./PostStyle";
 import Button from "../../element/Button";
+import Swal from "sweetalert2";
 
 function Post() {
   const navigate = useNavigate();
@@ -66,38 +65,25 @@ function Post() {
       if (status === kakao.maps.services.Status.OK) {
         setLat(result[0].y);
         setLng(result[0].x);
-        alert("주소가 확인 되었습니다.");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "주소가 확인 되었습니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       } else {
-        alert("주소 검색에 실패했습니다. 도로명을 선택해주세요.");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "주소 검색에 실패했습니다.",
+          text: "우편번호 검색 후 도로명을 선택해주세요!",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     });
   };
-
-  //주소 팝업창
-  // const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  // const openPostCode = () => {
-  //   setIsPopupOpen(true);
-  // };
-
-  // const [address, setAddress] = useState("");
-
-  // const handlePostCode = (data) => {
-  //   let fullAddress = data.address;
-  //   let extraAddress = "";
-
-  //   if (data.addressType === "R") {
-  //     if (data.bname !== "") {
-  //       extraAddress += data.bname;
-  //     }
-  //     if (data.buildingName !== "") {
-  //       extraAddress +=
-  //         extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-  //     }
-  //     fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-  //   }
-  //   setAddress(fullAddress);
-  // };
 
   //주소 팝업창
   const [address, setAddress] = useState("");
@@ -116,17 +102,6 @@ function Post() {
         setAddress(addr);
       },
     }).open();
-  };
-
-  const postCodeStyle = {
-    display: "block",
-    position: "absolute",
-    top: "40%",
-    left: "30%",
-    width: "600px",
-    height: "600px",
-    padding: "7px",
-    zIndex: "999",
   };
 
   //휴무 체크
@@ -164,10 +139,23 @@ function Post() {
       response ? setIsTitle(true) : setIsTitle(false);
       if (response) {
         setIsTitle(true);
-        alert("등록 가능한 업체명입니다.");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "등록 가능한 업체명입니다.",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       } else {
         setIsTitle(false);
-        alert("이미 존재하는 업체명입니다.");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "이미 존재하는 업체명입니다.",
+          text: "업체명을 한 번 더 확인해주세요!",
+          confirmButtonColor: "#FFD53F",
+          timer: 3000,
+        });
       }
     },
   });
@@ -194,18 +182,49 @@ function Post() {
       endTime.trim() === "" ||
       !image
     )
-      return alert("필수항목을 입력해주세요");
+      return;
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "필수항목을 입력해주세요.",
+      confirmButtonColor: "#FFD53F",
+      timer: 3000,
+    });
     if (buttonClicked === false) {
-      return alert("주소 확인을 해주세요");
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "주소 확인 후 확인 버튼을 눌러주세요.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     }
     if (titleButtonClicked === false) {
-      return alert("업체명 중복확인을 해주세요");
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "업체명 중복확인을 해주세요.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     }
     if (isTitle === false) {
-      return alert("이미 존재하는 업체명입니다");
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "이미 존재하는 업체명입니다.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     }
     if (image.length === 0) {
-      return alert("이미지를 업로드해주세요");
+      return Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "이미지를 업로드해주세요.",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
     }
     const formData = new FormData();
     image.forEach((image, index) => formData.append("image", image));
@@ -225,7 +244,13 @@ function Post() {
     formData.append("aboolean2", aboolean2);
     formData.append("feature1", feature1);
     addPostMutation.mutate(formData);
-    alert("작성 완료");
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "작성이 완료되었습니다.",
+      confirmButtonColor: "#FFD53F",
+      timer: 3000,
+    });
     if (category === "병원") {
       window.location.href = "/hospital";
     } else if (category === "미용") {
@@ -240,7 +265,13 @@ function Post() {
     const files = Array.from(event.target.files);
 
     if (files.length > maxImage) {
-      alert(`최대 ${maxImage}개의 이미지만 선택 가능합니다.`);
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: `최대 ${maxImage}개의 이미지만 선택 가능합니다.`,
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       return;
     }
     setImage((prevImage) => [...prevImage, ...files]);

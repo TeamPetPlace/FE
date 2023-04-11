@@ -46,7 +46,7 @@ instance.interceptors.response.use(
       console.log("재발급중...");
       console.log(error);
       console.log(response.status);
-      if (error.code === "ERR_BAD_REQUEST" || response.status === 401) {
+      if (response.status === 401) {
         const RefreshToken = getCookie("RefreshToken");
         const refreshedResponse = await baseURL.get("/token", {
           headers: {

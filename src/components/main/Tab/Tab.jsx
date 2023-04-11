@@ -6,14 +6,12 @@ import { setCookie } from "../../../api/cookie";
 import cafe from "../../../style/img/cafe.svg";
 import hospital from "../../../style/img/hospital.svg";
 import shop from "../../../style/img/shop.svg";
-import foot from "../../../style/img/foot.svg";
 import dibs from "../../../style/img/dibs.svg";
 import noDibs from "../../../style/img/noDibs.svg";
 import clickedHospital from "../../../style/img/clickedHospital.svg";
 import clickedShop from "../../../style/img/clickedShop.svg";
 import clickedCafe from "../../../style/img/clickedCafe.svg";
 import footMap from "../../../style/img/footMap.svg";
-
 import {
   StWrap,
   StPlace,
@@ -32,6 +30,7 @@ import {
 } from "./TabStyle";
 import styled from "styled-components";
 import Button from "../../../element/Button";
+import Swal from "sweetalert2";
 
 function Tab() {
   const [category, setCategory] = useState("병원");
@@ -127,14 +126,27 @@ function Tab() {
 
   const addDibsMutation = useMutation(addDibs, {
     onSuccess: () => {
-      alert("찜하기 완료");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "찜하기",
+        text: "마이페이지 '찜목록'에서 확인이 가능합니다!",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       queryClient.invalidateQueries("getPost");
     },
   });
 
   const cancelDibsMutation = useMutation(cancelDibs, {
     onSuccess: () => {
-      alert("찜하기 취소");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "찜하기 취소",
+        confirmButtonColor: "#FFD53F",
+        timer: 3000,
+      });
       queryClient.invalidateQueries("getPost");
     },
   });
@@ -198,7 +210,7 @@ function Tab() {
                 bottom: "95px",
               }}
             >
-              <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
+              {/* <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg> */}
             </div>
             <StDivBox>
               <StMyPlace onClick={() => navigate("/shop")}>
@@ -220,7 +232,7 @@ function Tab() {
                 bottom: "95px",
               }}
             >
-              <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg>
+              {/* <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg> */}
             </div>
             <StDivBox>
               <StMyPlace onClick={() => navigate("/cafe")}>
@@ -390,68 +402,68 @@ function Tab() {
 
 export default Tab;
 
-const StMsg = styled.div`
-  background-color: #ffd53f;
-  border: #ffd53f solid 1px;
-  border-radius: 5px;
-  color: #000;
-  font-size: 12px;
-  font-weight: 500;
-  height: auto;
-  letter-spacing: -0.25px;
-  margin-top: 10px;
-  padding: 5px 11px;
-  position: relative;
-  width: fit-content;
-  z-index: 100;
-  color: #000;
-  animation: jumpDown 1.5s linear 10;
-  &::after {
-    border-color: #ffd53f transparent;
-    border-style: solid;
-    border-width: 0 6px 8px 6.5px;
-    content: "";
-    display: block;
-    left: 5px;
-    position: absolute;
-    left: 1150px;
-    top: -7px;
-    width: 0;
-    z-index: 1;
-  }
-  &::before {
-    border-color: #ffd53f transparent;
-    border-style: solid;
-    border-width: 0 6px 8px 6.5px;
-    content: "";
-    display: block;
-    left: 5px;
-    position: absolute;
-    left: 1150px;
-    top: -8px;
-    width: 0;
-    z-index: 0;
-  }
-  @keyframes jumpDown {
-    0% {
-      left: 0px;
-      top: 0px;
-    }
-    25% {
-      left: 0px;
-      top: 5px;
-    }
-    50% {
-      left: 0px;
-      top: 0px;
-    }
-    75% {
-      left: 0px;
-      top: 5px;
-    }
-    100% {
-      left: 0px;
-      top: 0px;
-    }
-  }
-`;
+// const StMsg = styled.div`
+//   background-color: #ffd53f;
+//   border: #ffd53f solid 1px;
+//   border-radius: 5px;
+//   color: #000;
+//   font-size: 12px;
+//   font-weight: 500;
+//   height: auto;
+//   letter-spacing: -0.25px;
+//   margin-top: 10px;
+//   padding: 5px 11px;
+//   position: relative;
+//   width: fit-content;
+//   z-index: 100;
+//   color: #000;
+//   animation: jumpDown 1.5s linear 10;
+//   &::after {
+//     border-color: #ffd53f transparent;
+//     border-style: solid;
+//     border-width: 0 6px 8px 6.5px;
+//     content: "";
+//     display: block;
+//     left: 5px;
+//     position: absolute;
+//     left: 1150px;
+//     top: -7px;
+//     width: 0;
+//     z-index: 1;
+//   }
+//   &::before {
+//     border-color: #ffd53f transparent;
+//     border-style: solid;
+//     border-width: 0 6px 8px 6.5px;
+//     content: "";
+//     display: block;
+//     left: 5px;
+//     position: absolute;
+//     left: 1150px;
+//     top: -8px;
+//     width: 0;
+//     z-index: 0;
+//   }
+//   @keyframes jumpDown {
+//     0% {
+//       left: 0px;
+//       top: 0px;
+//     }
+//     25% {
+//       left: 0px;
+//       top: 5px;
+//     }
+//     50% {
+//       left: 0px;
+//       top: 0px;
+//     }
+//     75% {
+//       left: 0px;
+//       top: 5px;
+//     }
+//     100% {
+//       left: 0px;
+//       top: 0px;
+//     }
+//   }
+// `;
