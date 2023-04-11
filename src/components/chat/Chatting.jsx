@@ -23,23 +23,23 @@ export function Chatting({ roomId }) {
   let ws = useRef(null);
 
   // 소켓 객체 생성
-  // useEffect(() => {
-  //   websocket.onopen = () => {
+  // React.useEffect(() => {
+  //   wsURL.onopen = () => {
   //     console.log("WebSocket connected"); // 연결 성공 시 실행할 코드
   //   };
 
-  //   websocket.onmessage = (event) => {
+  //   wsURL.onmessage = (event) => {
   //     console.log(`Received message: ${event.data}`); // 메시지 수신 시 실행할 코드
   //   };
 
-  //   websocket.onclose = () => {
+  //   wsURL.onclose = () => {
   //     console.log("WebSocket disconnected"); // 연결 종료 시 실행할 코드
   //   };
 
   //   return () => {
   //     // websocket.close(); // 컴포넌트 언마운트 시 WebSocket 연결 종료
   //   };
-  // }, [roomId]);
+  // }, []);
 
   const stompConnect = () => {
     try {

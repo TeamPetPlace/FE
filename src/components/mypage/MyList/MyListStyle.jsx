@@ -273,7 +273,7 @@ const StReviewDiv = styled.div`
 const StReviewImgDiv = styled.div`
   width: 100px;
   height: 100px;
-  border: 1px solid transparent;
+  border: none;
   margin: 30px 20px 10px 5px;
   border-radius: 10px;
 
@@ -298,9 +298,12 @@ const StReviewImgDiv = styled.div`
 const StReviewImg = styled.img`
   width: 100px;
   height: 100px;
-  border: 1px solid transparent;
-  margin: 0;
+  border: none;
+  object-fit: cover;
   border-radius: 10px;
+  &:hover {
+    zoom: 1.1;
+  }
   cursor: pointer;
   @media screen and (max-width: 767px) {
     width: 50px;

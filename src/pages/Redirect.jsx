@@ -20,7 +20,7 @@ const Redirect = () => {
         setCookie("loginType", response.data.response.loginType, { path: "/" });
         setCookie("email", response.data.response.email, { path: "/" });
         setCookie("nickname", response.data.response.nickname, { path: "/" });
-        // window.location.href = "/main";
+        window.location.href = "/main";
         // }
         return response;
       })
