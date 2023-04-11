@@ -185,6 +185,9 @@ const AllBtn = styled.button`
           position: absolute;
           z-index: 99;
           margin-top: -2px;
+          &:hover {
+            transform: scale(1.1);
+          }
           @media screen and (max-width: 767px) {
             left: 75%;
           }
@@ -205,6 +208,9 @@ const AllBtn = styled.button`
           right: 6%;
           top: 0%;
           margin-top: -2px;
+          &:hover {
+            transform: scale(1.1);
+          }
         `;
       case "mypageDib":
         return css`
@@ -215,6 +221,9 @@ const AllBtn = styled.button`
           z-index: 999;
           margin-left: 230px;
           margin-top: -2px;
+          &:hover {
+            transform: scale(1.1);
+          }
           @media screen and (max-width: 767px) {
             margin-left: 60%;
           }

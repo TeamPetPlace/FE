@@ -108,6 +108,10 @@ const StTabImg = styled.img`
   width: 44.58px;
   height: 44.58px;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.2);
+    transition: 0.2s;
+  }
   @media screen and (max-width: 767px) {
     width: 30px;
     height: 30px;
@@ -144,8 +148,9 @@ const StResizeImg = styled.img`
   height: 300px;
   overflow: hidden;
   border-radius: 10px;
+  transition: filter 0.3s ease;
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    filter: brightness(60%);
   }
   @media screen and (max-width: 767px) {
     width: 200px;
