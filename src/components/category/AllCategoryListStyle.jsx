@@ -66,7 +66,7 @@ const StPlace = styled.div`
 `;
 
 const StSearchInput = styled.input`
-  width: 400px;
+  width: 300px;
   height: 40px;
   border: none;
   outline: none;
@@ -82,6 +82,12 @@ const StSearchInput = styled.input`
     width: 300px;
     height: 40px;
   }
+  @media screen and (min-width: 1024px) {
+    transition: width 0.5s ease-in-out; /* transition 속성 추가 */
+    &:focus {
+      width: 380px;
+    }
+  }
 `;
 
 const StSearchButton = styled.button`
@@ -91,11 +97,13 @@ const StSearchButton = styled.button`
 `;
 
 const StSearchDiv = styled.div`
-  width: 300px;
+  width: 100%;
   display: flex;
   align-items: center;
   background-color: #ffffff;
   /* background-color: #000000; */
+  justify-content: space-between;
+
   border: 1px solid #555555;
   @media screen and (max-width: 767px) {
     width: 110px;
