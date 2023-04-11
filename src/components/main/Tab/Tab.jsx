@@ -28,9 +28,10 @@ import {
   StPin,
   StDivBox,
 } from "./TabStyle";
-import styled from "styled-components";
 import Button from "../../../element/Button";
 import Swal from "sweetalert2";
+import styled from "styled-components";
+import { Fade } from "react-reveal";
 
 function Tab() {
   const [category, setCategory] = useState("병원");
@@ -190,12 +191,14 @@ function Tab() {
             >
               {/* <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg> */}
             </div>
-            <StDivBox>
-              <StMyPlace onClick={() => navigate("/hospital")}>
-                내 위치 펫플레이스
-              </StMyPlace>
-              <StPin src={footMap} onClick={onLocationHandler} />
-            </StDivBox>
+            <Fade bottom>
+              <StDivBox>
+                <StMyPlace onClick={() => navigate("/hospital")}>
+                  내 위치 펫플레이스
+                </StMyPlace>
+                <StPin src={footMap} onClick={onLocationHandler} />
+              </StDivBox>
+            </Fade>
           </div>
         </>
       )}
@@ -212,12 +215,14 @@ function Tab() {
             >
               {/* <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg> */}
             </div>
-            <StDivBox>
-              <StMyPlace onClick={() => navigate("/shop")}>
-                내 위치 펫플레이스
-              </StMyPlace>
-              <StPin src={footMap} onClick={onLocationHandler} />
-            </StDivBox>
+            <Fade bottom>
+              <StDivBox>
+                <StMyPlace onClick={() => navigate("/shop")}>
+                  내 위치 펫플레이스
+                </StMyPlace>
+                <StPin src={footMap} onClick={onLocationHandler} />
+              </StDivBox>
+            </Fade>
           </div>
         </>
       )}
@@ -234,236 +239,216 @@ function Tab() {
             >
               {/* <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg> */}
             </div>
-            <StDivBox>
-              <StMyPlace onClick={() => navigate("/cafe")}>
-                내 위치 펫플레이스
-              </StMyPlace>
-              <StPin src={footMap} onClick={onLocationHandler} />
-            </StDivBox>
+            <Fade bottom>
+              <StDivBox>
+                <StMyPlace onClick={() => navigate("/cafe")}>
+                  내 위치 펫플레이스
+                </StMyPlace>
+                <StPin src={footMap} onClick={onLocationHandler} />
+              </StDivBox>
+            </Fade>
           </div>
         </>
       )}
       <StPlace>
-        {category === "병원"
-          ? data &&
-            data.length > 0 &&
-            data.map((item, i) => (
-              <div key={i}>
-                <StCard key={i}>
-                  <Button onClick={() => onDibsHandler(item)} size="mainDib">
-                    {item.like === false ? (
-                      <>
-                        <img src={noDibs} />
-                      </>
-                    ) : (
-                      <img src={dibs} />
-                    )}
-                  </Button>
-                  <div>
-                    {item.like === false ? (
-                      <StResizeImg
-                        src={item.reSizeImage}
-                        alt="mainImg"
-                        onClick={() => navigate(`/hospital/${item.id}`)}
-                      />
-                    ) : (
-                      <StResizeImg
-                        src={item.reSizeImage}
-                        style={{ border: "5px solid #FFD53F" }}
-                        alt="mainImg"
-                        onClick={() => navigate(`/hospital/${item.id}`)}
-                      />
-                    )}
-                  </div>
+        <Fade bottom>
+          {category === "병원"
+            ? data &&
+              data.length > 0 &&
+              data.map((item, i) => (
+                <div key={i}>
+                  <StCard key={i}>
+                    <Button onClick={() => onDibsHandler(item)} size="mainDib">
+                      {item.like === false ? (
+                        <>
+                          <img src={noDibs} />
+                        </>
+                      ) : (
+                        <img src={dibs} />
+                      )}
+                    </Button>
+                    <div>
+                      {item.like === false ? (
+                        <StContainer>
+                          <StResizeImg
+                            src={item.reSizeImage}
+                            alt="mainImg"
+                            onClick={() => navigate(`/hospital/${item.id}`)}
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
+                      ) : (
+                        <StContainer>
+                          <StResizeImg
+                            src={item.reSizeImage}
+                            style={{ border: "5px solid #FFD53F" }}
+                            alt="mainImg"
+                            onClick={() => navigate(`/hospital/${item.id}`)}
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
+                      )}
+                    </div>
 
-                  <StTextBox onClick={() => navigate(`/hospital/${item.id}`)}>
-                    <StTitle>{item.title}</StTitle>
-                    <StText>{item.address.split(" ", 2).join(" ")}</StText>
-                    <StText>
-                      {parseInt(item.distance) > 999 && (
-                        <div>
-                          {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
-                          km남음
-                        </div>
+                    <StTextBox onClick={() => navigate(`/hospital/${item.id}`)}>
+                      <StTitle>{item.title}</StTitle>
+                      <StText>{item.address.split(" ", 2).join(" ")}</StText>
+                      <StText>
+                        {parseInt(item.distance) > 999 && (
+                          <div>
+                            {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
+                            km남음
+                          </div>
+                        )}
+                        {parseInt(item.distance) < 999 && (
+                          <div>{parseInt(item.distance)}m남음</div>
+                        )}
+                      </StText>
+                    </StTextBox>
+                  </StCard>
+                </div>
+              ))
+            : category === "미용"
+            ? data &&
+              data.length > 0 &&
+              data.map((item, i) => (
+                <div key={i}>
+                  <StCard key={i}>
+                    <Button onClick={() => onDibsHandler(item)} size="mainDib">
+                      {item.like === false ? (
+                        <>
+                          <img src={noDibs} />
+                        </>
+                      ) : (
+                        <img src={dibs} />
                       )}
-                      {parseInt(item.distance) < 999 && (
-                        <div>{parseInt(item.distance)}m남음</div>
+                    </Button>
+                    <div>
+                      {item.like === false ? (
+                        <StContainer>
+                          <StResizeImg
+                            src={item.reSizeImage}
+                            alt="mainImg"
+                            onClick={() => navigate(`/shop/${item.id}`)}
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
+                      ) : (
+                        <StContainer>
+                          <StResizeImg
+                            src={item.reSizeImage}
+                            style={{ border: "5px solid #FFD53F" }}
+                            alt="mainImg"
+                            onClick={() => navigate(`/shop/${item.id}`)}
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
                       )}
-                    </StText>
-                  </StTextBox>
-                </StCard>
-              </div>
-            ))
-          : category === "미용"
-          ? data &&
-            data.length > 0 &&
-            data.map((item, i) => (
-              <div key={i}>
-                <StCard key={i}>
-                  <Button onClick={() => onDibsHandler(item)} size="mainDib">
-                    {item.like === false ? (
-                      <>
-                        <img src={noDibs} />
-                      </>
-                    ) : (
-                      <img src={dibs} />
-                    )}
-                  </Button>
-                  <div>
-                    {item.like === false ? (
-                      <StResizeImg
-                        src={item.reSizeImage}
-                        alt="mainImg"
-                        onClick={() => navigate(`/shop/${item.id}`)}
-                      />
-                    ) : (
-                      <StResizeImg
-                        src={item.reSizeImage}
-                        style={{ border: "5px solid #FFD53F" }}
-                        alt="mainImg"
-                        onClick={() => navigate(`/shop/${item.id}`)}
-                      />
-                    )}
-                  </div>
+                    </div>
 
-                  <StTextBox onClick={() => navigate(`/shop/${item.id}`)}>
-                    <StTitle>{item.title}</StTitle>
-                    <StText>{item.address.split(" ", 2).join(" ")}</StText>
-                    <StText>
-                      {parseInt(item.distance) > 999 && (
-                        <div>
-                          {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
-                          km남음
-                        </div>
+                    <StTextBox onClick={() => navigate(`/shop/${item.id}`)}>
+                      <StTitle>{item.title}</StTitle>
+                      <StText>{item.address.split(" ", 2).join(" ")}</StText>
+                      <StText>
+                        {parseInt(item.distance) > 999 && (
+                          <div>
+                            {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
+                            km남음
+                          </div>
+                        )}
+                        {parseInt(item.distance) < 999 && (
+                          <div>{parseInt(item.distance)}m남음</div>
+                        )}
+                      </StText>
+                    </StTextBox>
+                  </StCard>
+                </div>
+              ))
+            : category === "카페"
+            ? data &&
+              data.length > 0 &&
+              data.map((item, i) => (
+                <div key={i}>
+                  <StCard key={i}>
+                    <Button onClick={() => onDibsHandler(item)} size="mainDib">
+                      {item.like === false ? (
+                        <>
+                          <img src={noDibs} />
+                        </>
+                      ) : (
+                        <img src={dibs} />
                       )}
-                      {parseInt(item.distance) < 999 && (
-                        <div>{parseInt(item.distance)}m남음</div>
+                    </Button>
+                    <div>
+                      {item.like === false ? (
+                        <StContainer>
+                          <StResizeImg
+                            src={item.reSizeImage}
+                            alt="mainImg"
+                            onClick={() => navigate(`/cafe/${item.id}`)}
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
+                      ) : (
+                        <StContainer>
+                          <StResizeImg
+                            src={item.reSizeImage}
+                            style={{ border: "5px solid #FFD53F" }}
+                            alt="mainImg"
+                            onClick={() => navigate(`/cafe/${item.id}`)}
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
                       )}
-                    </StText>
-                  </StTextBox>
-                </StCard>
-              </div>
-            ))
-          : category === "카페"
-          ? data &&
-            data.length > 0 &&
-            data.map((item, i) => (
-              <div key={i}>
-                <StCard key={i}>
-                  <Button onClick={() => onDibsHandler(item)} size="mainDib">
-                    {item.like === false ? (
-                      <>
-                        <img src={noDibs} />
-                      </>
-                    ) : (
-                      <img src={dibs} />
-                    )}
-                  </Button>
-                  <div>
-                    {item.like === false ? (
-                      <StResizeImg
-                        src={item.reSizeImage}
-                        alt="mainImg"
-                        onClick={() => navigate(`/cafe/${item.id}`)}
-                      />
-                    ) : (
-                      <StResizeImg
-                        src={item.reSizeImage}
-                        style={{ border: "5px solid #FFD53F" }}
-                        alt="mainImg"
-                        onClick={() => navigate(`/cafe/${item.id}`)}
-                      />
-                    )}
-                  </div>
+                    </div>
 
-                  <StTextBox onClick={() => navigate(`/cafe/${item.id}`)}>
-                    <StTitle>{item.title}</StTitle>
-                    <StText>{item.address.split(" ", 2).join(" ")}</StText>
-                    <StText>
-                      {parseInt(item.distance) > 999 && (
-                        <div>
-                          {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
-                          km남음
-                        </div>
-                      )}
-                      {parseInt(item.distance) < 999 && (
-                        <div>{parseInt(item.distance)}m남음</div>
-                      )}
-                    </StText>
-                  </StTextBox>
-                </StCard>
-              </div>
-            ))
-          : null}
+                    <StTextBox onClick={() => navigate(`/cafe/${item.id}`)}>
+                      <StTitle>{item.title}</StTitle>
+                      <StText>{item.address.split(" ", 2).join(" ")}</StText>
+                      <StText>
+                        {parseInt(item.distance) > 999 && (
+                          <div>
+                            {((parseInt(item.distance) * 1) / 1000).toFixed(1)}
+                            km남음
+                          </div>
+                        )}
+                        {parseInt(item.distance) < 999 && (
+                          <div>{parseInt(item.distance)}m남음</div>
+                        )}
+                      </StText>
+                    </StTextBox>
+                  </StCard>
+                </div>
+              ))
+            : null}
+        </Fade>
       </StPlace>
     </StWrap>
   );
 }
 
 export default Tab;
+const StCaption = styled.div`
+  position: absolute;
+  bottom: 50%;
+  left: 0%;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  opacity: 0;
+  z-index: 999;
+  /* transition: opacity 0.3s ease; */
+`;
 
-// const StMsg = styled.div`
-//   background-color: #ffd53f;
-//   border: #ffd53f solid 1px;
-//   border-radius: 5px;
-//   color: #000;
-//   font-size: 12px;
-//   font-weight: 500;
-//   height: auto;
-//   letter-spacing: -0.25px;
-//   margin-top: 10px;
-//   padding: 5px 11px;
-//   position: relative;
-//   width: fit-content;
-//   z-index: 100;
-//   color: #000;
-//   animation: jumpDown 1.5s linear 10;
-//   &::after {
-//     border-color: #ffd53f transparent;
-//     border-style: solid;
-//     border-width: 0 6px 8px 6.5px;
-//     content: "";
-//     display: block;
-//     left: 5px;
-//     position: absolute;
-//     left: 1150px;
-//     top: -7px;
-//     width: 0;
-//     z-index: 1;
-//   }
-//   &::before {
-//     border-color: #ffd53f transparent;
-//     border-style: solid;
-//     border-width: 0 6px 8px 6.5px;
-//     content: "";
-//     display: block;
-//     left: 5px;
-//     position: absolute;
-//     left: 1150px;
-//     top: -8px;
-//     width: 0;
-//     z-index: 0;
-//   }
-//   @keyframes jumpDown {
-//     0% {
-//       left: 0px;
-//       top: 0px;
-//     }
-//     25% {
-//       left: 0px;
-//       top: 5px;
-//     }
-//     50% {
-//       left: 0px;
-//       top: 0px;
-//     }
-//     75% {
-//       left: 0px;
-//       top: 5px;
-//     }
-//     100% {
-//       left: 0px;
-//       top: 0px;
-//     }
-//   }
-// `;
+const StContainer = styled.div`
+  position: relative;
+  width: 100%;
+  &:hover {
+    ${StResizeImg} {
+      filter: brightness(50%);
+    }
+    ${StCaption} {
+      opacity: 1;
+    }
+  }
+`;

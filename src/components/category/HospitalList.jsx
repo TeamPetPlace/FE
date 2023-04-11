@@ -42,6 +42,7 @@ import History from "../../element/History";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import Button from "../../element/Button";
 import Swal from "sweetalert2";
+import styled from "styled-components";
 
 function HospitalList() {
   const [cards, setCards] = useState([]);
@@ -211,6 +212,12 @@ function HospitalList() {
         text: "마이페이지 '찜목록'에서 확인이 가능합니다!",
         confirmButtonColor: "#FFD53F",
         timer: 3000,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload("/hospital");
+        } else {
+          return;
+        }
       });
     },
     onError: (error) => {
@@ -228,6 +235,12 @@ function HospitalList() {
         title: "찜하기 취소",
         confirmButtonColor: "#FFD53F",
         timer: 3000,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload("/hospital");
+        } else {
+          return;
+        }
       });
     },
     onError: (error) => {
@@ -320,22 +333,28 @@ function HospitalList() {
                         )}
                       </Button>
                       {item.like === false ? (
-                        <StCardImg
-                          onClick={() => {
-                            navigate(`/hospital/${item.id}`);
-                          }}
-                          src={item.reSizeImage}
-                          alt="IMG"
-                        />
+                        <StContainer>
+                          <StCardImg
+                            onClick={() => {
+                              navigate(`/hospital/${item.id}`);
+                            }}
+                            src={item.reSizeImage}
+                            alt="IMG"
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
                       ) : (
-                        <StCardImg
-                          onClick={() => {
-                            navigate(`/hospital/${item.id}`);
-                          }}
-                          src={item.reSizeImage}
-                          alt="IMG"
-                          style={{ border: "3px solid #FFD53F" }}
-                        />
+                        <StContainer>
+                          <StCardImg
+                            onClick={() => {
+                              navigate(`/hospital/${item.id}`);
+                            }}
+                            src={item.reSizeImage}
+                            alt="IMG"
+                            style={{ border: "3px solid #FFD53F" }}
+                          />
+                          <StCaption>보러가기</StCaption>
+                        </StContainer>
                       )}
                     </div>
                     <StCardTitle
@@ -427,21 +446,27 @@ function HospitalList() {
                           )}
                         </Button>
                         {item.like === false ? (
-                          <StCardImg
-                            onClick={() => {
-                              navigate(`/hospital/${item.id}`);
-                            }}
-                            src={item.reSizeImage}
-                            alt="IMG"
-                          />
+                          <StContainer>
+                            <StCardImg
+                              onClick={() => {
+                                navigate(`/hospital/${item.id}`);
+                              }}
+                              src={item.reSizeImage}
+                              alt="IMG"
+                            />
+                            <StCaption>보러가기</StCaption>
+                          </StContainer>
                         ) : (
-                          <StCardImg
-                            onClick={() => {
-                              navigate(`/hospital/${item.id}`);
-                            }}
-                            src={item.reSizeImage}
-                            alt="IMG"
-                          />
+                          <StContainer>
+                            <StCardImg
+                              onClick={() => {
+                                navigate(`/hospital/${item.id}`);
+                              }}
+                              src={item.reSizeImage}
+                              alt="IMG"
+                            />
+                            <StCaption>보러가기</StCaption>
+                          </StContainer>
                         )}
                       </div>
                       <StCardTitle
@@ -506,3 +531,28 @@ function HospitalList() {
 }
 
 export default HospitalList;
+
+const StCaption = styled.div`
+  position: absolute;
+  bottom: 50%;
+  left: 0%;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  opacity: 0;
+  z-index: 999;
+  /* transition: opacity 0.3s ease; */
+`;
+
+const StContainer = styled.div`
+  position: relative;
+  width: 100%;
+  &:hover {
+    ${StCardImg} {
+      filter: brightness(50%);
+    }
+    ${StCaption} {
+      opacity: 1;
+    }
+  }
+`;

@@ -25,6 +25,7 @@ import {
   StDeleteBtn,
 } from "./NotificationStyle";
 import Swal from "sweetalert2";
+import { Fade } from "react-reveal";
 
 function MyNotification() {
   const [list, setList] = useState([]);
@@ -111,70 +112,80 @@ function MyNotification() {
                 <div key={i}>
                   {item.category === "병원" && (
                     <StNotification key={i} style={{ display: "flex" }}>
-                      <StMove
-                        onClick={() => navigate(`/hospital/${item.postId}`)}
-                      >
-                        <span style={{ fontWeight: "900" }}>
-                          {item.nickname}님!
-                        </span>{" "}
-                        {item.content}
-                      </StMove>
-                      <StRight>
-                        <StDate>
-                          {item.createdAt.split("T", 1)}{" "}
-                          {item.createdAt.slice(11, 16)}
-                        </StDate>
-
-                        <StDeleteBtn
-                          onClick={() => onDeleteNotificationHandler(item.id)}
+                      <Fade bottom>
+                        <StMove
+                          onClick={() => navigate(`/hospital/${item.postId}`)}
                         >
-                          <GrClose />
-                        </StDeleteBtn>
-                      </StRight>
+                          <span style={{ fontWeight: "900" }}>
+                            {item.nickname}님!
+                          </span>{" "}
+                          {item.content}
+                        </StMove>
+                        <StRight>
+                          <StDate>
+                            {item.createdAt.split("T", 1)}{" "}
+                            {item.createdAt.slice(11, 16)}
+                          </StDate>
+
+                          <StDeleteBtn
+                            onClick={() => onDeleteNotificationHandler(item.id)}
+                          >
+                            <GrClose />
+                          </StDeleteBtn>
+                        </StRight>
+                      </Fade>
                     </StNotification>
                   )}
                   {item.category === "미용" && (
                     <StNotification key={i} style={{ display: "flex" }}>
-                      <StMove onClick={() => navigate(`/shop/${item.postId}`)}>
-                        <span style={{ fontWeight: "900" }}>
-                          {item.nickname}님!
-                        </span>{" "}
-                        {item.content}
-                      </StMove>
-                      <StRight>
-                        <StDate>
-                          {item.createdAt.split("T", 1)}{" "}
-                          {item.createdAt.slice(11, 16)}
-                        </StDate>
-
-                        <StDeleteBtn
-                          onClick={() => onDeleteNotificationHandler(item.id)}
+                      <Fade bottom>
+                        <StMove
+                          onClick={() => navigate(`/shop/${item.postId}`)}
                         >
-                          <GrClose />
-                        </StDeleteBtn>
-                      </StRight>
+                          <span style={{ fontWeight: "900" }}>
+                            {item.nickname}님!
+                          </span>{" "}
+                          {item.content}
+                        </StMove>
+                        <StRight>
+                          <StDate>
+                            {item.createdAt.split("T", 1)}{" "}
+                            {item.createdAt.slice(11, 16)}
+                          </StDate>
+
+                          <StDeleteBtn
+                            onClick={() => onDeleteNotificationHandler(item.id)}
+                          >
+                            <GrClose />
+                          </StDeleteBtn>
+                        </StRight>
+                      </Fade>
                     </StNotification>
                   )}
                   {item.category === "카페" && (
                     <StNotification key={i} style={{ display: "flex" }}>
-                      <StMove onClick={() => navigate(`/cafe/${item.postId}`)}>
-                        <span style={{ fontWeight: "900" }}>
-                          {item.nickname}님!
-                        </span>{" "}
-                        {item.content}
-                      </StMove>
-                      <StRight>
-                        <StDate>
-                          {item.createdAt.split("T", 1)}{" "}
-                          {item.createdAt.slice(11, 16)}
-                        </StDate>
-
-                        <StDeleteBtn
-                          onClick={() => onDeleteNotificationHandler(item.id)}
+                      <Fade bottom>
+                        <StMove
+                          onClick={() => navigate(`/cafe/${item.postId}`)}
                         >
-                          <GrClose />
-                        </StDeleteBtn>
-                      </StRight>
+                          <span style={{ fontWeight: "900" }}>
+                            {item.nickname}님!
+                          </span>{" "}
+                          {item.content}
+                        </StMove>
+                        <StRight>
+                          <StDate>
+                            {item.createdAt.split("T", 1)}{" "}
+                            {item.createdAt.slice(11, 16)}
+                          </StDate>
+
+                          <StDeleteBtn
+                            onClick={() => onDeleteNotificationHandler(item.id)}
+                          >
+                            <GrClose />
+                          </StDeleteBtn>
+                        </StRight>
+                      </Fade>
                     </StNotification>
                   )}
                 </div>
