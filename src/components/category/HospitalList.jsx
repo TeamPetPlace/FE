@@ -212,6 +212,12 @@ function HospitalList() {
         text: "마이페이지 '찜목록'에서 확인이 가능합니다!",
         confirmButtonColor: "#FFD53F",
         timer: 3000,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload("/hospital");
+        } else {
+          return;
+        }
       });
     },
     onError: (error) => {
@@ -229,6 +235,12 @@ function HospitalList() {
         title: "찜하기 취소",
         confirmButtonColor: "#FFD53F",
         timer: 3000,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload("/hospital");
+        } else {
+          return;
+        }
       });
     },
     onError: (error) => {
