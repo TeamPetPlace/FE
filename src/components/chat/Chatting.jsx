@@ -22,72 +22,38 @@ export function Chatting({ roomId }) {
 
   let ws = useRef(null);
 
-  // 소켓 객체 생성
-  // React.useEffect(() => {
-  //   wsURL.onopen = () => {
-  //     console.log("WebSocket connected"); // 연결 성공 시 실행할 코드
-  //   };
+  // NO.2 소켓 객체 생성------------------------------------------------
+  useEffect(() => {
+    wsURL.onopen = () => {
+      websocket.subscribe(
+        `/sub/chat/room/${roomId}`,
+        (data) => {
+          const newMessage = JSON.parse(data.body);
+          const enterMsg = {
+            type: "ENTER",
+            roomId,
+            sender: userinfo.nickname,
+          };
+          websocket.send(JSON.stringify(data));
+          websocket.send("/pub/chat/enter", websocket, JSON.stringify(enterMsg));
+          //데이터 파싱
+        }
+        // userinfo.AccessToken
+      );
+    };
 
-  //   wsURL.onmessage = (event) => {
-  //     console.log(`Received message: ${event.data}`); // 메시지 수신 시 실행할 코드
-  //   };
-
-  //   wsURL.onclose = () => {
-  //     console.log("WebSocket disconnected"); // 연결 종료 시 실행할 코드
-  //   };
-
-  //   return () => {
-  //     // websocket.close(); // 컴포넌트 언마운트 시 WebSocket 연결 종료
-  //   };
-  // }, []);
-
-  const stompConnect = () => {
-    try {
-      // websocket.debug = null;
-      //웹소켓 연결시 stomp에서 자동으로 connect이 되었다는것을
-      //console에 보여주는데 그것을 감추기 위한 debug
-      websocket.connect(userinfo.AccessToken, () => {
-        console.log("confirm : web socket connected");
-        websocket.subscribe(
-         '/sub/chat/room/' + roomId,
-          (data) => {
-            const newMessage = JSON.parse(data.body);
-            //데이터 파싱
-          },
-          { Authorization: userinfo.AccessToken }
-        );
-        const enterMsg = {
-          type: "ENTER",
-          roomId: roomId,
-          sender: userinfo.nickname,
-        };
-        websocket.send(JSON.stringify(enterMsg));
-      });
-    } catch (err) {}
-  };
-
-  // useEffect(() => {
-  //   websocket.onopen = () => {
-  //     console.log("confirm : web socket connected");
-  //     const enterMsg = {
-  //       type: "ENTER",
-  //       roomId: roomId,
-  //       sender: userinfo.nickname,
-  //     };
-  //     websocket.send(JSON.stringify(enterMsg));
-  //   };
-  //   websocket.onmessage = (event) => {
-  //     const message = typeof JSON.parse(event.data);
-  //     console.log("confirm : web socket message recieved", message);
-  //     setAllMsg((preAllMsg) => [...preAllMsg, message]);
-  //   };
-  //   websocket.onclose = () => {
-  //     console.log("confirm : web socket disconnected");
-  //   };
-  //   return () => {
-  //     // websocket.close();
-  //   };
-  // }, [roomId, userinfo.nickname]);
+    wsURL.onmessage = (event) => {
+      const message = typeof JSON.parse(event.data);
+      console.log("confirm : web socket message recieved", message);
+      setAllMsg((preAllMsg) => [...preAllMsg, message]);
+    };
+    wsURL.onclose = () => {
+      console.log("confirm : web socket disconnected");
+    };
+    return () => {
+      wsURL.close();
+    };
+  }, [roomId]);
 
   const stompDisConnect = () => {
     try {
@@ -99,23 +65,22 @@ export function Chatting({ roomId }) {
   };
 
   const SendMessage = () => {
-    // websocket.debug = null;
+    websocket.debug = null;
     const data = {
       type: "TALK",
-      roomId: roomId,
+      roomId,
       sender: userinfo.nickname,
-      message: message,
+      message,
     };
     //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
-    websocket.send("/pub/chat/message", userinfo.AccessToken, JSON.stringify(data));
+    websocket.send("/pub/chat/message", websocket, JSON.stringify(data));
   };
-  //웹소켓 데이터 전송 부분
-  //웹소켓 disconnect-unsubscribe 부분
-  // 웹소켓을 disconnect을 따로 해주지 않으면 계속 연결되어 있어서 사용하지 않을때는 꼭 연결을 끊어주어야한다.
+  //   websocket.send("/pub/chat/message", userinfo.AccessToken, JSON.stringify(data));
 
   const onMsgChangeHandler = (event) => {
     setMessage(event.target.value);
   };
+
   const onSendMsgHandler = () => {
     const talkMsg = {
       type: "TALK",
@@ -137,6 +102,12 @@ export function Chatting({ roomId }) {
               {message.sender}: {message.message}
             </li>
           ))}
+          <div>res : </div>
+          <div>
+            {allmsg.map((item) => {
+              return <div>{JSON.stringify(item)}</div>;
+            })}
+          </div>
         </ul>
       </div>
       <div>
@@ -146,3 +117,73 @@ export function Chatting({ roomId }) {
     </div>
   );
 }
+
+// NO.1 소켓 객체 생성------------------------------------------------
+// useEffect(() => {
+//   if (!ws.current) {
+//     ws.current = new WebSocket(webSocketUrl);
+//     ws.current.onopen = () => {
+//       console.log("connected to " + webSocketUrl);
+//       setSocketConnected(true);
+//     };
+//     ws.current.onclose = (error) => {
+//       console.log("disconnect from " + webSocketUrl);
+//       console.log(error);
+//     };
+//     ws.current.onerror = (error) => {
+//       console.log("connection error " + webSocketUrl);
+//       console.log(error);
+//     };
+//     ws.current.onmessage = (evt) => {
+//       const data = JSON.parse(evt.data);
+//       console.log(data);
+//       setItems((prevItems) => [...prevItems, data]);
+//     };
+//   }
+
+//   return () => {
+//     console.log("clean up");
+//     // ws.current.close();
+//   };
+// }, []);
+
+// // 소켓이 연결되었을 시에 send 메소드
+// useEffect(() => {
+//   if (socketConnected) {
+//     ws.current.send(
+//       JSON.stringify({
+//         message: message,
+//       })
+//     );
+
+//     setSendMsg(true);
+//   }
+// }, [socketConnected]);
+
+// NO.3 소켓 객체 생성------------------------------------------------
+// const stompConnect = () => {
+//   try {
+//     websocket.debug = null;
+//     //웹소켓 연결시 stomp에서 자동으로 connect이 되었다는것을
+//     //console에 보여주는데 그것을 감추기 위한 debug
+
+//     wsURL.connect(userinfo.AccessToken, () => {
+//       wsURL.subscribe(
+//         `/sub/chat/room/${roomId}`,
+//         (data) => {
+//           const newMessage = JSON.parse(data.body);
+//           const enterMsg = {
+//             type: "ENTER",
+//             roomId,
+//             sender: userinfo.nickname,
+//           };
+//           console.log(enterMsg);
+//           console.log(newMessage);
+//           websocket.send(JSON.stringify(enterMsg));
+//           //데이터 파싱
+//         },
+//         userinfo.AccessToken
+//       );
+//     });
+//   } catch (err) {}
+// };
