@@ -43,9 +43,9 @@ export function Chatting({ roomId }) {
     };
 
     wsURL.onmessage = (event) => {
-      const message = typeof JSON.parse(event.data);
+      // const message = typeof JSON.parse(event.data);
       console.log("confirm : web socket message recieved", message);
-      setAllMsg((preAllMsg) => [...preAllMsg, message]);
+      // setAllMsg((preAllMsg) => [...preAllMsg, message]);
     };
     wsURL.onclose = () => {
       console.log("confirm : web socket disconnected");
@@ -55,26 +55,26 @@ export function Chatting({ roomId }) {
     };
   }, [roomId]);
 
-  const stompDisConnect = () => {
-    try {
-      // websocket.debug = null;
-      websocket.disconnect(() => {
-        websocket.unsubscribe("sub-0");
-      }, userinfo.AccessToken);
-    } catch (err) {}
-  };
+  // const stompDisConnect = () => {
+  //   try {
+  //     // websocket.debug = null;
+  //     websocket.disconnect(() => {
+  //       websocket.unsubscribe("sub-0");
+  //     }, userinfo.AccessToken);
+  //   } catch (err) {}
+  // };
 
-  const SendMessage = () => {
-    websocket.debug = null;
-    const data = {
-      type: "TALK",
-      roomId,
-      sender: userinfo.nickname,
-      message,
-    };
-    //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
-    websocket.send("/pub/chat/message", websocket, JSON.stringify(data));
-  };
+  // const SendMessage = () => {
+  //   websocket.debug = null;
+  //   const data = {
+  //     type: "TALK",
+  //     roomId,
+  //     sender: userinfo.nickname,
+  //     message,
+  //   };
+  //   //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
+  //   websocket.send("/pub/chat/message", websocket, JSON.stringify(data));
+  // };
   //   websocket.send("/pub/chat/message", userinfo.AccessToken, JSON.stringify(data));
 
   const onMsgChangeHandler = (event) => {
@@ -88,8 +88,20 @@ export function Chatting({ roomId }) {
       sender: userinfo.nickname,
       message,
     };
-    websocket.send(JSON.stringify(talkMsg));
-    setMessage("");
+    websocket.send("/pub/chat/message", websocket, JSON.stringify(talkMsg));
+    setAllMsg((preAllMsg) => [...preAllMsg, talkMsg]);
+    setMessage([]);
+  };
+
+  const onEnterMsgHandler = () => {
+    const enterMsg = {
+      type: "ENTER",
+      roomId,
+      sender: userinfo.nickname,
+    };
+    websocket.send("/pub/chat/enter", websocket, JSON.stringify(enterMsg));
+    websocket.send(JSON.stringify(enterMsg));
+    // setMessage("");
   };
 
   return (
@@ -97,21 +109,24 @@ export function Chatting({ roomId }) {
       <div> 채팅방 : {roomId}</div>
       <div>
         <ul>
-          {allmsg.map((message, index) => (
-            <li key={index}>
-              {message.sender}: {message.message}
-            </li>
-          ))}
+          {allmsg !== [] &&
+            allmsg?.map((message, index) => (
+              <li key={index}>
+                {message.sender}: {message.message}
+              </li>
+            ))}
+          <button onClick={onEnterMsgHandler}>입장</button>
           <div>res : </div>
           <div>
-            {allmsg.map((item) => {
-              return <div>{JSON.stringify(item)}</div>;
-            })}
+            {allmsg !== [] &&
+              allmsg?.map((item) => {
+                return <div>{JSON.stringify(item)}</div>;
+              })}
           </div>
         </ul>
       </div>
       <div>
-        <input type="text" value={message} onChange={onMsgChangeHandler} />
+        <input name="chat" type="text" value={message} onChange={onMsgChangeHandler} />
         <button onClick={onSendMsgHandler}>전송</button>
       </div>
     </div>
