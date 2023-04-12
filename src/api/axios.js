@@ -62,17 +62,6 @@ instance.interceptors.response.use(
         return baseURL(originalRequest);
       }
     } catch (error) {
-      // let isLoggedInExpiredShown = false;
-      // 새로운 accessToken 발급에 실패한 경우 쿠키에 있던 기존 토큰을 모두 없애고 redirect
-      // ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
-      //   (cookie) => removeCookie(cookie)
-      // );
-      // if (!isLoggedInExpiredShown) {
-      //   alert("세션이 만료되었습니다. 다시 로그인해주세요!");
-      //   isLoggedInExpiredShown = true;
-      // }
-      console.log("로그인 만료");
-      // window.location.replace("/");
       return false;
     }
     return Promise.reject(error);
@@ -99,42 +88,6 @@ kakaoURL.interceptors.request.use(
     return config;
   },
   (error) => {
-    return Promise.reject(error);
-  }
-);
-
-kakaoURL.interceptors.response.use(
-  async (response) => response,
-  async (error) => {
-    const { response, config } = error;
-    console.log(error);
-    console.log(response);
-    console.log(config);
-    const originalRequest = error.config;
-    try {
-      console.log("재발급중...");
-      console.log(error);
-      console.log(response.status);
-      if (error.code === "ERR_BAD_REQUEST" || response.status === "401") {
-        const RefreshToken = getCookie("RefreshToken");
-        const refreshedResponse = await baseURL.get("/token", {
-          headers: {
-            RefreshToken: RefreshToken,
-          },
-        });
-        /* CHANGE ACCESSTOKEN ------------------------------------------------------- */
-        console.log(refreshedResponse);
-        originalRequest.headers["Authorization"] = refreshedResponse.headers["authorization"];
-        console.log("재발급 완료");
-        removeCookie("AccessToken");
-        setCookie("AccessToken", refreshedResponse.headers["authorization"]);
-        return baseURL(originalRequest);
-      }
-    } catch (error) {
-      console.log("로그인 만료");
-      // window.location.replace("/");
-      return false;
-    }
     return Promise.reject(error);
   }
 );
