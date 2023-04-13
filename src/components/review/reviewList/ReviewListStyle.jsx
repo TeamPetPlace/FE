@@ -57,9 +57,11 @@ const StPageBox = styled.div`
 `;
 
 const PageBox = styled.div`
-  position: absolute;
-  left: 40%;
-  top: -80%;
+  /* position: absolute; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -80px;
   .pagination {
     display: flex;
     justify-content: center;
@@ -103,7 +105,11 @@ const PageBox = styled.div`
     color: black;
   }
   @media screen and (max-width: 767px) {
-    left: 4%;
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -80px;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {

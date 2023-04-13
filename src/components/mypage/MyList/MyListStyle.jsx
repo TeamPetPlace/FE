@@ -152,9 +152,9 @@ const StBtns = styled.div`
 `;
 
 const PageBox = styled.div`
-  position: absolute;
-  left: 35%;
-  top: 0%;
+  display: flex;
+  justify-content: center;
+
   .pagination {
     display: flex;
     justify-content: center;
@@ -217,7 +217,9 @@ const PageBox = styled.div`
     left: 18%;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    left: 30%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
   }
 `;
 
@@ -603,18 +605,16 @@ const StStarIcon = styled.div`
 `;
 
 const PageBoxs = styled.div`
-  position: absolute;
-  left: 35%;
-  top: 95%;
+  margin-top: 90px;
   .pagination {
     display: flex;
     justify-content: center;
     margin-top: 15px;
     @media screen and (max-width: 767px) {
-      margin-top: 220px;
+      margin-top: 250px;
     }
     @media screen and (min-width: 768px) and (max-width: 1023px) {
-      margin-top: 170px;
+      margin-top: 200px;
     }
   }
   ul {
@@ -665,7 +665,6 @@ const PageBoxs = styled.div`
     color: black;
   }
   @media screen and (max-width: 767px) {
-    left: 18%;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     left: 30%;

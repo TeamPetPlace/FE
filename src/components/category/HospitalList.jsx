@@ -341,7 +341,13 @@ function HospitalList() {
                             src={item.reSizeImage}
                             alt="IMG"
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => {
+                              navigate(`/hospital/${item.id}`);
+                            }}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       ) : (
                         <StContainer>
@@ -353,7 +359,13 @@ function HospitalList() {
                             alt="IMG"
                             style={{ border: "3px solid #FFD53F" }}
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => {
+                              navigate(`/hospital/${item.id}`);
+                            }}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       )}
                     </div>
@@ -454,7 +466,13 @@ function HospitalList() {
                               src={item.reSizeImage}
                               alt="IMG"
                             />
-                            <StCaption>보러가기</StCaption>
+                            <StCaption
+                              onClick={() => {
+                                navigate(`/hospital/${item.id}`);
+                              }}
+                            >
+                              보러가기
+                            </StCaption>
                           </StContainer>
                         ) : (
                           <StContainer>
@@ -465,7 +483,13 @@ function HospitalList() {
                               src={item.reSizeImage}
                               alt="IMG"
                             />
-                            <StCaption>보러가기</StCaption>
+                            <StCaption
+                              onClick={() => {
+                                navigate(`/hospital/${item.id}`);
+                              }}
+                            >
+                              보러가기
+                            </StCaption>
                           </StContainer>
                         )}
                       </div>
@@ -541,6 +565,7 @@ const StCaption = styled.div`
   color: #fff;
   opacity: 0;
   z-index: 999;
+  cursor: pointer;
   /* transition: opacity 0.3s ease; */
 `;
 

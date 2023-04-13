@@ -341,7 +341,13 @@ function ShopList() {
                             src={item.reSizeImage}
                             alt="IMG"
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => {
+                              navigate(`/shop/${item.id}`);
+                            }}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       ) : (
                         <StContainer>
@@ -353,7 +359,13 @@ function ShopList() {
                             alt="IMG"
                             style={{ border: "3px solid #FFD53F" }}
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => {
+                              navigate(`/shop/${item.id}`);
+                            }}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       )}
                     </div>
@@ -443,7 +455,13 @@ function ShopList() {
                               src={item.reSizeImage}
                               alt="IMG"
                             />
-                            <StCaption>보러가기</StCaption>
+                            <StCaption
+                              onClick={() => {
+                                navigate(`/shop/${item.id}`);
+                              }}
+                            >
+                              보러가기
+                            </StCaption>
                           </StContainer>
                         ) : (
                           <StContainer>
@@ -455,7 +473,13 @@ function ShopList() {
                               alt="IMG"
                               style={{ border: "3px solid #FFD53F" }}
                             />
-                            <StCaption>보러가기</StCaption>
+                            <StCaption
+                              onClick={() => {
+                                navigate(`/shop/${item.id}`);
+                              }}
+                            >
+                              보러가기
+                            </StCaption>
                           </StContainer>
                         )}
                       </div>
@@ -525,6 +549,7 @@ const StCaption = styled.div`
   color: #fff;
   opacity: 0;
   z-index: 999;
+  cursor: pointer;
   /* transition: opacity 0.3s ease; */
 `;
 
