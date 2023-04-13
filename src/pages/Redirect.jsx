@@ -21,9 +21,9 @@ const Redirect = () => {
         Cookies.set("AccessToken", AccessToken);
         // setCookie("RefreshToken", RefreshToken, { path: "/" });
 
-        setCookie("loginType", response.data.response.loginType, { path: "/" });
-        setCookie("email", response.data.response.email, { path: "/" });
-        setCookie("nickname", response.data.response.nickname, { path: "/" });
+        Cookies.set("loginType", response.data.response.loginType);
+        Cookies.set("email", response.data.response.email);
+        Cookies.set("nickname", response.data.response.nickname);
         navigate("/main");
         // }
         return response;
