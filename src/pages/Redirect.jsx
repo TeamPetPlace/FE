@@ -18,7 +18,7 @@ const Redirect = () => {
         // const RefreshToken = response.headers.refreshtoken;
 
         // if (response.data.success === true) {
-        Cookies.set("AccessToken", AccessToken, { path: "/", maxAge: 3600 });
+        Cookies.set("AccessToken", AccessToken);
         // setCookie("RefreshToken", RefreshToken, { path: "/" });
 
         setCookie("loginType", response.data.response.loginType, { path: "/" });
