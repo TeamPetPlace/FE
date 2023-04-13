@@ -3,7 +3,7 @@ import { kakaoURL } from "../api/axios";
 import { setCookie } from "../api/cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Cookies } from "react-cookie";
+import Cookies from "js-cookie";
 
 const Redirect = () => {
   const code = new URL(window.location.toString()).searchParams.get("code");
