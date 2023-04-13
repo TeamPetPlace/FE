@@ -15,6 +15,7 @@
     "event-source-polyfill": "^1.0.31",
     "geocoder": "^0.2.3",
     "js-cookie": "^3.0.1",
+    "jwt-decode": "^3.1.2",
     "kakao-sdk": "^3.1.0",
     "lodash": "^4.17.21",
     "net": "^1.0.2",

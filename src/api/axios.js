@@ -62,6 +62,14 @@ instance.interceptors.response.use(
         return baseURL(originalRequest);
       }
     } catch (error) {
+      // console.log(error);
+      // if (error.response.data.status === 401) {
+      //   ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
+      //     (cookie) => removeCookie(cookie)
+      //   );
+      //   alert("세션이 만료되었습니다");
+      //   window.location.href = "/";
+      // }
       return false;
     }
     return Promise.reject(error);
