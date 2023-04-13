@@ -3,6 +3,7 @@ import { kakaoURL } from "../api/axios";
 import { setCookie } from "../api/cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Cookies } from "react-cookie";
 
 const Redirect = () => {
   const code = new URL(window.location.toString()).searchParams.get("code");
@@ -17,7 +18,7 @@ const Redirect = () => {
         // const RefreshToken = response.headers.refreshtoken;
 
         // if (response.data.success === true) {
-        setCookie("AccessToken", AccessToken, { path: "/" , maxAge: 3600 });
+        Cookies.set("AccessToken", AccessToken, { path: "/", maxAge: 3600 });
         // setCookie("RefreshToken", RefreshToken, { path: "/" });
 
         setCookie("loginType", response.data.response.loginType, { path: "/" });
