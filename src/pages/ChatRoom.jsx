@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useMutation, useQueryClient } from "react-query";
-import { postChatting } from "../api/main";
-import { Chatting } from "../components/chat/Chatting";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { getChattingList, postChatting } from "../api/main";
+
+import ExChatting from "../components/chat/ExChatting";
+import Chatting from "../components/chat/Chatting";
 
 function ChatRoom({ id }) {
   const [userinfo] = useCookies(["AccessToken", "nickname"]);
@@ -12,22 +14,23 @@ function ChatRoom({ id }) {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
 
+  const [list, setList] = useState([]);
+
   const getChattingMutation = useMutation(postChatting, {
     onSuccess: (response) => {
       console.log("채팅방 입장");
       console.log(response);
       queryClient.invalidateQueries("postChatting");
-      setRoomId(response.data.roomId);
-      setName(response.data.name);
+      setRoomId(response.data);
+      console.log(response.data);
     },
   });
 
   console.log(roomId);
-  console.log(name);
+  console.log(id);
 
-  const onChatEnterHandler = (event) => {
-    const postId = id;
-    getChattingMutation.mutate(postId);
+  const onChatEnterHandler = () => {
+    getChattingMutation.mutate(id);
   };
 
   return (
@@ -37,7 +40,7 @@ function ChatRoom({ id }) {
         <div>채팅 리스트...</div>
         <button onClick={onChatEnterHandler}> 채팅 시작 </button>
         <div>id : {id}</div>
-        <Chatting roomId={roomId} />
+        <Chatting roomId={roomId} postId={id} />
       </div>
     </div>
   );
