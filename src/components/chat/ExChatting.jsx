@@ -7,7 +7,7 @@ import { useMutation, useQuery } from "react-query";
 import { instance } from "../../api/axios";
 import { Navigate } from "react-router-dom";
 
-function Chatting({ roomId, postId }) {
+function ExChatting({ roomId, postId }) {
   const [cookies] = useCookies(["AccessToken", "nickname"]);
   const [chatlog, setChatlog] = useState([]);
   const sender = cookies.nickname;
@@ -147,4 +147,4 @@ function Chatting({ roomId, postId }) {
   );
 }
 
-export default Chatting;
+export default ExChatting;

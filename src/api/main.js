@@ -12,6 +12,11 @@ export const postChatting = async (postId) => {
   }
 };
 
+export const getChattingList = async (postId) => {
+  const response = await instance.get(`/chat/rooms/${postId}`);
+  return response.data;
+};
+
 const getPost = async (payload) => {
   const response = await instance.get("/topPosts", {
     params: {

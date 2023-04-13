@@ -275,7 +275,11 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/hospital/${item.id}`)}
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => navigate(`/hospital/${item.id}`)}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       ) : (
                         <StContainer>
@@ -285,7 +289,11 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/hospital/${item.id}`)}
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => navigate(`/hospital/${item.id}`)}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       )}
                     </div>
@@ -331,7 +339,11 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/shop/${item.id}`)}
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => navigate(`/shop/${item.id}`)}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       ) : (
                         <StContainer>
@@ -341,7 +353,11 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/shop/${item.id}`)}
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => navigate(`/shop/${item.id}`)}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       )}
                     </div>
@@ -387,7 +403,11 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/cafe/${item.id}`)}
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => navigate(`/cafe/${item.id}`)}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       ) : (
                         <StContainer>
@@ -397,7 +417,11 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/cafe/${item.id}`)}
                           />
-                          <StCaption>보러가기</StCaption>
+                          <StCaption
+                            onClick={() => navigate(`/cafe/${item.id}`)}
+                          >
+                            보러가기
+                          </StCaption>
                         </StContainer>
                       )}
                     </div>
@@ -437,6 +461,7 @@ const StCaption = styled.div`
   color: #fff;
   opacity: 0;
   z-index: 999;
+  cursor: pointer;
   /* transition: opacity 0.3s ease; */
 `;
 
