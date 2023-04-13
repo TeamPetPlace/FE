@@ -29,6 +29,7 @@ import {
   StNickdiv,
 } from "./CommonStyle";
 import Swal from "sweetalert2";
+import jwtDecode from "jwt-decode";
 
 function Header() {
   const navigate = useNavigate();
@@ -43,20 +44,42 @@ function Header() {
     },
   });
 
+  //token check
+  useEffect(() => {
+    const CheckToken = getCookie("AccessToken");
+    // let decoded = CheckToken && jwtDecode(CheckToken);
+
+    if (CheckToken !== null) {
+      const decoded = jwtDecode(CheckToken);
+      console.log("1번");
+
+      function TokenExpire() {
+        console.log("2번");
+        const exp = Number(decoded.exp + "000");
+        const expTime = new Date(exp);
+        console.log("만료 시간:", expTime);
+        const now = new Date();
+        console.log("현재 시간:", now);
+
+        if (expTime <= now) {
+          alert("로그인 해 주세요");
+          navigate("/signin");
+        } else {
+        }
+      }
+
+      TokenExpire();
+    }
+  }, []);
+
   //드롭다운
   const [drop, setDrop] = useState(false);
 
   const logoutmuation = useMutation(NomalLogin, {
     onSuccess: (response) => {
-      [
-        "AccessToken",
-        "RefreshToken",
-        "loginType",
-        "email",
-        "nickname",
-        "lat",
-        "lng",
-      ].forEach((cookie) => removeCookie(cookie));
+      ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
+        (cookie) => removeCookie(cookie)
+      );
       Swal.fire({
         position: "center",
         icon: "success",
@@ -132,15 +155,11 @@ function Header() {
 
   const [count, setCount] = useState();
 
-  const { data: countData } = useQuery(
-    "getnotificationcount",
-    getNotificationCount,
-    {
-      onSuccess: (response) => {
-        setCount(response.count);
-      },
-    }
-  );
+  const { data: countData } = useQuery("getnotificationcount", getNotificationCount, {
+    onSuccess: (response) => {
+      setCount(response.count);
+    },
+  });
 
   return (
     <>
@@ -167,20 +186,13 @@ function Header() {
             </StNotification>
 
             <StNickdiv>{nickname}</StNickdiv>
-            <StUserBar
-              onMouseEnter={() => setDrop(!drop)}
-              onMouseLeave={() => setDrop(!drop)}
-            >
+            <StUserBar onMouseEnter={() => setDrop(!drop)} onMouseLeave={() => setDrop(!drop)}>
               ▼
               {drop && cookies.loginType === "BUSINESS" && (
                 <StUserCategory>
-                  <StUserMenu onClick={() => navigate("/mypage")}>
-                    마이페이지
-                  </StUserMenu>
+                  <StUserMenu onClick={() => navigate("/mypage")}>마이페이지</StUserMenu>
                   {cookies.loginType === "BUSINESS" && (
-                    <StUserMenu onClick={() => navigate("/notification")}>
-                      알림함
-                    </StUserMenu>
+                    <StUserMenu onClick={() => navigate("/notification")}>알림함</StUserMenu>
                   )}
 
                   <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
@@ -188,13 +200,9 @@ function Header() {
               )}
               {drop && cookies.loginType === "USER" && (
                 <StUserCategorys>
-                  <StUserMenu onClick={() => navigate("/mypage")}>
-                    마이페이지
-                  </StUserMenu>
+                  <StUserMenu onClick={() => navigate("/mypage")}>마이페이지</StUserMenu>
                   {cookies.loginType === "BUSINESS" && (
-                    <StUserMenu onClick={() => navigate("/notification")}>
-                      알림함
-                    </StUserMenu>
+                    <StUserMenu onClick={() => navigate("/notification")}>알림함</StUserMenu>
                   )}
 
                   <StUserMenu onClick={onLogoutHandler}>로그아웃</StUserMenu>
@@ -206,10 +214,7 @@ function Header() {
       </StHeader>
       <StPlusDiv></StPlusDiv>
       {toastState === true ? (
-        <Toast
-          setToastAnimation={setToastAnimation}
-          setToastState={setToastState}
-        />
+        <Toast setToastAnimation={setToastAnimation} setToastState={setToastState} />
       ) : null}
     </>
   );

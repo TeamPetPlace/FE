@@ -23,8 +23,7 @@ const LoginForm = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onKaKaologin = () => {
-    const { REACT_APP_KAKAO_REST_API_KEY, REACT_APP_KAKAO_REDIRECT_URI } =
-      process.env;
+    const { REACT_APP_KAKAO_REST_API_KEY, REACT_APP_KAKAO_REDIRECT_URI } = process.env;
     const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
     window.location.href = link;
   };
@@ -102,9 +101,7 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {valid ? null : (
-                  <StDescDiv style={{ color: "#ff6666" }}>
-                    ID/PW가 일치하지 않습니다.
-                  </StDescDiv>
+                  <StDescDiv style={{ color: "#ff6666" }}>ID/PW가 일치하지 않습니다.</StDescDiv>
                 )}
                 <Button size="login" Border="1px solid #fee500">
                   로그인
@@ -112,7 +109,7 @@ const LoginForm = () => {
               </div>
             </form>
             <div>
-              {/* <img
+              <img
                 src={KaKaoLoginBtn}
                 onClick={onKaKaologin}
                 style={{
@@ -124,15 +121,15 @@ const LoginForm = () => {
                   borderRadius: "5px",
                   cursor: "pointer",
                 }}
-              /> */}
-              <Button
+              />
+              {/* <Button
                 size="login"
                 style={{ color: "grey" }}
                 Border="1px solid #fee500"
                 onClick={onKaKaologin}
               >
                 카카오 로그인 (구현중)
-              </Button>
+              </Button> */}
             </div>
             <Button
               size="login"
