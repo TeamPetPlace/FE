@@ -63,7 +63,7 @@ function Header() {
 
         if (expTime <= now) {
           alert("로그인 해 주세요");
-          navigate("/signin");
+          navigate("/");
         } else {
         }
       }
