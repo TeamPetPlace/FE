@@ -59,7 +59,7 @@ function Chatting({ roomId, postId }) {
     return () => {
       disconnect();
     };
-  }, []);
+  },[roomId]);
 
   const messagesRef = useRef(null);
 
