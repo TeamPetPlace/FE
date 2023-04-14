@@ -40,36 +40,33 @@ instance.interceptors.response.use(
   async (response) => response,
   async (error) => {
     const { response, config } = error;
-    console.log(error);
     const originalRequest = error.config;
+    console.log(originalRequest);
     try {
       console.log("재발급중...");
-      console.log(error);
-      console.log(response.status);
-      if (response.status === 401 || error.response.status === 401) {
+      console.log(error.response);
+      if (
+        error.response.data.status === 401 ||
+        error.response.status === 401 ||
+        error.response.data.message === "Token Error"
+      ) {
         const RefreshToken = getCookie("RefreshToken");
+        const AccessToken = getCookie("AccessToken");
         const refreshedResponse = await baseURL.get("/token", {
           headers: {
+            AccessToken: AccessToken,
             RefreshToken: RefreshToken,
           },
         });
         /* CHANGE ACCESSTOKEN*/
         console.log(refreshedResponse);
-        originalRequest.headers["Authorization"] = refreshedResponse.headers["authorization"];
+        originalRequest.headers["Authorization"] = refreshedResponse.headers["Authorization"];
         console.log("재발급 완료");
         removeCookie("AccessToken");
         setCookie("AccessToken", refreshedResponse.headers["authorization"]);
         return baseURL(originalRequest);
       }
     } catch (error) {
-      // console.log(error);
-      // if (error.response.data.status === 401) {
-      //   ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
-      //     (cookie) => removeCookie(cookie)
-      //   );
-      //   alert("세션이 만료되었습니다");
-      //   window.location.href = "/";
-      // }
       return false;
     }
     return Promise.reject(error);

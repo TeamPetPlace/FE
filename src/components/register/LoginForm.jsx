@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { setCookie } from "../../api/cookie";
-import { KaKaoLogin, NomalLogin } from "../../api/user";
+import { NomalLogin } from "../../api/user";
 import Layout from "../common/Layout";
 import animal_illust_back from "../../style/img/animal_illust_back.svg";
 import logo from "../../style/img/logo.svg";
@@ -43,12 +43,10 @@ const LoginForm = () => {
         confirmButtonColor: "#FFD53F",
         timer: 3000,
       });
-      // console.log(response);
       navigate("/main");
     },
     onError: (error) => {
       setValid(false);
-      // console.log(error);
       Swal.fire({
         position: "center",
         icon: "error",
@@ -68,10 +66,8 @@ const LoginForm = () => {
       password,
     };
     if (!email.trim()) {
-      // alert("이메일을 확인해주세요!");
       setValid(false);
     } else if (!password.trim()) {
-      // alert("비밀번호를 확인해주세요!");
       setValid(false);
     }
     loginMutation.mutate(res);
@@ -109,28 +105,7 @@ const LoginForm = () => {
               </div>
             </form>
             <div>
-              {/* <img
-                src={KaKaoLoginBtn}
-                onClick={onKaKaologin}
-                style={{
-                  width: "410px",
-                  height: "52px",
-                  border: "1px solid #fee500",
-                  margin: "20px 124px 0px 124px",
-                  objectFit: "cover",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
-              /> */}
-              <StKaKaoLogin />
-              {/* <Button
-                size="login"
-                style={{ color: "grey" }}
-                Border="1px solid #fee500"
-                onClick={onKaKaologin}
-              >
-                카카오 로그인 (구현중)
-              </Button> */}
+              <StKaKaoLogin onClick={onKaKaologin} />
             </div>
             <Button
               size="login"
@@ -284,7 +259,6 @@ const StKaKaoLogin = styled.div`
   border-radius: 5px;
 
   margin: 20px 124px 0px 124px;
-  /* objectfit: cover; */
   cursor: pointer;
   background-image: url(${KaKaoLoginBtn});
   background-size: 95%;
