@@ -6,7 +6,6 @@ import UserSignupForm from "../components/register/UserSignupForm";
 import animal_illust_back from "../../src/style/img/animal_illust_back.svg";
 
 function Signup() {
-  // const [loginmode, setLoginMode] = useState(0);
   const [ischecked, setIsChecked] = useState([true, false]);
   const [tab, setTab] = useState("USER");
 
@@ -57,7 +56,6 @@ const StTabBtn = styled.button`
   border: 1px solid #d9d9d9;
   border-radius: 10px 10px 0 0;
   color: #000000;
-  /* margin-top: 20px; */
   cursor: pointer;
   &:hover {
     background-color: #ffd53f;
@@ -85,7 +83,6 @@ const StSignupFormDiv = styled.div`
   height: auto;
   margin: auto;
   min-height: 1100px;
-  ailgn-item: center;
   background-image: url(${animal_illust_back});
   display: flex;
   flex-direction: row;
@@ -117,7 +114,6 @@ const StTitle = styled.div`
   font-size: 32px;
   margin: 30px auto;
   text-align: center;
-  /* line-height: 44px; */
   font-weight: bold;
   @media screen and (max-width: 767px) {
     width: 80px;

@@ -11,13 +11,9 @@ import Swal from "sweetalert2";
 function CheckLogin() {
   const logoutmuation = useMutation(NomalLogin, {
     onSuccess: (response) => {
-      removeCookie("AccessToken");
-      removeCookie("RefreshToken");
-      removeCookie("loginType");
-      removeCookie("email");
-      removeCookie("nickname");
-      removeCookie("lat");
-      removeCookie("lng");
+      ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
+        (cookie) => removeCookie(cookie)
+      );
       Swal.fire({
         position: "center",
         icon: "success",

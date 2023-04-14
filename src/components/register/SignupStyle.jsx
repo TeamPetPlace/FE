@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import animal_illust_back from "../../style/img/animal_illust_back.svg";
 
 export { StSignupDiv, StSignupBtn, StCheckBtn, StInput, StDescDiv, StInputDiv, StLoginMove };
 

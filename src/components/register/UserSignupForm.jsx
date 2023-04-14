@@ -32,15 +32,13 @@ const UserSignupForm = () => {
   const [isVaildNickName, setIsVaildNickName] = useState(false);
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
-  const passwordRegex =
-    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
   const nickRegex = /^[a-zA-Z0-9가-힣_-]{2,10}$/;
 
   const checkEmailMutation = useMutation(CheckEmail, {
     onSuccess: (response) => {
       response ? setIsEmail(true) : setIsEmail(false);
       if (response) {
-        console.log(response);
         setIsEmail(true);
         Swal.fire({
           position: "center",
@@ -80,12 +78,8 @@ const UserSignupForm = () => {
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setUserpassword(value);
-    value === uservalpassword
-      ? setPasswordCheck(true)
-      : setPasswordCheck(false);
-    passwordRegex.test(value)
-      ? setIsValidPassword(true)
-      : setIsValidPassword(false);
+    value === uservalpassword ? setPasswordCheck(true) : setPasswordCheck(false);
+    passwordRegex.test(value) ? setIsValidPassword(true) : setIsValidPassword(false);
   };
 
   //닉네임 확인
@@ -93,15 +87,12 @@ const UserSignupForm = () => {
     const value = e.target.value;
     setUserNickName(value);
     value === uservalnick ? setNickNameCheck(true) : setNickNameCheck(false);
-    nickRegex.test(value)
-      ? setIsVaildNickName(true)
-      : setIsVaildNickName(false);
+    nickRegex.test(value) ? setIsVaildNickName(true) : setIsVaildNickName(false);
   };
 
   // 가입
   const signUpMutation = useMutation(UserSignup, {
     onSuccess: (response) => {
-      // console.log(response.data);
       Swal.fire({
         position: "center",
         icon: "success",
@@ -113,7 +104,6 @@ const UserSignupForm = () => {
       return response.data;
     },
     onError: (response) => {
-      // console.log(response.data);
       Swal.fire({
         position: "center",
         icon: "error",
@@ -172,9 +162,7 @@ const UserSignupForm = () => {
             onChange={handleNicknameChange}
           />
           {isVaildNickName ? (
-            <StDescDiv style={{ color: "#008000" }}>
-              사용가능한 닉네임입니다.
-            </StDescDiv>
+            <StDescDiv style={{ color: "#008000" }}>사용가능한 닉네임입니다.</StDescDiv>
           ) : (
             <StDescDiv style={{ color: "#ff6666" }}>
               특수문자를 제외하고 2자 이상 10자 이하여야 합니다.
@@ -189,9 +177,7 @@ const UserSignupForm = () => {
             onChange={handlePasswordChange}
           />
           {isValidPassword ? (
-            <StDescDiv style={{ color: "#008000" }}>
-              사용가능한 비밀번호 입니다.
-            </StDescDiv>
+            <StDescDiv style={{ color: "#008000" }}>사용가능한 비밀번호 입니다.</StDescDiv>
           ) : (
             <StDescDiv style={{ color: "#ff6666" }}>
               영어,숫자,특수문자를 포함한 8자이상이여야 합니다.
@@ -208,25 +194,14 @@ const UserSignupForm = () => {
           </div>
 
           {passwordcheck ? (
-            <StDescDiv style={{ color: "#008000" }}>
-              비밀번호가 일치합니다.
-            </StDescDiv>
+            <StDescDiv style={{ color: "#008000" }}>비밀번호가 일치합니다.</StDescDiv>
           ) : (
-            <StDescDiv style={{ color: "#ff6666" }}>
-              비밀번호가 일치하지 않습니다.
-            </StDescDiv>
+            <StDescDiv style={{ color: "#ff6666" }}>비밀번호가 일치하지 않습니다.</StDescDiv>
           )}
         </StInputDiv>
         <StSignupBtn
           style={{ backgroundColor: "#ffd53f" }}
-          disabled={
-            !(
-              passwordcheck &&
-              isValidPassword &&
-              isValidEmail &&
-              isVaildNickName
-            )
-          }
+          disabled={!(passwordcheck && isValidPassword && isValidEmail && isVaildNickName)}
         >
           회원가입
         </StSignupBtn>

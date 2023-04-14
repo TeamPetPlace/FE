@@ -5,10 +5,8 @@ export const StBannerTitle = styled.div`
   font-size: 36px;
   font-weight: bold;
   width: 300px;
-  /* z-index: 99; */
   margin: 0 auto;
   display: inline-block;
-  /* margin: 200px 0 20px 350px; */
   @media screen and (max-width: 767px) {
     margin: 11% 0 0 8%;
     font-size: 15px;
@@ -29,13 +27,11 @@ export const StBannerContent = styled.div`
   display: inline-block;
   margin: 0 auto 0 350px;
   @media screen and (max-width: 767px) {
-    /* margin: 0 0 0 8%; */
     font-size: 10px;
     padding-top: 3px;
     width: 150px;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    /* margin: 0 0 0 10%; */
     width: 260px;
     font-size: 15px;
   }
@@ -51,15 +47,12 @@ const StPlace = styled.div`
   flex-direction: center;
   align-items: center;
   justify-content: space-between;
-  /* background-color: blue; */
   gap: 10px;
   @media screen and (max-width: 767px) {
-    /* width: 300px; */
     height: 20px;
     margin: 40px auto 5px auto;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    /* width: 650px; */
     height: 20px;
     margin: 50px auto 5px auto;
   }
@@ -83,7 +76,7 @@ const StSearchInput = styled.input`
     height: 40px;
   }
   @media screen and (min-width: 1024px) {
-    transition: width 0.5s ease-in-out; /* transition 속성 추가 */
+    transition: width 0.5s ease-in-out;
     &:focus {
       width: 380px;
     }
@@ -169,8 +162,6 @@ const StListPage = styled.div`
   flex-direction: row;
   gap: 5px;
   margin: auto;
-  /* background-color: pink; */
-  /* margin-left: 15%; */
   @media screen and (max-width: 469px) {
     width: 250px;
   }
@@ -193,14 +184,11 @@ const StCards = styled.div`
   flex-flow: row wrap;
   align-items: space-evenly;
   gap: 11px;
-  /* background-color: #f7f7de; */
   padding: 30px 0px 30px 0px;
   @media screen and (max-width: 513px) {
-    /* width: 300px; */
     height: 100%;
   }
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    /* width: 760px; */
     height: 100%;
   }
 `;
@@ -231,7 +219,6 @@ const StHistory = styled.div`
   background-image: url(${List_History});
   background-repeat: no-repeat;
   z-index: 100;
-  /* position: -webkit-sticky; */
   position: fixed;
   top: 88%;
   cursor: pointer;
@@ -354,7 +341,6 @@ const StHistoryContent = styled.div`
   text-overflow: ellipsis;
   width: 170px;
   height: 30px;
-  /* background-color: pink; */
   @media screen and (max-width: 767px) {
     font-size: 10px;
     height: 20px;
@@ -377,7 +363,6 @@ const StTitle = styled.div`
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 5px;
-  /* cursor: pointer; */
   @media screen and (max-width: 767px) {
     font-size: 18px;
   }
@@ -501,14 +486,10 @@ const StPageMoveBtn = styled.div`
     height: 40px;
   }
   @media screen and (min-width: 768px) and (max-width: 914px) {
-    /* bottom: 5%;
-    left: 3%; */
     width: 100px;
     height: 50px;
   }
   @media screen and (min-width: 915px) and (max-width: 1023px) {
-    /* bottom: 10%;
-    right: 8%; */
     width: 100px;
     height: 50px;
   }
