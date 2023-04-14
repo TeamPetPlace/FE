@@ -188,9 +188,7 @@ function Tab() {
                 left: "62%",
                 bottom: "95px",
               }}
-            >
-              {/* <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg> */}
-            </div>
+            ></div>
             <Fade bottom>
               <StDivBox>
                 <StMyPlace onClick={() => navigate("/hospital")}>
@@ -212,9 +210,7 @@ function Tab() {
                 left: "62%",
                 bottom: "95px",
               }}
-            >
-              {/* <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg> */}
-            </div>
+            ></div>
             <Fade bottom>
               <StDivBox>
                 <StMyPlace onClick={() => navigate("/shop")}>
@@ -236,9 +232,7 @@ function Tab() {
                 left: "62%",
                 bottom: "95px",
               }}
-            >
-              {/* <StMsg>버튼을 눌러 나와 가까운 플레이스를 찾아보세요!</StMsg> */}
-            </div>
+            ></div>
             <Fade bottom>
               <StDivBox>
                 <StMyPlace onClick={() => navigate("/cafe")}>
@@ -462,7 +456,6 @@ const StCaption = styled.div`
   opacity: 0;
   z-index: 999;
   cursor: pointer;
-  /* transition: opacity 0.3s ease; */
 `;
 
 const StContainer = styled.div`

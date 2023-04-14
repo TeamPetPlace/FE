@@ -1,18 +1,13 @@
 import React from "react";
-import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function OwnerPage() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(["AccessToken", "loginType"]);
   return (
     <StWrap>
       <StBox>
         <StTitle>사업자만 이용 가능한 기능입니다.</StTitle>
-        {/* <StContent>
-          링크를 잘못 입력하셨거나, 페이지가 삭제/이동되었을 수 있습니다.
-        </StContent> */}
         <StMain onClick={() => navigate("/main")}>메인으로 가기</StMain>
       </StBox>
     </StWrap>
@@ -42,9 +37,7 @@ const StTitle = styled.div`
   font-size: 50px;
   font-weight: 900;
 `;
-const StContent = styled.div`
-  font-size: 20px;
-`;
+
 const StMain = styled.button`
   width: 200px;
   margin: 0 auto;

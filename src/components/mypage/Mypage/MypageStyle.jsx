@@ -78,7 +78,6 @@ const StTitle = styled.div`
   display: flex;
   font-size: ${(props) => props.fontSize};
   font-weight: bold;
-  /* margin-bottom: 5px; */
   cursor: pointer;
   @media screen and (max-width: 767px) {
     font-size: 10px;

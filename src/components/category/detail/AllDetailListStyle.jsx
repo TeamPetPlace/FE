@@ -17,7 +17,6 @@ const StContents = styled.div`
   height: 230px;
   display: flex;
   padding-top: 40px;
-  /* line-height: 230px; */
   border-bottom: 1px solid #d9d9d9;
 `;
 

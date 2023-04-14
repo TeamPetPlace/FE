@@ -113,7 +113,6 @@ function MyReviewList() {
 
   const onEditMode = (reviewId) => {
     setEdit({ reviewId: reviewId, isEdit: !edit.isEdit });
-    console.log(reviewId);
   };
 
   const updateReviewMutation = useMutation(updateReviews, {
@@ -139,7 +138,6 @@ function MyReviewList() {
       image: image,
       star: clicked,
     };
-    console.log(reviewId);
     updateReviewMutation.mutate(payload);
     Swal.fire({
       position: "center",
@@ -148,7 +146,6 @@ function MyReviewList() {
       confirmButtonColor: "#FFD53F",
       timer: 3000,
     });
-    // setDetail([...detail, updateReview]);
     onEditMode(reviewId);
   };
 

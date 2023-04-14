@@ -1,19 +1,6 @@
 import styled, { css } from "styled-components";
 import ownerPost from "../../../style/img/ownerPost.svg";
 
-const StDelBtn = styled.button`
-  width: 70px;
-  height: 30px;
-  border: 1px solid #d9d9d9;
-  cursor: pointer;
-  font-size: 14px;
-  background-color: transparent;
-  margin-left: 10px;
-  &:hover {
-    background-color: #d9d9d9;
-  }
-`;
-
 const StBox = styled.div`
   width: 100%;
   height: 1850px;
@@ -373,82 +360,6 @@ const StBtns = styled.div`
   }
 `;
 
-const StBtn = styled.button`
-  cursor: pointer;
-  padding: 8px 8px;
-  margin-right: 10px;
-  border: 1px solid #999;
-  text-align: center;
-  border-radius: 5px;
-  background-color: white;
-  &:hover {
-    background-color: #999;
-    color: white;
-  }
-  ${({ size }) => {
-    switch (size) {
-      case "large":
-        return css`
-          width: 164px;
-          height: 45px;
-          font-size: 20px;
-          margin-top: 40px;
-          &:hover {
-            background-color: #ffd53f;
-            border: none;
-            color: black;
-          }
-          @media screen and (max-width: 767px) {
-            width: 100px;
-            font-size: 15px;
-            height: 40px;
-          }
-
-          @media screen and (min-width: 768px) and (max-width: 1023px) {
-          }
-        `;
-      case "medium":
-        return css`
-          width: 164px;
-          height: 45px;
-          font-size: 20px;
-          @media screen and (max-width: 767px) {
-            width: 100px;
-            height: 30px;
-            font-size: 10px;
-          }
-
-          @media screen and (min-width: 768px) and (max-width: 1023px) {
-            width: 100px;
-            height: 40px;
-            font-size: 14px;
-          }
-        `;
-      case "small":
-        return css`
-          width: 160px;
-          height: 45px;
-          font-size: 20px;
-          @media screen and (max-width: 767px) {
-            width: 90px;
-            font-size: 10px;
-            height: 30px;
-          }
-
-          @media screen and (min-width: 768px) and (max-width: 1023px) {
-            width: 100px;
-            height: 40px;
-            font-size: 14px;
-          }
-        `;
-      default:
-        return css`
-          width: 20px;
-        `;
-    }
-  }}
-`;
-
 const Stdiv = styled.div`
   width: 100%;
 `;
@@ -482,7 +393,6 @@ const StBtnBoxs = styled.div`
 `;
 
 export {
-  StDelBtn,
   StBox,
   StPost,
   StTitle,
@@ -512,7 +422,6 @@ export {
   StImg,
   StMent,
   StBtns,
-  StBtn,
   Stdiv,
   StWrap,
   StBtnBoxs,

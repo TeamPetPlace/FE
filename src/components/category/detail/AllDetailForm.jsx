@@ -101,7 +101,6 @@ const AllDetailForm = () => {
   const [upFeature1, setUpFeature1] = useState("");
 
   const [buttonClicked, setButtonClicked] = useState(false);
-  const [titleButtonClicked, setTitleButtonClicked] = useState(false);
 
   const maxImage = 4;
 
@@ -174,17 +173,6 @@ const AllDetailForm = () => {
         setAddress(addr);
       },
     }).open();
-  };
-
-  const postCodeStyle = {
-    display: "block",
-    position: "absolute",
-    top: "40%",
-    left: "30%",
-    width: "600px",
-    height: "600px",
-    padding: "7px",
-    zIndex: "999",
   };
 
   //휴무 체크
@@ -339,7 +327,7 @@ const AllDetailForm = () => {
   //전화번호
   const telNumberHandler = (event) => {
     const { value } = event.target;
-    const regex = /^[0-9\b -]{0,14}$/; // Update regex to allow for 14 characters
+    const regex = /^[0-9\b -]{0,14}$/;
     if (regex.test(event.target.value)) {
       setUpTelNum(value);
     }
@@ -357,7 +345,7 @@ const AllDetailForm = () => {
       // Add condition for 14 characters
       formattedNum = upTelNum
         .replace(/-/g, "")
-        .replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3"); // Update regex and replace pattern for 4-4-4 format
+        .replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3");
     }
 
     if (formattedNum.startsWith("02")) {

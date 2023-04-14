@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-function Map({ id, queryClient, detail, setDetail }) {
+function Map({ detail }) {
   const { kakao } = window;
 
   useEffect(() => {

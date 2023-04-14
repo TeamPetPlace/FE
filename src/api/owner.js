@@ -98,10 +98,8 @@ const checkTitle = async (payload) => {
     const response = await instance.get("/check_duplicate", {
       params: { title: payload },
     });
-    console.log(response);
     return response.data.success;
   } catch (error) {
-    console.log(error);
     return error.data;
   }
 };

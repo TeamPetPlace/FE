@@ -30,8 +30,6 @@ const addReview = async (payload) => {
       }
     )
     .then((response) => {
-      console.log(response.status);
-      console.log(response);
       return response;
     })
     .catch((error) => {
@@ -76,7 +74,6 @@ const updateReviews = async (payload) => {
       },
     })
     .then((response) => {
-      console.log(payload.reviewId);
       return response;
     })
     .catch((err) => {
