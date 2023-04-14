@@ -113,7 +113,6 @@ function Post() {
   //업체 등록
   const [title, titleHandler] = useInput("");
   const [category, setCategory] = useState("병원");
-  // const [category, categoryHandler] = useInput("병원");
   const [contents, contentsHandler] = useInput("");
   const [image, setImage] = useState([]);
   const [imgBase64, setImgBase64] = useState([]);
@@ -314,7 +313,7 @@ function Post() {
   //전화번호
   const telNumberHandler = (event) => {
     const { value } = event.target;
-    const regex = /^[0-9\b -]{0,14}$/; // Update regex to allow for 14 characters
+    const regex = /^[0-9\b -]{0,14}$/;
     if (regex.test(event.target.value)) {
       setTelNum(value);
     }
@@ -332,7 +331,7 @@ function Post() {
       // Add condition for 14 characters
       formattedNum = telNum
         .replace(/-/g, "")
-        .replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3"); // Update regex and replace pattern for 4-4-4 format
+        .replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3");
     }
 
     if (formattedNum.startsWith("02")) {
@@ -452,46 +451,6 @@ function Post() {
                   확인
                 </StBtn>
               </div>
-              {/* <div>
-                <div style={{ display: "flex" }}>
-                  <StBtn type="button" onClick={openPostCode} size="medium">
-                    우편번호 검색
-                  </StBtn>
-                  <StErrorMsg>
-                    {buttonClicked === false ? (
-                      <p>주소 입력 후 확인을 꼭 클릭해주세요</p>
-                    ) : null}
-                  </StErrorMsg>
-                </div>
-                <div id="popupDom">
-                  {isPopupOpen && (
-                    <PopupDom>
-                      <div>
-                        <DaumPostcode
-                          style={postCodeStyle}
-                          onComplete={handlePostCode}
-                        />
-                        <StInput value={address} disabled />
-                        <StBtn size="medium" onClick={handleSearch}>
-                          확인
-                        </StBtn>
-                      </div>
-                    </PopupDom>
-                  )}
-                  {!isPopupOpen && (
-                    <>
-                      <StInput disabled style={{ marginTop: "10px" }} />
-                      <StBtn
-                        size="small"
-                        onClick={handleSearch}
-                        style={{ marginLeft: "10px" }}
-                      >
-                        확인
-                      </StBtn>
-                    </>
-                  )}
-                </div>
-              </div> */}
             </StLine>
             <StLine>
               {category === "병원" && (

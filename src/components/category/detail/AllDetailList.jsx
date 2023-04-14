@@ -1,12 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import ReviewList from "../../review/reviewList/ReviewList";
 import { IoCopyOutline, IoShareOutline } from "react-icons/io5";
-import SwiperCore, { Navigation, Pagination, Autoplay, Thumbs } from "swiper";
+import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../../../../node_modules/swiper/swiper.scss";
 import "../../../../node_modules/swiper/modules/navigation/navigation.scss";
 import "../../../../node_modules/swiper/modules/pagination/pagination.scss";
-import { useState } from "react";
 import Map from "../../../element/Map";
 import {
   StContainer,
@@ -136,7 +135,6 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
   };
 
   const onImageViewHandler = (image) => {
-    // index.preventDefault();
     Swal.fire({
       imageUrl: image,
       imageAlt: "Original Image",
@@ -283,12 +281,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map
-              id={id}
-              queryClient={queryClient}
-              detail={detail}
-              setDetail={setDetail}
-            />
+            <Map detail={detail} />
           </div>
         </StContentsBox>
       )}
@@ -329,12 +322,7 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map
-              id={id}
-              queryClient={queryClient}
-              detail={detail}
-              setDetail={setDetail}
-            />
+            <Map detail={detail} />
           </div>
         </StContentsBox>
       )}
@@ -368,23 +356,13 @@ function AllDetailList({ id, detail, queryClient, setDetail, data }) {
           </StInformation>
           <div>
             <StMap>지도</StMap>
-            <Map
-              id={id}
-              queryClient={queryClient}
-              detail={detail}
-              setDetail={setDetail}
-            />
+            <Map detail={detail} />
           </div>
         </StContentsBox>
       )}
       {tab === "후기" && (
         <div>
-          <ReviewList
-            id={id}
-            queryClient={queryClient}
-            detail={detail}
-            data={data}
-          ></ReviewList>
+          <ReviewList id={id} detail={detail}></ReviewList>
         </div>
       )}
       <StMoveTopBtn>
@@ -414,7 +392,6 @@ const StDisc = styled.div`
 `;
 
 const StDscContainer = styled.div`
-  /* border: 1px solid black; */
   display: flex;
   flex-direction: row;
   align-items: center;

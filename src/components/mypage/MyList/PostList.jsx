@@ -24,7 +24,6 @@ function PostList() {
   const { data } = useQuery("getmypost", getMyPost, {
     onSuccess: (response) => {
       setMyList(response.content);
-      // console.log(response.content);
     },
   });
 

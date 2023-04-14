@@ -5,7 +5,6 @@ import ReactLoading from "react-loading";
 function Skeletons() {
   return (
     <StSkeleton>
-      {/* <ReactLoading type={"spin"} color={color} height={"20%"} width={"20%"} /> */}
       <StImg />
       <StTitle />
       <StContent />
@@ -33,10 +32,6 @@ const skeletonAnimation = keyframes`
 `;
 
 const StSkeleton = styled.div`
-  /* width: 200px;
-  height: 150px;
-  background-color: transparent;
-  overflow-x: visible; */
   width: 406px;
   height: 320px;
   margin-bottom: 43px;

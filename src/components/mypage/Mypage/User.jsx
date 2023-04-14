@@ -183,17 +183,7 @@ function User() {
               <div style={{ position: "relative" }}>
                 <StImgDiv>
                   {mypage.image === null ? (
-                    <StImg
-                    // src={profileOrigin}
-                    // alt="origin"
-                    // style={{
-                    //   width: "330px",
-                    //   height: "330px",
-                    //   position: "absolute",
-                    //   top: "-6%",
-                    //   left: "-25px",
-                    // }}
-                    />
+                    <StImg />
                   ) : (
                     <StImg src={mypage.image} alt="img" />
                   )}

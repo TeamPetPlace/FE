@@ -23,6 +23,7 @@ import Swal from "sweetalert2";
 function DibsList() {
   const [dibList, setDibList] = useState([]);
   const navigate = useNavigate();
+
   //페이지네이션
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(9);
@@ -194,7 +195,6 @@ function DibsList() {
                     >
                       {item.address.split(" ", 2).join(" ")}
                     </StContents>
-                    {/* <div>{item.star}</div> */}
                   </StCard>
                 ) : category === "카페" && item.category === "카페" ? (
                   <StCard key={index}>

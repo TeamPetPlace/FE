@@ -126,7 +126,6 @@ function ReviewList({ id, detail }) {
 
   const onEditMode = (reviewId) => {
     setEdit({ reviewId: reviewId, isEdit: !edit.isEdit });
-    console.log(reviewId);
   };
 
   const updateReviewMutation = useMutation(updateReviews, {
@@ -152,7 +151,6 @@ function ReviewList({ id, detail }) {
       image: image,
       star: clicked,
     };
-    console.log(reviewId);
     updateReviewMutation.mutate(payload);
     Swal.fire({
       position: "center",

@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 function ErrorPage() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(["AccessToken", "loginType"]);
   return (
     <StWrap>
       <StBox>
@@ -39,9 +38,7 @@ const StTitle = styled.div`
   font-size: 50px;
   font-weight: 900;
 `;
-const StContent = styled.div`
-  font-size: 20px;
-`;
+
 const StMain = styled.button`
   width: 200px;
   margin: 0 auto;
