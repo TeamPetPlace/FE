@@ -54,7 +54,6 @@ instance.interceptors.response.use(
         const AccessToken = getCookie("AccessToken");
         const refreshedResponse = await baseURL.get("/token", {
           headers: {
-            Authorization: AccessToken,
             RefreshToken: RefreshToken,
           },
         });
