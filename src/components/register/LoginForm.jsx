@@ -109,7 +109,7 @@ const LoginForm = () => {
               </div>
             </form>
             <div>
-              <img
+              {/* <img
                 src={KaKaoLoginBtn}
                 onClick={onKaKaologin}
                 style={{
@@ -121,7 +121,8 @@ const LoginForm = () => {
                   borderRadius: "5px",
                   cursor: "pointer",
                 }}
-              />
+              /> */}
+              <StKaKaoLogin />
               {/* <Button
                 size="login"
                 style={{ color: "grey" }}
@@ -273,5 +274,32 @@ const StDescDiv = styled.div`
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     margin: -5px 5px 5px 60px;
     font-size: 10px;
+  }
+`;
+
+const StKaKaoLogin = styled.div`
+  width: 410px;
+  height: 52px;
+  border: 1px solid #fee500;
+  border-radius: 5px;
+
+  margin: 20px 124px 0px 124px;
+  /* objectfit: cover; */
+  cursor: pointer;
+  background-image: url(${KaKaoLoginBtn});
+  background-size: 95%;
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-color: #fee500;
+
+  @media screen and (max-width: 767px) {
+    width: 147px;
+    height: 30px;
+    margin: 20px 50px 10px 75px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 300px;
+    height: 45px;
+    margin: 20px 100px 10px 100px;
   }
 `;

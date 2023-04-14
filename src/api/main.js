@@ -2,21 +2,6 @@ import { instance } from "./axios";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export const postChatting = async (postId) => {
-  try {
-    const response = await instance.post(`/chat/${postId}`);
-    console.log(response);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getChattingList = async (postId) => {
-  const response = await instance.get(`/chat/rooms/${postId}`);
-  return response.data;
-};
-
 const getPost = async (payload) => {
   const response = await instance.get("/topPosts", {
     params: {
