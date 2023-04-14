@@ -1,13 +1,6 @@
 import { baseURL, instance } from "./axios";
 import Swal from "sweetalert2";
 
-export const getCards = async ({ page, size }) => {
-  const response = await instance.get(
-    `/category?category=미용&sort=DISTANCE&lat=177.256&lng=110.2233&page=0&size=30`
-  );
-  return response;
-};
-
 export const AllPost = async (payload) => {
   const response = await instance.get("/category", {
     params: {

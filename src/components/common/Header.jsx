@@ -46,7 +46,7 @@ function Header() {
 
   //token check
   useEffect(() => {
-    const CheckToken = getCookie("AccessToken");
+    const CheckToken = getCookie("RefreshToken");
     // let decoded = CheckToken && jwtDecode(CheckToken);
 
     if (CheckToken !== null) {
@@ -62,9 +62,17 @@ function Header() {
         console.log("현재 시간:", now);
 
         if (expTime <= now) {
-          alert("로그인 해 주세요");
+          ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
+            (cookie) => removeCookie(cookie)
+          );
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "세션이 만료되었습니다. 다시 로그인해주세요.",
+            confirmButtonColor: "#FFD53F",
+            timer: 3000,
+          });
           navigate("/");
-        } else {
         }
       }
 
