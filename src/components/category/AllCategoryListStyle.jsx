@@ -468,13 +468,13 @@ const StIconBtn = styled.button`
 
 const StPageMoveBtn = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   position: fixed;
   z-index: 999;
   bottom: 10%;
   right: 5%;
-  width: auto;
-  height: 50px;
+  width: 55px;
+  height: 90px;
   border-radius: 60px;
   padding: 5px 0;
   align-items: center;
@@ -482,16 +482,16 @@ const StPageMoveBtn = styled.div`
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   @media screen and (max-width: 767px) {
     bottom: 25%;
-    width: 80px;
-    height: 40px;
+    width: 35px;
+    height: 70px;
   }
   @media screen and (min-width: 768px) and (max-width: 914px) {
-    width: 100px;
-    height: 50px;
+    width: 40px;
+    height: 75px;
   }
   @media screen and (min-width: 915px) and (max-width: 1023px) {
-    width: 100px;
-    height: 50px;
+    width: 50px;
+    height: 80px;
   }
 `;
 

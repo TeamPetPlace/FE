@@ -51,7 +51,6 @@ instance.interceptors.response.use(
         error.response.data.message === "Token Error"
       ) {
         const RefreshToken = getCookie("RefreshToken");
-        const AccessToken = getCookie("AccessToken");
         const refreshedResponse = await baseURL.get("/token", {
           headers: {
             RefreshToken: RefreshToken,
