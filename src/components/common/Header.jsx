@@ -47,32 +47,35 @@ function Header() {
   //token check
   useEffect(() => {
     const CheckToken = getCookie("RefreshToken");
-    // let decoded = CheckToken && jwtDecode(CheckToken);
 
     if (CheckToken !== null) {
       const decoded = jwtDecode(CheckToken);
-      console.log("1번");
 
       function TokenExpire() {
-        console.log("2번");
         const exp = Number(decoded.exp + "000");
         const expTime = new Date(exp);
-        console.log("만료 시간:", expTime);
         const now = new Date();
-        console.log("현재 시간:", now);
 
         if (expTime <= now) {
-          ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
-            (cookie) => removeCookie(cookie)
-          );
           Swal.fire({
             position: "center",
             icon: "success",
             title: "세션이 만료되었습니다. 다시 로그인해주세요.",
             confirmButtonColor: "#FFD53F",
-            timer: 3000,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = "/";
+            } else {
+              return;
+            }
           });
-          navigate("/");
+          ["AccessToken", "loginType", "email", "nickname", "lat", "lng"].forEach((cookie) =>
+            removeCookie(cookie)
+          );
+        } else {
+          setTimeout(() => {
+            TokenExpire();
+          }, expTime - now);
         }
       }
 

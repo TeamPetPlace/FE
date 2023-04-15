@@ -2,6 +2,7 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import animal_illust_back from "../../src/style/img/animal_illust_back.svg";
 
 function ErrorPage() {
   const navigate = useNavigate();
@@ -19,24 +20,45 @@ export default ErrorPage;
 
 const StWrap = styled.div`
   width: 100%;
-  height: 1500px;
-  background-color: #fffdf5;
+  height: 1200px;
   display: flex;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top center;
+  background-color: #fffcec;
+  background-image: url(${animal_illust_back});
+  @media screen and (max-width: 767px) {
+    background-size: 100% 900px;
+    background-position: center top 50px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    background-size: 1000px 900px;
+    background-position: center top 60px;
+  }
 `;
 
 const StBox = styled.div`
-  width: 800px;
+  width: 700px;
+  height: 200px;
   margin: 0 auto;
   text-align: center;
   gap: 20px;
   display: flex;
   flex-direction: column;
   margin-top: 300px;
+  @media screen and (max-width: 767px) {
+    width: 400px;
+    height: 150px;
+    margin-top: 200px;
+  }
 `;
 
 const StTitle = styled.div`
   font-size: 50px;
   font-weight: 900;
+  @media screen and (max-width: 767px) {
+    font-size: 25px;
+  }
 `;
 
 const StMain = styled.button`
@@ -49,5 +71,10 @@ const StMain = styled.button`
   cursor: pointer;
   &:hover {
     font-weight: 900;
+  }
+  @media screen and (max-width: 767px) {
+    width: 130px;
+    height: 30px;
+    font-size: 10px;
   }
 `;
