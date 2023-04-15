@@ -23,7 +23,7 @@ function Map({ detail }) {
     });
     marker.setMap(map);
 
-    const iwContent = `<div style="padding:5px;">${detail.title} <br><a href="https://map.kakao.com/link/to/${detail.address},${detail.lat},${detail.lng}" style="color:gray" target="_blank">길찾기</a></div>`,
+    const iwContent = `<div style="width: 250px; padding: 5px;">${detail.title} <br><a href="https://map.kakao.com/link/to/${detail.title},${detail.lat},${detail.lng}" style="color:gray" target="_blank">길찾기</a></div>`,
       iwPosition = new kakao.maps.LatLng(detail.lat, detail.lng);
     const infowindow = new kakao.maps.InfoWindow({
       position: iwPosition,

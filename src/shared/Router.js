@@ -108,7 +108,7 @@ const Router = () => {
               </PrivateRoute>
             }
           />
-
+          <Route path="/notfound" element={<NotFound />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/ownerpage" element={<OwnerPage />} />
           <Route path="/error" element={<ErrorPage />} />

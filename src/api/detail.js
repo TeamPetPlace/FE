@@ -3,8 +3,14 @@ import { instance } from "./axios";
 import Swal from "sweetalert2";
 
 const getDetail = async (id) => {
-  const response = await instance.get(`${id}`);
-  return response.data.response;
+  try {
+    const response = await instance.get(`${id}`);
+    return response.data.response;
+  } catch (error) {
+    console.log(error.response.data.error.message);
+    if (error.response.data.error.message == "게시물을 찾을 수 없습니다.")
+      window.location.href = "/notfound";
+  }
 };
 
 const getReview = async (payload) => {
