@@ -2,7 +2,7 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import animal_illust_back from "/Users/eunjin/Desktop/PetPlace/src/style/img/animal_illust_back.svg";
+import animal_illust_back from "../../src/style/img/animal_illust_back.svg";
 
 function NotFound() {
   const navigate = useNavigate();
