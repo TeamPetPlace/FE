@@ -69,7 +69,7 @@ function Header() {
               return;
             }
           });
-          ["AccessToken", "loginType", "email", "nickname", "lat", "lng"].forEach((cookie) =>
+          ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach((cookie) =>
             removeCookie(cookie)
           );
         } else {
