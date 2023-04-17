@@ -18,6 +18,7 @@ const StContents = styled.div`
   display: flex;
   padding-top: 40px;
   border-bottom: 1px solid #d9d9d9;
+  white-space: pre-line;
 `;
 
 const StSlider = styled.div`
