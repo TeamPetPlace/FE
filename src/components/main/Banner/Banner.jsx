@@ -26,6 +26,7 @@ function Banner() {
           spaceBetween={50}
           slidesPerView={1}
           navigation
+           observer={true}
           pagination={{ clickable: true }}
           autoplay={{ delay: 2500, disableOnInteraction: false }}
         >
