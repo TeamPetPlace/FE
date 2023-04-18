@@ -6,13 +6,13 @@ import main2 from "../../../style/img/banner2.png";
 import main3 from "../../../style/img/banner3.png";
 import main4 from "../../../style/img/banner4.png";
 import { StContainer, StWrap, StImg } from "./BannerStyle";
-import SwiperCore, { Navigation, Pagination } from "swiper";
+import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../../../../node_modules/swiper/swiper.scss";
 import "../../../../node_modules/swiper/modules/navigation/navigation.scss";
 import "../../../../node_modules/swiper/modules/pagination/pagination.scss";
 
-SwiperCore.use([Navigation, Pagination]);
+SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 function Banner() {
   const navigate = useNavigate();
