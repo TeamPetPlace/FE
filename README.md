@@ -28,11 +28,15 @@
 
 2. Install dependencies
 
+   ```
    yarn start
+   ```
 
 3. Run the app
 
+   ```
    yarn install
+   ```
 
 🌟 ALL READY!
 
