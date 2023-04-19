@@ -41,10 +41,9 @@ instance.interceptors.response.use(
   async (error) => {
     const { response, config } = error;
     const originalRequest = error.config;
-    console.log(originalRequest);
     try {
       console.log("재발급중...");
-      console.log(error.response);
+      // console.log(error.response);
       if (
         error.response.data.status === 401 ||
         error.response.status === 401 ||
@@ -57,7 +56,7 @@ instance.interceptors.response.use(
           },
         });
         /* CHANGE ACCESSTOKEN*/
-        console.log(refreshedResponse);
+        // console.log(refreshedResponse);
         originalRequest.headers["Authorization"] = refreshedResponse.headers["Authorization"];
         console.log("재발급 완료");
         removeCookie("AccessToken");
