@@ -68,7 +68,8 @@
 
 # 🎨 와이어프레임 예시
 
-<img width="400" alt="와이어프레임1" src="https://user-images.githubusercontent.com/119720123/233171898-b2002cbd-4032-4100-a51c-dd5806f223c6.png"> <img width="400" alt="와이어프레임2" src="https://user-images.githubusercontent.com/119720123/233172005-54016909-351d-47dd-80fe-68fb2b0468bd.png">
+<img width="700" alt="와이어프레임1" src="https://user-images.githubusercontent.com/119720123/233171898-b2002cbd-4032-4100-a51c-dd5806f223c6.png">
+
 
 # 🎥 페이지 예시
 
