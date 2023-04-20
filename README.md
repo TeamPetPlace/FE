@@ -83,13 +83,13 @@
 
 </details>
 
-<details><summary>메인페이지 / 정렬 / 검색 / 찜하기 / 무한스크롤\_모바일</summary>
+<details><summary>메인페이지 / 정렬 / 검색 / 찜하기 / 무한스크롤_moblie</summary>
 
 <img width="80" alt="메인페이지" src="https://user-images.githubusercontent.com/119720123/233168956-32bb75e5-f0be-422c-8598-83328ede7f32.gif"> <img width="150" alt="정렬" src="https://user-images.githubusercontent.com/119720123/233166555-d80145b9-8ed1-4655-abdc-8c355ae7afb3.gif"> <img width="80" alt="검색" src="https://user-images.githubusercontent.com/119720123/233169144-3985c0ef-b489-466c-bda6-7e8417db6cc8.gif"> <img width="80" alt="찜하기•취소" src="https://user-images.githubusercontent.com/119720123/233169264-c86365b1-d22e-4de5-82e7-174ac84178d7.gif"> <img width="80" alt="무한스크롤" src="https://user-images.githubusercontent.com/119720123/233168807-8dd09179-75cb-40e1-a1e3-e1cc372f0d06.gif">
 
 </details>
 
-<details><summary>내가봤던기록 / 상세페이지 / 무한스크롤\*웹 / 마이페이지</summary>
+<details><summary>내가봤던기록 / 상세페이지 / 무한스크롤_web / 마이페이지</summary>
 
 <img width="150" alt="내가봤던기록" src="https://user-images.githubusercontent.com/119720123/233170798-c477e3f8-6faf-4444-b44b-278fdf731da7.gif"> <img width="150" alt="상세페이지" src="https://user-images.githubusercontent.com/119720123/233170391-4b3908a9-639f-43dd-afab-2b7898ae29b1.gif"> <img width="150" alt="무한스크롤*웹" src="https://user-images.githubusercontent.com/119720123/233170937-29f2c066-cdc2-442e-8643-ceda614368ad.gif"> <img width="150" alt="마이페이지" src="https://user-images.githubusercontent.com/119720123/233170672-f2423ab6-2cd4-4413-b3ae-7690976f2d5c.gif">
 
