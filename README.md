@@ -10,14 +10,14 @@
 
 [🐱 Pet Place 링크](https://fe-fawn.vercel.app/)
 
-# 🐶 프로젝트 소개
+## 🐶 프로젝트 소개
 
 - 유저의 위치에 따른 반려동물 관련 시설 및 동반시설에 대한 정보를 제공하고 추천합니다.
 - 검색 및 정렬을 사용하여 플레이스를 조회할 수 있습니다.
 - 방문 시설에 대한 후기를 작성하고, 평가를 할 수 있습니다.
 - 사업자의 경우 업체를 등록하고 홍보하며, 후기에 대한 알림을 확인할 수 있습니다.
 
-# 👤 팀 정보
+## 👤 팀 정보
 
 | 이름     | FE/BE           | Github                           |
 | -------- | --------------- | -------------------------------- |
@@ -27,7 +27,7 @@
 | 김우영   | BE              | https://github.com/micheal1woo   |
 | 표창영   | BE              | https://github.com/PyoChangYeong |
 
-# 🚀 설치 과정
+## 🚀 설치 과정
 
 1. Clone the repository
 
@@ -45,17 +45,18 @@
 
 🌟 ALL READY!
 
-# 👤 FE 기술 스택
+## 👤 FE 기술 스택
 
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/react query-FF4154?style=for-the-badge&logo=react query&logoColor=white"> <img src="https://img.shields.io/badge/react router-CA4245?style=for-the-badge&logo=react router&logoColor=white"> <img src="https://img.shields.io/badge/create react app-09D3AC?style=for-the-badge&logo=create react app&logoColor=black"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled components&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
+
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"> <img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 
-# ⚙️ 협업 Tools
+## ⚙️ 협업 Tools
 
 <a href = "https://github.com/Hun-Se"><img alt="GitHub" src ="https://img.shields.io/badge/GitHub-181717.svg?&style=for-the-badge&logo=GitHub&logoColor=white"/>
 </a> <a href = "hun-se.slack.com"> <img alt="Slack" src ="https://img.shields.io/badge/Slack-4A154B.svg?&style=for-the-badge&logo=Slack&logoColor=white"/></a> <a href = "https://guttural-eyebrow-89d.notion.site/cfc360a8a0984eafbb85f7dd4696b943"> <img alt="Notion" src ="https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=Notion&logoColor=white"/></a> <a href = "https://www.figma.com"> <img alt="Figma" src ="https://img.shields.io/badge/figma-F24E1E.svg?&style=for-the-badge&logo=figma&logoColor=white"/></a>
 
-# 📝 주요기능
+## 📝 주요기능
 
 - 유저/사업자별 회원가입
 - 로그인/로그아웃
@@ -72,11 +73,11 @@
 - 댓글 작성시 사업자 알림 확인
 - 등록 업체 모아보기 및 수정
 
-# 🎨 와이어프레임 예시
+## 🎨 와이어프레임 예시
 
-<img width="400" alt="와이어프레임1" src="https://user-images.githubusercontent.com/119720123/233171898-b2002cbd-4032-4100-a51c-dd5806f223c6.png"> <img width="400" alt="와이어프레임2" src="https://user-images.githubusercontent.com/119720123/233172005-54016909-351d-47dd-80fe-68fb2b0468bd.png">
+<img width="100%" alt="와이어프레임1" src="https://user-images.githubusercontent.com/119720123/233171898-b2002cbd-4032-4100-a51c-dd5806f223c6.png">
 
-# 🎥 페이지 예시
+## 🎥 페이지 예시
 
 <details><summary>회원가입 / 로그인•로그아웃 / 소셜로그인/</summary>
 
@@ -102,26 +103,19 @@
 
 </details>
 
-# 📌API 명세서 예시
+## 📌 API 명세서 예시
 
 <img width="1486" alt="API명세서예시" src="https://user-images.githubusercontent.com/119720123/233155357-8d084a4e-ca48-493d-929a-f81eec8c9615.png">
 
 [API 명세서 상세보기](https://bow-starfish-ba2.notion.site/API-5843adb55eb34576be3bfd447d8269f3)
 
-# 🪄 성능개선
+## 🪄 성능개선
 
 성능개선 전/후
 
-<img width="50%" alt="LigthHouse_ver1" src="https://user-images.githubusercontent.com/119720123/233172521-3528320d-65fb-4753-a978-95a91abdba2b.png"> <img width="50%" alt="LigthHouse_ver2" src="https://user-images.githubusercontent.com/119720123/233172542-570d2b35-caf2-4e35-b40a-78c8fbeb3363.png">
+<img width="100%" alt="LigthHouse" src="https://user-images.githubusercontent.com/119720123/233365757-7ddb274a-8f64-46e6-80b6-9a832fe2b79a.png">
 
----
-
-# 🔎 참고 링크
-
-- [협업 노션 페이지](https://jin29.notion.site/e1fbb1aaf8b94ee1a2b265eeb347ccb8?v=abae7a28c2d84bcdb71da069beaa933e)
-- [FE 진행 현황 페이지](https://bow-starfish-ba2.notion.site/a311d9a7965d46bd82da973e33b446ca)
-
-# 🔥 트러블슈팅
+## 🔥 트러블슈팅
 
 <details><summary>map 좌표를 구할 때, maps와 Geocoder를 불러오지 못하는 오류</summary>
 
@@ -163,6 +157,35 @@
 
 </details>
 
+<details><summary>에러페이지 구현 중, PrivateRoute가 Routes안에 들어가야 한다는 오류</summary>
+
+- 문제 상황: url접근 권한을 설정하여 에러페이지를 띄우기 위해 PrivateRoute를 만들던 도중, A <Route> is only ever to be used as the child of <Routes> element, never rendered directly. Please wrap your <Route> in a <Routes> 오류가 계속해서 발생했다.
+
+- 해결 과정:
+
+  1. PrivateRoute 컴포넌트 안에 <Routes>를 억지로 넣어보기도 했다.. ⇒ 실패
+  2. 구글링을 엄청나게 해서 비슷한 오류를 찾기위해 애썼다.
+
+- 해결방법: PrivateRoute컴포넌트 안에 Route를 아예 빼버리고 children으로 props를 넘겨 주는 방식으로 변경했다.
+
+```
+    function PrivateRoute({ children, element: Element, ...rest }) {
+      const [cookies] = useCookies(["AccessToken"]);
+      const isLogin = cookies.AccessToken !== undefined;
+      return isLogin ? children : <Navigate to="/error" />;
+    }
+    export default PrivateRoute;
+```
+
+</details>
+
+---
+
+## 🔎 참고 링크
+
+- [협업 노션 페이지](https://jin29.notion.site/e1fbb1aaf8b94ee1a2b265eeb347ccb8?v=abae7a28c2d84bcdb71da069beaa933e)
+- [FE 진행 현황 페이지](https://bow-starfish-ba2.notion.site/a311d9a7965d46bd82da973e33b446ca)
+
 ## Commit msg
 
 - 제목
@@ -171,15 +194,7 @@
   1. 무엇을 수정했는지
   2. 왜 수정했는지
 
-## Check List
-
-- 제목 첫 글자는 대문자로 작성했나요?
-- 제목은 명령문으로 작성했나요?
-- 제목 끝에 마침표(.) 금지
-- 제목과 본문을 한 줄 띄워 분리하기
-- 본문에 여러줄의 메시지를 작성할 땐 "-"로 구분했나요?
-
-## commit type
+## Commit type
 
 - `feat` : 기능 (새로운 기능)
 - `fix` : 버그 (버그 수정)
