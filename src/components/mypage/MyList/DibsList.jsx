@@ -126,11 +126,8 @@ function DibsList() {
               <>
                 {category === "병원" && item.category === "병원" ? (
                   <StCard key={index}>
-                    <Button
-                      onClick={() => onDibsHandler(item)}
-                      size="mypageDib"
-                    >
-                      <StDibimg src={dibs} />
+                    <Button onClick={() => onDibsHandler(item)} size="mypageDib">
+                      <StDibimg alt="dibs" src={dibs} />
                     </Button>
                     <StCardImg
                       onClick={() => {
@@ -162,11 +159,8 @@ function DibsList() {
                   </StCard>
                 ) : category === "미용" && item.category === "미용" ? (
                   <StCard key={index}>
-                    <Button
-                      onClick={() => onDibsHandler(item)}
-                      size="mypageDib"
-                    >
-                      <StDibimg src={dibs} />
+                    <Button onClick={() => onDibsHandler(item)} size="mypageDib">
+                      <StDibimg alt="dibs" src={dibs} />
                     </Button>
                     <StCardImg
                       onClick={() => {
@@ -198,11 +192,8 @@ function DibsList() {
                   </StCard>
                 ) : category === "카페" && item.category === "카페" ? (
                   <StCard key={index}>
-                    <Button
-                      onClick={() => onDibsHandler(item)}
-                      size="mypageDib"
-                    >
-                      <StDibimg src={dibs} />
+                    <Button onClick={() => onDibsHandler(item)} size="mypageDib">
+                      <StDibimg alt="dibs" src={dibs} />
                     </Button>
                     <StCardImg
                       onClick={() => {

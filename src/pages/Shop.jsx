@@ -11,7 +11,7 @@ export default function Shop() {
     <Layout>
       <Header />
       <StBanner>
-        <StBannerImg src={banner_shop}></StBannerImg>
+        <StBannerImg alt="shop_banner" src={banner_shop}></StBannerImg>
       </StBanner>
       <ShopList />
       <Footer />

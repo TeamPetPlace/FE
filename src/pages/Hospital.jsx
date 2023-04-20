@@ -11,7 +11,7 @@ export default function Hospital() {
     <Layout>
       <Header />
       <StBanner>
-        <StBannerImg src={banner_hospital}></StBannerImg>
+        <StBannerImg alt="hospital_banner" src={banner_hospital}></StBannerImg>
       </StBanner>
       <HospitalList />
       <Footer />

@@ -191,9 +191,7 @@ function Tab() {
             ></div>
             <Fade bottom>
               <StDivBox>
-                <StMyPlace onClick={() => navigate("/hospital")}>
-                  내 위치 펫플레이스
-                </StMyPlace>
+                <StMyPlace onClick={() => navigate("/hospital")}>내 위치 펫플레이스</StMyPlace>
                 <StPin src={footMap} onClick={onLocationHandler} />
               </StDivBox>
             </Fade>
@@ -213,10 +211,8 @@ function Tab() {
             ></div>
             <Fade bottom>
               <StDivBox>
-                <StMyPlace onClick={() => navigate("/shop")}>
-                  내 위치 펫플레이스
-                </StMyPlace>
-                <StPin src={footMap} onClick={onLocationHandler} />
+                <StMyPlace onClick={() => navigate("/shop")}>내 위치 펫플레이스</StMyPlace>
+                <StPin alt="location" src={footMap} onClick={onLocationHandler} />
               </StDivBox>
             </Fade>
           </div>
@@ -235,9 +231,7 @@ function Tab() {
             ></div>
             <Fade bottom>
               <StDivBox>
-                <StMyPlace onClick={() => navigate("/cafe")}>
-                  내 위치 펫플레이스
-                </StMyPlace>
+                <StMyPlace onClick={() => navigate("/cafe")}>내 위치 펫플레이스</StMyPlace>
                 <StPin src={footMap} onClick={onLocationHandler} />
               </StDivBox>
             </Fade>
@@ -255,10 +249,10 @@ function Tab() {
                     <Button onClick={() => onDibsHandler(item)} size="mainDib">
                       {item.like === false ? (
                         <>
-                          <img src={noDibs} />
+                          <img alt="nodibs" src={noDibs} />
                         </>
                       ) : (
-                        <img src={dibs} />
+                        <img alt="dibs" src={dibs} />
                       )}
                     </Button>
                     <div>
@@ -269,9 +263,7 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/hospital/${item.id}`)}
                           />
-                          <StCaption
-                            onClick={() => navigate(`/hospital/${item.id}`)}
-                          >
+                          <StCaption onClick={() => navigate(`/hospital/${item.id}`)}>
                             보러가기
                           </StCaption>
                         </StContainer>
@@ -283,9 +275,7 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/hospital/${item.id}`)}
                           />
-                          <StCaption
-                            onClick={() => navigate(`/hospital/${item.id}`)}
-                          >
+                          <StCaption onClick={() => navigate(`/hospital/${item.id}`)}>
                             보러가기
                           </StCaption>
                         </StContainer>
@@ -302,9 +292,7 @@ function Tab() {
                             km남음
                           </div>
                         )}
-                        {parseInt(item.distance) < 999 && (
-                          <div>{parseInt(item.distance)}m남음</div>
-                        )}
+                        {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                       </StText>
                     </StTextBox>
                   </StCard>
@@ -319,10 +307,10 @@ function Tab() {
                     <Button onClick={() => onDibsHandler(item)} size="mainDib">
                       {item.like === false ? (
                         <>
-                          <img src={noDibs} />
+                          <img alt="nodibs" src={noDibs} />
                         </>
                       ) : (
-                        <img src={dibs} />
+                        <img alt="dibs" src={dibs} />
                       )}
                     </Button>
                     <div>
@@ -333,9 +321,7 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/shop/${item.id}`)}
                           />
-                          <StCaption
-                            onClick={() => navigate(`/shop/${item.id}`)}
-                          >
+                          <StCaption onClick={() => navigate(`/shop/${item.id}`)}>
                             보러가기
                           </StCaption>
                         </StContainer>
@@ -347,9 +333,7 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/shop/${item.id}`)}
                           />
-                          <StCaption
-                            onClick={() => navigate(`/shop/${item.id}`)}
-                          >
+                          <StCaption onClick={() => navigate(`/shop/${item.id}`)}>
                             보러가기
                           </StCaption>
                         </StContainer>
@@ -366,9 +350,7 @@ function Tab() {
                             km남음
                           </div>
                         )}
-                        {parseInt(item.distance) < 999 && (
-                          <div>{parseInt(item.distance)}m남음</div>
-                        )}
+                        {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                       </StText>
                     </StTextBox>
                   </StCard>
@@ -383,10 +365,10 @@ function Tab() {
                     <Button onClick={() => onDibsHandler(item)} size="mainDib">
                       {item.like === false ? (
                         <>
-                          <img src={noDibs} />
+                          <img alt="nodibs" src={noDibs} />
                         </>
                       ) : (
-                        <img src={dibs} />
+                        <img alt="dibs" src={dibs} />
                       )}
                     </Button>
                     <div>
@@ -397,9 +379,7 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/cafe/${item.id}`)}
                           />
-                          <StCaption
-                            onClick={() => navigate(`/cafe/${item.id}`)}
-                          >
+                          <StCaption onClick={() => navigate(`/cafe/${item.id}`)}>
                             보러가기
                           </StCaption>
                         </StContainer>
@@ -411,9 +391,7 @@ function Tab() {
                             alt="mainImg"
                             onClick={() => navigate(`/cafe/${item.id}`)}
                           />
-                          <StCaption
-                            onClick={() => navigate(`/cafe/${item.id}`)}
-                          >
+                          <StCaption onClick={() => navigate(`/cafe/${item.id}`)}>
                             보러가기
                           </StCaption>
                         </StContainer>
@@ -430,9 +408,7 @@ function Tab() {
                             km남음
                           </div>
                         )}
-                        {parseInt(item.distance) < 999 && (
-                          <div>{parseInt(item.distance)}m남음</div>
-                        )}
+                        {parseInt(item.distance) < 999 && <div>{parseInt(item.distance)}m남음</div>}
                       </StText>
                     </StTextBox>
                   </StCard>

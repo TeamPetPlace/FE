@@ -120,6 +120,40 @@
 - [협업 노션 페이지](https://jin29.notion.site/e1fbb1aaf8b94ee1a2b265eeb347ccb8?v=abae7a28c2d84bcdb71da069beaa933e)
 - [FE 진행 현황 페이지](https://bow-starfish-ba2.notion.site/a311d9a7965d46bd82da973e33b446ca)
 
+# 🔥 트러블슈팅
+
+<details><summary>map 좌표를 구할 때, maps와 Geocoder를 불러오지 못하는 오류</summary>
+- 문제 상황: 위치에 따른 좌표(위도,경도)를 구하는 과정에서 maps와 Geocoder를 불러오지 못하는 오류가 발생했다.
+- 해결 과정: 
+1. 필요한 라이브러리를 설치했다. ⇒ 라이브러리와 관련이 없었음
+2. kakao map API_KEY를 발급하는 과정에서, web platform등록을 localhost:3000이 아닌, localhost:8080으로 들어가 있었다. ⇒ 설치 후 maps는 해결이 되었으나, Geocoder는 해결이 되지 않았음 
+- 해결 방법: public/index.html에 script를 추가해주었다. 이 때 API_KEY를 넣어주었다.
+
+```
+   <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c467b978bcec068d4109736b2039502c&libraries=services"
+    ></script>
+```
+
+</details>
+
+<details><summary>카카오로그인 구현중 cookie에 아무런 정보가 담기지 않으면서 로그인이 통과되는 오류</summary>
+- 문제 상황: setCookie("RefreshToken", RefreshToken, { path: "/" }) 으로 쿠키에 정보들을 담으려고 했지만 담기지 않으면서 로그인은 통과되는 문제가 발생했다.
+- 해결 과정: 
+1. 새로고침하면 쿠키에 정보들이 없어지나 싶어서 useEffect 구문의 의존성 배열에 code를 넣어 code가 바뀔 때 마다로 조건을 바꿔보았다 ⇒ 효과가 없었음
+2. 옵션 객체에 {maxAge:86000} 을 넣어서 새로고침 되더라도 쿠키안에 정보들이 유지되게 해 보았다 ⇒ 아예 작동되지 않았음
+※ 기존 정보들을 Cookie에 담고 있었기 때문에 localStorage에 담는 방식으로 변경하기엔 시간이 부족하다 판단.
+- 해해결방법: react-cookie를 사용해 설정해주던 setCookie 대신 js-cookie 라이브러리를 사용해 Cookies.set으로 변경하였다.
+
+```
+    import Cookies from "js-cookie";
+    Cookies.set("AccessToken", AccessToken);
+    // setCookie("RefreshToken", RefreshToken, { path: "/" });
+```
+
+</details>
+
 ## Commit msg
 
 - 제목

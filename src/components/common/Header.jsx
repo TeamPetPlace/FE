@@ -69,8 +69,8 @@ function Header() {
               return;
             }
           });
-          ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach((cookie) =>
-            removeCookie(cookie)
+          ["AccessToken", "RefreshToken", "loginType", "email", "nickname", "lat", "lng"].forEach(
+            (cookie) => removeCookie(cookie)
           );
         } else {
           setTimeout(() => {
@@ -127,14 +127,14 @@ function Header() {
       });
 
       eventSource.onopen = (event) => {
-        console.log("sse 구독 성공");
+        // console.log("sse 구독 성공");
       };
 
       eventSource.addEventListener("message", (event) => {
         try {
           const data = JSON.parse(event.data);
           const content = data.content;
-          console.log(content);
+          // console.log(content);
           setNotification(content);
           setToastState(true);
         } catch (error) {}
@@ -143,9 +143,9 @@ function Header() {
       eventSource.onerror = (event) => {
         console.log(event.target.readyState);
         if (event.target.readyState === EventSource.CLOSED) {
-          console.log("SSE 연결 종료");
+          // console.log("SSE 연결 종료");
         } else {
-          console.log("에러 발생", event);
+          // console.log("에러 발생", event);
           eventSource.close();
           setTimeout(openEventSource, 3000);
         }
@@ -177,7 +177,7 @@ function Header() {
       <StHeader>
         <StWrap>
           <StMenu>
-            <StLogo src={logo} onClick={() => navigate("/main")} />
+            <StLogo alt="logo" src={logo} onClick={() => navigate("/main")} />
             <StCateogry>
               <StTab onClick={() => navigate("/hospital")}>병원</StTab>
               <StTab onClick={() => navigate("/shop")}>미용</StTab>
