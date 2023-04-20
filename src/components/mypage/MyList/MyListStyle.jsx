@@ -89,6 +89,7 @@ const StInputBox = styled.div`
   margin-top: 10px;
   @media screen and (max-width: 767px) {
     width: 320px;
+    height: 0px;
   }
 `;
 
@@ -101,7 +102,6 @@ const StInput = styled.textarea`
   outline: none;
   padding: 10px;
   @media screen and (max-width: 767px) {
-    width: 300px;
     height: 80px;
   }
 `;
@@ -125,6 +125,10 @@ const StImgs = styled.img`
   border: none;
   position: absolute;
   top: 0%;
+  @media screen and (max-width: 767px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const StStars = styled.div`
@@ -147,7 +151,8 @@ const StBtns = styled.div`
   @media screen and (max-width: 767px) {
     width: 220px;
     margin: 0 auto;
-    margin-top: -50px;
+    margin-top: 50px;
+    padding-top: 80px;
   }
 `;
 
@@ -510,6 +515,12 @@ const StUnderDiv = styled.div`
     margin-top: -10px;
   }
 `;
+const StPhotoBtn = styled.button`
+  margin-right: 30px;
+  @media screen and (max-width: 768px) {
+    margin-right: 0px;
+  }
+`;
 
 // -------------PostList-------------
 const DibCategoryContainer = styled.div`
@@ -719,6 +730,7 @@ export {
   StImgBtn,
   StImgs,
   StStars,
+  StPhotoBtn,
   StBtns,
   PageBox,
   StReviews,
