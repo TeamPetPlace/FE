@@ -11,7 +11,7 @@ export default function Cafe() {
     <Layout>
       <Header />
       <StBanner>
-        <StBannerImg src={banner_cafe}></StBannerImg>
+        <StBannerImg alt="cafe_banner" src={banner_cafe}></StBannerImg>
       </StBanner>
       <CafeList />
       <Footer />
