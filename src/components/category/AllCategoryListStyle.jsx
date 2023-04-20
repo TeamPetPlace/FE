@@ -389,6 +389,9 @@ const StCardTitle = styled.div`
 const StContent = styled.div`
   color: #555555;
   font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const StCardImg = styled.img`
