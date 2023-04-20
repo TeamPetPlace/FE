@@ -77,7 +77,7 @@
 
 <img width="200" alt="회원가입" src="https://user-images.githubusercontent.com/119720123/233168531-cda0a640-75b8-48c4-887f-6240cc8735f9.gif"> <img width="200" alt="로그인•로그아웃" src="https://user-images.githubusercontent.com/119720123/233168083-6dd4e0b8-5279-4854-a922-9cefb46f88a7.gif"> <img width="200" alt="카카오로그인" src="https://user-images.githubusercontent.com/119720123/233165752-1f8c847e-ed5b-4110-914b-60fa3d3ffdf4.gif">
 
-메인페이지 / 정렬 / 검색 / 찜하기 / 무한스크롤\_모바일
+<!-- 메인페이지 / 정렬 / 검색 / 찜하기 / 무한스크롤\_모바일
 
 <img width="100" alt="메인페이지" src="https://user-images.githubusercontent.com/119720123/233168956-32bb75e5-f0be-422c-8598-83328ede7f32.gif"> <img width="100" alt="정렬" src="https://user-images.githubusercontent.com/119720123/233166555-d80145b9-8ed1-4655-abdc-8c355ae7afb3.gif"> <img width="100" alt="검색" src="https://user-images.githubusercontent.com/119720123/233169144-3985c0ef-b489-466c-bda6-7e8417db6cc8.gif"> <img width="100" alt="찜하기•취소" src="https://user-images.githubusercontent.com/119720123/233169264-c86365b1-d22e-4de5-82e7-174ac84178d7.gif"> <img width="100" alt="무한스크롤" src="https://user-images.githubusercontent.com/119720123/233168807-8dd09179-75cb-40e1-a1e3-e1cc372f0d06.gif">
 
@@ -87,7 +87,7 @@
 
 사업자업체등록 / 사업자알림확인 / 사업자후기작성불가 / 사업자업체수정
 
-<img width="150" alt="사업자업체등록" src="https://user-images.githubusercontent.com/119720123/233171198-3dbb6e5b-9fd1-4dc6-bb38-00e6538de3de.gif"> <img width="150" alt="사업자알림확인" src="https://user-images.githubusercontent.com/119720123/233171381-b05f9218-8d01-4b16-8ae1-729ece162aa5.gif"> <img width="150" alt="사업자후기작성불가" src="https://user-images.githubusercontent.com/119720123/233171656-4b2a400b-d63d-4a38-876e-e1dabc642959.gif"> <img width="150" alt="사업자업체수정" src="https://user-images.githubusercontent.com/119720123/233171552-4a70c37a-2655-4c38-9c9d-cb8749af4a4a.gif">
+<img width="150" alt="사업자업체등록" src="https://user-images.githubusercontent.com/119720123/233171198-3dbb6e5b-9fd1-4dc6-bb38-00e6538de3de.gif"> <img width="150" alt="사업자알림확인" src="https://user-images.githubusercontent.com/119720123/233171381-b05f9218-8d01-4b16-8ae1-729ece162aa5.gif"> <img width="150" alt="사업자후기작성불가" src="https://user-images.githubusercontent.com/119720123/233171656-4b2a400b-d63d-4a38-876e-e1dabc642959.gif"> <img width="150" alt="사업자업체수정" src="https://user-images.githubusercontent.com/119720123/233171552-4a70c37a-2655-4c38-9c9d-cb8749af4a4a.gif"> -->
 
 # 📌API 명세서 예시
 
