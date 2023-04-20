@@ -33,6 +33,7 @@ import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import Button from "../../element/Button";
 import Swal from "sweetalert2";
 import styled from "styled-components";
+import chatbubble from "../../style/img/chatbubble.svg";
 
 function CafeList() {
   const [cards, setCards] = useState([]);
@@ -149,7 +150,7 @@ function CafeList() {
         size: size,
       });
 
-      setSearchData(data.response);
+      setSearchData(data.content);
     } catch (error) {
       Swal.fire({
         position: "center",
@@ -175,7 +176,7 @@ function CafeList() {
         page: 0,
         size: size,
       });
-      setSearchData(data.response);
+      setSearchData(data.content);
     } catch (error) {
       console.log(error);
     }
@@ -364,6 +365,10 @@ function CafeList() {
 
                     <StContent>
                       <span dangerouslySetInnerHTML={{ __html: address }} />
+                      <div>
+                        <img alt="comment" src={chatbubble} style={{ marginRight: "5px" }} />{" "}
+                        {item.reviewCount}
+                      </div>
                     </StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
@@ -494,6 +499,10 @@ function CafeList() {
                       )}
                       <StContent>
                         <span dangerouslySetInnerHTML={{ __html: address }} />
+                        <div>
+                          <img alt="comment" src={chatbubble} style={{ marginRight: "5px" }} />{" "}
+                          {item.reviewCount}
+                        </div>
                       </StContent>
                       {parseInt(item.distance) > 999 && (
                         <StContent>

@@ -33,6 +33,7 @@ import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import Button from "../../element/Button";
 import Swal from "sweetalert2";
 import styled from "styled-components";
+import chatbubble from "../../style/img/chatbubble.svg";
 
 function HospitalList() {
   const [cards, setCards] = useState([]);
@@ -73,6 +74,7 @@ function HospitalList() {
       },
     }
   );
+  console.log(cards);
 
   //무한스크롤
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useInfiniteQuery(
@@ -150,7 +152,7 @@ function HospitalList() {
         size: size,
       });
 
-      setSearchData(data.response);
+      setSearchData(data.content);
     } catch (error) {
       Swal.fire({
         position: "center",
@@ -176,7 +178,7 @@ function HospitalList() {
         page: 0,
         size: size,
       });
-      setSearchData(data.response);
+      setSearchData(data.content);
     } catch (error) {
       console.log(error);
     }
@@ -363,6 +365,10 @@ function HospitalList() {
                     </StCardTitle>
                     <StContent>
                       <span dangerouslySetInnerHTML={{ __html: address }} />
+                      <div>
+                        <img alt="comment" src={chatbubble} style={{ marginRight: "5px" }} />{" "}
+                        {item.reviewCount}
+                      </div>
                     </StContent>
                     {parseInt(item.distance) > 999 && (
                       <StContent>
@@ -492,6 +498,10 @@ function HospitalList() {
                       )}
                       <StContent>
                         <span dangerouslySetInnerHTML={{ __html: address }} />
+                        <div>
+                          <img alt="comment" src={chatbubble} style={{ marginRight: "5px" }} />{" "}
+                          {item.reviewCount}
+                        </div>
                       </StContent>
                       {parseInt(item.distance) > 999 && (
                         <StContent>
