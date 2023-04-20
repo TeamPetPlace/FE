@@ -204,7 +204,6 @@ const StInput = styled.textarea`
   outline: none;
   padding: 10px;
   @media screen and (max-width: 767px) {
-    /* width: 300px; */
     height: 80px;
   }
 `;
