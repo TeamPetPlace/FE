@@ -1,6 +1,6 @@
 <img width="100%" src="https://user-images.githubusercontent.com/119720123/233232525-da2edf28-45b1-4606-af87-d09d13d477e2.jpg">
 
-# <img src="https://user-images.githubusercontent.com/119720123/233232957-1d8420a9-fca7-4137-a428-aeb87d46e46a.png">
+# <img  width="100" src="https://user-images.githubusercontent.com/119720123/233232957-1d8420a9-fca7-4137-a428-aeb87d46e46a.png">
 
 프로젝트명 : Pet Place (P.P)
 
