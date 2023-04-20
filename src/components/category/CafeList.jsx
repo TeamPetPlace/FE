@@ -257,7 +257,7 @@ function CafeList() {
       <StPlace>
         <StTitle>
           카페
-          <StIconimg src={cafe_icon} />
+          <StIconimg alt="cafe_icon" src={cafe_icon} />
         </StTitle>
         <StSearchSortingDiv>
           <StSearchDiv>
@@ -270,7 +270,7 @@ function CafeList() {
               }}
               onKeyPress={onKeyPressHandler}
             />
-            <StSearchButton id="search" onClick={onSearchHandler}>
+            <StSearchButton aria-label="search" id="search" onClick={onSearchHandler}>
               <GoSearch />
             </StSearchButton>
           </StSearchDiv>

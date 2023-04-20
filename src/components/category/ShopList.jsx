@@ -256,7 +256,7 @@ function ShopList() {
       <StPlace>
         <StTitle>
           미용
-          <StIconimg src={shop_icon} />
+          <StIconimg alt="shop_icon" src={shop_icon} />
         </StTitle>
         <StSearchSortingDiv>
           <StSearchDiv>
@@ -269,7 +269,7 @@ function ShopList() {
               }}
               onKeyPress={onKeyPressHandler}
             />
-            <StSearchButton id="search" onClick={onSearchHandler}>
+            <StSearchButton aria-label="search" id="search" onClick={onSearchHandler}>
               <GoSearch />
             </StSearchButton>
           </StSearchDiv>
@@ -496,10 +496,10 @@ function ShopList() {
         </StListPage>
       )}
       <StPageMoveBtn>
-        <StIconBtn onClick={moveTop}>
+        <StIconBtn aria-label="moveTop" onClick={moveTop}>
           <BiUpArrowAlt />
         </StIconBtn>
-        <StIconBtn onClick={moveBottom}>
+        <StIconBtn aria-label="moveBottom" onClick={moveBottom}>
           <BiDownArrowAlt />
         </StIconBtn>
       </StPageMoveBtn>

@@ -47,7 +47,8 @@
 
 # 👤 FE 기술 스택
 
-<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/react query-FF4154?style=for-the-badge&logo=react query&logoColor=white"> <img src="https://img.shields.io/badge/react router-CA4245?style=for-the-badge&logo=react router&logoColor=white"> <img src="https://img.shields.io/badge/create react app-09D3AC?style=for-the-badge&logo=create react app&logoColor=black"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled components&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"> <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"> <img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/react query-FF4154?style=for-the-badge&logo=react query&logoColor=white"> <img src="https://img.shields.io/badge/react router-CA4245?style=for-the-badge&logo=react router&logoColor=white"> <img src="https://img.shields.io/badge/create react app-09D3AC?style=for-the-badge&logo=create react app&logoColor=black"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled components&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
+<img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"> <img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 
 # ⚙️ 협업 Tools
 
@@ -111,7 +112,7 @@
 
 성능개선 전/후
 
-<img width="350" alt="LigthHouse_ver1" src="https://user-images.githubusercontent.com/119720123/233172521-3528320d-65fb-4753-a978-95a91abdba2b.png"> <img width="350" alt="LigthHouse_ver2" src="https://user-images.githubusercontent.com/119720123/233172542-570d2b35-caf2-4e35-b40a-78c8fbeb3363.png">
+<img width="50%" alt="LigthHouse_ver1" src="https://user-images.githubusercontent.com/119720123/233172521-3528320d-65fb-4753-a978-95a91abdba2b.png"> <img width="50%" alt="LigthHouse_ver2" src="https://user-images.githubusercontent.com/119720123/233172542-570d2b35-caf2-4e35-b40a-78c8fbeb3363.png">
 
 ---
 
@@ -123,10 +124,14 @@
 # 🔥 트러블슈팅
 
 <details><summary>map 좌표를 구할 때, maps와 Geocoder를 불러오지 못하는 오류</summary>
+
 - 문제 상황: 위치에 따른 좌표(위도,경도)를 구하는 과정에서 maps와 Geocoder를 불러오지 못하는 오류가 발생했다.
-- 해결 과정: 
-1. 필요한 라이브러리를 설치했다. ⇒ 라이브러리와 관련이 없었음
-2. kakao map API_KEY를 발급하는 과정에서, web platform등록을 localhost:3000이 아닌, localhost:8080으로 들어가 있었다. ⇒ 설치 후 maps는 해결이 되었으나, Geocoder는 해결이 되지 않았음 
+
+- 해결 과정:
+
+  1. 필요한 라이브러리를 설치했다. ⇒ 라이브러리와 관련이 없었음
+  2. kakao map API_KEY를 발급하는 과정에서, web platform등록을 localhost:3000이 아닌, localhost:8080으로 들어가 있었다. ⇒ 설치 후 maps는 해결이 되었으나, Geocoder는 해결이 되지 않았음
+
 - 해결 방법: public/index.html에 script를 추가해주었다. 이 때 API_KEY를 넣어주었다.
 
 ```
@@ -139,12 +144,16 @@
 </details>
 
 <details><summary>카카오로그인 구현중 cookie에 아무런 정보가 담기지 않으면서 로그인이 통과되는 오류</summary>
+
 - 문제 상황: setCookie("RefreshToken", RefreshToken, { path: "/" }) 으로 쿠키에 정보들을 담으려고 했지만 담기지 않으면서 로그인은 통과되는 문제가 발생했다.
-- 해결 과정: 
-1. 새로고침하면 쿠키에 정보들이 없어지나 싶어서 useEffect 구문의 의존성 배열에 code를 넣어 code가 바뀔 때 마다로 조건을 바꿔보았다 ⇒ 효과가 없었음
-2. 옵션 객체에 {maxAge:86000} 을 넣어서 새로고침 되더라도 쿠키안에 정보들이 유지되게 해 보았다 ⇒ 아예 작동되지 않았음
-※ 기존 정보들을 Cookie에 담고 있었기 때문에 localStorage에 담는 방식으로 변경하기엔 시간이 부족하다 판단.
-- 해해결방법: react-cookie를 사용해 설정해주던 setCookie 대신 js-cookie 라이브러리를 사용해 Cookies.set으로 변경하였다.
+
+- 해결 과정:
+
+  1. 새로고침하면 쿠키에 정보들이 없어지나 싶어서 useEffect 구문의 의존성 배열에 code를 넣어 code가 바뀔 때 마다로 조건을 바꿔보았다 ⇒ 효과가 없었음
+  2. 옵션 객체에 {maxAge:86000} 을 넣어서 새로고침 되더라도 쿠키안에 정보들이 유지되게 해 보았다 ⇒ 아예 작동되지 않았음
+     ※ 기존 정보들을 Cookie에 담고 있었기 때문에 localStorage에 담는 방식으로 변경하기엔 시간이 부족하다 판단.
+
+- 해결방법: react-cookie를 사용해 설정해주던 setCookie 대신 js-cookie 라이브러리를 사용해 Cookies.set으로 변경하였다.
 
 ```
     import Cookies from "js-cookie";

@@ -257,7 +257,7 @@ function HospitalList() {
       <StPlace>
         <StTitle>
           병원
-          <StIconimg src={hospital_icon} />
+          <StIconimg alt="hospital_icon" src={hospital_icon} />
         </StTitle>
         <StSearchSortingDiv>
           <StSearchDiv>
@@ -270,7 +270,7 @@ function HospitalList() {
               }}
               onKeyPress={onKeyPressHandler}
             />
-            <StSearchButton id="search" onClick={onSearchHandler}>
+            <StSearchButton aria-label="search" id="search" onClick={onSearchHandler}>
               <GoSearch />
             </StSearchButton>
           </StSearchDiv>
@@ -511,10 +511,10 @@ function HospitalList() {
         </StListPage>
       )}
       <StPageMoveBtn>
-        <StIconBtn onClick={moveTop}>
+        <StIconBtn aria-label="moveTop" onClick={moveTop}>
           <BiUpArrowAlt />
         </StIconBtn>
-        <StIconBtn onClick={moveBottom}>
+        <StIconBtn aria-label="moveBottom" onClick={moveBottom}>
           <BiDownArrowAlt />
         </StIconBtn>
       </StPageMoveBtn>
